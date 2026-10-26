@@ -218,6 +218,10 @@
   // block into one summary line with counts, e.g. "Used by 2 · Referenced by 31"
   // -------------------------------------------------------------------------
 
+  const CHEVRON =
+    '<svg class="pymm-backlinks__chevron" viewBox="0 0 24 24" aria-hidden="true">' +
+    '<path d="m9 18 6-6-6-6"/></svg>';
+
   function collapseBacklinks(block) {
     if (block.parentElement.matches("details.pymm-backlinks")) return;
     const parts = [...block.querySelectorAll(":scope > .doc-backlink-type")].map((type) => {
@@ -233,9 +237,11 @@
     const details = document.createElement("details");
     details.className = "pymm-backlinks";
     const summary = document.createElement("summary");
-    summary.innerHTML = parts
-      .map((p) => `${p.label} <span class="pymm-backlinks__count">${p.n}</span>`)
-      .join('<span class="pymm-backlinks__sep">·</span>');
+    summary.innerHTML =
+      CHEVRON +
+      parts
+        .map((p) => `<span class="pymm-backlinks__item">${p.label} <b>${p.n}</b></span>`)
+        .join("");
     block.replaceWith(details);
     details.append(summary, block);
   }

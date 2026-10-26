@@ -394,33 +394,51 @@
 }
 .md-typeset details.pymm-backlinks > summary {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.4em;
   margin: 0;
-  padding: 0.1em 0.6em 0.1em 1.4em;
-  border-radius: 1em;
-  background: var(--md-default-fg-color--lightest);
+  padding: 0;
+  background: none;
   color: var(--md-default-fg-color--light);
   font-weight: normal;
+  line-height: 1.6;
+  list-style: none;
+  cursor: pointer;
+}
+.md-typeset details.pymm-backlinks > summary::-webkit-details-marker {
+  display: none;
+}
+/* the theme's admonition icon and chevron */
+.md-typeset details.pymm-backlinks > summary::before,
+.md-typeset details.pymm-backlinks > summary::after {
+  display: none;
 }
 .md-typeset details.pymm-backlinks > summary:hover {
   color: var(--md-accent-fg-color);
 }
-.md-typeset details.pymm-backlinks > summary::before {
-  display: none;
+.pymm-backlinks__chevron {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  margin-right: 0.25em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.15s;
 }
-.md-typeset details.pymm-backlinks > summary::after {
-  top: 0.2em;
-  left: 0.35em;
-  right: auto;
-  width: 0.9em;
-  height: 0.9em;
+details.pymm-backlinks[open] > summary .pymm-backlinks__chevron {
+  transform: rotate(90deg);
 }
-.pymm-backlinks__count {
-  font-weight: 700;
+.pymm-backlinks__item b {
+  color: var(--md-default-fg-color);
+  font-weight: 600;
 }
-.pymm-backlinks__sep {
-  opacity: 0.5;
+.pymm-backlinks__item + .pymm-backlinks__item::before {
+  content: "·";
+  margin: 0 0.6em;
+  opacity: 0.6;
 }
 .md-typeset details.pymm-backlinks > .doc-backlinks {
   margin-top: 0.4em;
