@@ -40,14 +40,14 @@ jobs:
         shell: bash
     env:
       PYTHONUTF8: "1"
-      # icons fetched from the Iconify API by some widgets (via pyconify)
-      PYCONIFY_CACHE: ${{ github.workspace }}/../pyconify-cache
     steps:
       - run: echo "T0=$SECONDS" >> "$GITHUB_ENV"
 
+      # icons that some widgets fetch from the Iconify API (via pyconify), which
+      # rate-limits CI runners
       - uses: actions/cache@v4
         with:
-          path: ${{ github.workspace }}/../pyconify-cache
+          path: ${{ runner.temp }}/pyconify-cache
           key: pyconify-${{ runner.os }}-${{ github.run_id }}
           restore-keys: pyconify-${{ runner.os }}-
 
@@ -80,6 +80,7 @@ jobs:
           # use the OS's native Qt platform, so widget screenshots get its style
           QT_QPA_PLATFORM: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'macOS' && 'cocoa' || 'offscreen' }}
           SCOPE: ${{ inputs.member || 'hub' }}
+          PYCONIFY_CACHE: ${{ runner.temp }}/pyconify-cache
         run: |
           echo "T1=$SECONDS" >> "$GITHUB_ENV"
           uv run tools/compose.py build --strict --scope "$SCOPE"
