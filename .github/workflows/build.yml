@@ -75,6 +75,14 @@ jobs:
           qt: true
           pyvista: false
 
+      - name: Probe Iconify API (temporary)
+        continue-on-error: true
+        run: |
+          for q in "mdi/chevron-double-up.svg?color=green" "mdi/chevron-up.svg" "version"; do
+            echo "== $q"
+            curl -sS -D - -o /dev/null -A pyconify "https://api.iconify.design/$q" | head -20
+          done
+
       - name: Build
         env:
           # use the OS's native Qt platform, so widget screenshots get its style
