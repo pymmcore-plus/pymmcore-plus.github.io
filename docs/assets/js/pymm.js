@@ -214,10 +214,38 @@
   }
 
   // -------------------------------------------------------------------------
+  // Backlinks (mkdocstrings "Referenced by", "Used by", ...): collapse each
+  // block into one summary line with counts, e.g. "Used by 2 · Referenced by 31"
+  // -------------------------------------------------------------------------
+
+  function collapseBacklinks(block) {
+    if (block.parentElement.matches("details.pymm-backlinks")) return;
+    const parts = [...block.querySelectorAll(":scope > .doc-backlink-type")].map((type) => {
+      const list = type.nextElementSibling;
+      // tree mode nests entries under their page: count the leaves
+      const leaves = [...list.querySelectorAll("li.doc-backlink")].filter(
+        (li) => !li.querySelector("ul"),
+      );
+      return { label: type.textContent.replace(/:\s*$/, ""), n: leaves.length };
+    });
+    // the specific relations first; "Referenced by" (any mention) last
+    parts.sort((a, b) => (a.label === "Referenced by") - (b.label === "Referenced by"));
+    const details = document.createElement("details");
+    details.className = "pymm-backlinks";
+    const summary = document.createElement("summary");
+    summary.innerHTML = parts
+      .map((p) => `${p.label} <span class="pymm-backlinks__count">${p.n}</span>`)
+      .join('<span class="pymm-backlinks__sep">·</span>');
+    block.replaceWith(details);
+    details.append(summary, block);
+  }
+
+  // -------------------------------------------------------------------------
 
   function init() {
     document.querySelectorAll("table.pymm-explorer").forEach(initExplorer);
     document.querySelectorAll("[data-pymm-installer]").forEach(initInstaller);
+    document.querySelectorAll(".doc-backlinks").forEach(collapseBacklinks);
   }
 
   if (typeof document$ !== "undefined") {
