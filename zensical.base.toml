@@ -138,6 +138,8 @@ custom_checkbox = true
 resolve_closest = true
 
 [project.plugins.glightbox]
+# light/dark screenshot pairs (`#only-light` / `#only-dark`) form separate galleries
+auto_themed = true
 
 [project.plugins.mkdocs-video]
 is_video = true
