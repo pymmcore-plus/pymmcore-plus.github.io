@@ -129,12 +129,28 @@
     { id: "napari", label: "napari plugin", hint: "napari-micromanager", group: "gui" },
   ];
 
+  // What each package already brings in (from their pyproject dependencies):
+  // pymmcore-gui -> pymmcore-plus[cli], pymmcore-widgets, ome-writers (= [io]), PyQt6
+  // napari-micromanager -> pymmcore-widgets -> pymmcore-plus[cli]
+  function implied(opts) {
+    return {
+      widgets: opts.gui || opts.napari,
+      io: opts.gui,
+      qt: opts.gui ? "PyQt6" : null,
+    };
+  }
+
+  // The fewest packages that install everything selected.
   function packages(opts) {
-    const qt = opts.qt;
-    const pkgs = [`"pymmcore-plus[${opts.io ? "cli,io" : "cli"}]"`];
-    if (opts.widgets) pkgs.push(`"pymmcore-widgets[${qt}]"`);
+    const qt = implied(opts).qt || opts.qt;
+    const pkgs = [];
     if (opts.gui) pkgs.push("git+https://github.com/pymmcore-plus/pymmcore-gui");
-    if (opts.napari) pkgs.push(`"napari-micromanager[${qt.toLowerCase()}]"`);
+    if (opts.napari) {
+      pkgs.push(opts.gui ? "napari-micromanager" : `"napari-micromanager[${qt.toLowerCase()}]"`);
+    }
+    if (opts.widgets && !opts.gui && !opts.napari) pkgs.push(`"pymmcore-widgets[${qt}]"`);
+    if (!pkgs.length) pkgs.push(`"pymmcore-plus[${opts.io ? "cli,io" : "cli"}]"`);
+    else if (opts.io && !opts.gui) pkgs.push(`"pymmcore-plus[io]"`);
     return pkgs;
   }
 
@@ -154,20 +170,40 @@
       <fieldset><legend>Qt backend</legend>
         <label><input type="radio" name="qt" value="PyQt6" checked> PyQt6</label>
         <label><input type="radio" name="qt" value="PySide6"> PySide6</label>
+        <small class="pymm-installer-note"></small>
       </fieldset>`;
     root.prepend(form);
 
+    const input = (name) => form.querySelector(`input[name="${name}"]`);
+    const radios = [...form.querySelectorAll('input[name="qt"]')];
+    // remember what the user chose, so implied options can be restored
+    const chosen = { io: false, widgets: false, gui: false, napari: false, qt: "PyQt6" };
+
     const [pip, uv] = root.querySelectorAll(".tabbed-block pre code");
-    const blocks = { pip, uv };
-    function update() {
-      const data = new FormData(form);
-      const opts = { qt: data.get("qt") };
-      for (const o of INSTALL_OPTIONS) opts[o.id] = data.has(o.id);
-      const anyQt = opts.widgets || opts.gui || opts.napari;
-      form.querySelectorAll('input[name="qt"]').forEach((el) => (el.disabled = !anyQt));
-      const pkgs = packages(opts).join(" ");
-      if (blocks.pip) blocks.pip.textContent = `pip install ${pkgs}\nmmcore install  # Micro-Manager device adapters`;
-      if (blocks.uv) blocks.uv.textContent = `uv add ${pkgs}\nuv run mmcore install  # Micro-Manager device adapters`;
+    function update(event) {
+      const target = event?.target;
+      if (target?.name === "qt") chosen.qt = target.value;
+      else if (target?.name in chosen) chosen[target.name] = target.checked;
+
+      const imp = implied(chosen);
+      for (const name of ["io", "widgets"]) {
+        input(name).disabled = Boolean(imp[name]);
+        input(name).checked = Boolean(imp[name]) || chosen[name];
+        input(name).closest("label").title = imp[name] ? "included with your selection" : "";
+      }
+      const anyQt = chosen.widgets || chosen.gui || chosen.napari;
+      for (const radio of radios) {
+        radio.disabled = !anyQt || Boolean(imp.qt);
+        radio.checked = radio.value === (imp.qt || chosen.qt);
+      }
+      form.querySelector(".pymm-installer-note").textContent = imp.qt
+        ? "pymmcore-gui uses PyQt6"
+        : "";
+
+      const pkgs = packages(chosen).join(" ");
+      const adapters = "mmcore install  # Micro-Manager device adapters";
+      if (pip) pip.textContent = `pip install ${pkgs}\n${adapters}`;
+      if (uv) uv.textContent = `uv add ${pkgs}\nuv run ${adapters}`;
     }
     form.addEventListener("change", update);
     update();

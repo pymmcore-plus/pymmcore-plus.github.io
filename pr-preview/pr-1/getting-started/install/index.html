@@ -6950,6 +6950,10 @@
 </tr>
 </tbody>
 </table>
+<p>Each package brings in everything it builds on, so you only need the
+top-most one: <code>pymmcore-gui</code> already includes <code>pymmcore-widgets</code>,
+<code>pymmcore-plus[cli,io]</code> and PyQt6; <code>napari-micromanager</code> and
+<code>pymmcore-widgets</code> include <code>pymmcore-plus[cli]</code>.</p>
 <p>Packages are on <a href="https://pypi.org/user/tlambert03/">PyPI</a> and
 <a href="https://anaconda.org/conda-forge/pymmcore-plus">conda-forge</a>.  Python 3.10 or
 newer is required.</p>

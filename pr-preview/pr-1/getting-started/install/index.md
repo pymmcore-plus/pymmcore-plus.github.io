@@ -29,6 +29,8 @@ uv add "pymmcore-plus[cli]"
 > | The pymmcore-gui application | `pip install git+https://github.com/pymmcore-plus/pymmcore-gui` |
 > | The napari plugin | `pip install "napari-micromanager[pyqt6]"` |
 >
+> Each package brings in everything it builds on, so you only need the top-most one: `pymmcore-gui` already includes `pymmcore-widgets`, `pymmcore-plus[cli,io]` and PyQt6; `napari-micromanager` and `pymmcore-widgets` include `pymmcore-plus[cli]`.
+>
 > Packages are on [PyPI](<https://pypi.org/user/tlambert03/>) and [conda-forge](<https://anaconda.org/conda-forge/pymmcore-plus>). Python 3.10 or newer is required.
 
 ## 2\. Install the device adapters
