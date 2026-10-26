@@ -1,0 +1,99 @@
+# Build the unified docs site (reusable).
+#
+# Called by:
+# - preview.yml, for pull requests to this repo (once per OS; the macOS build is
+#   published as a browsable preview).
+# - each member repository's docs.yml, for their pull requests: the whole site is
+#   built with that member at the PR's commit, and only warnings from that
+#   member's pages fail the build.
+#
+# The built site and the widget screenshots are uploaded as artifacts, and the
+# job summary reports how long setup and the build took.
+name: build
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      os:
+        description: "Runner to build on"
+        type: string
+        default: macos-latest
+      member:
+        description: "Member (name in compose.toml) to build at `repository@ref`"
+        type: string
+        default: ""
+      repository:
+        description: "Repository (owner/name) to check that member out from"
+        type: string
+        default: ""
+      ref:
+        description: "Commit or branch of that member"
+        type: string
+        default: ""
+
+jobs:
+  build:
+    runs-on: ${{ inputs.os || 'macos-latest' }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      PYTHONUTF8: "1"
+    steps:
+      - run: echo "T0=$SECONDS" >> "$GITHUB_ENV"
+
+      - uses: actions/checkout@v6
+        with:
+          # when called from a member repo, check out the hub (not the caller)
+          repository: ${{ inputs.member && 'pymmcore-plus/pymmcore-plus.github.io' || github.repository }}
+          ref: ${{ inputs.member && 'main' || '' }}
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.13"
+
+      - name: Check out members
+        run: >
+          uv run --no-project tools/repos.py
+          ${{ inputs.member && format('--pr {0}={1}@{2}', inputs.member, inputs.repository, inputs.ref) || '' }}
+
+      - run: uv sync
+      - uses: pymmcore-plus/setup-mm-test-adapters@main
+
+      - name: Build
+        env:
+          # use the OS's native Qt platform, so widget screenshots get its style
+          QT_QPA_PLATFORM: ${{ runner.os == 'Windows' && 'windows' || runner.os == 'macOS' && 'cocoa' || 'offscreen' }}
+          SCOPE: ${{ inputs.member || 'hub' }}
+        run: |
+          echo "T1=$SECONDS" >> "$GITHUB_ENV"
+          uv run tools/compose.py build --strict --scope "$SCOPE"
+          echo "T2=$SECONDS" >> "$GITHUB_ENV"
+
+      - name: Report timing
+        if: always()
+        run: |
+          setup=$(( ${T1:-0} - ${T0:-0} ))
+          build=$(( ${T2:-$SECONDS} - ${T1:-0} ))
+          {
+            echo "### Docs build on ${{ runner.os }} (${{ inputs.os || 'macos-latest' }})"
+            echo "| step | seconds |"
+            echo "| --- | --- |"
+            echo "| setup (checkout, uv sync, adapters) | $setup |"
+            echo "| generate + build | $build |"
+            echo "| total | $(( setup + build )) |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-${{ runner.os }}
+          path: site
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: widget-screenshots-${{ runner.os }}
+          path: .repos/pymmcore-widgets/docs/images/generated
+          retention-days: 7
+          if-no-files-found: ignore

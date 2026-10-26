@@ -1,0 +1,9 @@
+# TEMPORARY: until the member repos merge their docs changes, CI builds them from
+# these branches (fresh clones only; local checkouts in .repos/ are not touched).
+# Delete this file before merging.
+[overrides]
+pymmcore-plus = "tlambert03/pymmcore-plus@zensical-docs"
+useq-schema = "tlambert03/useq-schema@zensical-docs"
+pymmcore-widgets = "tlambert03/pymmcore-widgets@zensical-docs"
+pymmcore-gui = "tlambert03/pymmcore-gui@zensical-docs"
+napari-micromanager = "tlambert03/napari-micromanager@zensical-docs"

@@ -1,0 +1,58 @@
+# Site-wide navigation (awesome-nav).  Member pages are placed here by path;
+# each member's own docs/.nav.yml orders its API Reference section.
+nav:
+  - Home: index.md
+  - Getting Started:
+      - getting-started/index.md
+      - getting-started/install.md
+      - Micro-Manager device adapters: pymmcore-plus/install.md
+      - getting-started/first-steps.md
+      - getting-started/first-acquisition.md
+      - getting-started/first-gui.md
+  - User Guide:
+      - guide/index.md
+      - Controlling hardware:
+          - pymmcore-plus/guides/devices.md
+          - pymmcore-plus/guides/configuration.md
+          - pymmcore-plus/guides/constants.md
+          - pymmcore-plus/guides/events.md
+          - pymmcore-plus/examples/following_changes_in_core.md
+          - pymmcore-plus/examples/context-set.md
+      - Describing experiments:
+          - useq-schema/schema/sequence.md
+          - useq-schema/schema/event.md
+          - useq-schema/schema/axes.md
+          - useq-schema/schema/hardware_autofocus.md
+          - useq-schema/v2-migration.md
+      - Running acquisitions:
+          - pymmcore-plus/guides/mda_engine.md
+          - pymmcore-plus/examples/mda.md
+          - pymmcore-plus/guides/event_driven_acquisition.md
+          - pymmcore-plus/guides/custom_engine.md
+      - Building GUIs:
+          - pymmcore-widgets/getting_started.md
+          - Widget gallery: pymmcore-widgets/widgets/index.md
+          - pymmcore-plus/examples/integration-with-qt.md
+      - Applications:
+          - pymmcore-gui
+          - napari-micromanager
+      - Advanced topics:
+          - pymmcore-plus/guides/unicore.md
+          - pymmcore-plus/guides/logging.md
+          - pymmcore-plus/profiling.md
+          - pymmcore-plus/guides/ipython_completion.md
+          - pymmcore-plus/examples/pycro-manager-api.md
+      - Troubleshooting:
+          - pymmcore-plus/troubleshooting.md
+          - pymmcore-widgets/troubleshooting.md
+  - API Reference:
+      - api/index.md
+      - pymmcore-plus
+      - useq-schema
+      - pymmcore-widgets
+      - pymmcore-gui: pymmcore-gui/api/pymmcore_gui
+  - Contributing:
+      - contributing/index.md
+      - contributing/docs.md
+      - pymmcore-plus/contributing.md
+      - pymmcore-widgets/contributing.md

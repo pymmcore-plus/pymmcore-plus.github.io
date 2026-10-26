@@ -1,0 +1,9 @@
+.repos/
+build/
+site/
+.cache/
+.venv/
+__pycache__/
+zensical.toml
+compose.local.toml
+uv.lock

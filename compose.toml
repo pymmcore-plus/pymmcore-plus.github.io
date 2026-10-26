@@ -1,0 +1,36 @@
+# Members of the unified docs site.
+#
+# Each member is checked out at .repos/<name> (see tools/repos.py) and its
+# docs/ folder is mounted at /<name>/ in the built site.  Members own their
+# pages, their .nav.yml files, and a minimal zensical.toml (mkdocstrings paths,
+# griffe extensions, api-autonav settings).
+
+[[member]]
+name = "pymmcore-plus"
+repo = "pymmcore-plus/pymmcore-plus"
+title = "pymmcore-plus"
+pypi = "pymmcore-plus"
+
+[[member]]
+name = "useq-schema"
+repo = "pymmcore-plus/useq-schema"
+title = "useq-schema"
+pypi = "useq-schema"
+
+[[member]]
+name = "pymmcore-widgets"
+repo = "pymmcore-plus/pymmcore-widgets"
+title = "pymmcore-widgets"
+pypi = "pymmcore-widgets"
+
+[[member]]
+name = "pymmcore-gui"
+repo = "pymmcore-plus/pymmcore-gui"
+title = "pymmcore-gui"
+pypi = "pymmcore-gui"
+
+[[member]]
+name = "napari-micromanager"
+repo = "pymmcore-plus/napari-micromanager"
+title = "napari-micromanager"
+pypi = "napari-micromanager"
