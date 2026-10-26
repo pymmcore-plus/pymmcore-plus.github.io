@@ -383,6 +383,49 @@
    API docs tweaks
    ------------------------------------------------------------------------ */
 
+/* backlinks, collapsed into one line by pymm.js (not a themed admonition) */
+.md-typeset details.pymm-backlinks {
+  margin: 0.4em 0 0.8em;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background: none;
+  font-size: 0.68rem;
+}
+.md-typeset details.pymm-backlinks > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  margin: 0;
+  padding: 0.1em 0.6em 0.1em 1.4em;
+  border-radius: 1em;
+  background: var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color--light);
+  font-weight: normal;
+}
+.md-typeset details.pymm-backlinks > summary:hover {
+  color: var(--md-accent-fg-color);
+}
+.md-typeset details.pymm-backlinks > summary::before {
+  display: none;
+}
+.md-typeset details.pymm-backlinks > summary::after {
+  top: 0.2em;
+  left: 0.35em;
+  right: auto;
+  width: 0.9em;
+  height: 0.9em;
+}
+.pymm-backlinks__count {
+  font-weight: 700;
+}
+.pymm-backlinks__sep {
+  opacity: 0.5;
+}
+.md-typeset details.pymm-backlinks > .doc-backlinks {
+  margin-top: 0.4em;
+}
+
 /* indent members under their parent object */
 .md-typeset .doc-contents:not(.first) {
   padding-left: 1.2em;
