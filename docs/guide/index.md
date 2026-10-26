@@ -25,9 +25,10 @@ New here?  Start with [Getting Started](../getting-started/index.md).
 
     ---
 
-    `useq-schema`: sequences, events, time/z/grid/position plans, autofocus.
+    `useq-schema`: an acquisition as a sequence of events (time, z, channels,
+    positions, grids, autofocus).
 
-    [:octicons-arrow-right-24: Sequences](../useq-schema/schema/sequence.md)
+    [:octicons-arrow-right-24: Sequences and events](../useq-schema/index.md)
 
 -   :lucide-play:{ .lg .middle } **Running acquisitions**
 

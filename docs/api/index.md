@@ -20,7 +20,7 @@ other modules that re-export it link there.
     device objects, constants, metadata, and the
     [`mmcore` CLI](../pymmcore-plus/cli.md).
 
--   **[useq-schema](../useq-schema/index.md)**
+-   **[useq-schema](../useq-schema/schema/sequence.md)**
 
     ---
 

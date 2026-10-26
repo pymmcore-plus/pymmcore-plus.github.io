@@ -13,7 +13,7 @@ Most people need just one or two of them:
 | Control a microscope from inside [napari](https://napari.org) | **napari-micromanager** | [napari-micromanager](../napari-micromanager/index.md) |
 | Script your microscope from Python or Jupyter | **pymmcore-plus** | [First steps](first-steps.md) |
 | Run multi-dimensional acquisitions from code | **pymmcore-plus** + **useq-schema** | [Your first acquisition](first-acquisition.md) |
-| Describe experiments in a hardware-agnostic way | **useq-schema** | [Describing experiments](../useq-schema/schema/sequence.md) |
+| Describe experiments in a hardware-agnostic way | **useq-schema** | [Describing experiments](../useq-schema/index.md) |
 | Build your own Qt GUI for a microscope | **pymmcore-widgets** | [Your first GUI](first-gui.md) |
 
 ``` mermaid

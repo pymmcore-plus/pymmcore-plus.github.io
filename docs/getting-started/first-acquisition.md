@@ -42,7 +42,7 @@ len(list(sequence))   # 60 events
 
 Iterating the sequence yields [`MDAEvent`][useq.MDAEvent] objects &mdash; one per
 image &mdash; each saying exactly what the hardware should do.  See
-[Describing experiments](../useq-schema/schema/sequence.md) for everything a
+the [`MDASequence` reference](../useq-schema/schema/sequence.md) for everything a
 sequence can express (grids, well plates, autofocus, per-position
 sub-sequences, ...).
 
