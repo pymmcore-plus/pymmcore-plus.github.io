@@ -1,5 +1,7 @@
 # StageExplorer
 
+Screenshot generated from the [example below](<#example>).
+
 Bases: `QWidget`
 
 A stage positions explorer widget.
