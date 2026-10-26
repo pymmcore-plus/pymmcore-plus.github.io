@@ -68,6 +68,12 @@ jobs:
 
       - run: uv sync
       - uses: pymmcore-plus/setup-mm-test-adapters@main
+      # software OpenGL (Mesa) on Windows, for widgets with a vispy canvas
+      # (no-op on macOS; Xvfb and Qt libraries on Linux)
+      - uses: pyvista/setup-headless-display-action@v5
+        with:
+          qt: true
+          pyvista: false
 
       - name: Build
         env:
