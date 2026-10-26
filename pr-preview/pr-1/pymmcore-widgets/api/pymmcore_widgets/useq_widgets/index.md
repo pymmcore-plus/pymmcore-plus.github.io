@@ -6,15 +6,15 @@ Classes:
 
 | Name | Description |
 | --- | --- |
-| `BoolColumn` | BoolColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.\_CenteredCheckBox'\>, getter=, setter=, connect=\<function  at 0x115c3cae0\>), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None) |
+| `BoolColumn` | BoolColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.\_CenteredCheckBox'\>, getter=, setter=, connect=\<function  at 0x112370ae0\>), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None) |
 | `ChoiceColumn` | ChoiceColumn(key: 'str', data\_type: 'WdgGetSet\[CheckableCombo, str\]' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.CheckableCombo'\>, getter=, setter=, connect=), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None, allowed\_values: 'tuple\[str, ...\] \| None' = None) |
 | `DataTable` |  |
 | `DataTableWidget` |  |
-| `FloatColumn` | FloatColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.TableDoubleSpinBox'\>, getter=, setter=, connect=\<function  at 0x115e267a0\>), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None, minimum: 'float' = 0, maximum: 'float' = 999999, decimals: 'int' = 2) |
-| `IntColumn` | IntColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.TableSpinBox'\>, getter=, setter=, connect=\<function  at 0x115e26020\>), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None, minimum: 'int' = 0, maximum: 'int' = 999999999, decimals: 'int' = 2) |
+| `FloatColumn` | FloatColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.TableDoubleSpinBox'\>, getter=, setter=, connect=\<function  at 0x1125427a0\>), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None, minimum: 'float' = 0, maximum: 'float' = 999999, decimals: 'int' = 2) |
+| `IntColumn` | IntColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.TableSpinBox'\>, getter=, setter=, connect=\<function  at 0x112542020\>), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None, minimum: 'int' = 0, maximum: 'int' = 999999999, decimals: 'int' = 2) |
 | `PointsPlanWidget` | Widget to select the FOVVs per well of the plate. |
 | `TextColumn` | Column that will use a standard QTableWidgetItem. |
-| `TimeDeltaColumn` | TimeDeltaColumn(key: 'str', data\_type: 'WdgGetSet\[QTimeLineEdit, float\]' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.QTimeLineEdit'\>, getter=, setter=, connect=\<function  at 0x115e27920\>), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None, minimum\_unit: 'Unit' = 'seconds') |
+| `TimeDeltaColumn` | TimeDeltaColumn(key: 'str', data\_type: 'WdgGetSet\[QTimeLineEdit, float\]' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.QTimeLineEdit'\>, getter=, setter=, connect=\<function  at 0x112543920\>), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None, minimum\_unit: 'Unit' = 'seconds') |
 | `WellPlateWidget` | Widget for selecting a well plate and a subset of wells. |
 
 Attributes:
@@ -45,14 +45,14 @@ BoolColumn(
 
 Bases: `WidgetColumn`
 
-BoolColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.\_CenteredCheckBox'\>, getter=, setter=, connect=\<function  at 0x115c3cae0\>), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None)
+BoolColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.\_CenteredCheckBox'\>, getter=, setter=, connect=\<function  at 0x112370ae0\>), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None)
 
 Parameters:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
 | `key` | `str` |  | *required* |
-| `data_type` | `WdgGetSet` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info._CenteredCheckBox'>, getter=<function _CenteredCheckBox.isChecked at 0x115e25a80>, setter=<function _CenteredCheckBox.setChecked at 0x115e25f80>, connect=<function <lambda> at 0x115c3cae0>)` |
+| `data_type` | `WdgGetSet` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info._CenteredCheckBox'>, getter=<function _CenteredCheckBox.isChecked at 0x112541a80>, setter=<function _CenteredCheckBox.setChecked at 0x112541f80>, connect=<function <lambda> at 0x112370ae0>)` |
 | `header` | `str \| None` |  | `None` |
 | `is_row_selector` | `bool` |  | `False` |
 | `hidden` | `bool` |  | `False` |
@@ -95,7 +95,7 @@ Parameters:
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
 | `key` | `str` |  | *required* |
-| `data_type` | `WdgGetSet[CheckableCombo, str]` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info.CheckableCombo'>, getter=<function CheckableCombo.currentText at 0x115e4c4a0>, setter=<function CheckableCombo.setCurrentText at 0x115e4cae0>, connect=<function CheckableCombo._connect at 0x115e4ce00>)` |
+| `data_type` | `WdgGetSet[CheckableCombo, str]` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info.CheckableCombo'>, getter=<function CheckableCombo.currentText at 0x11256c4a0>, setter=<function CheckableCombo.setCurrentText at 0x11256cae0>, connect=<function CheckableCombo._connect at 0x11256ce00>)` |
 | `header` | `str \| None` |  | `None` |
 | `is_row_selector` | `bool` |  | `False` |
 | `hidden` | `bool` |  | `False` |
@@ -393,14 +393,14 @@ FloatColumn(
 
 Bases: `_RangeColumn`
 
-FloatColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.TableDoubleSpinBox'\>, getter=, setter=, connect=\<function  at 0x115e267a0\>), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None, minimum: 'float' = 0, maximum: 'float' = 999999, decimals: 'int' = 2)
+FloatColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.TableDoubleSpinBox'\>, getter=, setter=, connect=\<function  at 0x1125427a0\>), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None, minimum: 'float' = 0, maximum: 'float' = 999999, decimals: 'int' = 2)
 
 Parameters:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
 | `key` | `str` |  | *required* |
-| `data_type` | `WdgGetSet` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info.TableDoubleSpinBox'>, getter=<built-in method value of PyQt6.sip.wrappertype object at 0x94749f410>, setter=<built-in method setValue of PyQt6.sip.wrappertype object at 0x94749f410>, connect=<function <lambda> at 0x115e267a0>)` |
+| `data_type` | `WdgGetSet` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info.TableDoubleSpinBox'>, getter=<built-in method value of PyQt6.sip.wrappertype object at 0x756dc5c10>, setter=<built-in method setValue of PyQt6.sip.wrappertype object at 0x756dc5c10>, connect=<function <lambda> at 0x1125427a0>)` |
 | `header` | `str \| None` |  | `None` |
 | `is_row_selector` | `bool` |  | `False` |
 | `hidden` | `bool` |  | `False` |
@@ -441,14 +441,14 @@ IntColumn(
 
 Bases: `_RangeColumn`
 
-IntColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.TableSpinBox'\>, getter=, setter=, connect=\<function  at 0x115e26020\>), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None, minimum: 'int' = 0, maximum: 'int' = 999999999, decimals: 'int' = 2)
+IntColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.TableSpinBox'\>, getter=, setter=, connect=\<function  at 0x112542020\>), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None, minimum: 'int' = 0, maximum: 'int' = 999999999, decimals: 'int' = 2)
 
 Parameters:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
 | `key` | `str` |  | *required* |
-| `data_type` | `WdgGetSet` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info.TableSpinBox'>, getter=<built-in method value of PyQt6.sip.wrappertype object at 0x94749f010>, setter=<built-in method setValue of PyQt6.sip.wrappertype object at 0x94749f010>, connect=<function <lambda> at 0x115e26020>)` |
+| `data_type` | `WdgGetSet` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info.TableSpinBox'>, getter=<built-in method value of PyQt6.sip.wrappertype object at 0x756dc5810>, setter=<built-in method setValue of PyQt6.sip.wrappertype object at 0x756dc5810>, connect=<function <lambda> at 0x112542020>)` |
 | `header` | `str \| None` |  | `None` |
 | `is_row_selector` | `bool` |  | `False` |
 | `hidden` | `bool` |  | `False` |
@@ -739,14 +739,14 @@ TimeDeltaColumn(
 
 Bases: `WidgetColumn`
 
-TimeDeltaColumn(key: 'str', data\_type: 'WdgGetSet\[QTimeLineEdit, float\]' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.QTimeLineEdit'\>, getter=, setter=, connect=\<function  at 0x115e27920\>), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None, minimum\_unit: 'Unit' = 'seconds')
+TimeDeltaColumn(key: 'str', data\_type: 'WdgGetSet\[QTimeLineEdit, float\]' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.QTimeLineEdit'\>, getter=, setter=, connect=\<function  at 0x112543920\>), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None, minimum\_unit: 'Unit' = 'seconds')
 
 Parameters:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
 | `key` | `str` |  | *required* |
-| `data_type` | `WdgGetSet[QTimeLineEdit, float]` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info.QTimeLineEdit'>, getter=<function QTimeLineEdit.value at 0x115e4c040>, setter=<function QTimeLineEdit.setValue at 0x115e4c0e0>, connect=<function <lambda> at 0x115e27920>)` |
+| `data_type` | `WdgGetSet[QTimeLineEdit, float]` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info.QTimeLineEdit'>, getter=<function QTimeLineEdit.value at 0x11256c040>, setter=<function QTimeLineEdit.setValue at 0x11256c0e0>, connect=<function <lambda> at 0x112543920>)` |
 | `header` | `str \| None` |  | `None` |
 | `is_row_selector` | `bool` |  | `False` |
 | `hidden` | `bool` |  | `False` |
