@@ -1,7 +1,5 @@
 # StageWidget
 
-Screenshot generated from the [example below](<#example>).
-
 Bases: `QWidget`
 
 A Widget to control a XY and/or a Z stage.

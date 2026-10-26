@@ -1,7 +1,5 @@
 # HCSWizard
 
-Screenshot generated from the [example below](<#example>).
-
 Bases: `QWizard`
 
 A wizard to setup an High Content Screening (HCS) experiment.

@@ -372,6 +372,13 @@
   object-fit: contain;
 }
 
+/* screenshots come in light and dark variants: show the one matching the theme
+   (the theme does this too, but the display rules above would override it) */
+[data-md-color-scheme="default"] .md-typeset img[src$="#only-dark"],
+[data-md-color-scheme="slate"] .md-typeset img[src$="#only-light"] {
+  display: none;
+}
+
 /* ---------------------------------------------------------------------------
    API docs tweaks
    ------------------------------------------------------------------------ */
