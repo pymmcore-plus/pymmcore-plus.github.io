@@ -30,7 +30,7 @@ len(list(sequence))   # 60 events
 4. Two `(x, y, z)` stage positions.
 5. The nesting order: for each **t**ime point, visit each **p**osition, image each **c**hannel, then each **z** plane.
 
-Iterating the sequence yields `MDAEvent` objects — one per image — each saying exactly what the hardware should do. See [Describing experiments](<https://pymmcore-plus.github.io/useq-schema/schema/sequence/index.md>) for everything a sequence can express (grids, well plates, autofocus, per-position sub-sequences, ...).
+Iterating the sequence yields `MDAEvent` objects — one per image — each saying exactly what the hardware should do. See the [`MDASequence` reference](<https://pymmcore-plus.github.io/useq-schema/schema/sequence/index.md>) for everything a sequence can express (grids, well plates, autofocus, per-position sub-sequences, ...).
 
 ## Run it
 

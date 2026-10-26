@@ -8,7 +8,7 @@ The pymmcore-plus ecosystem is a set of packages that build on each other. Most 
 | Control a microscope from inside [napari](<https://napari.org>) | **napari-micromanager** | [napari-micromanager](<https://pymmcore-plus.github.io/napari-micromanager/index.md>) |
 | Script your microscope from Python or Jupyter | **pymmcore-plus** | [First steps](<https://pymmcore-plus.github.io/getting-started/first-steps/index.md>) |
 | Run multi-dimensional acquisitions from code | **pymmcore-plus** + **useq-schema** | [Your first acquisition](<https://pymmcore-plus.github.io/getting-started/first-acquisition/index.md>) |
-| Describe experiments in a hardware-agnostic way | **useq-schema** | [Describing experiments](<https://pymmcore-plus.github.io/useq-schema/schema/sequence/index.md>) |
+| Describe experiments in a hardware-agnostic way | **useq-schema** | [Describing experiments](<https://pymmcore-plus.github.io/useq-schema/index.md>) |
 | Build your own Qt GUI for a microscope | **pymmcore-widgets** | [Your first GUI](<https://pymmcore-plus.github.io/getting-started/first-gui/index.md>) |
 
 ```

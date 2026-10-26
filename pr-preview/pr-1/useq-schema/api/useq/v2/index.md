@@ -1,6 +1,8 @@
 # useq.v2
 
-New MDASequence API.
+New MDASequence API (preview).
+
+`useq.v2` is the next version of the useq-schema API. Several of its classes share names with the current ones but are different classes: for example, `useq.v2.MDASequence` is not `useq.MDASequence`. See the v2 migration guide for what changes.
 
 Classes:
 
@@ -55,19 +57,19 @@ Attributes:
 | `RelativeMultiPointPlan` |  |  |
 | `SinglePhaseTimePlan` |  |  |
 
-## AbsolutePosition
+## useq.v2.AbsolutePosition
 
 ```python
 AbsolutePosition = Position
 ```
 
-## AnyTimePlan
+## useq.v2.AnyTimePlan
 
 ```python
 AnyTimePlan = MultiPhaseTimePlan | SinglePhaseTimePlan
 ```
 
-## AnyZPlan
+## useq.v2.AnyZPlan
 
 ```python
 AnyZPlan = (
@@ -79,25 +81,25 @@ AnyZPlan = (
 )
 ```
 
-## MultiPointPlan
+## useq.v2.MultiPointPlan
 
 ```python
 MultiPointPlan = AbsoluteMultiPointPlan | RelativeMultiPointPlan
 ```
 
-## RelativeMultiPointPlan
+## useq.v2.RelativeMultiPointPlan
 
 ```python
 RelativeMultiPointPlan = GridRowsColumns | GridWidthHeight | RandomPoints
 ```
 
-## SinglePhaseTimePlan
+## useq.v2.SinglePhaseTimePlan
 
 ```python
 SinglePhaseTimePlan = TIntervalDuration | TIntervalLoops | TDurationLoops
 ```
 
-## AutoFocusTransform
+## useq.v2.AutoFocusTransform
 
 ```python
 AutoFocusTransform(af_plan: AxesBasedAF)
@@ -119,13 +121,13 @@ Attributes:
 | --- | --- | --- |
 | `priority` |  |  |
 
-### priority
+### useq.v2.AutoFocusTransform.priority
 
 ```python
 priority = -1
 ```
 
-## AxisIterable
+## useq.v2.AxisIterable
 
 Bases: `BaseModel`, `Generic[V]`
 
@@ -148,7 +150,7 @@ Attributes:
 | --- | --- | --- |
 | `axis_key` | `str` | A string id representing the axis. |
 
-### axis\_key
+### useq.v2.AxisIterable.axis\_key
 
 ```python
 axis_key: str
@@ -156,7 +158,7 @@ axis_key: str
 
 A string id representing the axis.
 
-### should\_skip
+### useq.v2.AxisIterable.should\_skip
 
 ```python
 should_skip(prefix: AxesIndex) -> bool
@@ -166,7 +168,7 @@ Return True if this axis wants to skip the combination.
 
 Default implementation returns False.
 
-### contribute\_to\_mda\_event
+### useq.v2.AxisIterable.contribute\_to\_mda\_event
 
 ```python
 contribute_to_mda_event(value: V, index: Mapping[str, int]) -> Kwargs
@@ -188,7 +190,7 @@ Returns:
 | --- | --- | --- |
 | `event_data` | `dict[str, Any]` | Data to be added to the MDAEvent, it is ultimately up to the EventBuilder to decide how to merge possibly conflicting contributions from different axes. |
 
-## ChannelsPlan
+## useq.v2.ChannelsPlan
 
 Bases: `SimpleValueAxis[Channel]`, `FrozenModel`
 
@@ -211,7 +213,7 @@ Attributes:
 | --- | --- | --- |
 | `axis_key` | `Literal[CHANNEL]` |  |
 
-### axis\_key
+### useq.v2.ChannelsPlan.axis\_key
 
 ```python
 axis_key: Literal[CHANNEL] = Field(
@@ -219,7 +221,7 @@ axis_key: Literal[CHANNEL] = Field(
 )
 ```
 
-### contribute\_to\_mda\_event
+### useq.v2.ChannelsPlan.contribute\_to\_mda\_event
 
 ```python
 contribute_to_mda_event(value: Channel, index: Mapping[str, int]) -> Kwargs
@@ -227,13 +229,13 @@ contribute_to_mda_event(value: Channel, index: Mapping[str, int]) -> Kwargs
 
 Contribute channel information to the MDA event.
 
-## EventBuilder
+## useq.v2.EventBuilder
 
 Bases: `Protocol[EventTco]`
 
 Callable that builds an event from an AxesIndex.
 
-## EventTransform
+## useq.v2.EventTransform
 
 Bases: `Protocol[EventT]`
 
@@ -249,7 +251,7 @@ The transformer must return a list.
 
 Return **one** event in the list for a 1-to-1 mapping, an empty list to drop the original event, or a list with multiple items to insert extras.
 
-## GridFromEdges
+## useq.v2.GridFromEdges
 
 Bases: `_GridPlan`
 
@@ -282,37 +284,37 @@ Methods:
 | --- | --- |
 | `plot` | Plot the positions in the plan. |
 
-### top
+### useq.v2.GridFromEdges.top
 
 ```python
 top: float = Field(..., frozen=True)
 ```
 
-### left
+### useq.v2.GridFromEdges.left
 
 ```python
 left: float = Field(..., frozen=True)
 ```
 
-### bottom
+### useq.v2.GridFromEdges.bottom
 
 ```python
 bottom: float = Field(..., frozen=True)
 ```
 
-### right
+### useq.v2.GridFromEdges.right
 
 ```python
 right: float = Field(..., frozen=True)
 ```
 
-### is\_relative
+### useq.v2.GridFromEdges.is\_relative
 
 ```python
 is_relative: bool
 ```
 
-### plot
+### useq.v2.GridFromEdges.plot
 
 ```python
 plot(*, show: bool = True) -> Axes
@@ -320,7 +322,7 @@ plot(*, show: bool = True) -> Axes
 
 Plot the positions in the plan.
 
-## GridFromPolygon
+## useq.v2.GridFromPolygon
 
 Bases: `_GridPlan`
 
@@ -354,7 +356,7 @@ Methods:
 | `iter_grid_positions` | Iterate over all grid positions, given a field of view size. |
 | `plot` | Plot the positions in the plan. |
 
-### vertices
+### useq.v2.GridFromPolygon.vertices
 
 ```python
 vertices: Annotated[
@@ -368,7 +370,7 @@ vertices: Annotated[
 ]
 ```
 
-### convex\_hull
+### useq.v2.GridFromPolygon.convex\_hull
 
 ```python
 convex_hull: Annotated[
@@ -380,7 +382,7 @@ convex_hull: Annotated[
 ] = False
 ```
 
-### offset
+### useq.v2.GridFromPolygon.offset
 
 ```python
 offset: Annotated[
@@ -393,13 +395,13 @@ offset: Annotated[
 ] = None
 ```
 
-### is\_relative
+### useq.v2.GridFromPolygon.is\_relative
 
 ```python
 is_relative: bool
 ```
 
-### poly
+### useq.v2.GridFromPolygon.poly
 
 ```python
 poly: Polygon
@@ -407,7 +409,7 @@ poly: Polygon
 
 Return the processed polygon vertices as a shapely Polygon.
 
-### prepared\_poly
+### useq.v2.GridFromPolygon.prepared\_poly
 
 ```python
 prepared_poly: PreparedGeometry
@@ -415,7 +417,7 @@ prepared_poly: PreparedGeometry
 
 Return the prepared polygon for faster intersection tests.
 
-### validate\_vertices
+### useq.v2.GridFromPolygon.validate\_vertices
 
 ```python
 validate_vertices(
@@ -423,7 +425,7 @@ validate_vertices(
 ) -> list[tuple[float, float]]
 ```
 
-### iter\_grid\_positions
+### useq.v2.GridFromPolygon.iter\_grid\_positions
 
 ```python
 iter_grid_positions(
@@ -436,7 +438,7 @@ iter_grid_positions(
 
 Iterate over all grid positions, given a field of view size.
 
-### plot
+### useq.v2.GridFromPolygon.plot
 
 ```python
 plot(*, show: bool = True) -> Axes
@@ -444,7 +446,7 @@ plot(*, show: bool = True) -> Axes
 
 Plot the positions in the plan.
 
-## GridRowsColumns
+## useq.v2.GridRowsColumns
 
 Bases: `_GridPlan`
 
@@ -468,25 +470,25 @@ Parameters:
 | `columns` | `int` |  | *required* |
 | `relative_to` | `RelativeTo` |  | `<RelativeTo.center: 'center'>` |
 
-### rows
+### useq.v2.GridRowsColumns.rows
 
 ```python
 rows: int = Field(..., frozen=True, ge=1)
 ```
 
-### columns
+### useq.v2.GridRowsColumns.columns
 
 ```python
 columns: int = Field(..., frozen=True, ge=1)
 ```
 
-### relative\_to
+### useq.v2.GridRowsColumns.relative\_to
 
 ```python
 relative_to: RelativeTo = Field(default=RelativeTo.center, frozen=True)
 ```
 
-## GridWidthHeight
+## useq.v2.GridWidthHeight
 
 Bases: `_GridPlan`
 
@@ -510,25 +512,25 @@ Parameters:
 | `height` | `float` |  | *required* |
 | `relative_to` | `RelativeTo` |  | `<RelativeTo.center: 'center'>` |
 
-### width
+### useq.v2.GridWidthHeight.width
 
 ```python
 width: float = Field(..., frozen=True, gt=0)
 ```
 
-### height
+### useq.v2.GridWidthHeight.height
 
 ```python
 height: float = Field(..., frozen=True, gt=0)
 ```
 
-### relative\_to
+### useq.v2.GridWidthHeight.relative\_to
 
 ```python
 relative_to: RelativeTo = Field(default=RelativeTo.center, frozen=True)
 ```
 
-## KeepShutterOpenTransform
+## useq.v2.KeepShutterOpenTransform
 
 ```python
 KeepShutterOpenTransform(axes: tuple[str, ...])
@@ -550,13 +552,13 @@ Attributes:
 | --- | --- | --- |
 | `axes` |  |  |
 
-### axes
+### useq.v2.KeepShutterOpenTransform.axes
 
 ```python
 axes = axes
 ```
 
-## MDASequence
+## useq.v2.MDASequence
 
 ```python
 MDASequence(
@@ -627,25 +629,25 @@ Attributes:
 | `stage_positions` | `Sequence[Position]` | Return the stage positions. |
 | `grid_plan` | `AxisIterable[Position] \| None` | Return the grid plan. |
 
-### autofocus\_plan
+### useq.v2.MDASequence.autofocus\_plan
 
 ```python
 autofocus_plan: AnyAutofocusPlan | None = None
 ```
 
-### keep\_shutter\_open\_across
+### useq.v2.MDASequence.keep\_shutter\_open\_across
 
 ```python
 keep_shutter_open_across: tuple[str, ...] = Field(default_factory=tuple)
 ```
 
-### metadata
+### useq.v2.MDASequence.metadata
 
 ```python
 metadata: dict[str, Any] = Field(default_factory=dict)
 ```
 
-### event\_builder
+### useq.v2.MDASequence.event\_builder
 
 ```python
 event_builder: Annotated[EventBuilder[MDAEvent], ImportableObject()] | None = (
@@ -653,7 +655,7 @@ event_builder: Annotated[EventBuilder[MDAEvent], ImportableObject()] | None = (
 )
 ```
 
-### transforms
+### useq.v2.MDASequence.transforms
 
 ```python
 transforms: tuple[
@@ -661,7 +663,7 @@ transforms: tuple[
 ] = Field(default_factory=_default_transforms, repr=False)
 ```
 
-### shape
+### useq.v2.MDASequence.shape
 
 ```python
 shape: tuple[int, ...]
@@ -673,7 +675,7 @@ Return the shape of this sequence.
 >
 > This doesn't account for jagged arrays, like channels that exclude z stacks or skip timepoints.
 
-### sizes
+### useq.v2.MDASequence.sizes
 
 ```python
 sizes: Mapping[str, int]
@@ -681,7 +683,7 @@ sizes: Mapping[str, int]
 
 Mapping of axis name to size of that axis.
 
-### used\_axes
+### useq.v2.MDASequence.used\_axes
 
 ```python
 used_axes: tuple[str, ...]
@@ -689,7 +691,7 @@ used_axes: tuple[str, ...]
 
 Return keys of the axes whose length is not 0.
 
-### time\_plan
+### useq.v2.MDASequence.time\_plan
 
 ```python
 time_plan: AxisIterable[float] | None
@@ -697,7 +699,7 @@ time_plan: AxisIterable[float] | None
 
 Return the time plan.
 
-### z\_plan
+### useq.v2.MDASequence.z\_plan
 
 ```python
 z_plan: AxisIterable[Position] | None
@@ -705,7 +707,7 @@ z_plan: AxisIterable[Position] | None
 
 Return the z plan.
 
-### channels
+### useq.v2.MDASequence.channels
 
 ```python
 channels: Sequence[Channel]
@@ -713,7 +715,7 @@ channels: Sequence[Channel]
 
 Return the channels.
 
-### stage\_positions
+### useq.v2.MDASequence.stage\_positions
 
 ```python
 stage_positions: Sequence[Position]
@@ -721,7 +723,7 @@ stage_positions: Sequence[Position]
 
 Return the stage positions.
 
-### grid\_plan
+### useq.v2.MDASequence.grid\_plan
 
 ```python
 grid_plan: AxisIterable[Position] | None
@@ -729,7 +731,7 @@ grid_plan: AxisIterable[Position] | None
 
 Return the grid plan.
 
-## MultiAxisSequence
+## useq.v2.MultiAxisSequence
 
 Bases: `MutableModel`, `Generic[EventTco]`
 
@@ -766,25 +768,25 @@ Attributes:
 | `event_builder` | `Annotated[EventBuilder[EventTco], ImportableObject()] \| None` |  |
 | `transforms` | `tuple[Annotated[EventTransform, ImportableObject()], ...]` |  |
 
-### axes
+### useq.v2.MultiAxisSequence.axes
 
 ```python
 axes: tuple[AxisIterable, ...] = ()
 ```
 
-### axis\_order
+### useq.v2.MultiAxisSequence.axis\_order
 
 ```python
 axis_order: tuple[str, ...] | None = None
 ```
 
-### value
+### useq.v2.MultiAxisSequence.value
 
 ```python
 value: Any = None
 ```
 
-### event\_builder
+### useq.v2.MultiAxisSequence.event\_builder
 
 ```python
 event_builder: Annotated[EventBuilder[EventTco], ImportableObject()] | None = (
@@ -792,7 +794,7 @@ event_builder: Annotated[EventBuilder[EventTco], ImportableObject()] | None = (
 )
 ```
 
-### transforms
+### useq.v2.MultiAxisSequence.transforms
 
 ```python
 transforms: tuple[Annotated[EventTransform, ImportableObject()], ...] = Field(
@@ -800,7 +802,7 @@ transforms: tuple[Annotated[EventTransform, ImportableObject()], ...] = Field(
 )
 ```
 
-### is\_finite
+### useq.v2.MultiAxisSequence.is\_finite
 
 ```python
 is_finite() -> bool
@@ -808,7 +810,7 @@ is_finite() -> bool
 
 Return `True` if the sequence is finite (all axes are Sized).
 
-### iter\_axes
+### useq.v2.MultiAxisSequence.iter\_axes
 
 ```python
 iter_axes(
@@ -824,7 +826,7 @@ Yields:
 | --- | --- |
 | `AxesIndexWithContext` | A tuple of (AxesIndex, MultiAxisSequence) where AxesIndex is a dictionary mapping axis keys to tuples of (index, value, AxisIterable), and MultiAxisSequence is the context that generated this axes combination. For example, when iterating over an `AxisIterable` with a single axis "t", with values of \[0.1, .2\], the yielded tuples would be: - ({'t': (0, 0.1, )}, ) - ({'t': (1, 0.2, )}, ) |
 
-### iter\_events
+### useq.v2.MultiAxisSequence.iter\_events
 
 ```python
 iter_events(axis_order: tuple[str, ...] | None = None) -> Iterator[EventTco]
@@ -832,7 +834,7 @@ iter_events(axis_order: tuple[str, ...] | None = None) -> Iterator[EventTco]
 
 Iterate over axes, build raw events, then apply transformers.
 
-### compose\_transforms
+### useq.v2.MultiAxisSequence.compose\_transforms
 
 ```python
 compose_transforms(
@@ -844,7 +846,7 @@ Compose transforms from the context of nested sequences.
 
 The base implementation aggregates transforms from outer to inner sequences. Only a single instance of each transform type is kept, so if multiple sequences in the context have the same transform type, only one will be used, and innermost MultiAxisSequence's transform will take precedence.
 
-## MultiPhaseTimePlan
+## useq.v2.MultiPhaseTimePlan
 
 Bases: `TimePlan`
 
@@ -863,13 +865,13 @@ Parameters:
 | `prioritize_duration` | `bool` |  | `False` |
 | `phases` | `list[TIntervalDuration \| TIntervalLoops \| TDurationLoops]` |  | *required* |
 
-### phases
+### useq.v2.MultiPhaseTimePlan.phases
 
 ```python
 phases: list[SinglePhaseTimePlan]
 ```
 
-## MultiPositionPlan
+## useq.v2.MultiPositionPlan
 
 Bases: `AxisIterable[Position]`
 
@@ -898,25 +900,25 @@ Attributes:
 | `fov_height` | `Annotated[float, Ge(0)] \| None` |  |
 | `is_relative` | `bool` |  |
 
-### fov\_width
+### useq.v2.MultiPositionPlan.fov\_width
 
 ```python
 fov_width: Annotated[float, Ge(0)] | None = None
 ```
 
-### fov\_height
+### useq.v2.MultiPositionPlan.fov\_height
 
 ```python
 fov_height: Annotated[float, Ge(0)] | None = None
 ```
 
-### is\_relative
+### useq.v2.MultiPositionPlan.is\_relative
 
 ```python
 is_relative: bool
 ```
 
-### contribute\_to\_mda\_event
+### useq.v2.MultiPositionPlan.contribute\_to\_mda\_event
 
 ```python
 contribute_to_mda_event(
@@ -924,7 +926,7 @@ contribute_to_mda_event(
 ) -> KwargsContribution
 ```
 
-### plot
+### useq.v2.MultiPositionPlan.plot
 
 ```python
 plot(*, show: bool = True) -> Axes
@@ -932,7 +934,7 @@ plot(*, show: bool = True) -> Axes
 
 Plot the positions in the plan.
 
-## Position
+## useq.v2.Position
 
 Bases: `MutableModel`
 
@@ -955,37 +957,37 @@ Parameters:
 | `name` | `str \| None` |  | `None` |
 | `is_relative` | `bool` |  | `False` |
 
-### x
+### useq.v2.Position.x
 
 ```python
 x: float | None = None
 ```
 
-### y
+### useq.v2.Position.y
 
 ```python
 y: float | None = None
 ```
 
-### z
+### useq.v2.Position.z
 
 ```python
 z: float | None = None
 ```
 
-### name
+### useq.v2.Position.name
 
 ```python
 name: str | None = None
 ```
 
-### is\_relative
+### useq.v2.Position.is\_relative
 
 ```python
 is_relative: bool = False
 ```
 
-## RandomPoints
+## useq.v2.RandomPoints
 
 Bases: `MultiPositionPlan`
 
@@ -1018,67 +1020,67 @@ Methods:
 | --- | --- |
 | `num_positions` |  |
 
-### axis\_key
+### useq.v2.RandomPoints.axis\_key
 
 ```python
 axis_key: Literal[GRID] = Field(default=Axis.GRID, frozen=True, init=False)
 ```
 
-### num\_points
+### useq.v2.RandomPoints.num\_points
 
 ```python
 num_points: Annotated[int, Gt(0)]
 ```
 
-### max\_width
+### useq.v2.RandomPoints.max\_width
 
 ```python
 max_width: Annotated[float, Gt(0)] = 1
 ```
 
-### max\_height
+### useq.v2.RandomPoints.max\_height
 
 ```python
 max_height: Annotated[float, Gt(0)] = 1
 ```
 
-### shape
+### useq.v2.RandomPoints.shape
 
 ```python
 shape: Shape = Shape.ELLIPSE
 ```
 
-### random\_seed
+### useq.v2.RandomPoints.random\_seed
 
 ```python
 random_seed: int | None = None
 ```
 
-### allow\_overlap
+### useq.v2.RandomPoints.allow\_overlap
 
 ```python
 allow_overlap: bool = True
 ```
 
-### order
+### useq.v2.RandomPoints.order
 
 ```python
 order: TraversalOrder | None = TraversalOrder.TWO_OPT
 ```
 
-### start\_at
+### useq.v2.RandomPoints.start\_at
 
 ```python
 start_at: Position | Annotated[int, Ge(0)] = 0
 ```
 
-### num\_positions
+### useq.v2.RandomPoints.num\_positions
 
 ```python
 num_positions() -> int
 ```
 
-## RelativeTo
+## useq.v2.RelativeTo
 
 Bases: `Enum`
 
@@ -1091,19 +1093,19 @@ Attributes:
 | `center` | `Literal['center']` | Grid is centered around the origin. |
 | `top_left` | `Literal['top_left']` | Grid is positioned such that the top left corner is at the origin. |
 
-### center
+### useq.v2.RelativeTo.center
 
 ```python
 center = 'center'
 ```
 
-### top\_left
+### useq.v2.RelativeTo.top\_left
 
 ```python
 top_left = 'top_left'
 ```
 
-## ResetEventTimerTransform
+## useq.v2.ResetEventTimerTransform
 
 ```python
 ResetEventTimerTransform()
@@ -1113,7 +1115,7 @@ Bases: `EventTransform[MDAEvent]`
 
 Marks the first frame of each timepoint with `reset_event_timer=True`.
 
-## SimpleValueAxis
+## useq.v2.SimpleValueAxis
 
 Bases: `AxisIterable[V]`
 
@@ -1134,13 +1136,13 @@ Attributes:
 | --- | --- | --- |
 | `values` | `list[V]` |  |
 
-### values
+### useq.v2.SimpleValueAxis.values
 
 ```python
 values: list[V] = Field(default_factory=list)
 ```
 
-## StagePositions
+## useq.v2.StagePositions
 
 Bases: `AxisIterable[Position]`, `FrozenModel`
 
@@ -1164,7 +1166,7 @@ Attributes:
 | `axis_key` | `Literal[POSITION]` |  |
 | `values` | `list[Position \| MDASequence]` |  |
 
-### axis\_key
+### useq.v2.StagePositions.axis\_key
 
 ```python
 axis_key: Literal[POSITION] = Field(
@@ -1172,13 +1174,13 @@ axis_key: Literal[POSITION] = Field(
 )
 ```
 
-### values
+### useq.v2.StagePositions.values
 
 ```python
 values: list[Position | MDASequence] = Field(default_factory=list)
 ```
 
-### contribute\_to\_mda\_event
+### useq.v2.StagePositions.contribute\_to\_mda\_event
 
 ```python
 contribute_to_mda_event(value: Position, index: Mapping[str, int]) -> Kwargs
@@ -1186,7 +1188,7 @@ contribute_to_mda_event(value: Position, index: Mapping[str, int]) -> Kwargs
 
 Contribute channel information to the MDA event.
 
-## TDurationLoops
+## useq.v2.TDurationLoops
 
 Bases: `_SizedTimePlan`
 
@@ -1206,25 +1208,25 @@ Parameters:
 | `loops` | `int` |  | *required* |
 | `duration` | `timedelta` |  | *required* |
 
-### duration
+### useq.v2.TDurationLoops.duration
 
 ```python
 duration: NonNegativeTimeDelta
 ```
 
-### loops
+### useq.v2.TDurationLoops.loops
 
 ```python
 loops: int = Field(..., gt=0)
 ```
 
-### interval
+### useq.v2.TDurationLoops.interval
 
 ```python
 interval: timedelta
 ```
 
-## TIntervalDuration
+## useq.v2.TIntervalDuration
 
 Bases: `TimePlan`
 
@@ -1244,25 +1246,25 @@ Parameters:
 | `interval` | `timedelta` |  | *required* |
 | `duration` | `timedelta \| None` |  | `None` |
 
-### interval
+### useq.v2.TIntervalDuration.interval
 
 ```python
 interval: TimeDelta
 ```
 
-### duration
+### useq.v2.TIntervalDuration.duration
 
 ```python
 duration: NonNegativeTimeDelta | None = None
 ```
 
-### prioritize\_duration
+### useq.v2.TIntervalDuration.prioritize\_duration
 
 ```python
 prioritize_duration: bool = True
 ```
 
-## TIntervalLoops
+## useq.v2.TIntervalLoops
 
 Bases: `_SizedTimePlan`
 
@@ -1282,25 +1284,25 @@ Parameters:
 | `loops` | `int` |  | *required* |
 | `interval` | `timedelta` |  | *required* |
 
-### interval
+### useq.v2.TIntervalLoops.interval
 
 ```python
 interval: TimeDelta
 ```
 
-### loops
+### useq.v2.TIntervalLoops.loops
 
 ```python
 loops: int = Field(..., gt=0)
 ```
 
-### duration
+### useq.v2.TIntervalLoops.duration
 
 ```python
 duration: timedelta
 ```
 
-## TimePlan
+## useq.v2.TimePlan
 
 Bases: `AxisIterable[float]`, `FrozenModel`
 
@@ -1325,19 +1327,19 @@ Attributes:
 | `axis_key` | `str` |  |
 | `prioritize_duration` | `bool` |  |
 
-### axis\_key
+### useq.v2.TimePlan.axis\_key
 
 ```python
 axis_key: str = Field(default=Axis.TIME, frozen=True, init=False)
 ```
 
-### prioritize\_duration
+### useq.v2.TimePlan.prioritize\_duration
 
 ```python
 prioritize_duration: bool = False
 ```
 
-### contribute\_to\_mda\_event
+### useq.v2.TimePlan.contribute\_to\_mda\_event
 
 ```python
 contribute_to_mda_event(value: float, index: Mapping[str, int]) -> Kwargs
@@ -1358,7 +1360,7 @@ Returns:
 | --- | --- |
 | `dict` | Event data to be merged into the MDAEvent. |
 
-### num\_timepoints
+### useq.v2.TimePlan.num\_timepoints
 
 ```python
 num_timepoints() -> int
@@ -1368,7 +1370,7 @@ Return the number of time points in this plan.
 
 This is deprecated and will be removed in a future version. Use `len()` instead.
 
-## ZAboveBelow
+## useq.v2.ZAboveBelow
 
 Bases: `ZPlan`
 
@@ -1391,31 +1393,31 @@ Parameters:
 | `step` | `float` |  | *required* |
 | `go_up` | `bool` |  | `True` |
 
-### above
+### useq.v2.ZAboveBelow.above
 
 ```python
 above: float
 ```
 
-### below
+### useq.v2.ZAboveBelow.below
 
 ```python
 below: float
 ```
 
-### step
+### useq.v2.ZAboveBelow.step
 
 ```python
 step: Annotated[float, Ge(0)]
 ```
 
-### go\_up
+### useq.v2.ZAboveBelow.go\_up
 
 ```python
 go_up: bool = True
 ```
 
-## ZAbsolutePositions
+## useq.v2.ZAbsolutePositions
 
 Bases: `ZPlan`
 
@@ -1433,19 +1435,19 @@ Parameters:
 | `axis_key` | `Literal[<Axis.Z: 'z'>]` | A string id representing the axis. | `<Axis.Z: 'z'>` |
 | `absolute` | `list[float]` |  | *required* |
 
-### absolute
+### useq.v2.ZAbsolutePositions.absolute
 
 ```python
 absolute: list[float]
 ```
 
-### is\_relative
+### useq.v2.ZAbsolutePositions.is\_relative
 
 ```python
 is_relative: bool
 ```
 
-## ZPlan
+## useq.v2.ZPlan
 
 Bases: `AxisIterable[Position]`, `FrozenModel`
 
@@ -1473,13 +1475,13 @@ Attributes:
 | `axis_key` | `Literal[Z]` |  |
 | `is_relative` | `bool` | Return True if Z positions are relative to current position. |
 
-### axis\_key
+### useq.v2.ZPlan.axis\_key
 
 ```python
 axis_key: Literal[Z] = Field(default=Axis.Z, frozen=True, init=False)
 ```
 
-### is\_relative
+### useq.v2.ZPlan.is\_relative
 
 ```python
 is_relative: bool
@@ -1487,7 +1489,7 @@ is_relative: bool
 
 Return True if Z positions are relative to current position.
 
-### contribute\_to\_mda\_event
+### useq.v2.ZPlan.contribute\_to\_mda\_event
 
 ```python
 contribute_to_mda_event(
@@ -1497,7 +1499,7 @@ contribute_to_mda_event(
 
 Contribute Z position to the MDA event.
 
-### num\_positions
+### useq.v2.ZPlan.num\_positions
 
 ```python
 num_positions() -> int
@@ -1505,7 +1507,7 @@ num_positions() -> int
 
 Get the number of Z positions.
 
-## ZRangeAround
+## useq.v2.ZRangeAround
 
 Bases: `ZPlan`
 
@@ -1527,25 +1529,25 @@ Parameters:
 | `step` | `float` |  | *required* |
 | `go_up` | `bool` |  | `True` |
 
-### range
+### useq.v2.ZRangeAround.range
 
 ```python
 range: float
 ```
 
-### step
+### useq.v2.ZRangeAround.step
 
 ```python
 step: Annotated[float, Ge(0)]
 ```
 
-### go\_up
+### useq.v2.ZRangeAround.go\_up
 
 ```python
 go_up: bool = True
 ```
 
-## ZRelativePositions
+## useq.v2.ZRelativePositions
 
 Bases: `ZPlan`
 
@@ -1565,13 +1567,13 @@ Parameters:
 | `axis_key` | `Literal[<Axis.Z: 'z'>]` | A string id representing the axis. | `<Axis.Z: 'z'>` |
 | `relative` | `list[float]` |  | *required* |
 
-### relative
+### useq.v2.ZRelativePositions.relative
 
 ```python
 relative: list[float]
 ```
 
-## ZTopBottom
+## useq.v2.ZTopBottom
 
 Bases: `ZPlan`
 
@@ -1594,37 +1596,37 @@ Parameters:
 | `step` | `float` |  | *required* |
 | `go_up` | `bool` |  | `True` |
 
-### top
+### useq.v2.ZTopBottom.top
 
 ```python
 top: float
 ```
 
-### bottom
+### useq.v2.ZTopBottom.bottom
 
 ```python
 bottom: float
 ```
 
-### step
+### useq.v2.ZTopBottom.step
 
 ```python
 step: Annotated[float, Ge(0)]
 ```
 
-### go\_up
+### useq.v2.ZTopBottom.go\_up
 
 ```python
 go_up: bool = True
 ```
 
-### is\_relative
+### useq.v2.ZTopBottom.is\_relative
 
 ```python
 is_relative: bool
 ```
 
-## RelativePosition
+## useq.v2.RelativePosition
 
 ```python
 RelativePosition(**kwargs: Any) -> Position
@@ -1632,7 +1634,7 @@ RelativePosition(**kwargs: Any) -> Position
 
 Create a relative position.
 
-## iterate\_multi\_dim\_sequence
+## useq.v2.iterate\_multi\_dim\_sequence
 
 ```python
 iterate_multi_dim_sequence(
