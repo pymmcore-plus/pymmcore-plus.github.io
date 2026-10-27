@@ -561,6 +561,7 @@ def _warnings(output: str) -> list[str]:
 
 
 def _in_scope(warning: str, scope: str, members: list[Member]) -> bool:
+    warning = warning.replace("\\", "/")  # griffe reports Windows paths
     if scope == "hub":
         return not any(f"{m.name}/" in warning for m in members)
     return f"{scope}/" in warning
