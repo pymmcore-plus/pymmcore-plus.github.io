@@ -36,7 +36,7 @@ Python tools for controlling microscopes with Micro-Manager: pymmcore-plus (core
 - [Core and Device Adapters](<https://pymmcore-plus.github.io/pymmcore-plus/troubleshooting/index.md>)
 - [Qt and Widgets](<https://pymmcore-plus.github.io/pymmcore-widgets/troubleshooting/index.md>)
 - [Performance Profiling](<https://pymmcore-plus.github.io/pymmcore-plus/profiling/index.md>)
-- [useq-schema](<https://pymmcore-plus.github.io/useq-schema/index.md>)
+- [The useq-schema Package](<https://pymmcore-plus.github.io/useq-schema/index.md>)
 - [useq-schema v2 (Preview)](<https://pymmcore-plus.github.io/useq-schema/v2-migration/index.md>)
 - [Building a Custom GUI](<https://pymmcore-plus.github.io/pymmcore-widgets/getting_started/index.md>)
 - [Widget Gallery](<https://pymmcore-plus.github.io/pymmcore-widgets/widgets/index.md>)
