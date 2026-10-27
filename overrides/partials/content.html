@@ -1,0 +1,27 @@
+{#-
+  Like zensical's partials/content.html, plus a badge naming the package (and
+  repository) that a member page belongs to.
+-#}
+{% include "partials/actions.html" %}
+{% set member = page.meta and page.meta.package and config.extra.members[page.meta.package] %}
+{% if member %}
+  <div class="pymm-package-badge">
+    <a href="{{ (page.meta.package ~ '/') | url }}" class="pymm-package-badge__name">{{ member.title }}</a>
+    {% if member.pypi %}
+    <a href="https://pypi.org/project/{{ member.pypi }}/" class="pymm-package-badge__pypi" title="{{ member.pypi }} on PyPI">
+      <img alt="PyPI version" src="https://img.shields.io/pypi/v/{{ member.pypi }}?label=&color=gray&style=flat-square" loading="lazy">
+    </a>
+    {% endif %}
+    <a href="https://github.com/{{ member.repo }}" class="pymm-package-badge__repo" title="{{ member.repo }} on GitHub">
+      {% include ".icons/fontawesome/brands/github.svg" %}
+    </a>
+  </div>
+{% endif %}
+{% if "<h1" not in page.content %}
+  <h1>{{ page.title | d(config.site_name, true)}}</h1>
+{% endif %}
+{{ page.content }}
+{% include "partials/tags.html" %}
+{% include "partials/source-file.html" %}
+{% include "partials/feedback.html" %}
+{% include "partials/comments.html" %}

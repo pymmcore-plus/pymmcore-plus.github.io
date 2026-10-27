@@ -1,0 +1,54 @@
+# Build this repo's pull requests, and publish each as a browsable preview at
+# https://pymmcore-plus.github.io/pr-preview/pr-<number>/ (via the gh-pages
+# branch).  A comment on the PR links to it; it is removed when the PR closes.
+#
+# The site is built on both macOS and Windows (to compare build times and
+# widget screenshots); the macOS build is the one published.
+name: preview
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+concurrency:
+  group: preview-${{ github.event.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build:
+    if: github.event.action != 'closed'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    uses: ./.github/workflows/build.yml
+    with:
+      os: ${{ matrix.os }}
+
+  deploy:
+    needs: build
+    if: ${{ !cancelled() && github.event.action != 'closed' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-macOS
+          path: site
+      - uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: site
+          qr-code: false
+
+  remove:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: rossjrw/pr-preview-action@v1
+        with:
+          action: remove
