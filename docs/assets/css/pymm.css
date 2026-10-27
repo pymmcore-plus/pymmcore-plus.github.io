@@ -38,6 +38,48 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Sidebar: group headings are small labels (never links; see
+   overrides/partials/nav-item.html), and a rule runs along each group's pages
+   ------------------------------------------------------------------------ */
+
+/* a group in the active tab's sidebar */
+@media screen and (min-width: 76.25em) {
+  .md-nav--primary [data-md-level="1"] > .md-nav__list > .md-nav__item--section {
+    margin-top: 1.1rem;
+  }
+
+  .md-nav--primary [data-md-level="1"] > .md-nav__list > .md-nav__item--section > .md-nav__link {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--md-default-fg-color--light);
+  }
+
+  [dir="ltr"] .md-nav--primary [data-md-level="1"] > .md-nav__list > .md-nav__item--section .md-nav__list {
+    margin-left: 0.7rem;
+    border-left: 0.05rem solid var(--md-default-fg-color--lighter);
+  }
+
+  [dir="ltr"] .md-nav--primary [data-md-level="1"] > .md-nav__list > .md-nav__item--section .md-nav__list > .md-nav__item > .md-nav__link {
+    margin-left: -0.05rem;
+    padding-left: 0.6rem;
+    border-left: 0.1rem solid transparent;
+    border-radius: 0 0.4rem 0.4rem 0;
+  }
+
+  /* the current page is a segment of the rule, not a pill */
+  .md-nav--primary [data-md-level="1"] > .md-nav__list > .md-nav__item--section .md-nav__link--active {
+    background: none;
+  }
+
+  .md-nav--primary [data-md-level="1"] > .md-nav__list > .md-nav__item--section .md-nav__list > .md-nav__item > .md-nav__link--active,
+  .md-nav--primary [data-md-level="1"] > .md-nav__list > .md-nav__item--section .md-nav__list > .md-nav__item > .md-nav__link:has(> .md-nav__link--active) {
+    border-left-color: var(--md-accent-fg-color);
+  }
+}
+
+/* ---------------------------------------------------------------------------
    Landing page
    ------------------------------------------------------------------------ */
 

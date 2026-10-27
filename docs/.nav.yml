@@ -20,7 +20,7 @@ nav:
           - pymmcore-plus/guides/events.md
           - pymmcore-plus/guides/ipython_completion.md
       - Describing Experiments:
-          - useq-schema/index.md
+          - The useq-schema Package: useq-schema/index.md
           - useq-schema/guides/sequences.md
       - Running Acquisitions:
           - pymmcore-plus/guides/mda_engine.md
@@ -28,7 +28,7 @@ nav:
           - pymmcore-plus/guides/event_driven_acquisition.md
           - pymmcore-plus/guides/custom_engine.md
       - Building GUIs:
-          - pymmcore-widgets/widgets/index.md
+          - Widget Gallery: pymmcore-widgets/widgets/index.md
           - Building a Custom GUI: pymmcore-widgets/getting_started.md
           - Qt Integration: pymmcore-plus/examples/integration-with-qt.md
       - Applications:
