@@ -11,8 +11,6 @@ hide:
 
 <div class="pymm-hero__text" markdown>
 
-<img src="assets/img/logo.svg" alt="" class="pymm-hero__logo off-glb">
-
 # Control microscopes with Python
 
 A set of Python packages for running a microscope through
