@@ -1,143 +1,111 @@
 # pymmcore\_plus.mda.events
 
-Classes:
+Signals emitted by the MDA runner (`core.mda.events`) during an acquisition.
+
+**Classes**
 
 | Name | Description |
 | --- | --- |
 | `MDASignaler` |  |
 | `QMDASignaler` |  |
 
-Functions:
+## Classes
 
-| Name | Description |
-| --- | --- |
-| `_get_auto_MDA_callback_class` |  |
-
-## MDASignaler
+### MDASignaler
 
 Bases: `SignalGroup`
 
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `sequenceStarted` |  |  |
-| `sequencePauseToggled` |  |  |
-| `sequenceCanceled` |  |  |
-| `sequenceFinished` |  |  |
-| `frameReady` |  |  |
-| `awaitingEvent` |  |  |
-| `eventStarted` |  |  |
-
-### sequenceStarted
+#### sequenceStarted
 
 ```python
 sequenceStarted = Signal(MDASequence, dict)
 ```
 
-### sequencePauseToggled
+#### sequencePauseToggled
 
 ```python
 sequencePauseToggled = Signal(bool)
 ```
 
-### sequenceCanceled
+#### sequenceCanceled
 
 ```python
 sequenceCanceled = Signal(MDASequence)
 ```
 
-### sequenceFinished
+#### sequenceFinished
 
 ```python
 sequenceFinished = Signal(MDASequence)
 ```
 
-### frameReady
+#### frameReady
 
 ```python
 frameReady = Signal(np.ndarray, MDAEvent, dict)
 ```
 
-### awaitingEvent
+#### awaitingEvent
 
 ```python
 awaitingEvent = Signal(MDAEvent, float)
 ```
 
-### eventStarted
+#### eventStarted
 
 ```python
 eventStarted = Signal(MDAEvent)
 ```
 
-## QMDASignaler
+### QMDASignaler
 
 Bases: `QObject`
 
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `sequenceStarted` |  |  |
-| `sequencePauseToggled` |  |  |
-| `sequenceCanceled` |  |  |
-| `sequenceFinished` |  |  |
-| `frameReady` |  |  |
-| `awaitingEvent` |  |  |
-| `eventStarted` |  |  |
-
-### sequenceStarted
+#### sequenceStarted
 
 ```python
 sequenceStarted = Signal(object, dict)
 ```
 
-### sequencePauseToggled
+#### sequencePauseToggled
 
 ```python
 sequencePauseToggled = Signal(bool)
 ```
 
-### sequenceCanceled
+#### sequenceCanceled
 
 ```python
 sequenceCanceled = Signal(object)
 ```
 
-### sequenceFinished
+#### sequenceFinished
 
 ```python
 sequenceFinished = Signal(object)
 ```
 
-### frameReady
+#### frameReady
 
 ```python
 frameReady = Signal(object, object, dict)
 ```
 
-### awaitingEvent
+#### awaitingEvent
 
 ```python
 awaitingEvent = Signal(object, float)
 ```
 
-### eventStarted
+#### eventStarted
 
 ```python
 eventStarted = Signal(object)
 ```
 
-## \_get\_auto\_MDA\_callback\_class
-
-```python
-_get_auto_MDA_callback_class() -> type[PMDASignaler]
-```
-
 ## Re-exports
 
-These names can be imported from this module, but are documented at their top-level location.
+These can also be imported from this module, but each is documented under its shortest import path (linked below).
 
 | Name | Description |
 | --- | --- |

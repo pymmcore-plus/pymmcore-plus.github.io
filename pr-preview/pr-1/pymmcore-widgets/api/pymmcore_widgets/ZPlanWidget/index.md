@@ -2,94 +2,53 @@
 
 Screenshot generated from the [example below](<#example>).
 
+## Example
+
+examples/z\_plan\_widget.py
+
+```python
+"""Example usage of the ZPlanWidget class.
+
+ZPlanWidget edits a useq z plan.  It doesn't use a CMMCorePlus.
+
+Check also the 'mda_widget.py' example to see the ZPlanWidget
+used in combination of other widgets.
+"""
+
+from qtpy.QtWidgets import QApplication
+
+from pymmcore_widgets import ZPlanWidget
+
+app = QApplication([])
+
+z_wdg = ZPlanWidget()
+z_wdg.valueChanged.connect(print)
+z_wdg.show()
+
+app.exec()
+```
+
+## API
+
 Bases: `QWidget`
 
-Widget to edit a [useq.ZPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#z-plans>).
+Widget to edit a z plan (`useq.AnyZPlan`).
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `setMode` | Set the current mode. |
-| `mode` | Return the current mode. |
-| `setSuggestedStep` | Set the suggested z step size and update the button text. |
-| `suggestedStep` | Return suggested z step size. |
-| `useSuggestedStep` | Apply the suggested z step size to the step field. |
-| `value` | Return the current value of the widget as a [useq.ZPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#z-plans>). |
-| `setValue` | Set the current value of the widget from a [useq.ZPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#z-plans>). |
-| `isGoUp` | Return True if the acquisition direction is up (bottom to top). |
-| `setGoUp` | Set the acquisition direction. |
-| `currentZRange` | Return the current Z range in microns. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `valueChanged` |  |  |
-| `top` | `QDoubleSpinBox` |  |
-| `bottom` | `QDoubleSpinBox` |  |
-| `step` | `QDoubleSpinBox` |  |
-| `steps` | `QSpinBox` |  |
-| `range` | `QDoubleSpinBox` |  |
-| `above` | `QDoubleSpinBox` |  |
-| `below` | `QDoubleSpinBox` |  |
-| `Mode` | `Final[type[Mode]]` |  |
-
-## valueChanged
+### valueChanged
 
 ```python
 valueChanged = Signal(object)
 ```
 
-## top
+Emitted with the new z plan (or `None`) when the widget changes.
 
-```python
-top: QDoubleSpinBox = QDoubleSpinBox()
-```
-
-## bottom
-
-```python
-bottom: QDoubleSpinBox = QDoubleSpinBox()
-```
-
-## step
-
-```python
-step: QDoubleSpinBox = QDoubleSpinBox()
-```
-
-## steps
-
-```python
-steps: QSpinBox = QSpinBox()
-```
-
-## range
-
-```python
-range: QDoubleSpinBox = QDoubleSpinBox()
-```
-
-## above
-
-```python
-above: QDoubleSpinBox = QDoubleSpinBox()
-```
-
-## below
-
-```python
-below: QDoubleSpinBox = QDoubleSpinBox()
-```
-
-## Mode
+### Mode
 
 ```python
 Mode: Final[type[Mode]] = Mode
 ```
 
-## setMode
+### setMode
 
 ```python
 setMode(
@@ -107,7 +66,7 @@ Parameters:
 | --- | --- | --- | --- |
 | `mode` | `Mode \| Literal['top_bottom', 'range_around', 'above_below'] \| None` | The mode to set. By default, None. If None, the mode is determined by the sender().data(), for internal usage. | *required* |
 
-## mode
+### mode
 
 ```python
 mode() -> Mode
@@ -117,7 +76,7 @@ Return the current mode.
 
 One of "top\_bottom", "range\_around", or "above\_below".
 
-## setSuggestedStep
+### setSuggestedStep
 
 ```python
 setSuggestedStep(value: float | None) -> None
@@ -125,7 +84,7 @@ setSuggestedStep(value: float | None) -> None
 
 Set the suggested z step size and update the button text.
 
-## suggestedStep
+### suggestedStep
 
 ```python
 suggestedStep() -> float | None
@@ -133,7 +92,7 @@ suggestedStep() -> float | None
 
 Return suggested z step size.
 
-## useSuggestedStep
+### useSuggestedStep
 
 ```python
 useSuggestedStep() -> None
@@ -141,37 +100,35 @@ useSuggestedStep() -> None
 
 Apply the suggested z step size to the step field.
 
-## value
+### value
 
 ```python
 value() -> ZAboveBelow | ZRangeAround | ZTopBottom | None
 ```
 
-Return the current value of the widget as a [useq.ZPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#z-plans>).
+Return the current value of the widget as a z plan (`useq.AnyZPlan`).
 
 Returns:
 
 | Type | Description |
 | --- | --- |
-| `ZAboveBelow \| ZRangeAround \| ZTopBottom \| None` |  |
-| `The current [useq.ZPlan](https://pymmcore-plus.github.io/useq-schema/schema/axes/#z-plans)` |  |
-| `value of the widget.` |  |
+| `ZAboveBelow \| ZRangeAround \| ZTopBottom \| None` | The current z plan of the widget (`None` if the step size is 0). |
 
-## setValue
+### setValue
 
 ```python
 setValue(value: ZAboveBelow | ZRangeAround | ZTopBottom) -> None
 ```
 
-Set the current value of the widget from a [useq.ZPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#z-plans>).
+Set the current value of the widget from a z plan (`useq.AnyZPlan`).
 
 Parameters:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| `value` | `ZAboveBelow \| ZRangeAround \| ZTopBottom` | The [useq.ZPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#z-plans>) to set. | *required* |
+| `value` | `ZAboveBelow \| ZRangeAround \| ZTopBottom` | The z plan to set. | *required* |
 
-## isGoUp
+### isGoUp
 
 ```python
 isGoUp() -> bool
@@ -179,7 +136,7 @@ isGoUp() -> bool
 
 Return True if the acquisition direction is up (bottom to top).
 
-## setGoUp
+### setGoUp
 
 ```python
 setGoUp(up: bool) -> None
@@ -187,37 +144,10 @@ setGoUp(up: bool) -> None
 
 Set the acquisition direction.
 
-## currentZRange
+### currentZRange
 
 ```python
 currentZRange() -> float
 ```
 
 Return the current Z range in microns.
-
-## Example
-
-examples/z\_plan\_widget.py
-
-```python
-"""Example usage of the ZPlanWidget class.
-
-Check also the 'mda_widget.py' example to see the ZPlanWidget
-used in combination of other widgets.
-"""
-
-from pymmcore_plus import CMMCorePlus
-from qtpy.QtWidgets import QApplication
-
-from pymmcore_widgets import ZPlanWidget
-
-app = QApplication([])
-
-mmc = CMMCorePlus().instance()
-mmc.loadSystemConfiguration()
-
-z_wdg = ZPlanWidget()
-z_wdg.show()
-
-app.exec()
-```

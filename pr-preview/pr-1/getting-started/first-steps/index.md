@@ -1,14 +1,18 @@
-# First steps: scripting the core
+# First Steps
 
-Everything starts with `CMMCorePlus`, a drop-in replacement for Micro-Manager's `CMMCore` with a more Pythonic API. If you have used Micro-Manager's Java API or `pymmcore`, everything you know still applies.
+At the heart of Micro-Manager is its *core* (`CMMCore`): a C++ library that loads your hardware configuration, talks to each device through its device adapter, and hands you images. Micro-Manager's Java application (MMStudio) is built on top of it, and [`pymmcore`](<https://github.com/micro-manager/pymmcore>) makes it available in Python.
 
-> [!NOTE]
+The main object in `pymmcore-plus` is `CMMCorePlus`, an enhanced subclass of `pymmcore.CMMCore`. It aims to be a drop-in replacement, so if you've used `pymmcore` (or the `mmc` object in Micro-Manager's script panel), the methods you know are all still there. `CMMCorePlus` adds a number of things on top, and we'll look at a few of them here.
+
+These examples use Micro-Manager's demo devices, so you don't need any hardware. You can paste them into a Python session (`python`, `ipython` or a Jupyter notebook) started in the environment where you [installed](<https://pymmcore-plus.github.io/getting-started/install/index.md>) `pymmcore-plus`, or put them in a script.
+
+> [!WARNING]
 >
-> **Before you start**
+> **Is Micro-Manager open?**
 >
-> [Install](<https://pymmcore-plus.github.io/getting-started/install/index.md>) `pymmcore-plus` and the device adapters. These examples use Micro-Manager's **demo configuration**, so no hardware is needed.
+> `CMMCorePlus` doesn't connect to a running copy of Micro-Manager; it opens the devices itself. Most hardware can only be opened by one program at a time, so close Micro-Manager (MMStudio) before you load the same configuration here. (The demo devices don't mind.) See [Coming from Micro-Manager](<https://pymmcore-plus.github.io/getting-started/from-micro-manager/index.md>) for more.
 
-## Load a configuration
+## Loading a configuration
 
 ```python
 from pymmcore_plus import CMMCorePlus
@@ -20,21 +24,31 @@ print(core.getLoadedDevices())
 # ('DHub', 'Camera', 'Dichroic', 'Emission', 'Excitation', 'Objective', 'Z', ...)
 ```
 
-1. With no argument, this loads the demo configuration (`MMConfig_demo.cfg`). Pass the path to your own `.cfg` file to use your hardware.
+1. With no argument, this loads the demo configuration (`MMConfig_demo.cfg`). Pass the path to your own `.cfg` file to use your hardware (see [Using your own microscope](<https://pymmcore-plus.github.io/guide/own-microscope/index.md>)).
 
-## Snap an image
+## Snapping an image
 
 ```python
-core.setExposure(25)
+core.setExposure(25)  # milliseconds
 image = core.snap()  # (1)!
 print(image.shape, image.dtype)  # (512, 512) uint16
 ```
 
 1. `snap` is a `CMMCorePlus` convenience that calls `snapImage()` and returns `getImage()` as a numpy array.
 
-## Read and set properties
+`image` is just a numpy array, so you can look at it or save it with whatever tools you like. For example, to save it as a TIFF (that you can open in Fiji), use [tifffile](<https://github.com/cgohlke/tifffile>), which comes with the `io` extra (or `pip install tifffile`):
 
-Every device exposes **properties**. You can use the classic string-based API:
+```python
+import tifffile
+
+tifffile.imwrite("snap.tif", image)
+```
+
+(In a Jupyter notebook, `matplotlib.pyplot.imshow(image)` is a quick way to have a look at it.)
+
+## Reading and setting properties
+
+Each device has a number of *properties*. You can use the classic string-based API:
 
 ```python
 core.getProperty("Camera", "Binning")      # '1'
@@ -53,9 +67,9 @@ gain.range()  # (-5.0, 8.0)
 
 See [Devices &amp; properties](<https://pymmcore-plus.github.io/pymmcore-plus/guides/devices/index.md>) for more.
 
-## Use configuration groups
+## Configuration groups and presets
 
-Configuration groups (or *presets*) bundle many property settings under one name, such as an imaging channel:
+A *configuration group* (such as "Channel") holds a number of *presets* (such as "DAPI" or "FITC"), each of which sets several properties at once. These are the same groups and presets you'd see in Micro-Manager's main window:
 
 ```python
 core.getAvailableConfigs("Channel")   # ('Cy5', 'DAPI', 'FITC', 'Rhodamine')
@@ -63,29 +77,43 @@ core.setConfig("Channel", "FITC")
 core.getCurrentConfig("Channel")      # 'FITC'
 ```
 
-## Move stages
+See [Configuration groups](<https://pymmcore-plus.github.io/pymmcore-plus/guides/configuration/index.md>) for more.
+
+## Moving stages
+
+Positions are in microns:
 
 ```python
 core.setXYPosition(100, 200)
 core.setZPosition(10)
-core.waitForSystem()
+core.waitForSystem()  # (1)!
 core.getXYPosition()  # [100.005, 199.995]
 ```
 
-## React to changes
+1. Stage movements may return before the hardware has finished moving. `waitForSystem` blocks until all devices are done.
 
-`CMMCorePlus` emits [events](<https://pymmcore-plus.github.io/pymmcore-plus/guides/events/index.md>) whenever the state of the microscope changes, so your code (or a GUI) can stay in sync:
+## Connecting to events
+
+`CMMCorePlus` emits [events](<https://pymmcore-plus.github.io/pymmcore-plus/guides/events/index.md>) as the state of the microscope changes, and you can connect your own callbacks to them. (This is how the widgets in `pymmcore-widgets` stay in sync with the core.)
 
 ```python
-@core.events.propertyChanged.connect
+@core.events.propertyChanged.connect  # (1)!
 def on_change(device: str, prop: str, value: str) -> None:
     print(f"{device}.{prop} changed to {value}")
 
 core.setProperty("Camera", "Gain", "2")  # prints "Camera.Gain changed to 2"
 ```
 
-## Where next?
+1. Using `connect` as a decorator registers the function below it as a callback. `core.events.propertyChanged.connect(on_change)` does the same thing.
 
-- Every method of the core, with what `pymmcore-plus` adds or changes, is listed in the `CMMCorePlus` reference.
-- [Your first acquisition](<https://pymmcore-plus.github.io/getting-started/first-acquisition/index.md>): run multi-dimensional experiments.
-- The [User Guide](<https://pymmcore-plus.github.io/guide/index.md>) covers each topic in depth.
+> [!TIP]
+>
+> **`CMMCorePlus.instance`**
+>
+> Creating/accessing a `CMMCorePlus` object using `CMMCorePlus.instance()` is a convenient way to access the same core instance from multiple places in your code. The widgets in [`pymmcore-widgets`](<https://pymmcore-plus.github.io/pymmcore-widgets/widgets/index.md>) also use `CMMCorePlus.instance()` by default, so any widgets you use will automatically connect to the same core instance without any additional configuration.
+>
+> Attempts *are* made to make it thread-safe. But please open an issue if you find any problems.
+
+## Next steps
+
+From here, you'll probably want to run [your first acquisition](<https://pymmcore-plus.github.io/getting-started/first-acquisition/index.md>). When you're ready to use a real microscope, see [Using your own microscope](<https://pymmcore-plus.github.io/guide/own-microscope/index.md>). The [User Guide](<https://pymmcore-plus.github.io/guide/index.md>) covers each topic in more depth, and the `CMMCorePlus` reference lists all of the core's methods, marking what `pymmcore-plus` adds or changes.

@@ -1,38 +1,23 @@
 # pymmcore\_widgets.hcwizard.intro\_page
 
-Classes:
+Config wizard, step 1: start a new configuration or edit an existing file.
+
+**Classes**
 
 | Name | Description |
 | --- | --- |
 | `IntroPage` | First page, for selecting new or existing configuration. |
 
-Attributes:
+**Attributes**
 
-| Name | Type | Description |
-| --- | --- | --- |
-| `EXISTING_CONFIG` |  |  |
-| `SRC_CONFIG` |  |  |
-| `logger` |  |  |
+| Name | Description |
+| --- | --- |
+| `EXISTING_CONFIG` |  |
+| `SRC_CONFIG` |  |
 
-## EXISTING\_CONFIG
+## Classes
 
-```python
-EXISTING_CONFIG = 'EXISTING_CONFIG'
-```
-
-## SRC\_CONFIG
-
-```python
-SRC_CONFIG = 'src_config'
-```
-
-## logger
-
-```python
-logger = logging.getLogger(__name__)
-```
-
-## IntroPage
+### IntroPage
 
 ```python
 IntroPage(model: Microscope, core: CMMCorePlus)
@@ -42,56 +27,7 @@ Bases: `ConfigWizardPage`
 
 First page, for selecting new or existing configuration.
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `initializePage` | Called to prepare the page just before it is shown. |
-| `cleanupPage` | Called to reset the page's contents when the user clicks BACK. |
-| `validatePage` | Validate the page when the user clicks Next or Finish. |
-| `isComplete` | Called to determine whether the Next/Finish button should be enabled. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `file_edit` |  |  |
-| `select_file_btn` |  |  |
-| `new_btn` |  |  |
-| `modify_btn` |  |  |
-| `btn_group` |  |  |
-
-### file\_edit
-
-```python
-file_edit = QLineEdit()
-```
-
-### select\_file\_btn
-
-```python
-select_file_btn = QPushButton('Browse...')
-```
-
-### new\_btn
-
-```python
-new_btn = QRadioButton('Create new configuration')
-```
-
-### modify\_btn
-
-```python
-modify_btn = QRadioButton('Modify or explore existing configuration')
-```
-
-### btn\_group
-
-```python
-btn_group = QButtonGroup(self)
-```
-
-### initializePage
+#### initializePage
 
 ```python
 initializePage() -> None
@@ -99,7 +35,7 @@ initializePage() -> None
 
 Called to prepare the page just before it is shown.
 
-### cleanupPage
+#### cleanupPage
 
 ```python
 cleanupPage() -> None
@@ -107,7 +43,7 @@ cleanupPage() -> None
 
 Called to reset the page's contents when the user clicks BACK.
 
-### validatePage
+#### validatePage
 
 ```python
 validatePage() -> bool
@@ -115,10 +51,24 @@ validatePage() -> bool
 
 Validate the page when the user clicks Next or Finish.
 
-### isComplete
+#### isComplete
 
 ```python
 isComplete() -> bool
 ```
 
 Called to determine whether the Next/Finish button should be enabled.
+
+## Attributes
+
+### SRC\_CONFIG
+
+```python
+SRC_CONFIG = 'src_config'
+```
+
+### EXISTING\_CONFIG
+
+```python
+EXISTING_CONFIG = 'EXISTING_CONFIG'
+```

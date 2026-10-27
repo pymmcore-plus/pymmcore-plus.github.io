@@ -1,128 +1,120 @@
 # Sequence
 
+An `MDASequence` describes a whole experiment: a plan for each axis (time, stage positions, grid, channels and z), and the order in which to iterate them. See [Building Sequences](<https://pymmcore-plus.github.io/useq-schema/guides/sequences/index.md>) for examples.
+
 ## useq.MDASequence
 
 Bases: `UseqModel`
 
 A sequence of MDA (Multi-Dimensional Acquisition) events.
 
-This is the core object in the `useq` library, and is used define a sequence of events to be run on a microscope. It object may be constructed manually, or from file (e.g. json or yaml).
+This is the core object in the `useq` library, and is used to define a sequence of events to be run on a microscope. The object may be constructed manually, or loaded from a file (JSON or YAML) with `MDASequence.from_file`.
 
-The object itself acts as an iterator for `useq.MDAEvent` objects:
+Iterating over the sequence yields `useq.MDAEvent` objects (see Examples).
 
 Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `metadata` | `dict[str, Any]` | A dictionary of user metadata to be stored with the sequence. |
+| `axis_order` | `tuple[str, ...]` | The order in which the axes are iterated, slowest first. May be given as a string (e.g. `"tpcz"`). Each axis may appear once, and axes that are left out are not iterated (even if they have a plan). The default is `"tpgcz"`. |
+| `stage_positions` | `WellPlatePlan \| tuple[AbsolutePosition, ...]` | The stage positions to visit (each with `x`, `y`, `z`, `name`, and `sequence`, all of which are optional), or a `WellPlatePlan`. |
+| `grid_plan` | `GridFromEdges \| GridFromPolygon \| GridRowsColumns \| GridWidthHeight \| RandomPoints \| RelativePosition \| None` | The grid plan to follow at each position, or `None`. |
+| `channels` | `tuple[Channel, ...]` | The channels to acquire. See `Channel`. |
+| `time_plan` | `MultiPhaseTimePlan \| TIntervalDuration \| TIntervalLoops \| TDurationLoops \| None` | The time plan to follow. One of `TIntervalDuration`, `TIntervalLoops`, `TDurationLoops`, `MultiPhaseTimePlan`, or `None` |
+| `z_plan` | `ZTopBottom \| ZAboveBelow \| ZRangeAround \| ZAbsolutePositions \| ZRelativePositions \| None` | The z plan to follow. One of `ZTopBottom`, `ZRangeAround`, `ZAboveBelow`, `ZRelativePositions`, `ZAbsolutePositions`, or `None`. Relative plans (`ZRangeAround`, `ZAboveBelow`, `ZRelativePositions`) are added to the `z` of each stage position; if a position has no `z` (or there are no positions), they are relative to `z=0`, *not* to the current focus. |
 | `uid` | `UUID` | A read-only unique identifier (uuid version 4) for the sequence. This will be generated, do not set. |
+| `autofocus_plan` | `AxesBasedAF \| None` | The hardware autofocus plan to follow. One of `AxesBasedAF` or `None`. |
+| `setup` | `MDAEvent \| None` | An optional setup event for the sequence. This event is **not** yielded during iteration; it is intended to be handled separately by the engine. It can be used to set hardware state (e.g. device properties, ROI) before the main acquisition events. By default, `None`. |
+| `keep_shutter_open_across` | `tuple[str, ...]` | A tuple of axes `str` across which the illumination shutter should be kept open. Resulting events will have `keep_shutter_open` set to `True` if and only if ALL axes whose indices are changing are in this tuple. For example, if `keep_shutter_open_across=('z',)`, then the shutter would be kept open between events axes {'t': 0, 'z': 0} and {'t': 0, 'z': 1}, but not between {'t': 0, 'z': 0} and {'t': 1, 'z': 0}. |
 
 Examples:
 
 Create a MDASequence
 
 ```pycon
->>> from useq import MDASequence, Position, Channel, TIntervalDuration
+>>> from useq import MDASequence
 >>> seq = MDASequence(
 ...     axis_order="tpgcz",
 ...     time_plan={"interval": 0.1, "loops": 2},
 ...     stage_positions=[(1, 1, 1)],
 ...     grid_plan={"rows": 2, "columns": 2},
 ...     z_plan={"range": 3, "step": 1},
-...     channels=[{"config": "DAPI", "exposure": 1}]
+...     channels=[{"config": "DAPI", "exposure": 1}],
 ... )
 ```
 
-Print the sequence to visualize its structure
+Look at the sequence to visualize its structure (only fields that were set are shown, and long outputs here are wrapped for readability)
 
 ```pycon
->>> print(seq)
-... MDASequence(
-...     stage_positions=(Position(x=1.0, y=1.0, z=1.0, name=None),),
-...     grid_plan=GridRowsColumns(
-...         fov_width=None,
-...         fov_height=None,
-...         overlap=(0.0, 0.0),
-...         mode=<OrderMode.row_wise_snake: 'row_wise_snake'>,
-...         rows=2,
-...         columns=2,
-...         relative_to=<RelativeTo.center: 'center'>
-...     ),
-...     channels=(
-...         Channel(
-...             config='DAPI',
-...             group='Channel',
-...             exposure=1.0,
-...             do_stack=True,
-...             z_offset=0.0,
-...             acquire_every=1,
-...             camera=None
-...         ),
-...     ),
-...     time_plan=TIntervalLoops(
-...         prioritize_duration=False,
-...         interval=datetime.timedelta(microseconds=100000),
-...         loops=2
-...     ),
-...     z_plan=ZRangeAround(go_up=True, range=3.0, step=1.0)
-... )
+>>> seq
+MDASequence(
+    stage_positions=(AbsolutePosition(x=1.0, y=1.0, z=1.0),),
+    grid_plan=GridRowsColumns(rows=2, columns=2),
+    channels=(Channel(config='DAPI', exposure=1.0),),
+    time_plan=TIntervalLoops(
+        interval=datetime.timedelta(microseconds=100000), loops=2
+    ),
+    z_plan=ZRangeAround(range=3.0, step=1.0),
+)
 ```
 
 Iterate over the events in the sequence
 
 ```pycon
->>> print(list(seq))
-... [
-...     MDAEvent(
-...         index=mappingproxy({'t': 0, 'p': 0, 'g': 0, 'c': 0, 'z': 0}),
-...         channel=Channel(config='DAPI'),
-...         exposure=1.0,
-...         min_start_time=0.0,
-...         x_pos=0.5,
-...         y_pos=1.5,
-...         z_pos=-0.5
-...     ),
-...     MDAEvent(
-...         index=mappingproxy({'t': 0, 'p': 0, 'g': 0, 'c': 0, 'z': 1}),
-...         channel=Channel(config='DAPI'),
-...         exposure=1.0,
-...         min_start_time=0.0,
-...         x_pos=0.5,
-...         y_pos=1.5,
-...         z_pos=0.5
-...     ),
-...     ...
-... ]
+>>> events = list(seq)
+>>> len(events)
+32
+>>> events[:2]
+[
+    MDAEvent(
+        index={'t': 0, 'p': 0, 'g': 0, 'c': 0, 'z': 0},
+        channel=Channel(config='DAPI'),
+        exposure=1.0,
+        min_start_time=0.0,
+        x_pos=0.5,
+        y_pos=1.5,
+        z_pos=-0.5,
+        reset_event_timer=True,
+    ),
+    MDAEvent(
+        index={'t': 0, 'p': 0, 'g': 0, 'c': 0, 'z': 1},
+        channel=Channel(config='DAPI'),
+        exposure=1.0,
+        min_start_time=0.0,
+        x_pos=0.5,
+        y_pos=1.5,
+        z_pos=0.5,
+    ),
+]
 ```
 
 Print the sequence as yaml
 
 ```pycon
 >>> print(seq.yaml())
-```
-
-```yaml
 axis_order:
-   - t
-   - p
-   - g
-   - c
-   - z
+- t
+- p
+- g
+- c
+- z
 channels:
-   - config: DAPI
-     exposure: 1.0
+- config: DAPI
+  exposure: 1.0
 grid_plan:
-   columns: 2
-   rows: 2
+  columns: 2
+  rows: 2
 stage_positions:
-   - x: 1.0
-     y: 1.0
-     z: 1.0
+- x: 1.0
+  y: 1.0
+  z: 1.0
 time_plan:
-   interval: '0:00:00.100000'
-   loops: 2
+  interval: 0.1
+  loops: 2
 z_plan:
-   range: 3.0
-   step: 1.0
+  range: 3.0
+  step: 1.0
 ```
 
 Create a sequence with a setup event
@@ -170,29 +162,6 @@ time_plan:
   interval: 1.0
   loops: 5
 ```
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `metadata` | `dict[str, Any]` | dict() -\> new empty dictionary dict(mapping) -\> new dictionary initialized from a mapping object's (key, value) pairs dict(iterable) -\> new dictionary initialized as if via: d = {} for k, v in iterable: d\[k\] = v dict(\*\*kwargs) -\> new dictionary initialized with the name=value pairs in the keyword argument list. For example: dict(one=1, two=2) | `<class 'dict'>` |
-| `axis_order` | `tuple[str, ...]` |  | `(<Axis.TIME: 't'>, <Axis.POSITION: 'p'>, <Axis.GRID: 'g'>, <Axis.CHANNEL: 'c'>, <Axis.Z: 'z'>)` |
-| `stage_positions` | `WellPlatePlan \| tuple[AbsolutePosition, ...]` | Built-in immutable sequence.<br><br>If no argument is given, the constructor returns an empty tuple. If iterable is specified the tuple is initialized from iterable's items.<br><br>If the argument is a tuple, the return value is the same object. | `<dynamic>` |
-| `grid_plan` | `GridFromEdges \| GridFromPolygon \| GridRowsColumns \| GridWidthHeight \| RandomPoints \| RelativePosition \| None` |  | `None` |
-| `channels` | `tuple[Channel, ...]` | Built-in immutable sequence.<br><br>If no argument is given, the constructor returns an empty tuple. If iterable is specified the tuple is initialized from iterable's items.<br><br>If the argument is a tuple, the return value is the same object. | `<dynamic>` |
-| `time_plan` | `MultiPhaseTimePlan \| TIntervalDuration \| TIntervalLoops \| TDurationLoops \| None` |  | `None` |
-| `z_plan` | `ZTopBottom \| ZAboveBelow \| ZRangeAround \| ZAbsolutePositions \| ZRelativePositions \| None` |  | `None` |
-| `autofocus_plan` | `AxesBasedAF \| None` |  | `None` |
-| `setup` | `MDAEvent \| None` |  | `None` |
-| `keep_shutter_open_across` | `tuple[str, ...]` | Built-in immutable sequence.<br><br>If no argument is given, the constructor returns an empty tuple. If iterable is specified the tuple is initialized from iterable's items.<br><br>If the argument is a tuple, the return value is the same object. | `<dynamic>` |
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `iter_axis` | Iterate over the positions or items of a given axis. |
-| `iter_events` | Iterate over all events in the MDA sequence. |
-| `estimate_duration` | Estimate duration and other timing issues of an MDASequence. |
 
 ### metadata
 
@@ -326,25 +295,26 @@ estimate_duration() -> TimeEstimate
 
 Estimate duration and other timing issues of an MDASequence.
 
-Notable mis-estimations may include: - when the time interval is shorter than the time it takes to acquire the data and any of the channels have `acquire_every` \> 1 - when channel exposure times are omitted. In this case, we assume 1ms exposure.
+Notable mis-estimations may include:
+
+- when the time interval is shorter than the time it takes to acquire the data and any of the channels have `acquire_every` \> 1
+- when channel exposure times are omitted. In this case, we assume 1ms exposure.
 
 Returns:
 
-| Type | Description |
-| --- | --- |
-| `TimeEstimate` | A named 3-tuple with the following fields: - total\_duration: float Estimated total duration of the experiment, in seconds. - per\_t\_duration: float Estimated duration of a single timepoint, in seconds. - time\_interval\_exceeded: bool Whether the time interval between timepoints is shorter than the time it takes to acquire the data |
+<table>       <thead>         <tr>           <th>Type</th>           <th>Description</th>         </tr>       </thead>       <tbody>           <tr class="doc-section-item">             <td>                   <code><autoref backlink-anchor="useq.MDASequence.estimate_duration" backlink-type="returned-by" hover="" identifier="useq._utils.TimeEstimate" optional="">TimeEstimate</autoref></code>             </td>             <td>               <div class="doc-md-description">                 <p>A named 3-tuple with the following fields:</p> <ul> <li><code>total_duration</code> (<code>float</code>): Estimated total duration of the experiment,   in seconds.</li> <li><code>per_t_duration</code> (<code>float</code>): Estimated duration of a single timepoint, in   seconds.</li> <li><code>time_interval_exceeded</code> (<code>bool</code>): Whether the time interval between   timepoints is shorter than the time it takes to acquire the data.</li> </ul>                </div>             </td>           </tr>       </tbody>     </table>
 
 ## How sequences are iterated
 
-Iterating an `MDASequence` yields `MDAEvent` objects. The logic lives in `iter_sequence`, which is shown here for reference:
+Iterating an `MDASequence` yields `MDAEvent` objects. The logic lives in `iter_sequence`, an implementation detail (it isn't part of the schema itself) that is shown here for reference:
 
-### useq.\_iter\_sequence.iter\_sequence
+### iter\_sequence
 
 ```python
 iter_sequence(sequence)
 ```
 
-Iterate over all events in the MDA sequence.'.
+Iterate over all events in the MDA sequence.
 
 > [!NOTE]
 >
@@ -352,7 +322,7 @@ Iterate over all events in the MDA sequence.'.
 
 This does the job of iterating over all the frames in the MDA sequence, handling the logic of merging all z plans in channels and stage positions defined in the plans for each axis.
 
-The is the most "logic heavy" part of `useq-schema` (the rest of which is almost entirely declarative). This iterator is useful for consuming `MDASequence` objects in a python runtime, but it isn't considered a "core" part of the schema.
+This is the most "logic heavy" part of `useq-schema` (the rest of which is almost entirely declarative). This iterator is useful for consuming `MDASequence` objects in a python runtime, but it isn't considered a "core" part of the schema.
 
 The `sequence.setup` event is not yielded during iteration. It is intended to be handled separately by an engine.
 

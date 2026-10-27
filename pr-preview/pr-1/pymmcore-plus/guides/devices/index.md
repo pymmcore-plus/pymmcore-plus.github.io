@@ -1,10 +1,10 @@
-# Device &amp; Property objects
+# Devices and Properties
 
-`pymmcore-plus` offers two classes that provide a more **object-oriented** interface to common operations and queries performed on devices and their properties.
+`pymmcore-plus` offers two classes that provide a more *object-oriented* interface to common operations and queries performed on devices and their properties.
 
-In the original `CMMCore` API, there are a lot of methods that accept a `deviceLabel` string as the first argument (and perhaps additional arguments) and query something about that device (e.g. `getDeviceLibrary`, `getDeviceType`, `waitForDevice`, etc...). In `pymmcore-plus`, the `Device` class acts as a "view" onto a specific device, and these methods are implemented as methods (that no longer require the `deviceLabel` argument), and the `deviceLabel` is passed to the constructor.
+In the original `CMMCore` API, there are a lot of methods that accept a `deviceLabel` string as the first argument (and perhaps additional arguments) and query something about that device (e.g. `getDeviceLibrary`, `getDeviceType`, `waitForDevice`, etc...). In `pymmcore-plus`, the `Device` class acts as a "view" onto a specific device. You pass the `deviceLabel` once (to the constructor), and these become methods that no longer need it.
 
-Similarly, there are many methods in the `CMMCore` API that require both a device label and a device property name, and modify that specific property (e.g. `isPropertySequenceable`, `getProperty`, `isPropertyReadOnly`, etc...). Here, the `DeviceProperty` class acts as a "view" onto a specific device property, with an object-oriented interface to these methods.
+Similarly, there are many methods in the `CMMCore` API that require both a device label and a device property name, and query or modify that property (e.g. `isPropertySequenceable`, `getProperty`, `isPropertyReadOnly`, etc...). Here, the `DeviceProperty` class acts as a "view" onto a specific device property, with an object-oriented interface to these methods.
 
 ```python
 from pymmcore_plus import CMMCorePlus
@@ -20,106 +20,47 @@ exposure.value = 42
 print(exposure.value, exposure.isReadOnly(), exposure.range())  # 42.0 False (0.0, 10000.0)
 ```
 
-> [!TIP]
->
-> **API reference**
->
-> See `Device`, `DeviceProperty`, and `DeviceAdapter` for the full API.
+To loop over the loaded devices or properties (optionally filtered by type, label, etc...), use `iterDevices` and `iterProperties`, which yield these same objects:
+
+```python
+from pymmcore_plus import DeviceType
+
+[dev.label for dev in core.iterDevices(DeviceType.Stage)]  # ['Z']
+[prop.name for prop in core.iterProperties(device_label="Camera", has_limits=True)]
+```
+
+See `Device`, `DeviceProperty` and `DeviceAdapter` (the same idea, for a device adapter library) for the full API.
 
 ## Property info
 
-`DeviceProperty.dict()` returns all information about a property as a typed dictionary:
-
-### InfoDict
-
-Bases: `TypedDict`
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `valid` | `ForwardRef('bool', module='pymmcore_plus.core._property')` |  | *required* |
-| `value` | `ForwardRef('Any \| None', module='pymmcore_plus.core._property')` |  | *required* |
-| `type` | `ForwardRef('str \| None', module='pymmcore_plus.core._property')` |  | *required* |
-| `device_type` | `ForwardRef('str \| None', module='pymmcore_plus.core._property')` |  | *required* |
-| `read_only` | `ForwardRef('bool \| None', module='pymmcore_plus.core._property')` |  | *required* |
-| `sequenceable` | `ForwardRef('bool \| None', module='pymmcore_plus.core._property')` |  | *required* |
-| `sequence_max_length` | `ForwardRef('int \| None', module='pymmcore_plus.core._property')` |  | *required* |
-| `pre_init` | `ForwardRef('bool \| None', module='pymmcore_plus.core._property')` |  | *required* |
-| `range` | `ForwardRef('tuple[float, float] \| None', module='pymmcore_plus.core._property')` |  | *required* |
-| `allowed_values` | `ForwardRef('tuple[str, ...] \| None', module='pymmcore_plus.core._property')` |  | *required* |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `valid` | `bool` |  |
-| `value` | `Any \| None` |  |
-| `type` | `str \| None` |  |
-| `device_type` | `str \| None` |  |
-| `read_only` | `bool \| None` |  |
-| `sequenceable` | `bool \| None` |  |
-| `sequence_max_length` | `int \| None` |  |
-| `pre_init` | `bool \| None` |  |
-| `range` | `tuple[float, float] \| None` |  |
-| `allowed_values` | `tuple[str, ...] \| None` |  |
-
-#### valid
+`DeviceProperty.dict()` returns everything about a property at once. Continuing the example above:
 
 ```python
-valid: bool
+>>> exposure.dict()
+{'valid': True,
+ 'value': 42.0,
+ 'type': 'number',
+ 'device_type': 'CameraDevice',
+ 'read_only': False,
+ 'sequenceable': False,
+ 'sequence_max_length': None,
+ 'pre_init': False,
+ 'range': (0.0, 10000.0),
+ 'allowed_values': ()}
 ```
 
-#### value
+(`range` is `None` for properties without limits, and `allowed_values` lists the choices for properties that have them, like the camera's `Binning`.)
+
+## Temporarily changing settings
+
+You may want to temporarily set something on the core (for example `core.setAutoShutter(False)` when writing an [MDA engine](<https://pymmcore-plus.github.io/pymmcore-plus/guides/custom_engine/index.md>)) and put it back afterwards. For this case you can use the convenience method `CMMCorePlus.setContext`:
 
 ```python
-value: Any | None
+with core.setContext(exposure=100, autoShutter=False):
+    print(core.getExposure(), core.getAutoShutter())  # 100.0 False
+    core.snapImage()
+
+print(core.getExposure(), core.getAutoShutter())  # back to the original values
 ```
 
-#### type
-
-```python
-type: str | None
-```
-
-#### device\_type
-
-```python
-device_type: str | None
-```
-
-#### read\_only
-
-```python
-read_only: bool | None
-```
-
-#### sequenceable
-
-```python
-sequenceable: bool | None
-```
-
-#### sequence\_max\_length
-
-```python
-sequence_max_length: int | None
-```
-
-#### pre\_init
-
-```python
-pre_init: bool | None
-```
-
-#### range
-
-```python
-range: tuple[float, float] | None
-```
-
-#### allowed\_values
-
-```python
-allowed_values: tuple[str, ...] | None
-```
+This works for any name that has matching `get<Name>` and `set<Name>` methods on the core (e.g. `exposure`, `autoShutter`, `shutterOpen`, `channelGroup`, etc...). The original values are restored when the `with` block exits, even if an exception was raised inside it.

@@ -2,92 +2,6 @@
 
 Screenshot generated from the [example below](<#example>).
 
-Bases: `QWidget`
-
-A Widget to control a XY and/or a Z stage.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `device` | `str` | Stage device. | *required* |
-| `levels` | `int` | Number of "arrow" buttons per widget per direction, by default, 2. | `2` |
-| `absolute_positioning` | `bool` | If True, the position displays can be edited to set absolute positions. If False, the position displays cannot be edited. | `False` |
-| `position_label_below` | `bool` | If True, the position displays will appear below the move buttons. If False, the position displays will appear to the right of the move buttons. | `True` |
-| `parent` | `QWidget \| None` | Optional parent widget. | `None` |
-| `mmcore` | `CMMCorePlus \| None` | Optional `pymmcore_plus.CMMCorePlus` micromanager core. By default, None. If not specified, the widget will use the active (or create a new) `CMMCorePlus.instance`. | `None` |
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `step` | Return the current step size. |
-| `setStep` | Set the step size. |
-| `enable_absolute_positioning` | Toggles whether the position spinboxes can be edited by the user. |
-| `timerEvent` |  |
-| `eventFilter` |  |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `BTN_SIZE` |  |  |
-| `snap_checkbox` |  |  |
-
-## BTN\_SIZE
-
-```python
-BTN_SIZE = 30
-```
-
-## snap\_checkbox
-
-```python
-snap_checkbox = QCheckBox(text='Snap on Click')
-```
-
-## step
-
-```python
-step() -> float
-```
-
-Return the current step size.
-
-## setStep
-
-```python
-setStep(step: float) -> None
-```
-
-Set the step size.
-
-## enable\_absolute\_positioning
-
-```python
-enable_absolute_positioning(enabled: bool) -> None
-```
-
-Toggles whether the position spinboxes can be edited by the user.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `enabled` | `bool` | If True, the position spinboxes will be enabled for user editing. If False, the position spinboxes will be disabled for user editing. | *required* |
-
-## timerEvent
-
-```python
-timerEvent(event: QTimerEvent | None) -> None
-```
-
-## eventFilter
-
-```python
-eventFilter(obj: QObject | None, event: QEvent | None) -> bool
-```
-
 ## Example
 
 examples/stage\_widget.py
@@ -106,7 +20,7 @@ from pymmcore_widgets import StageWidget
 
 app = QApplication([])
 
-mmc = CMMCorePlus().instance()
+mmc = CMMCorePlus.instance()
 mmc.loadSystemConfiguration()
 
 wdg = QWidget()
@@ -126,3 +40,56 @@ for stage in stages:
 wdg.show()
 app.exec()
 ```
+
+## API
+
+Bases: `QWidget`
+
+Arrow buttons to move an XY stage or a Z (focus) stage.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `device` | `str` | Label of the stage device (an XY stage or a single-axis stage). | *required* |
+| `levels` | `int` | Number of "arrow" buttons per direction (1 to 3), each moving a larger step than the last. By default, 2. | `2` |
+| `absolute_positioning` | `bool` | If True, the position displays can be edited to set absolute positions. If False (the default), the position displays cannot be edited. | `False` |
+| `position_label_below` | `bool` | If True (the default), the position displays appear below the move buttons. If False, they appear to the right of the move buttons. | `True` |
+| `parent` | `QWidget \| None` | Optional parent widget. | `None` |
+| `mmcore` | `CMMCorePlus \| None` | Optional `pymmcore_plus.CMMCorePlus` micromanager core. By default, None. If not specified, the widget will use the active (or create a new) `CMMCorePlus.instance`. | `None` |
+
+### BTN\_SIZE
+
+```python
+BTN_SIZE = 30
+```
+
+### step
+
+```python
+step() -> float
+```
+
+Return the current step size.
+
+### setStep
+
+```python
+setStep(step: float) -> None
+```
+
+Set the step size.
+
+### enable\_absolute\_positioning
+
+```python
+enable_absolute_positioning(enabled: bool) -> None
+```
+
+Toggles whether the position spinboxes can be edited by the user.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `enabled` | `bool` | If True, the position spinboxes will be enabled for user editing. If False, the position spinboxes will be disabled for user editing. | *required* |

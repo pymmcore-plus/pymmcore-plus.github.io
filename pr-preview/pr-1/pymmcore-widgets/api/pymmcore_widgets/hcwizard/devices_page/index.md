@@ -1,24 +1,16 @@
 # pymmcore\_widgets.hcwizard.devices\_page
 
-Classes:
+Config wizard, step 2: add and remove devices.
+
+**Classes**
 
 | Name | Description |
 | --- | --- |
 | `DevicesPage` | Page for adding and removing devices. |
 
-Attributes:
+## Classes
 
-| Name | Type | Description |
-| --- | --- | --- |
-| `logger` |  |  |
-
-## logger
-
-```python
-logger = logging.getLogger(__name__)
-```
-
-## DevicesPage
+### DevicesPage
 
 ```python
 DevicesPage(model: Microscope, core: CMMCorePlus)
@@ -28,32 +20,7 @@ Bases: `ConfigWizardPage`
 
 Page for adding and removing devices.
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `initializePage` | Called to prepare the page just before it is shown. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `current` |  |  |
-| `available` |  |  |
-
-### current
-
-```python
-current = _CurrentDevicesWidget(model, core)
-```
-
-### available
-
-```python
-available = _AvailableDevicesWidget(model, core)
-```
-
-### initializePage
+#### initializePage
 
 ```python
 initializePage() -> None

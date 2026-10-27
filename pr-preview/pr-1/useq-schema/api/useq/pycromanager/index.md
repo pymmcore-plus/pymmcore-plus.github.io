@@ -1,167 +1,134 @@
 # useq.pycromanager
 
-Classes:
+Convert useq objects to the event dicts used by [Pycro-Manager](<https://pycro-manager.readthedocs.io>).
+
+**Classes**
 
 | Name | Description |
 | --- | --- |
 | `PycroManagerAxes` | Axes dict used by pycro-manager. |
 | `PycroManagerEvent` | Dict in the format expected by pycro-manager. |
 
-Functions:
+**Functions**
 
 | Name | Description |
 | --- | --- |
 | `to_pycromanager` | Convert a `useq.MDAEvent` or `useq.MDASequence` to pycro-manager form. |
 
-Attributes:
+**Attributes**
 
-| Name | Type | Description |
-| --- | --- | --- |
-| `PycroAxis` |  |  |
-| `PycroKey` |  |  |
+| Name | Description |
+| --- | --- |
+| `PycroAxis` |  |
+| `PycroKey` |  |
 
-## PycroAxis
+## Classes
 
-```python
-PycroAxis = Literal['time', 'position', 'z', 'channel', 'row', 'column']
-```
-
-## PycroKey
-
-```python
-PycroKey = Literal[
-    "x", "y", "z", "exposure", "min_start_time", "keep_shutter_open"
-]
-```
-
-## PycroManagerAxes
+### PycroManagerAxes
 
 Bases: `TypedDict`
 
 Axes dict used by pycro-manager.
 
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `time` | `int` |  |
-| `position` | `int` |  |
-| `z` | `int` |  |
-| `channel` | `str` |  |
-| `row` | `int` |  |
-| `column` | `int` |  |
-
-### time
+#### time
 
 ```python
 time: int
 ```
 
-### position
+#### position
 
 ```python
 position: int
 ```
 
-### z
+#### z
 
 ```python
 z: int
 ```
 
-### channel
+#### channel
 
 ```python
 channel: str
 ```
 
-### row
+#### row
 
 ```python
 row: int
 ```
 
-### column
+#### column
 
 ```python
 column: int
 ```
 
-## PycroManagerEvent
+### PycroManagerEvent
 
 Bases: `TypedDict`
 
 Dict in the format expected by pycro-manager.
 
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `axes` | `Required[PycroManagerAxes]` |  |
-| `x` | `float` |  |
-| `y` | `float` |  |
-| `z` | `float` |  |
-| `min_start_time` | `float` |  |
-| `config_group` | `list[str]` |  |
-| `exposure` | `float` |  |
-| `properties` | `list[list[str]]` |  |
-| `keep_shutter_open` | `bool` |  |
-
-### axes
+#### axes
 
 ```python
 axes: Required[PycroManagerAxes]
 ```
 
-### x
+#### x
 
 ```python
 x: float
 ```
 
-### y
+#### y
 
 ```python
 y: float
 ```
 
-### z
+#### z
 
 ```python
 z: float
 ```
 
-### min\_start\_time
+#### min\_start\_time
 
 ```python
 min_start_time: float
 ```
 
-### config\_group
+#### config\_group
 
 ```python
 config_group: list[str]
 ```
 
-### exposure
+#### exposure
 
 ```python
 exposure: float
 ```
 
-### properties
+#### properties
 
 ```python
 properties: list[list[str]]
 ```
 
-### keep\_shutter\_open
+#### keep\_shutter\_open
 
 ```python
 keep_shutter_open: bool
 ```
 
-## to\_pycromanager
+## Functions
+
+### to\_pycromanager
 
 ```python
 to_pycromanager(obj: MDAEvent) -> PycroManagerEvent
@@ -190,3 +157,19 @@ Returns:
 | Type | Description |
 | --- | --- |
 | `PycroManagerEvent \| list[PycroManagerEvent]` | If `obj` is an `useq.MDAEvent`, returns a single pycro-manager event dict. Otherwise, returns a list of pycro-manager event dicts. |
+
+## Attributes
+
+### PycroAxis
+
+```python
+PycroAxis = Literal['time', 'position', 'z', 'channel', 'row', 'column']
+```
+
+### PycroKey
+
+```python
+PycroKey = Literal[
+    "x", "y", "z", "exposure", "min_start_time", "keep_shutter_open"
+]
+```

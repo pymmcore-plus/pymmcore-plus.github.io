@@ -1,24 +1,22 @@
 # pymmcore\_widgets.hcwizard.finish\_page
 
-Classes:
+Config wizard, last step: save the configuration file.
+
+**Classes**
 
 | Name | Description |
 | --- | --- |
 | `FinishPage` | Page for saving the configuration file. |
 
-Attributes:
+**Attributes**
 
-| Name | Type | Description |
-| --- | --- | --- |
-| `DEST_CONFIG` |  |  |
+| Name | Description |
+| --- | --- |
+| `DEST_CONFIG` |  |
 
-## DEST\_CONFIG
+## Classes
 
-```python
-DEST_CONFIG = 'dest_config'
-```
-
-## FinishPage
+### FinishPage
 
 ```python
 FinishPage(model: Microscope, core: CMMCorePlus)
@@ -28,33 +26,7 @@ Bases: `ConfigWizardPage`
 
 Page for saving the configuration file.
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `initializePage` | Called to prepare the page just before it is shown. |
-| `validatePage` | Validate. the page when the user clicks Next or Finish. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `file_edit` |  |  |
-| `select_file_btn` |  |  |
-
-### file\_edit
-
-```python
-file_edit = QLineEdit()
-```
-
-### select\_file\_btn
-
-```python
-select_file_btn = QPushButton('Browse...')
-```
-
-### initializePage
+#### initializePage
 
 ```python
 initializePage() -> None
@@ -62,10 +34,18 @@ initializePage() -> None
 
 Called to prepare the page just before it is shown.
 
-### validatePage
+#### validatePage
 
 ```python
 validatePage() -> bool
 ```
 
 Validate. the page when the user clicks Next or Finish.
+
+## Attributes
+
+### DEST\_CONFIG
+
+```python
+DEST_CONFIG = 'dest_config'
+```

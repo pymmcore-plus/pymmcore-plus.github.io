@@ -15,12 +15,14 @@
       
         <link rel="describedby" href="../llms.txt">
         
+          <link rel="alternate" type="text/markdown" href="./index.md">
+        
       
       
-        <link rel="prev" href="../pymmcore-plus/examples/context-set/">
+        <link rel="prev" href="../pymmcore-plus/guides/ipython_completion/">
       
       
-        <link rel="next" href="./v2-migration/">
+        <link rel="next" href="./guides/sequences/">
       
       
         
@@ -31,7 +33,7 @@
     
     
       
-        <title>Overview - pymmcore-plus</title>
+        <title>useq-schema - pymmcore-plus</title>
       
     
     
@@ -102,9 +104,8 @@
               </button>
             
             
-  The pymmcore-plus, useq-schema, pymmcore-widgets, pymmcore-gui and
-  napari-micromanager docs now live together on one site.
-  <a href="../guide/"><strong>Explore the new User Guide</strong></a>
+  The pymmcore-plus docs are now one site.
+  <a href="https://github.com/pymmcore-plus/pymmcore-plus.github.io/issues/new">Report a problem</a>
 
           </div>
           
@@ -142,7 +143,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              useq-schema
             
           </span>
         </div>
@@ -250,8 +251,6 @@
       
       
         
-          
-        
       
         
       
@@ -268,7 +267,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../getting-started/" class="md-tabs__link">
+        <a href="../getting-started/which-package/" class="md-tabs__link">
           
   
   Getting Started
@@ -480,8 +479,6 @@
     
       
         
-          
-        
       
         
       
@@ -509,9 +506,8 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../getting-started/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -524,14 +520,8 @@
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         
           <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
@@ -544,6 +534,31 @@
             </label>
             <ul class="md-nav__list" data-md-scrollfix>
               
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/which-package/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Which Package Do I Need?
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
                 
               
                 
@@ -580,33 +595,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../pymmcore-plus/install/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  Micro-Manager device adapters
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../getting-started/first-steps/" class="md-nav__link">
         
   
@@ -614,7 +602,7 @@
   <span class="md-ellipsis">
     
   
-  First steps
+  First Steps
 
     
   </span>
@@ -641,7 +629,7 @@
   <span class="md-ellipsis">
     
   
-  Your first acquisition
+  Your First Acquisition
 
     
   </span>
@@ -668,7 +656,34 @@
   <span class="md-ellipsis">
     
   
-  Your first GUI
+  Your First GUI
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/from-micro-manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Coming from Micro-Manager
 
     
   </span>
@@ -821,7 +836,7 @@
   <span class="md-ellipsis">
     
   
-  Controlling hardware
+  Controlling Hardware
 
     
   </span>
@@ -837,10 +852,64 @@
               <span class="md-nav__icon md-icon"></span>
               
   
-  Controlling hardware
+  Controlling Hardware
 
             </label>
             <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pymmcore-plus/install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Micro-Manager Device Adapters
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/own-microscope/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Using Your Own Microscope
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
               
                 
                   
@@ -856,7 +925,7 @@
   <span class="md-ellipsis">
     
   
-  Device &amp; Property objects
+  Devices and Properties
 
     
   </span>
@@ -883,34 +952,7 @@
   <span class="md-ellipsis">
     
   
-  Configuration &amp; Groups
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/guides/constants/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  Constants
+  Configuration and Groups
 
     
   </span>
@@ -957,41 +999,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../pymmcore-plus/examples/following_changes_in_core/" class="md-nav__link">
+      <a href="../pymmcore-plus/guides/ipython_completion/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-  Follow changes in MMCore
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/examples/context-set/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  Set as a Context
+  IPython Tab Completion
 
     
   </span>
@@ -1057,7 +1072,7 @@
   <span class="md-ellipsis">
     
   
-  Describing experiments
+  Describing Experiments
 
     
   </span>
@@ -1079,7 +1094,7 @@
               <span class="md-nav__icon md-icon"></span>
               
   
-  Describing experiments
+  Describing Experiments
 
             </label>
             <ul class="md-nav__list" data-md-scrollfix>
@@ -1093,14 +1108,14 @@
   
   
     <li class="md-nav__item">
-      <a href="./v2-migration/" class="md-nav__link">
+      <a href="./guides/sequences/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-  v2 Migration Guide
+  Building Sequences
 
     
   </span>
@@ -1165,7 +1180,7 @@
   <span class="md-ellipsis">
     
   
-  Running acquisitions
+  Running Acquisitions
 
     
   </span>
@@ -1181,7 +1196,7 @@
               <span class="md-nav__icon md-icon"></span>
               
   
-  Running acquisitions
+  Running Acquisitions
 
             </label>
             <ul class="md-nav__list" data-md-scrollfix>
@@ -1220,14 +1235,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../pymmcore-plus/examples/mda/" class="md-nav__link">
+      <a href="../pymmcore-plus/guides/saving_data/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-  Multidimensional Acquisition
+  Saving Data
 
     
   </span>
@@ -1313,9 +1328,9 @@
     
       
         
-      
-        
           
+        
+      
         
       
         
@@ -1375,6 +1390,8 @@
             <ul class="md-nav__list" data-md-scrollfix>
               
                 
+              
+                
                   
   
   
@@ -1388,7 +1405,7 @@
   <span class="md-ellipsis">
     
   
-  Getting Started
+  Building a Custom GUI
 
     
   </span>
@@ -1399,8 +1416,6 @@
     </li>
   
 
-                
-              
                 
               
                 
@@ -1716,7 +1731,7 @@
   <span class="md-ellipsis">
     
   
-  Getting Started
+  Install and Launch
 
     
   </span>
@@ -1743,7 +1758,7 @@
   <span class="md-ellipsis">
     
   
-  Scripting napari-micromanager
+  Scripting
 
     
   </span>
@@ -1782,10 +1797,6 @@
   
     
     
-      
-        
-      
-        
       
         
       
@@ -1819,7 +1830,7 @@
   <span class="md-ellipsis">
     
   
-  Advanced topics
+  Advanced Topics
 
     
   </span>
@@ -1835,7 +1846,7 @@
               <span class="md-nav__icon md-icon"></span>
               
   
-  Advanced topics
+  Advanced Topics
 
             </label>
             <ul class="md-nav__list" data-md-scrollfix>
@@ -1874,68 +1885,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../pymmcore-plus/guides/logging/" class="md-nav__link">
+      <a href="./v2-migration/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-  Logging
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/profiling/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  Performance Profiling
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/guides/ipython_completion/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  IPython Tab Completion
+  useq-schema v2 (Preview)
 
     
   </span>
@@ -1962,7 +1919,7 @@
   <span class="md-ellipsis">
     
   
-  Pycro-manager like API
+  Pycro-Manager-Style API
 
     
   </span>
@@ -1992,6 +1949,10 @@
   
     
     
+      
+        
+      
+        
       
         
       
@@ -2058,7 +2019,7 @@
   <span class="md-ellipsis">
     
   
-  Troubleshooting
+  Core and Device Adapters
 
     
   </span>
@@ -2085,7 +2046,61 @@
   <span class="md-ellipsis">
     
   
-  Troubleshooting
+  Qt and Widgets
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pymmcore-plus/guides/logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Logging
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pymmcore-plus/profiling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Performance Profiling
 
     
   </span>
@@ -2200,6 +2215,10 @@
       
         
           
+        
+      
+        
+      
         
       
         
@@ -2378,87 +2397,6 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/install/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>install
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/mocks/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>mocks
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/seq_tester/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>seq_tester
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
     
     
       
@@ -2481,7 +2419,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_3" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -2502,15 +2440,15 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_2_2_6" id="__nav_4_2_2_6_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4_2_2_3" id="__nav_4_2_2_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         
-          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_2_2_6_label" aria-expanded="false">
-            <label class="md-nav__title" for="__nav_4_2_2_6">
+          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_2_2_3_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4_2_2_3">
               <span class="md-nav__icon md-icon"></span>
               
   
@@ -2547,7 +2485,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_6_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_3_2" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -2615,7 +2553,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_4" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -2636,15 +2574,15 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_2_2_7" id="__nav_4_2_2_7_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4_2_2_4" id="__nav_4_2_2_4_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         
-          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_2_2_7_label" aria-expanded="false">
-            <label class="md-nav__title" for="__nav_4_2_2_7">
+          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_2_2_4_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4_2_2_4">
               <span class="md-nav__icon md-icon"></span>
               
   
@@ -2681,7 +2619,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_7_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_4_2" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -2723,10 +2661,6 @@
           
         
       
-        
-      
-        
-      
     
     
     
@@ -2740,7 +2674,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_7_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_4_3" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -2760,127 +2694,6 @@
 
             </a>
             
-              
-              <label class="md-nav__link " for="__nav_4_2_2_7_3" id="__nav_4_2_2_7_3_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        
-          <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_4_2_2_7_3_label" aria-expanded="false">
-            <label class="md-nav__title" for="__nav_4_2_2_7_3">
-              <span class="md-nav__icon md-icon"></span>
-              
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>unicore
-
-            </label>
-            <ul class="md-nav__list" data-md-scrollfix>
-              
-                
-              
-                
-                  
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_7_3_2" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../pymmcore-plus/api/pymmcore_plus/experimental/unicore/core/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>core
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-          </div>
-        
-        
-      
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_7_3_3" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../pymmcore-plus/api/pymmcore_plus/experimental/unicore/devices/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>devices
-
-    
-  </span>
-  
-  
-
-            </a>
-            
           </div>
         
         
@@ -2899,10 +2712,28 @@
 
                 
               
-            </ul>
-          </nav>
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pymmcore-plus/api/pymmcore_plus/install/" class="md-nav__link">
         
-      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>install
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -2938,7 +2769,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_6" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -2959,15 +2790,15 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_2_2_8" id="__nav_4_2_2_8_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4_2_2_6" id="__nav_4_2_2_6_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         
-          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_2_2_8_label" aria-expanded="false">
-            <label class="md-nav__title" for="__nav_4_2_2_8">
+          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_2_2_6_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4_2_2_6">
               <span class="md-nav__icon md-icon"></span>
               
   
@@ -3004,7 +2835,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_8_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_6_2" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -3059,7 +2890,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_8_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_6_3" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -3114,40 +2945,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
     
     
     
@@ -3161,7 +2958,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_7" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -3182,15 +2979,15 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_2_2_9" id="__nav_4_2_2_9_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4_2_2_7" id="__nav_4_2_2_7_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         
-          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_2_2_9_label" aria-expanded="false">
-            <label class="md-nav__title" for="__nav_4_2_2_9">
+          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_2_2_7_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4_2_2_7">
               <span class="md-nav__icon md-icon"></span>
               
   
@@ -3208,438 +3005,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-class'></code>ConfigGroup
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-class'></code>ConfigPreset
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-class'></code>DeviceInfo
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-class'></code>FrameMetaV1
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-class'></code>ImageInfo
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-class'></code>PixelSizeConfigPreset
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-class'></code>Position
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-class'></code>PropertyInfo
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-class'></code>PropertyValue
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-class'></code>StagePosition
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-class'></code>SummaryMetaV1
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-class'></code>SystemInfo
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-function'></code>frame_metadata
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-attribute'></code>json_dumps
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-function'></code>summary_metadata
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-attribute'></code>to_builtins
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../pymmcore-plus/api/pymmcore_plus/metadata/functions/" class="md-nav__link">
         
   
@@ -3648,33 +3013,6 @@
     
   
   <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>functions
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-plus/api/pymmcore_plus/metadata/schema/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>schema
 
     
   </span>
@@ -3729,6 +3067,33 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../pymmcore-plus/api/pymmcore_plus/mocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>mocks
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
     
     
       
@@ -3749,7 +3114,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2_9" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -3778,10 +3143,91 @@
 
                 
               
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pymmcore-plus/api/pymmcore_plus/seq_tester/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>seq_tester
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
             </ul>
           </nav>
         
       
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pymmcore-plus/guides/constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Constants
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pymmcore-plus/reference/events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Events
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -3801,7 +3247,7 @@
   <span class="md-ellipsis">
     
   
-  Command line (mmcore)
+  Command Line (mmcore)
 
     
   </span>
@@ -3828,7 +3274,7 @@
   <span class="md-ellipsis">
     
   
-  Environment variables
+  Environment Variables
 
     
   </span>
@@ -4038,8 +3484,6 @@
       
         
       
-        
-      
     
     
     
@@ -4147,61 +3591,6 @@
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_5_3" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="./api/useq/experimental/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>experimental
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-          </div>
-        
-        
-      
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_5_4" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -4327,14 +3716,6 @@
       
         
           
-        
-      
-        
-      
-        
-      
-        
-      
         
       
         
@@ -5363,33 +4744,6 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../pymmcore-widgets/api/pymmcore_widgets/experimental/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>experimental
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
     
     
       
@@ -5410,7 +4764,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_36" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_35" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -5465,62 +4819,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_37" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../pymmcore-widgets/api/pymmcore_widgets/control/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>control
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-          </div>
-        
-        
-      
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_38" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_36" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -5555,50 +4854,22 @@
   
   
   
-    
-    
-      
+    <li class="md-nav__item">
+      <a href="../pymmcore-widgets/api/pymmcore_widgets/experimental/" class="md-nav__link">
         
-          
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_39" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../pymmcore-widgets/api/pymmcore_widgets/hcs/" class="md-nav__link ">
-              
   
   
   <span class="md-ellipsis">
     
   
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>hcs
+  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>experimental
 
     
   </span>
   
   
 
-            </a>
-            
-          </div>
-        
-        
-      
+      </a>
     </li>
   
 
@@ -5629,8 +4900,6 @@
       
         
       
-        
-      
     
     
     
@@ -5644,7 +4913,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_40" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_38" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -5665,15 +4934,15 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_4_2_40" id="__nav_4_4_2_40_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4_4_2_38" id="__nav_4_4_2_38_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         
-          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_2_40_label" aria-expanded="false">
-            <label class="md-nav__title" for="__nav_4_4_2_40">
+          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_2_38_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4_4_2_38">
               <span class="md-nav__icon md-icon"></span>
               
   
@@ -5682,33 +4951,6 @@
             </label>
             <ul class="md-nav__list" data-md-scrollfix>
               
-                
-              
-                
-                  
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pymmcore-widgets/api/pymmcore_widgets/hcwizard/config_wizard/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>config_wizard
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
                 
               
                 
@@ -5895,61 +5137,6 @@
           
         
       
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_41" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../pymmcore-widgets/api/pymmcore_widgets/mda/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>mda
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-          </div>
-        
-        
-      
-    </li>
-  
-
-                
-              
-                
-                  
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
         
       
     
@@ -5965,7 +5152,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_42" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_39" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -5986,15 +5173,15 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_4_2_42" id="__nav_4_4_2_42_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4_4_2_39" id="__nav_4_4_2_39_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         
-          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_2_42_label" aria-expanded="false">
-            <label class="md-nav__title" for="__nav_4_4_2_42">
+          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_2_39_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4_4_2_39">
               <span class="md-nav__icon md-icon"></span>
               
   
@@ -6031,7 +5218,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_42_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_39_2" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -6069,61 +5256,6 @@
 
                 
               
-                
-                  
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2_43" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../pymmcore-widgets/api/pymmcore_widgets/views/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>views
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-          </div>
-        
-        
-      
-    </li>
-  
-
-                
-              
             </ul>
           </nav>
         
@@ -6150,12 +5282,6 @@
   
     
     
-      
-        
-          
-        
-      
-        
       
         
       
@@ -6175,9 +5301,8 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../pymmcore-gui/api/pymmcore_gui/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -6190,14 +5315,8 @@
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         
           <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
@@ -6206,6 +5325,74 @@
               
   
   pymmcore-gui
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../pymmcore-gui/api/pymmcore_gui/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>pymmcore_gui
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_5_1" id="__nav_4_5_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        
+          <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_5_1_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4_5_1">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  <code class='doc-symbol doc-symbol-nav doc-symbol-module'></code>pymmcore_gui
 
             </label>
             <ul class="md-nav__list" data-md-scrollfix>
@@ -6242,7 +5429,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5_1_2" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -6263,15 +5450,15 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_5_2" id="__nav_4_5_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4_5_1_2" id="__nav_4_5_1_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         
-          <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_5_2_label" aria-expanded="false">
-            <label class="md-nav__title" for="__nav_4_5_2">
+          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_5_1_2_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4_5_1_2">
               <span class="md-nav__icon md-icon"></span>
               
   
@@ -6373,7 +5560,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5_1_3" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -6394,15 +5581,15 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_5_3" id="__nav_4_5_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4_5_1_3" id="__nav_4_5_1_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         
-          <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_5_3_label" aria-expanded="false">
-            <label class="md-nav__title" for="__nav_4_5_3">
+          <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_5_1_3_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4_5_1_3">
               <span class="md-nav__icon md-icon"></span>
               
   
@@ -6439,7 +5626,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5_3_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5_1_3_2" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -6461,6 +5648,15 @@
             
           </div>
         
+        
+      
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
         
       
     </li>
@@ -6580,7 +5776,7 @@
   <span class="md-ellipsis">
     
   
-  How these docs work
+  How These Docs Work
 
     
   </span>
@@ -6607,7 +5803,7 @@
   <span class="md-ellipsis">
     
   
-  Contributing
+  Developing pymmcore-plus
 
     
   </span>
@@ -6634,7 +5830,7 @@
   <span class="md-ellipsis">
     
   
-  Contributing
+  Developing pymmcore-widgets
 
     
   </span>
@@ -6696,15 +5892,26 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#core-schema" class="md-nav__link">
+  <a href="#a-quick-example" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Core Schema
+        A quick example
       </span>
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Core Schema">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Core schema
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core schema">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -6749,7 +5956,29 @@
   <a href="#serialization-and-deserialization" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Serialization and Deserialization
+        Serialization and deserialization
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-about-useqv2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        What about <code>useq.v2</code>?
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Next steps
       </span>
     </span>
   </a>
@@ -6857,7 +6086,7 @@
           
   
   <span class="md-ellipsis">
-    Describing experiments
+    Describing Experiments
   </span>
 
         </a>
@@ -6874,6 +6103,11 @@
                 <a id="__skip" tabindex="-1"></a>
                 
                   
+
+  <button type="button" title="Copy as Markdown" aria-label="Copy as Markdown" class="md-content__button md-icon" data-md-copy-url="./index.md">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21H8V7h11m0-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2m-3-4H4a2 2 0 0 0-2 2v14h2V3h12z"/></svg>
+  </button>
 
 
   
@@ -6893,99 +6127,123 @@
 
   <div class="pymm-package-badge">
     <a href="././" class="pymm-package-badge__name">useq-schema</a>
+    
     <a href="https://pypi.org/project/useq-schema/" class="pymm-package-badge__pypi" title="useq-schema on PyPI">
       <img alt="PyPI version" src="https://img.shields.io/pypi/v/useq-schema?label=&color=gray&style=flat-square" loading="lazy">
     </a>
+    
     <a href="https://github.com/pymmcore-plus/useq-schema" class="pymm-package-badge__repo" title="pymmcore-plus/useq-schema on GitHub">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
     </a>
   </div>
 
 
-<h1 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h1>
-<div class="admonition info">
-<p><div style="font-size: 1rem; padding: 10px;">
-<code>useq-schema</code> is an implementation agnostic schema for describing a
-sequence of events during a multi-dimensional imaging acquisition.
-</div></p>
-</div>
-<p>The goal of this repo is to provide a <strong>specification</strong> (and some python utilities)
-for generating event objects that can be consumed by microscope acquisition
-engines. A <em>hope</em> is that this will encourage inter-operability between
-various efforts to drive automated image acquisition.</p>
+<h1 id="useq-schema">useq-schema<a class="headerlink" href="#useq-schema" title="Permanent link">&para;</a></h1>
+<p><code>useq-schema</code> (imported as <code>useq</code>) is an implementation-agnostic schema for
+describing a sequence of events during a multi-dimensional imaging acquisition:
+the time points, stage positions, channels, z-planes, etc... that you want to
+acquire.  It describes <em>what</em> to do, and leaves it to an acquisition engine (such
+as the one in <a href="../pymmcore-plus/guides/mda_engine/">pymmcore-plus</a>) to
+actually do it.</p>
+<p>The goal of useq-schema is to provide a <strong>specification</strong> (and some python
+utilities) for generating event objects that can be consumed by microscope
+acquisition engines. A <em>hope</em> is that this will encourage inter-operability
+between various efforts to drive automated image acquisition.</p>
 <p>The schema <em>tries</em> to remain agnostic to the specific acquisition engine (though
-it was designed based on the capabilities
+it was designed based on the capabilities of
 <a href="https://micro-manager.org">Micro-Manager</a>). We welcome feedback from interested
 parties regarding limitations and/or potential extensions to the schema!
 Similarly, while the "ideal" schema will support arbitrary dimensions (i.e. more
-than the conventional position, time, channel, z, ...), it also hard to avoid
+than the conventional position, time, channel, z, ...), it is also hard to avoid
 hard-coding some assumptions about dimensionality in certain places.  Any and
 all feedback (even minor stuff, such as parameter naming, etc...) is welcome!
 Please <a href="https://github.com/pymmcore-plus/useq-schema/issues/new">open an issue</a>.</p>
-<h2 id="core-schema">Core Schema<a class="headerlink" href="#core-schema" title="Permanent link">&para;</a></h2>
+<h2 id="a-quick-example">A quick example<a class="headerlink" href="#a-quick-example" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">useq</span><span class="w"> </span><span class="kn">import</span> <span class="n">MDASequence</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">mda_seq</span> <span class="o">=</span> <span class="n">MDASequence</span><span class="p">(</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">stage_positions</span><span class="o">=</span><span class="p">[(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">35</span><span class="p">)],</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">channels</span><span class="o">=</span><span class="p">[</span><span class="s2">"DAPI"</span><span class="p">,</span> <span class="s2">"FITC"</span><span class="p">],</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">time_plan</span><span class="o">=</span><span class="p">{</span><span class="s2">"interval"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"loops"</span><span class="p">:</span> <span class="mi">20</span><span class="p">},</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">z_plan</span><span class="o">=</span><span class="p">{</span><span class="s2">"range"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"step"</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">axis_order</span><span class="o">=</span><span class="s2">"tpcz"</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The <code>MDASequence</code> object is iterable, yielding <code>MDAEvent</code> objects in the order
+specified by the <code>axis_order</code> attribute:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">mda_seq</span><span class="o">.</span><span class="n">sizes</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span><span class="s1">'t'</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">'p'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">'z'</span><span class="p">:</span> <span class="mi">9</span><span class="p">}</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">events</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mda_seq</span><span class="p">)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="mi">720</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">events</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">MDAEvent</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">{</span><span class="s1">'t'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">'p'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">'z'</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="n">channel</span><span class="o">=</span><span class="n">Channel</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s1">'DAPI'</span><span class="p">),</span> <span class="n">min_start_time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">x_pos</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">y_pos</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">z_pos</span><span class="o">=</span><span class="mf">28.5</span><span class="p">)</span>
+</span></code></pre></div>
+<p><a href="guides/sequences/">Building Sequences</a> walks through the common cases (time
+series, z-stacks, grids, skipping channels, etc...).</p>
+<h2 id="core-schema">Core schema<a class="headerlink" href="#core-schema" title="Permanent link">&para;</a></h2>
 <h3 id="mdaevent"><code>MDAEvent</code><a class="headerlink" href="#mdaevent" title="Permanent link">&para;</a></h3>
-<p>The primary "event" object is <a class="autorefs autorefs-internal" title="&lt;code class=&quot;doc-symbol doc-symbol-heading doc-symbol-class&quot;&gt;&lt;/code&gt;            &lt;span class=&quot;doc doc-object-name doc-class-name&quot;&gt;useq.MDAEvent&lt;/span&gt;" href="schema/event/#useq.MDAEvent"><code>useq.MDAEvent</code></a>.  This describes a single event
+<p>The primary "event" object is <a class="autorefs autorefs-internal" href="schema/event/#useq.MDAEvent"><code>useq.MDAEvent</code></a>.  This describes a single event
 that a microscope should perform, including preparation of the hardware, and
 execution of the event (such as an image acquisition).</p>
 <ul>
-<li>For <a href="https://github.com/micro-manager/micro-manager">micro-manager</a>, this
+<li>For <a href="https://github.com/micro-manager/micro-manager">Micro-Manager</a>, this
   object is most similar (though not identical) to the events generated by
   <a href="https://github.com/micro-manager/micro-manager/blob/2b0f51a2f916112d39c6135ad35a112065f8d58d/acqEngine/src/main/clj/org/micromanager/sequence_generator.clj#L410"><code>generate-acq-sequence</code></a>
-  in the clojure acquisition engine that drives Micro-Managers multi-dimensional
+  in the clojure acquisition engine that drives Micro-Manager's multi-dimensional
   acquisitions.</li>
-<li>For <a href="https://github.com/micro-manager/pycro-manager">Pycro-manager</a>, this
+<li>For <a href="https://github.com/micro-manager/pycro-manager">Pycro-Manager</a>, this
   object is similar to an individual <a href="https://pycro-manager.readthedocs.io/en/latest/apis.html#acquisition-event-specification">acquisition event
   <code>dict</code></a>
   generated by
   <a href="https://github.com/micro-manager/pycro-manager/blob/63cf209a8907fd23932ee9f8016cb6a2b61b45aa/pycromanager/acquire.py#L605"><code>multi_d_acquisition_events</code></a>,
-  (and, <code>useq.pycromanager</code> provides a <code>to_pycromanager</code> method
+  (and, <code>useq.pycromanager</code> provides a <code>to_pycromanager</code> function
   that returns a dict following the pycro-manager event spec)</li>
-<li><em>your object here?...</em></li>
 </ul>
 <h3 id="mdasequence"><code>MDASequence</code><a class="headerlink" href="#mdasequence" title="Permanent link">&para;</a></h3>
-<p><a class="autorefs autorefs-internal" title="&lt;code class=&quot;doc-symbol doc-symbol-heading doc-symbol-class&quot;&gt;&lt;/code&gt;            &lt;span class=&quot;doc doc-object-name doc-class-name&quot;&gt;useq.MDASequence&lt;/span&gt;" href="schema/sequence/#useq.MDASequence"><code>useq.MDASequence</code></a> represents a <strong>sequence</strong> of events – as might be
+<p><a class="autorefs autorefs-internal" href="schema/sequence/#useq.MDASequence"><code>useq.MDASequence</code></a> represents a <strong>sequence</strong> of events, as might be
 generated by the multidimensional acquisition GUI in most microscope software.
 The Python <code>MDASequence</code> object is itself
 <a href="schema/sequence/#how-sequences-are-iterated">iterable</a>, and yields
-<a class="autorefs autorefs-internal" title="&lt;code class=&quot;doc-symbol doc-symbol-heading doc-symbol-class&quot;&gt;&lt;/code&gt;            &lt;span class=&quot;doc doc-object-name doc-class-name&quot;&gt;useq.MDAEvent&lt;/span&gt;" href="schema/event/#useq.MDAEvent"><code>useq.MDAEvent</code></a> objects.</p>
+<a class="autorefs autorefs-internal" href="schema/event/#useq.MDAEvent"><code>useq.MDAEvent</code></a> objects.</p>
 <ul>
-<li>For <a href="https://github.com/micro-manager/micro-manager">micro-manager</a>, this
+<li>For <a href="https://github.com/micro-manager/micro-manager">Micro-Manager</a>, this
   object is most similar to
   <a href="https://github.com/micro-manager/micro-manager/blob/2b0f51a2f916112d39c6135ad35a112065f8d58d/mmstudio/src/main/java/org/micromanager/acquisition/SequenceSettings.java#L39"><code>org.micromanager.acquisition.SequenceSettings</code></a>,
   (generated by clicking the <code>Acquire!</code> button in the <a href="https://micro-manager.org/Version_2.0_Users_Guide#multi-dimensional-acquisition">Multi-D Acquisition
   GUI</a>)</li>
-<li>For <a href="https://github.com/micro-manager/pycro-manager">Pycro-manager</a>, this
+<li>For <a href="https://github.com/micro-manager/pycro-manager">Pycro-Manager</a>, this
   object is similar to the
   <a href="https://github.com/micro-manager/pycro-manager/blob/63cf209a8907fd23932ee9f8016cb6a2b61b45aa/pycromanager/acquire.py#L605"><code>multi_d_acquisition_events</code></a>
   convenience function, (and <code>useq.pycromanager</code> provides a
-  <code>to_pycromanager</code> method that returns a list of pycro-manager event dicts)</li>
-<li><em>your object here?...</em></li>
+  <code>to_pycromanager</code> function that returns a list of pycro-manager event dicts)</li>
 </ul>
 <h2 id="executing-an-mdasequence">Executing an MDASequence<a class="headerlink" href="#executing-an-mdasequence" title="Permanent link">&para;</a></h2>
 <p>This library is just a schema, and does not provide any built-in functionality
 for executing an <code>MDASequence</code>.  However,
-<a href="https://github.com/pymmcore-plus/pymmcore-plus"><code>pymmcore-plus</code></a> implements an
-acquisition engine that can execute an <code>MDASequence</code> object with
-<a href="https://micro-manager.org">micro-manager</a> (via the
+<a href="../pymmcore-plus/guides/mda_engine/">pymmcore-plus</a> implements an
+acquisition engine that can execute an <code>MDASequence</code> object (or any iterable of
+<code>MDAEvent</code> objects) with <a href="https://micro-manager.org">Micro-Manager</a> (via the
 <a href="https://github.com/micro-manager/pymmcore"><code>pymmcore</code></a> python wrapper around
-the C++ MMCore).  See the <a href="https://pymmcore-plus.github.io/pymmcore-plus/examples/mda/">pymmcore-plus documentation for
-details</a>.
-<code>napari-micromanager</code> also creates a <code>useq.MDASequence</code> object from user input
-and passes it to <code>pymmcore-plus</code> for execution.</p>
-<div class="admonition tip">
-<p class="admonition-title">hi! <img alt="👋" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f44b.svg" title=":wave:" /></p>
-<p>Have you implemented an acquisition engine that can execute a <code>useq.MDASequence</code>?
-Let us know so we can add it here!</p>
-</div>
-<h2 id="serialization-and-deserialization">Serialization and Deserialization<a class="headerlink" href="#serialization-and-deserialization" title="Permanent link">&para;</a></h2>
+the C++ MMCore).  The <a class="autorefs autorefs-internal" href="../pymmcore-widgets/api/pymmcore_widgets/MDAWidget/#pymmcore_widgets.MDAWidget"><code>MDAWidget</code></a> in
+pymmcore-widgets, <a href="../pymmcore-gui/">pymmcore-gui</a> and
+<a href="../napari-micromanager/">napari-micromanager</a> all build a
+<code>useq.MDASequence</code> from user input and hand it to pymmcore-plus to run.</p>
+<p>Built an engine that runs an <code>MDASequence</code> (or know of a similar schema in other
+software)?  <a href="https://github.com/pymmcore-plus/useq-schema/issues/new">Open an issue</a>
+and we'll list it here.</p>
+<h2 id="serialization-and-deserialization">Serialization and deserialization<a class="headerlink" href="#serialization-and-deserialization" title="Permanent link">&para;</a></h2>
 <p><code>MDASequence</code> and <code>MDAEvent</code> objects are designed to be serialized and deserialized,
-allowing you to define an entire multi-dimensional acquisition in human-readable
-YAML (or JSON) file, and then load that file into your acquisition engine.</p>
+allowing you to define an entire multi-dimensional acquisition in a
+human-readable YAML (or JSON) file, and then load that file into your acquisition
+engine.</p>
 <p>For example, the following file defines an experiment with:</p>
 <ul>
-<li>3 channels (<code>DAPI</code>, <code>FITC</code>, and <code>Cy5</code>), specifying exposure times in ms for each channel</li>
-<li>a two-phase time-lapse: 3 frames in the first phase, followed by a frame every 10 seconds
-for 40 minutes</li>
+<li>3 channels (<code>Cy5</code>, <code>FITC</code>, and <code>DAPI</code>), specifying exposure times in ms for
+  <code>Cy5</code> and <code>FITC</code>, and acquiring <code>DAPI</code> (without a z-stack) only every third
+  timepoint</li>
+<li>a two-phase time-lapse: 3 frames, 3 seconds apart, followed by a frame every 10
+  seconds for 40 minutes</li>
 <li>a Z-stack at each timepoint, with a range of 4 microns and a step size of 0.5 micron</li>
 <li>two stage positions, specifying a unique Z-stack for the second position</li>
 </ul>
@@ -6994,99 +6252,134 @@ for 40 minutes</li>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">YAML</label><label for="__tabbed_1_2">JSON</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-YAML highlight"><span class="filename">my_experiment.yaml</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">axis_order</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tpcz</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">channels</span><span class="p">:</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cy5</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">exposure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50.0</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FITC</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">exposure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100.0</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DAPI</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nt">acquire_every</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="nt">do_stack</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nt">time_plan</span><span class="p">:</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="nt">phases</span><span class="p">:</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0:00:03</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="nt">loops</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">duration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0:40:00</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0:00:10</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="nt">z_plan</span><span class="p">:</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4.0</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">  </span><span class="nt">step</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="nt">stage_positions</span><span class="p">:</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">x</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="nt">y</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20.0</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cell 1</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">    </span><span class="nt">x</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="nt">y</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20.0</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">    </span><span class="nt">z</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50.0</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="nt">z_plan</span><span class="p">:</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">      </span><span class="nt">above</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">      </span><span class="nt">below</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">      </span><span class="nt">step</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="nt">metadata</span><span class="p">:</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">  </span><span class="nt">some info</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">about my experiment</span>
+<div class="language-YAML highlight"><span class="filename">my_experiment.yaml</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">axis_order</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tpcz</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">channels</span><span class="p">:</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cy5</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">exposure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50.0</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FITC</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nt">exposure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100.0</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DAPI</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nt">acquire_every</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="nt">do_stack</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nt">time_plan</span><span class="p">:</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="nt">phases</span><span class="p">:</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0:00:03</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">      </span><span class="nt">loops</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">duration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0:40:00</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0:00:10</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="nt">z_plan</span><span class="p">:</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">  </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4.0</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">  </span><span class="nt">step</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="nt">stage_positions</span><span class="p">:</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">x</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="nt">y</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20.0</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="nt">z</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50.0</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cell 1</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="nt">x</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">110.0</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">    </span><span class="nt">y</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">220.0</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">    </span><span class="nt">z</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50.0</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">    </span><span class="nt">sequence</span><span class="p">:</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">      </span><span class="nt">z_plan</span><span class="p">:</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">        </span><span class="nt">above</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">        </span><span class="nt">below</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">        </span><span class="nt">step</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">  </span><span class="nt">some info</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">about my experiment</span>
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-JSON highlight"><span class="filename">my_experiment.json</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"axis_order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tpcz"</span><span class="p">,</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">"channels"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cy5"</span><span class="p">,</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="nt">"exposure"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="p">},</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">      </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FITC"</span><span class="p">,</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">      </span><span class="nt">"exposure"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="p">},</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">      </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAPI"</span><span class="p">,</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">      </span><span class="nt">"acquire_every"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">      </span><span class="nt">"do_stack"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="p">],</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="nt">"time_plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="nt">"phases"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">      </span><span class="p">{</span>
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">        </span><span class="nt">"interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:00:03"</span><span class="p">,</span>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">        </span><span class="nt">"loops"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">      </span><span class="p">},</span>
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">      </span><span class="p">{</span>
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">        </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:40:00"</span><span class="p">,</span>
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">        </span><span class="nt">"interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:00:10"</span>
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">      </span><span class="p">}</span>
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">    </span><span class="p">]</span>
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">  </span><span class="p">},</span>
-</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">  </span><span class="nt">"z_plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">    </span><span class="nt">"range"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.0</span><span class="p">,</span>
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">    </span><span class="nt">"step"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span>
-</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">  </span><span class="p">},</span>
-</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">  </span><span class="nt">"stage_positions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">      </span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="p">,</span>
-</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">      </span><span class="nt">"y"</span><span class="p">:</span><span class="w"> </span><span class="mf">20.0</span>
-</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="w">    </span><span class="p">},</span>
-</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="w">      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cell 1"</span><span class="p">,</span>
-</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="w">      </span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="p">,</span>
-</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="w">      </span><span class="nt">"y"</span><span class="p">:</span><span class="w"> </span><span class="mf">20.0</span><span class="p">,</span>
-</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="w">      </span><span class="nt">"z"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span><span class="p">,</span>
-</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="w">      </span><span class="nt">"z_plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="w">        </span><span class="nt">"above"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="p">,</span>
-</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="w">        </span><span class="nt">"below"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
-</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="w">        </span><span class="nt">"step"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span>
-</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="w">      </span><span class="p">}</span>
-</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a><span class="w">  </span><span class="p">],</span>
-</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a><span class="w">  </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a><span class="w">    </span><span class="nt">"some info"</span><span class="p">:</span><span class="w"> </span><span class="s2">"about my experiment"</span>
-</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a><span class="p">}</span>
+<div class="language-JSON highlight"><span class="filename">my_experiment.json</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"axis_order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tpcz"</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"channels"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">      </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cy5"</span><span class="p">,</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="nt">"exposure"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FITC"</span><span class="p">,</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="nt">"exposure"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">      </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAPI"</span><span class="p">,</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">      </span><span class="nt">"acquire_every"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">      </span><span class="nt">"do_stack"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">  </span><span class="p">],</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">  </span><span class="nt">"time_plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span><span class="nt">"phases"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">      </span><span class="p">{</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">        </span><span class="nt">"interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:00:03"</span><span class="p">,</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">        </span><span class="nt">"loops"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">      </span><span class="p">},</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">      </span><span class="p">{</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">        </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:40:00"</span><span class="p">,</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">        </span><span class="nt">"interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:00:10"</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">    </span><span class="p">]</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">  </span><span class="nt">"z_plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">    </span><span class="nt">"range"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.0</span><span class="p">,</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">    </span><span class="nt">"step"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">  </span><span class="nt">"stage_positions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">      </span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="p">,</span>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="w">      </span><span class="nt">"y"</span><span class="p">:</span><span class="w"> </span><span class="mf">20.0</span><span class="p">,</span>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">      </span><span class="nt">"z"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="w">      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cell 1"</span><span class="p">,</span>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a><span class="w">      </span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mf">110.0</span><span class="p">,</span>
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="w">      </span><span class="nt">"y"</span><span class="p">:</span><span class="w"> </span><span class="mf">220.0</span><span class="p">,</span>
+</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a><span class="w">      </span><span class="nt">"z"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span><span class="p">,</span>
+</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a><span class="w">      </span><span class="nt">"sequence"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a><span class="w">        </span><span class="nt">"z_plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a><span class="w">          </span><span class="nt">"above"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="p">,</span>
+</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a><span class="w">          </span><span class="nt">"below"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+</span><span id="__span-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a><span class="w">          </span><span class="nt">"step"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span>
+</span><span id="__span-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a><span class="w">  </span><span class="p">],</span>
+</span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="w">  </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-55"><a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a><span class="w">    </span><span class="nt">"some info"</span><span class="p">:</span><span class="w"> </span><span class="s2">"about my experiment"</span>
+</span><span id="__span-3-56"><a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-3-57"><a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
 </div>
 </div>
 </div>
+<p>Either file can be loaded with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">useq</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">seq</span> <span class="o">=</span> <span class="n">useq</span><span class="o">.</span><span class="n">MDASequence</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s2">"my_experiment.yaml"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>... and <code>seq.yaml()</code> or <code>seq.model_dump_json(exclude_unset=True)</code> go the other
+way (see <a href="guides/sequences/#saving-and-loading-sequences">saving and loading
+sequences</a>).</p>
+<div class="admonition warning">
+<p class="admonition-title">Unknown keys are ignored</p>
+<p>Keys that aren't part of the schema are silently dropped when a file is loaded,
+so a misspelled or misplaced key (for example a <code>z_plan</code> placed directly on a
+stage position, rather than inside its <code>sequence</code>) won't raise an error.  It's
+worth checking the loaded sequence (<code>list(seq)</code>, or <code>seq.sizes</code>) before
+running it.</p>
+</div>
+<h2 id="what-about-useqv2">What about <code>useq.v2</code>?<a class="headerlink" href="#what-about-useqv2" title="Permanent link">&para;</a></h2>
+<p><code>useq.v2</code> is a preview of the next version of the API (with user-defined axes,
+among other things).  <code>useq.MDASequence</code>, as described on these pages, is
+unchanged, and nothing needs to migrate yet.  See <a href="v2-migration/">useq-schema v2
+(preview)</a> if you're curious.</p>
+<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="guides/sequences/">Building Sequences</a>: common experiments, step by step.</li>
+<li>The <a href="schema/sequence/"><code>MDASequence</code></a>, <a href="schema/event/"><code>MDAEvent</code></a>,
+  <a href="schema/axes/">axes</a> and <a href="schema/hardware_autofocus/">autofocus</a> reference
+  pages.</li>
+<li><a href="../pymmcore-plus/guides/mda_engine/">The Acquisition Engine</a>, to run a
+  sequence on a microscope.</li>
+</ul>
 
 
 
@@ -7129,7 +6422,7 @@ for 40 minutes</li>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../pymmcore-plus/examples/context-set/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Set as a Context">
+          <a href="../pymmcore-plus/guides/ipython_completion/" class="md-footer__link md-footer__link--prev" aria-label="Previous: IPython Tab Completion">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
@@ -7139,20 +6432,20 @@ for 40 minutes</li>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Set as a Context
+                IPython Tab Completion
               </div>
             </div>
           </a>
         
         
           
-          <a href="./v2-migration/" class="md-footer__link md-footer__link--next" aria-label="Next: v2 Migration Guide">
+          <a href="./guides/sequences/" class="md-footer__link md-footer__link--next" aria-label="Next: Building Sequences">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                v2 Migration Guide
+                Building Sequences
               </div>
             </div>
             <div class="md-footer__button md-icon">

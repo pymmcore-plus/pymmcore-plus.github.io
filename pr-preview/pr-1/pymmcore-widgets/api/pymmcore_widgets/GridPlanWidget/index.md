@@ -2,85 +2,49 @@
 
 Screenshot generated from the [example below](<#example>).
 
+## Example
+
+examples/grid\_plan\_widget.py
+
+```python
+"""Example usage of the GridPlanWidget class.
+
+GridPlanWidget edits a useq grid plan.  It doesn't use a CMMCorePlus.
+
+Check also the 'position_table.py' and 'mda_widget.py' examples to see the
+GridPlanWidget used in combination of other widgets.
+"""
+
+from qtpy.QtWidgets import QApplication
+
+from pymmcore_widgets import GridPlanWidget
+
+app = QApplication([])
+
+grid_wdg = GridPlanWidget()
+grid_wdg.valueChanged.connect(print)
+grid_wdg.show()
+
+app.exec()
+```
+
+## API
+
 Bases: `QScrollArea`
 
-Widget to edit a [`useq-schema` GridPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#grid-plans>).
+Widget to edit a grid plan.
 
-Methods:
+The value is a `useq.GridRowsColumns`, `useq.GridWidthHeight`, `useq.GridFromEdges` or `useq.GridFromPolygon`, depending on the mode selected in the widget.
 
-| Name | Description |
-| --- | --- |
-| `mode` | Return the current mode, one of "number", "area", or "bounds". |
-| `setMode` | Set the current mode, one of "number", "area", "bounds", or "polygon". |
-| `value` | Return the current value of the widget as a [`useq-schema` GridPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#grid-plans>). |
-| `setValue` | Set the current value of the widget from a [`useq-schema` GridPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#grid-plans>). |
-| `setFovWidth` | Set the current field of view width. |
-| `setFovHeight` | Set the current field of view height. |
-| `fovWidth` | Return the current field of view width. |
-| `fovHeight` | Return the current field of view height. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `valueChanged` |  |  |
-| `row_col_wdg` |  |  |
-| `width_height_wdg` |  |  |
-| `bounds_wdg` |  |  |
-| `polygon_wdg` |  |  |
-| `overlap` |  |  |
-| `order` |  |  |
-| `relative_to` |  |  |
-
-## valueChanged
+### valueChanged
 
 ```python
 valueChanged = Signal(object)
 ```
 
-## row\_col\_wdg
+Emitted with the new grid plan when the widget changes.
 
-```python
-row_col_wdg = _RowsColsWidget()
-```
-
-## width\_height\_wdg
-
-```python
-width_height_wdg = _WidthHeightWidget()
-```
-
-## bounds\_wdg
-
-```python
-bounds_wdg = _BoundsWidget()
-```
-
-## polygon\_wdg
-
-```python
-polygon_wdg = _PolygonWidget()
-```
-
-## overlap
-
-```python
-overlap = self._bottom_stuff.overlap
-```
-
-## order
-
-```python
-order = self._bottom_stuff.order
-```
-
-## relative\_to
-
-```python
-relative_to = self._bottom_stuff.relative_to
-```
-
-## mode
+### mode
 
 ```python
 mode() -> Mode
@@ -88,7 +52,7 @@ mode() -> Mode
 
 Return the current mode, one of "number", "area", or "bounds".
 
-## setMode
+### setMode
 
 ```python
 setMode(mode: Mode | Literal['number', 'area', 'bounds', 'polygon']) -> None
@@ -102,35 +66,35 @@ Parameters:
 | --- | --- | --- | --- |
 | `mode` | `Mode \| Literal['number', 'area', 'bounds', 'polygon']` | The mode to set. | *required* |
 
-## value
+### value
 
 ```python
 value() -> GridPlan
 ```
 
-Return the current value of the widget as a [`useq-schema` GridPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#grid-plans>).
+Return the current value of the widget as a grid plan.
 
 Returns:
 
 | Type | Description |
 | --- | --- |
-| `GridFromEdges \| GridRowsColumns \| GridWidthHeight` | The current [GridPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#grid-plans>) value of the widget. |
+| `GridFromEdges \| GridRowsColumns \| GridWidthHeight` | The current grid plan value of the widget. |
 
-## setValue
+### setValue
 
 ```python
 setValue(value: GridPlan) -> None
 ```
 
-Set the current value of the widget from a [`useq-schema` GridPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#grid-plans>).
+Set the current value of the widget from a grid plan.
 
 Parameters:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| `value` | `GridFromEdges \| GridRowsColumns \| GridWidthHeight \| GridFromPolygon` | The [`useq-schema` GridPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#grid-plans>) to set. | *required* |
+| `value` | `GridFromEdges \| GridRowsColumns \| GridWidthHeight \| GridFromPolygon` | The grid plan to set. | *required* |
 
-## setFovWidth
+### setFovWidth
 
 ```python
 setFovWidth(value: float) -> None
@@ -138,7 +102,7 @@ setFovWidth(value: float) -> None
 
 Set the current field of view width.
 
-## setFovHeight
+### setFovHeight
 
 ```python
 setFovHeight(value: float) -> None
@@ -146,7 +110,7 @@ setFovHeight(value: float) -> None
 
 Set the current field of view height.
 
-## fovWidth
+### fovWidth
 
 ```python
 fovWidth() -> float | None
@@ -154,38 +118,10 @@ fovWidth() -> float | None
 
 Return the current field of view width.
 
-## fovHeight
+### fovHeight
 
 ```python
 fovHeight() -> float | None
 ```
 
 Return the current field of view height.
-
-## Example
-
-examples/grid\_plan\_widget.py
-
-```python
-"""Example usage of the GridPlanWidget class.
-
-Check also the 'position_table.py' and 'mda_widget.py' examples to see the
-GridPlanWidget used in combination of other widgets.
-"""
-
-from pymmcore_plus import CMMCorePlus
-from qtpy.QtWidgets import QApplication
-
-from pymmcore_widgets import GridPlanWidget
-
-app = QApplication([])
-
-mmc = CMMCorePlus().instance()
-mmc.loadSystemConfiguration()
-
-grid_wdg = GridPlanWidget()
-grid_wdg.valueChanged.connect(print)
-grid_wdg.show()
-
-app.exec()
-```

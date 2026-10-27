@@ -8,6 +8,8 @@ Bases: `CMMCore`
 
 Wrapper for CMMCore with extended functionality.
 
+`CMMCorePlus` is a subclass of `pymmcore.CMMCore` with additional functionality, and some overrides for the sake of convenience or fixed behavior. It aims to be a drop-in replacement. Most methods behave as they do in `CMMCore`, but many return enums or `Configuration` objects instead of plain integers and SWIG objects, and many setters emit `events` even when the device adapter doesn't. Additions include an acquisition engine (`run_mda`) and object-oriented views onto devices, properties and config groups (e.g. `getDeviceObject`). (`registerCallback` is disallowed; use `events` instead.)
+
 Parameters:
 
 | Name | Type | Description | Default |
@@ -17,9 +19,9 @@ Parameters:
 
 ## Method summary
 
-`CMMCorePlus` is a subclass of [`pymmcore.CMMCore`](<https://github.com/micro-manager/pymmcore>), so **every** method of the C++ core is available here. The table below lists all of them: use the filters to see what `pymmcore-plus` adds (✨) or changes (), and hover over an override to see why.
+The table below lists all of the methods of `CMMCorePlus`, including the ones it inherits unchanged from [`pymmcore.CMMCore`](<https://github.com/micro-manager/pymmcore>). Use the filters to show only what `pymmcore-plus` adds or overrides (each override says why it was changed). Deprecated methods are hidden unless you tick "show deprecated".
 
-✨ only in `CMMCorePlus`  · overridden by `CMMCorePlus` (hover for why)  · *no icon*: inherited unchanged from `pymmcore.CMMCore`
+✨ added by `pymmcore-plus`  · ➕ overridden  · *no icon*: inherited unchanged from `pymmcore.CMMCore`
 
 | Method | Origin | Category | Description |
 | --- | --- | --- | --- |
@@ -29,16 +31,16 @@ Parameters:
 | [`clearCircularBuffer`](<#pymmcore_plus.CMMCorePlus.clearCircularBuffer>)() |  | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Removes all images from the circular buffer. |
 | [`clearROI`](<#pymmcore_plus.CMMCorePlus.clearROI>)() |  | [Cameras](<#cmmcoreplus-cameras>) | Set the region of interest of the current camera to the full frame. |
 | [`debugLogEnabled`](<#pymmcore_plus.CMMCorePlus.debugLogEnabled>)() |  | [Logging &amp; errors](<#cmmcoreplus-logging-errors>) | Indicates if logging of debug messages is enabled |
-| [`defineConfig`](<#pymmcore_plus.CMMCorePlus.defineConfig>)(groupName, configName, deviceLabel, propName, value) (2 overloads) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Defines a configuration. |
+| [`defineConfig`](<#pymmcore_plus.CMMCorePlus.defineConfig>)(groupName, configName, deviceLabel, propName, value) (2 overloads) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Defines a configuration.<br>*Why override?* To emit a `configDefined` event. Also, if `groupName` is not a defined group, then `defineConfigGroup(groupName)` is called. |
 | [`defineConfigGroup`](<#pymmcore_plus.CMMCorePlus.defineConfigGroup>)(groupName) |  | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Creates an empty configuration group. |
-| [`definePixelSizeConfig`](<#pymmcore_plus.CMMCorePlus.definePixelSizeConfig>)(args, kwargs) (2 overloads) | ➕ | [Pixel size](<#cmmcoreplus-pixel-size>) | Defines an empty pixel size entry. |
+| [`definePixelSizeConfig`](<#pymmcore_plus.CMMCorePlus.definePixelSizeConfig>)(resolutionID) (2 overloads) | ➕ | [Pixel size](<#cmmcoreplus-pixel-size>) | Defines an empty pixel size entry.<br>*Why override?* To emit a `pixelSizeChanged` event. |
 | [`defineStateLabel`](<#pymmcore_plus.CMMCorePlus.defineStateLabel>)(stateDeviceLabel, state, stateLabel) |  | [State devices](<#cmmcoreplus-state-devices>) | Defines a label for the specific state. |
-| [`deleteConfig`](<#pymmcore_plus.CMMCorePlus.deleteConfig>)(groupName, configName, deviceLabel, propName) (2 overloads) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Delete `configName` from `groupName`. |
-| [`deleteConfigGroup`](<#pymmcore_plus.CMMCorePlus.deleteConfigGroup>)(groupName) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Deletes an entire configuration `group`. |
+| [`deleteConfig`](<#pymmcore_plus.CMMCorePlus.deleteConfig>)(groupName, configName, deviceLabel, propName) (2 overloads) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Delete `configName` from `groupName`.<br>*Why override?* To emit a `configDeleted` event. |
+| [`deleteConfigGroup`](<#pymmcore_plus.CMMCorePlus.deleteConfigGroup>)(groupName) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Deletes an entire configuration `group`.<br>*Why override?* To emit a `configGroupDeleted` event. |
 | [`deleteGalvoPolygons`](<#pymmcore_plus.CMMCorePlus.deleteGalvoPolygons>)(galvoLabel) |  | [Galvos](<#cmmcoreplus-galvos>) | Remove all added polygons |
-| [`deletePixelSizeConfig`](<#pymmcore_plus.CMMCorePlus.deletePixelSizeConfig>)(resolutionID) | ➕ | [Pixel size](<#cmmcoreplus-pixel-size>) | Delete the pixel size configuration for the given `resolutionID`. |
-| [`describe`](<#pymmcore_plus.CMMCorePlus.describe>)(sort, show\_config\_groups, show\_available) | ✨ | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) | Print information table with the current configuration. |
-| [`detectDevice`](<#pymmcore_plus.CMMCorePlus.detectDevice>)(deviceLabel) | ➕ | [Devices](<#cmmcoreplus-devices>) | Tries to communicate to a device through a given serial port. |
+| [`deletePixelSizeConfig`](<#pymmcore_plus.CMMCorePlus.deletePixelSizeConfig>)(resolutionID) | ➕ | [Pixel size](<#cmmcoreplus-pixel-size>) | Delete the pixel size configuration for the given `resolutionID`.<br>*Why override?* To emit a `pixelSizeChanged` event. |
+| [`describe`](<#pymmcore_plus.CMMCorePlus.describe>)(sort, show\_config\_groups, show\_available) | ✨ | [General](<#cmmcoreplus-general>) | Print information table with the current configuration. |
+| [`detectDevice`](<#pymmcore_plus.CMMCorePlus.detectDevice>)(deviceLabel) | ➕ | [Devices](<#cmmcoreplus-devices>) | Tries to communicate to a device through a given serial port.<br>*Why override?* The returned `pymmcore_plus.DeviceDetectionStatus` enum is more interpretable than the raw `int` returned by `pymmcore` |
 | [`deviceBusy`](<#pymmcore_plus.CMMCorePlus.deviceBusy>)(label) |  | [Devices](<#cmmcoreplus-devices>) | Checks the busy status of the specific device. |
 | [`deviceTypeBusy`](<#pymmcore_plus.CMMCorePlus.deviceTypeBusy>)(devType) |  | [Devices](<#cmmcoreplus-devices>) | Checks the busy status for all devices of the specific type. |
 | [`displaySLMImage`](<#pymmcore_plus.CMMCorePlus.displaySLMImage>)(slmLabel) |  | [SLMs](<#cmmcoreplus-slms>) | Display the waiting image on the SLM. |
@@ -52,9 +54,9 @@ Parameters:
 | [`getAdapterObject`](<#pymmcore_plus.CMMCorePlus.getAdapterObject>)(library\_name) | ✨ | [Devices](<#cmmcoreplus-devices>) | Return an `Adapter` object bound to library\_name on this core. |
 | [`getAllowedBinningValues`](<#pymmcore_plus.CMMCorePlus.getAllowedBinningValues>)() (2 overloads) |  | [Cameras](<#cmmcoreplus-cameras>) | Returns allowed binning values for the current camera. |
 | [`getAllowedPropertyValues`](<#pymmcore_plus.CMMCorePlus.getAllowedPropertyValues>)(label, propName) |  | [Properties](<#cmmcoreplus-properties>) | Returns all valid values for the specified property. |
-| [`getAPIVersionInfo`](<#pymmcore_plus.CMMCorePlus.getAPIVersionInfo>)() |  | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) | Returns the module and device interface versions. |
+| [`getAPIVersionInfo`](<#pymmcore_plus.CMMCorePlus.getAPIVersionInfo>)() |  | [General](<#cmmcoreplus-general>) | Returns the module and device interface versions. |
 | [`getAutoFocusDevice`](<#pymmcore_plus.CMMCorePlus.getAutoFocusDevice>)() |  | [Autofocus](<#cmmcoreplus-autofocus>) | Returns the label of the currently selected auto-focus device. |
-| [`getAutoFocusOffset`](<#pymmcore_plus.CMMCorePlus.getAutoFocusOffset>)() | ➕ | [Autofocus](<#cmmcoreplus-autofocus>) |  |
+| [`getAutoFocusOffset`](<#pymmcore_plus.CMMCorePlus.getAutoFocusOffset>)() | ➕ | [Autofocus](<#cmmcoreplus-autofocus>) | Return the current offset of the one-shot focusing device.<br>*Why override?* For known autofocus devices with a separate offset device (see `setAutoFocusOffset`), this returns the position of that offset device. |
 | [`getAutoShutter`](<#pymmcore_plus.CMMCorePlus.getAutoShutter>)() |  | [Shutters](<#cmmcoreplus-shutters>) | Returns the current setting of the auto-shutter option. |
 | [`getAvailableConfigGroups`](<#pymmcore_plus.CMMCorePlus.getAvailableConfigGroups>)() |  | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Returns the names of all defined configuration groups |
 | [`getAvailableConfigs`](<#pymmcore_plus.CMMCorePlus.getAvailableConfigs>)(configGroup) |  | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Returns all defined configuration (preset) names in a given group |
@@ -71,11 +73,11 @@ Parameters:
 | [`getCameraDevice`](<#pymmcore_plus.CMMCorePlus.getCameraDevice>)() |  | [Cameras](<#cmmcoreplus-cameras>) | Returns the label of the currently selected camera device. |
 | [`getChannelGroup`](<#pymmcore_plus.CMMCorePlus.getChannelGroup>)() |  | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Returns the group determining the channel selection. |
 | [`getCircularBufferMemoryFootprint`](<#pymmcore_plus.CMMCorePlus.getCircularBufferMemoryFootprint>)() |  | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Returns the size of the Circular Buffer in MB |
-| [`getConfigData`](<#pymmcore_plus.CMMCorePlus.getConfigData>)(configGroup, configName, native) (2 overloads) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Return the configuration object for a given `configGroup` and `configName`. |
+| [`getConfigData`](<#pymmcore_plus.CMMCorePlus.getConfigData>)(configGroup, configName, native) (2 overloads) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Return the configuration object for a given `configGroup` and `configName`.<br>*Why override?* The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object. |
 | [`getConfigGroupObject`](<#pymmcore_plus.CMMCorePlus.getConfigGroupObject>)(group\_name, allow\_missing) | ✨ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Return a `ConfigGroup` object bound to group\_name on this core. |
-| [`getConfigGroupState`](<#pymmcore_plus.CMMCorePlus.getConfigGroupState>)(group, native) (2 overloads) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Return the state of the devices included in the specified `group`. |
-| [`getConfigGroupStateFromCache`](<#pymmcore_plus.CMMCorePlus.getConfigGroupStateFromCache>)(group, native) (2 overloads) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Return the state of the system cache, for the devices in the specified group. |
-| [`getConfigState`](<#pymmcore_plus.CMMCorePlus.getConfigState>)(group, config, native) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Return state of devices included in the specified configuration. |
+| [`getConfigGroupState`](<#pymmcore_plus.CMMCorePlus.getConfigGroupState>)(group, native) (2 overloads) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Return the state of the devices included in the specified `group`.<br>*Why override?* The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object. |
+| [`getConfigGroupStateFromCache`](<#pymmcore_plus.CMMCorePlus.getConfigGroupStateFromCache>)(group, native) (2 overloads) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Return the state of the system cache, for the devices in the specified group.<br>*Why override?* The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object. |
+| [`getConfigState`](<#pymmcore_plus.CMMCorePlus.getConfigState>)(group, config, native) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Return state of devices included in the specified configuration.<br>*Why override?* The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object. |
 | [`getCoreErrorText`](<#pymmcore_plus.CMMCorePlus.getCoreErrorText>)(code) |  | [Logging &amp; errors](<#cmmcoreplus-logging-errors>) | Returns a pre-defined error test with the given error code |
 | [`getCurrentConfig`](<#pymmcore_plus.CMMCorePlus.getCurrentConfig>)(groupName) |  | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Returns the current configuration (preset) for a given group. |
 | [`getCurrentConfigFromCache`](<#pymmcore_plus.CMMCorePlus.getCurrentConfigFromCache>)(groupName) |  | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Returns the configuration for a given group based on the data in the cache. |
@@ -86,18 +88,18 @@ Parameters:
 | [`getDeviceAdapterSearchPaths`](<#pymmcore_plus.CMMCorePlus.getDeviceAdapterSearchPaths>)() |  | [Devices](<#cmmcoreplus-devices>) | Return the current device adapter search paths. |
 | [`getDeviceDelayMs`](<#pymmcore_plus.CMMCorePlus.getDeviceDelayMs>)(label) |  | [Devices](<#cmmcoreplus-devices>) | Reports action delay in milliseconds for the specific device. |
 | [`getDeviceDescription`](<#pymmcore_plus.CMMCorePlus.getDeviceDescription>)(label) |  | [Devices](<#cmmcoreplus-devices>) | Returns description text for a given device label. "Description" is determined by the library and is immutable. |
-| [`getDeviceInitializationState`](<#pymmcore_plus.CMMCorePlus.getDeviceInitializationState>)(label) | ➕ | [State devices](<#cmmcoreplus-state-devices>) | Queries the initialization state of the given device. |
+| [`getDeviceInitializationState`](<#pymmcore_plus.CMMCorePlus.getDeviceInitializationState>)(label) | ➕ | [Devices](<#cmmcoreplus-devices>) | Queries the initialization state of the given device.<br>*Why override?* The returned `pymmcore_plus.DeviceInitializationState` enum is more interpretable than the raw `int` returned by `pymmcore` |
 | [`getDeviceLibrary`](<#pymmcore_plus.CMMCorePlus.getDeviceLibrary>)(label) |  | [Devices](<#cmmcoreplus-devices>) | Returns device library (aka module, device adapter) name. |
 | [`getDeviceName`](<#pymmcore_plus.CMMCorePlus.getDeviceName>)(label) |  | [Devices](<#cmmcoreplus-devices>) | Returns device name for a given device label. |
 | [`getDeviceObject`](<#pymmcore_plus.CMMCorePlus.getDeviceObject>)(device\_label, device\_type) (17 overloads) | ✨ | [Devices](<#cmmcoreplus-devices>) | Return a `Device` object bound to device\_label on this core. |
 | [`getDevicePropertyNames`](<#pymmcore_plus.CMMCorePlus.getDevicePropertyNames>)(label) |  | [Properties](<#cmmcoreplus-properties>) | Returns all property names supported by the device. |
 | [`getDeviceSchema`](<#pymmcore_plus.CMMCorePlus.getDeviceSchema>)(device\_label) | ✨ | [Devices](<#cmmcoreplus-devices>) | Return JSON-schema describing device `device_label` and its properties. |
 | [`getDeviceTimeoutMs`](<#pymmcore_plus.CMMCorePlus.getDeviceTimeoutMs>)(label) |  | [Devices](<#cmmcoreplus-devices>) | Returns the per-device timeout in milliseconds, or the default if not set. |
-| [`getDeviceType`](<#pymmcore_plus.CMMCorePlus.getDeviceType>)(label) | ➕ | [Devices](<#cmmcoreplus-devices>) | Return device type for a given device. |
+| [`getDeviceType`](<#pymmcore_plus.CMMCorePlus.getDeviceType>)(label) | ➕ | [Devices](<#cmmcoreplus-devices>) | Return device type for a given device.<br>*Why override?* The returned `pymmcore_plus.DeviceType` enum is more interpretable than the raw `int` returned by `pymmcore` |
 | [`getExposure`](<#pymmcore_plus.CMMCorePlus.getExposure>)() (2 overloads) |  | [Cameras](<#cmmcoreplus-cameras>) | Returns the current exposure setting of the camera in milliseconds. |
 | [`getExposureSequenceMaxLength`](<#pymmcore_plus.CMMCorePlus.getExposureSequenceMaxLength>)(cameraLabel) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Gets the maximum length of a camera's exposure sequence. |
 | [`getFocusDevice`](<#pymmcore_plus.CMMCorePlus.getFocusDevice>)() |  | [Stages](<#cmmcoreplus-stages>) | Returns the label of the currently selected focus device. |
-| [`getFocusDirection`](<#pymmcore_plus.CMMCorePlus.getFocusDirection>)(stageLabel) | ➕ | [Stages](<#cmmcoreplus-stages>) | Return device type for a given device. |
+| [`getFocusDirection`](<#pymmcore_plus.CMMCorePlus.getFocusDirection>)(stageLabel) | ➕ | [Stages](<#cmmcoreplus-stages>) | Return the focus direction of a stage.<br>*Why override?* The returned `pymmcore_plus.FocusDirection` enum is more interpretable than the raw `int` returned by `pymmcore` |
 | [`getGalvoChannel`](<#pymmcore_plus.CMMCorePlus.getGalvoChannel>)(galvoLabel) |  | [Galvos](<#cmmcoreplus-galvos>) | Get the name of the active galvo channel (for a multi-laser galvo device). |
 | [`getGalvoDevice`](<#pymmcore_plus.CMMCorePlus.getGalvoDevice>)() |  | [Galvos](<#cmmcoreplus-galvos>) | Returns the label of the currently selected Galvo device. |
 | [`getGalvoPosition`](<#pymmcore_plus.CMMCorePlus.getGalvoPosition>)(galvoDevice) (2 overloads) |  | [Galvos](<#cmmcoreplus-galvos>) | Get x,y position of the galvo device. |
@@ -105,7 +107,7 @@ Parameters:
 | [`getGalvoXRange`](<#pymmcore_plus.CMMCorePlus.getGalvoXRange>)(galvoLabel) |  | [Galvos](<#cmmcoreplus-galvos>) | Get the Galvo x range |
 | [`getGalvoYMinimum`](<#pymmcore_plus.CMMCorePlus.getGalvoYMinimum>)(galvoLabel) |  | [Galvos](<#cmmcoreplus-galvos>) | Get the Galvo y minimum |
 | [`getGalvoYRange`](<#pymmcore_plus.CMMCorePlus.getGalvoYRange>)(galvoLabel) |  | [Galvos](<#cmmcoreplus-galvos>) | Get the Galvo y range |
-| [`getImage`](<#pymmcore_plus.CMMCorePlus.getImage>)(numChannel, fix) (2 overloads) | ➕ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Return the internal image buffer. |
+| [`getImage`](<#pymmcore_plus.CMMCorePlus.getImage>)(numChannel, fix) (2 overloads) | ➕ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Return the internal image buffer.<br>*Why override?* To fix the shape of images with n\_components \> 1 (like RGB images) |
 | [`getImageBitDepth`](<#pymmcore_plus.CMMCorePlus.getImageBitDepth>)() |  | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | How many bits of dynamic range are to be expected from the camera. |
 | [`getImageBufferSize`](<#pymmcore_plus.CMMCorePlus.getImageBufferSize>)() |  | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Returns the size of the internal image buffer. |
 | [`getImageHeight`](<#pymmcore_plus.CMMCorePlus.getImageHeight>)() |  | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Vertical dimension of the image buffer in pixels. |
@@ -121,23 +123,23 @@ Parameters:
 | [`getLoadedDevicesOfType`](<#pymmcore_plus.CMMCorePlus.getLoadedDevicesOfType>)(devType) |  | [Devices](<#cmmcoreplus-devices>) | Returns an array of labels for currently loaded devices of specific type. |
 | [`getLoadedPeripheralDevices`](<#pymmcore_plus.CMMCorePlus.getLoadedPeripheralDevices>)(hubLabel) |  | [Devices](<#cmmcoreplus-devices>) | Return labels of all loaded peripherals of `hubLabel` device. |
 | [`getMagnificationFactor`](<#pymmcore_plus.CMMCorePlus.getMagnificationFactor>)() |  | [Pixel size](<#cmmcoreplus-pixel-size>) | Returns the product of all Magnifiers in the system or 1.0 when none is found. This is used internally by GetPixelSizeUm |
-| [`getMMCoreVersionMajor`](<#pymmcore_plus.CMMCorePlus.getMMCoreVersionMajor>)() |  | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) |  |
-| [`getMMCoreVersionMinor`](<#pymmcore_plus.CMMCorePlus.getMMCoreVersionMinor>)() |  | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) |  |
-| [`getMMCoreVersionPatch`](<#pymmcore_plus.CMMCorePlus.getMMCoreVersionPatch>)() |  | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) |  |
-| [`getMMDeviceDeviceInterfaceVersion`](<#pymmcore_plus.CMMCorePlus.getMMDeviceDeviceInterfaceVersion>)() |  | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) |  |
-| [`getMMDeviceModuleInterfaceVersion`](<#pymmcore_plus.CMMCorePlus.getMMDeviceModuleInterfaceVersion>)() |  | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) |  |
-| [`getMultiROI`](<#pymmcore_plus.CMMCorePlus.getMultiROI>)(\_) | ➕ | [Cameras](<#cmmcoreplus-cameras>) | Get multiple ROIs from the current camera device. |
+| [`getMMCoreVersionMajor`](<#pymmcore_plus.CMMCorePlus.getMMCoreVersionMajor>)() |  | [General](<#cmmcoreplus-general>) |  |
+| [`getMMCoreVersionMinor`](<#pymmcore_plus.CMMCorePlus.getMMCoreVersionMinor>)() |  | [General](<#cmmcoreplus-general>) |  |
+| [`getMMCoreVersionPatch`](<#pymmcore_plus.CMMCorePlus.getMMCoreVersionPatch>)() |  | [General](<#cmmcoreplus-general>) |  |
+| [`getMMDeviceDeviceInterfaceVersion`](<#pymmcore_plus.CMMCorePlus.getMMDeviceDeviceInterfaceVersion>)() |  | [General](<#cmmcoreplus-general>) |  |
+| [`getMMDeviceModuleInterfaceVersion`](<#pymmcore_plus.CMMCorePlus.getMMDeviceModuleInterfaceVersion>)() |  | [General](<#cmmcoreplus-general>) |  |
+| [`getMultiROI`](<#pymmcore_plus.CMMCorePlus.getMultiROI>)() | ➕ | [Cameras](<#cmmcoreplus-cameras>) | Get multiple ROIs from the current camera device.<br>*Why override?* So that the user doesn't need to pass in four empty pymmcore.UnsignedVector() objects. |
 | [`getNBeforeLastImageAndMD`](<#pymmcore_plus.CMMCorePlus.getNBeforeLastImageAndMD>)(n, fix) | ✨ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Return image taken `n` images ago along with associated metadata. |
 | [`getNBeforeLastImageMD`](<#pymmcore_plus.CMMCorePlus.getNBeforeLastImageMD>)(n, md) |  | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Returns a pointer to the pixels of the image that was inserted n images ago. Also provides all metadata associated with that image |
 | [`getNumberOfCameraChannels`](<#pymmcore_plus.CMMCorePlus.getNumberOfCameraChannels>)() |  | [Cameras](<#cmmcoreplus-cameras>) | Returns the number of simultaneous channels the default camera is returning. |
 | [`getNumberOfComponents`](<#pymmcore_plus.CMMCorePlus.getNumberOfComponents>)() |  | [Cameras](<#cmmcoreplus-cameras>) | Returns the number of components the default camera is returning. |
 | [`getNumberOfStates`](<#pymmcore_plus.CMMCorePlus.getNumberOfStates>)(stateDeviceLabel) |  | [State devices](<#cmmcoreplus-state-devices>) | Returns the total number of available positions (states). |
 | [`getOrGuessChannelGroup`](<#pymmcore_plus.CMMCorePlus.getOrGuessChannelGroup>)() | ✨ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Get the channelGroup or find a likely set of candidates. |
-| [`getParentLabel`](<#pymmcore_plus.CMMCorePlus.getParentLabel>)(peripheralLabel) |  | [State devices](<#cmmcoreplus-state-devices>) | Returns parent device. Returns empty string if no parent is found. |
+| [`getParentLabel`](<#pymmcore_plus.CMMCorePlus.getParentLabel>)(peripheralLabel) |  | [Devices](<#cmmcoreplus-devices>) | Returns parent device. Returns empty string if no parent is found. |
 | [`getPhysicalCameraDevice`](<#pymmcore_plus.CMMCorePlus.getPhysicalCameraDevice>)(channel\_index) | ✨ | [Cameras](<#cmmcoreplus-cameras>) | Return the name of the actual camera device for a given channel index. |
 | [`getPixelSizeAffine`](<#pymmcore_plus.CMMCorePlus.getPixelSizeAffine>)() (2 overloads) |  | [Pixel size](<#cmmcoreplus-pixel-size>) | Returns the current Affine Transform to related camera pixels with stage movement. |
 | [`getPixelSizeAffineByID`](<#pymmcore_plus.CMMCorePlus.getPixelSizeAffineByID>)(resolutionID) |  | [Pixel size](<#cmmcoreplus-pixel-size>) | Returns the Affine Transform to related camera pixels with stage movement for the requested pixel size group. The raw affine transform without correction for binning and magnification will be returned. |
-| [`getPixelSizeConfigData`](<#pymmcore_plus.CMMCorePlus.getPixelSizeConfigData>)(configName, native) (2 overloads) | ➕ | [Pixel size](<#cmmcoreplus-pixel-size>) | Return the configuration object for a given pixel size preset `configName`. |
+| [`getPixelSizeConfigData`](<#pymmcore_plus.CMMCorePlus.getPixelSizeConfigData>)(configName, native) (2 overloads) | ➕ | [Pixel size](<#cmmcoreplus-pixel-size>) | Return the configuration object for a given pixel size preset `configName`.<br>*Why override?* The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object. |
 | [`getPixelSizedxdz`](<#pymmcore_plus.CMMCorePlus.getPixelSizedxdz>)() (3 overloads) |  | [Pixel size](<#cmmcoreplus-pixel-size>) | Returns the angle between the camera's x axis and the axis (direction) of the z drive. |
 | [`getPixelSizedydz`](<#pymmcore_plus.CMMCorePlus.getPixelSizedydz>)() (3 overloads) |  | [Pixel size](<#cmmcoreplus-pixel-size>) | Returns the angle between the camera's y axis and the axis (direction) of the z drive. |
 | [`getPixelSizeOptimalZUm`](<#pymmcore_plus.CMMCorePlus.getPixelSizeOptimalZUm>)() (3 overloads) |  | [Pixel size](<#cmmcoreplus-pixel-size>) | Returns the optimal z step size in um, optionally using cached pixel configuration. |
@@ -151,7 +153,7 @@ Parameters:
 | [`getPropertyLowerLimit`](<#pymmcore_plus.CMMCorePlus.getPropertyLowerLimit>)(label, propName) |  | [Properties](<#cmmcoreplus-properties>) | Returns the property lower limit value, if the property has limits - 0 otherwise. |
 | [`getPropertyObject`](<#pymmcore_plus.CMMCorePlus.getPropertyObject>)(device\_label, property\_name) | ✨ | [Properties](<#cmmcoreplus-properties>) | Return a DeviceProperty object bound to a device/property on this core. |
 | [`getPropertySequenceMaxLength`](<#pymmcore_plus.CMMCorePlus.getPropertySequenceMaxLength>)(label, propName) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Queries device property for the maximum number of events that can be put in a sequence |
-| [`getPropertyType`](<#pymmcore_plus.CMMCorePlus.getPropertyType>)(label, propName) | ➕ | [Properties](<#cmmcoreplus-properties>) | Return the intrinsic property type for a given device and property. |
+| [`getPropertyType`](<#pymmcore_plus.CMMCorePlus.getPropertyType>)(label, propName) | ➕ | [Properties](<#cmmcoreplus-properties>) | Return the intrinsic property type for a given device and property.<br>*Why override?* The returned `pymmcore_plus.PropertyType` enum is more interpretable than the raw `int` returned by `pymmcore` |
 | [`getPropertyUpperLimit`](<#pymmcore_plus.CMMCorePlus.getPropertyUpperLimit>)(label, propName) |  | [Properties](<#cmmcoreplus-properties>) | Returns the property upper limit value, if the property has limits - 0 otherwise. |
 | [`getPumpFlowrate`](<#pymmcore_plus.CMMCorePlus.getPumpFlowrate>)(pumpLabel) |  | [Pumps](<#cmmcoreplus-pumps>) | Return the flowrate of the pump in uL per second |
 | [`getPumpMaxVolume`](<#pymmcore_plus.CMMCorePlus.getPumpMaxVolume>)(pumpLabel) |  | [Pumps](<#cmmcoreplus-pumps>) | Return max volume of the pump in uL |
@@ -175,12 +177,12 @@ Parameters:
 | [`getStateLabel`](<#pymmcore_plus.CMMCorePlus.getStateLabel>)(stateDeviceLabel) |  | [State devices](<#cmmcoreplus-state-devices>) | Returns the current state as the label (string). |
 | [`getStateLabels`](<#pymmcore_plus.CMMCorePlus.getStateLabels>)(stateDeviceLabel) |  | [State devices](<#cmmcoreplus-state-devices>) | Return labels for all states |
 | [`getStderrLogLevel`](<#pymmcore_plus.CMMCorePlus.getStderrLogLevel>)() |  | [Logging &amp; errors](<#cmmcoreplus-logging-errors>) | Return the current stderr log level. |
-| [`getSystemState`](<#pymmcore_plus.CMMCorePlus.getSystemState>)(native) | ➕ | [State devices](<#cmmcoreplus-state-devices>) | Return the entire system state. |
-| [`getSystemStateCache`](<#pymmcore_plus.CMMCorePlus.getSystemStateCache>)(native) (2 overloads) | ➕ | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) | Return the entire system state from cache. |
+| [`getSystemState`](<#pymmcore_plus.CMMCorePlus.getSystemState>)(native) | ➕ | [System state &amp; config files](<#cmmcoreplus-system-state-config-files>) | Return the entire system state.<br>*Why override?* The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object. |
+| [`getSystemStateCache`](<#pymmcore_plus.CMMCorePlus.getSystemStateCache>)(native) (2 overloads) | ➕ | [System state &amp; config files](<#cmmcoreplus-system-state-config-files>) | Return the entire system state from cache.<br>*Why override?* The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object. |
 | [`getTaggedImage`](<#pymmcore_plus.CMMCorePlus.getTaggedImage>)(channel\_index) | ✨ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Return getImage as named tuple with metadata. |
 | [`getTags`](<#pymmcore_plus.CMMCorePlus.getTags>)(meta, channel\_index) | ✨ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Return a dict of metadata tags for the state of the core. |
 | [`getTimeoutMs`](<#pymmcore_plus.CMMCorePlus.getTimeoutMs>)() |  | [Devices](<#cmmcoreplus-devices>) | Get the timeout for all wait commands. |
-| [`getVersionInfo`](<#pymmcore_plus.CMMCorePlus.getVersionInfo>)() |  | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) | Displays core version. |
+| [`getVersionInfo`](<#pymmcore_plus.CMMCorePlus.getVersionInfo>)() |  | [General](<#cmmcoreplus-general>) | Displays core version. |
 | [`getXPosition`](<#pymmcore_plus.CMMCorePlus.getXPosition>)() (2 overloads) |  | [Stages](<#cmmcoreplus-stages>) | Obtains the current position of the X axis of the XY stage in microns. |
 | [`getXYPosition`](<#pymmcore_plus.CMMCorePlus.getXYPosition>)() (2 overloads) |  | [Stages](<#cmmcoreplus-stages>) | Obtains the current position of the XY stage in microns. |
 | [`getXYStageDevice`](<#pymmcore_plus.CMMCorePlus.getXYStageDevice>)() |  | [Stages](<#cmmcoreplus-stages>) | Returns the label of the currently selected XYStage device. |
@@ -196,7 +198,7 @@ Parameters:
 | [`initializeAllDevices`](<#pymmcore_plus.CMMCorePlus.initializeAllDevices>)() |  | [Devices](<#cmmcoreplus-devices>) | Calls Initialize() method for each loaded device. |
 | [`initializeCircularBuffer`](<#pymmcore_plus.CMMCorePlus.initializeCircularBuffer>)() |  | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Initialize circular buffer based on the current camera settings. |
 | [`initializeDevice`](<#pymmcore_plus.CMMCorePlus.initializeDevice>)(label) |  | [Devices](<#cmmcoreplus-devices>) | Initializes specific device. |
-| [`instance`](<#pymmcore_plus.CMMCorePlus.instance>)(cls) | ✨ | [Other](<#cmmcoreplus-other>) | Return the global singleton instance of `CMMCorePlus`. |
+| [`instance`](<#pymmcore_plus.CMMCorePlus.instance>)() | ✨ | [General](<#cmmcoreplus-general>) | Return the global singleton instance of `CMMCorePlus`. |
 | [`invertPumpDirection`](<#pymmcore_plus.CMMCorePlus.invertPumpDirection>)(pumpLabel, invert) |  | [Pumps](<#cmmcoreplus-pumps>) | Sets whether the pump direction needs to be inverted |
 | [`isBufferOverflowed`](<#pymmcore_plus.CMMCorePlus.isBufferOverflowed>)() |  | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Indicates whether the circular buffer is overflowed |
 | [`isConfigDefined`](<#pymmcore_plus.CMMCorePlus.isConfigDefined>)(groupName, configName) |  | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Checks if the configuration already exists within a group. |
@@ -223,22 +225,22 @@ Parameters:
 | [`iterDeviceAdapters`](<#pymmcore_plus.CMMCorePlus.iterDeviceAdapters>)(adapter\_pattern, as\_object) (2 overloads) | ✨ | [Devices](<#cmmcoreplus-devices>) | Iterate over all available device adapters. |
 | [`iterDevices`](<#pymmcore_plus.CMMCorePlus.iterDevices>)(device\_type, device\_label, device\_adapter, as\_object) (2 overloads) | ✨ | [Devices](<#cmmcoreplus-devices>) | Iterate over currently loaded devices. |
 | [`iterProperties`](<#pymmcore_plus.CMMCorePlus.iterProperties>)(property\_type, property\_name\_pattern, device\_type, device\_label, has\_limits, is\_read\_only, is\_sequenceable, as\_object) (2 overloads) | ✨ | [Properties](<#cmmcoreplus-properties>) | Iterate over currently loaded (device\_label, property\_name) pairs. |
-| [`loadDevice`](<#pymmcore_plus.CMMCorePlus.loadDevice>)(label, moduleName, deviceName) | ➕ | [Devices](<#cmmcoreplus-devices>) | Load a device from the plugin library. |
+| [`loadDevice`](<#pymmcore_plus.CMMCorePlus.loadDevice>)(label, moduleName, deviceName) | ➕ | [Devices](<#cmmcoreplus-devices>) | Load a device from the plugin library.<br>*Why override?* To add much better error messages in the case of failure. |
 | [`loadExposureSequence`](<#pymmcore_plus.CMMCorePlus.loadExposureSequence>)(cameraLabel, exposureSequence\_ms) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Transfer a sequence of exposure times to the camera. |
 | [`loadGalvoPolygons`](<#pymmcore_plus.CMMCorePlus.loadGalvoPolygons>)(galvoLabel) |  | [Galvos](<#cmmcoreplus-galvos>) | Load a set of galvo polygons to the device |
 | [`loadPropertySequence`](<#pymmcore_plus.CMMCorePlus.loadPropertySequence>)(label, propName, eventSequence) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Transfer a sequence of events/states/whatever to the device. |
 | [`loadSLMSequence`](<#pymmcore_plus.CMMCorePlus.loadSLMSequence>)(slmLabel, imageSequence) |  | [SLMs](<#cmmcoreplus-slms>) | Load a sequence of images into the SLM |
 | [`loadStageSequence`](<#pymmcore_plus.CMMCorePlus.loadStageSequence>)(stageLabel, positionSequence) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Transfer a sequence of events/states/whatever to the device. |
-| [`loadSystemConfiguration`](<#pymmcore_plus.CMMCorePlus.loadSystemConfiguration>)(fileName) | ➕ | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) | Load a system config file conforming to the MM `.cfg` format. |
-| [`loadSystemState`](<#pymmcore_plus.CMMCorePlus.loadSystemState>)(fileName) |  | [State devices](<#cmmcoreplus-state-devices>) | Loads the system configuration from the text file conforming to the MM specific format. |
+| [`loadSystemConfiguration`](<#pymmcore_plus.CMMCorePlus.loadSystemConfiguration>)(fileName) | ➕ | [System state &amp; config files](<#cmmcoreplus-system-state-config-files>) | Load a system config file conforming to the MM `.cfg` format.<br>*Why override?* This method overrides the default implementation to A) allow loading the `MMConfig_demo.cfg` file by default, B) to provide more flexible path declarations and C) better error messages when the file cannot be found. |
+| [`loadSystemState`](<#pymmcore_plus.CMMCorePlus.loadSystemState>)(fileName) |  | [System state &amp; config files](<#cmmcoreplus-system-state-config-files>) | Loads the system configuration from the text file conforming to the MM specific format. |
 | [`loadXYStageSequence`](<#pymmcore_plus.CMMCorePlus.loadXYStageSequence>)(xyStageLabel, xSequence, ySequence) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Transfer a sequence of stage positions to the xy stage. |
 | [`log`](<#pymmcore_plus.CMMCorePlus.log>)(msg, level) (2 overloads) |  | [Logging &amp; errors](<#cmmcoreplus-logging-errors>) | Log a message at the given level. |
 | [`logMessage`](<#pymmcore_plus.CMMCorePlus.logMessage>)(msg) (2 overloads) |  | [Logging &amp; errors](<#cmmcoreplus-logging-errors>) | Record text message in the log file. |
 | [`mda`](<#pymmcore_plus.CMMCorePlus.mda>) | ✨ | [Acquisition engine &amp; events](<#cmmcoreplus-acquisition-engine-events>) | Return the `MDARunner` for this `CMMCorePlus` instance. |
-| [`noop`](<#pymmcore_plus.CMMCorePlus.noop>)() |  | [Other](<#cmmcoreplus-other>) | A static method that does nothing. |
+| [`noop`](<#pymmcore_plus.CMMCorePlus.noop>)() |  | [General](<#cmmcoreplus-general>) | A static method that does nothing. |
 | [`objective_device_pattern`](<#pymmcore_plus.CMMCorePlus.objective_device_pattern>) | ✨ | [State devices](<#cmmcoreplus-state-devices>) | Pattern used to guess objective device labels. |
 | [`pointGalvoAndFire`](<#pymmcore_plus.CMMCorePlus.pointGalvoAndFire>)(galvoLabel, x, y, pulseTime\_us) |  | [Galvos](<#cmmcoreplus-galvos>) | Set the Galvo to an x,y position and fire the laser for a predetermined duration. |
-| [`popNextImage`](<#pymmcore_plus.CMMCorePlus.popNextImage>)(fix) | ➕ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Gets and removes the next image from the circular buffer. |
+| [`popNextImage`](<#pymmcore_plus.CMMCorePlus.popNextImage>)(fix) | ➕ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Gets and removes the next image from the circular buffer.<br>*Why override?* to add the `fix` parameter, which reshapes multi-component images (like RGB images) to (w, h, n\_components) using `fixImage` by default. |
 | [`popNextImageAndMD`](<#pymmcore_plus.CMMCorePlus.popNextImageAndMD>)(channel, slice, fix) (2 overloads) | ✨ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Gets and removes the next image (and metadata) from the circular buffer. |
 | [`popNextImageMD`](<#pymmcore_plus.CMMCorePlus.popNextImageMD>)(channel, slice, md) (2 overloads) |  | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Gets and removes the next image (and metadata) from the circular buffer |
 | [`popNextTaggedImage`](<#pymmcore_plus.CMMCorePlus.popNextTaggedImage>)(channel\_index) | ✨ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Return popNextImageAndMD as named tuple with metadata. |
@@ -251,28 +253,28 @@ Parameters:
 | [`pumpStart`](<#pymmcore_plus.CMMCorePlus.pumpStart>)(pumpLabel) |  | [Pumps](<#cmmcoreplus-pumps>) | Start dispensing until syringe is empty, or manually stopped. |
 | [`readFromSerialPort`](<#pymmcore_plus.CMMCorePlus.readFromSerialPort>)(portLabel) |  | [Serial ports](<#cmmcoreplus-serial-ports>) | Reads the contents of the Rx buffer. |
 | [`register_mda_engine`](<#pymmcore_plus.CMMCorePlus.register_mda_engine>)(engine) | ✨ | [Acquisition engine &amp; events](<#cmmcoreplus-acquisition-engine-events>) | Set the MDA Engine to be used on `run_mda`. |
-| [`registerCallback`](<#pymmcore_plus.CMMCorePlus.registerCallback>)(\_) | ➕ | [Acquisition engine &amp; events](<#cmmcoreplus-acquisition-engine-events>) | \*registerCallback is disallowed in pymmcore-plus!\* |
+| [`registerCallback`](<#pymmcore_plus.CMMCorePlus.registerCallback>)() | ➕ | [Acquisition engine &amp; events](<#cmmcoreplus-acquisition-engine-events>) | registerCallback is disallowed in pymmcore-plus! |
 | [`renameConfig`](<#pymmcore_plus.CMMCorePlus.renameConfig>)(groupName, oldConfigName, newConfigName) |  | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Renames a configuration within a specified group. |
 | [`renameConfigGroup`](<#pymmcore_plus.CMMCorePlus.renameConfigGroup>)(oldGroupName, newGroupName) |  | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Renames a configuration group. |
 | [`renamePixelSizeConfig`](<#pymmcore_plus.CMMCorePlus.renamePixelSizeConfig>)(oldConfigName, newConfigName) |  | [Pixel size](<#cmmcoreplus-pixel-size>) | Renames a pixel size configuration. |
-| [`reset`](<#pymmcore_plus.CMMCorePlus.reset>)() |  | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) | Unloads all devices from the core, clears all configuration data and property blocks. |
+| [`reset`](<#pymmcore_plus.CMMCorePlus.reset>)() |  | [General](<#cmmcoreplus-general>) | Unloads all devices from the core, clears all configuration data and property blocks. |
 | [`run_mda`](<#pymmcore_plus.CMMCorePlus.run_mda>)(events, output, block, dimension\_overrides) | ✨ | [Acquisition engine &amp; events](<#cmmcoreplus-acquisition-engine-events>) | Run a sequence of useq.MDAEvent on a new thread. |
 | [`runGalvoPolygons`](<#pymmcore_plus.CMMCorePlus.runGalvoPolygons>)(galvoLabel) |  | [Galvos](<#cmmcoreplus-galvos>) | Run a loop of galvo polygons |
 | [`runGalvoSequence`](<#pymmcore_plus.CMMCorePlus.runGalvoSequence>)(galvoLabel) |  | [Galvos](<#cmmcoreplus-galvos>) | Run a sequence of galvo positions |
-| [`saveSystemConfiguration`](<#pymmcore_plus.CMMCorePlus.saveSystemConfiguration>)(filename) | ➕ | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) | Saves the current system configuration to a text file. |
-| [`saveSystemState`](<#pymmcore_plus.CMMCorePlus.saveSystemState>)(fileName) |  | [State devices](<#cmmcoreplus-state-devices>) | Saves the current system state to a text file of the MM specific format. |
+| [`saveSystemConfiguration`](<#pymmcore_plus.CMMCorePlus.saveSystemConfiguration>)(filename) | ➕ | [System state &amp; config files](<#cmmcoreplus-system-state-config-files>) | Saves the current system configuration to a text file.<br>*Why override?* To also save pixel size configurations. |
+| [`saveSystemState`](<#pymmcore_plus.CMMCorePlus.saveSystemState>)(fileName) |  | [System state &amp; config files](<#cmmcoreplus-system-state-config-files>) | Saves the current system state to a text file of the MM specific format. |
 | [`setAdapterOrigin`](<#pymmcore_plus.CMMCorePlus.setAdapterOrigin>)(newZUm) (2 overloads) |  | [Stages](<#cmmcoreplus-stages>) | Enable software translation of coordinates for the current focus/Z stage. |
 | [`setAdapterOriginXY`](<#pymmcore_plus.CMMCorePlus.setAdapterOriginXY>)(newXUm, newYUm) (2 overloads) |  | [Stages](<#cmmcoreplus-stages>) | Enable software translation of coordinates for the current XY stage. |
 | [`setAutoFocusDevice`](<#pymmcore_plus.CMMCorePlus.setAutoFocusDevice>)(focusLabel) |  | [Autofocus](<#cmmcoreplus-autofocus>) | Sets the current auto-focus device. |
 | [`setAutoFocusOffset`](<#pymmcore_plus.CMMCorePlus.setAutoFocusOffset>)(offset) | ➕ | [Autofocus](<#cmmcoreplus-autofocus>) | Applies offset the one-shot focusing device. |
-| [`setAutoShutter`](<#pymmcore_plus.CMMCorePlus.setAutoShutter>)(state) | ➕ | [Shutters](<#cmmcoreplus-shutters>) | Set shutter to automatically open and close when an image is acquired. |
+| [`setAutoShutter`](<#pymmcore_plus.CMMCorePlus.setAutoShutter>)(state) | ➕ | [Shutters](<#cmmcoreplus-shutters>) | Set shutter to automatically open and close when an image is acquired.<br>*Why override?* To emit an `autoShutterSet` event. |
 | [`setBinning`](<#pymmcore_plus.CMMCorePlus.setBinning>)(binning) (2 overloads) |  | [Cameras](<#cmmcoreplus-cameras>) | Sets the binning factor of the current camera. |
 | [`setCameraDevice`](<#pymmcore_plus.CMMCorePlus.setCameraDevice>)(cameraLabel) |  | [Cameras](<#cmmcoreplus-cameras>) | Sets the current camera device. |
 | [`setChannelGroup`](<#pymmcore_plus.CMMCorePlus.setChannelGroup>)(channelGroup) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Specifies the group determining the channel selection. |
 | [`setCircularBufferMemoryFootprint`](<#pymmcore_plus.CMMCorePlus.setCircularBufferMemoryFootprint>)(sizeMB) |  | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Reserve memory for the circular buffer. |
-| [`setConfig`](<#pymmcore_plus.CMMCorePlus.setConfig>)(groupName, configName) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Applies a configuration to a group. |
-| [`setContext`](<#pymmcore_plus.CMMCorePlus.setContext>)(kwargs) | ✨ | [Acquisition engine &amp; events](<#cmmcoreplus-acquisition-engine-events>) | Set core properties in a context restoring the initial values on exit. |
-| [`setDeviceAdapterSearchPaths`](<#pymmcore_plus.CMMCorePlus.setDeviceAdapterSearchPaths>)(paths) | ➕ | [Devices](<#cmmcoreplus-devices>) | Set the device adapter search paths. |
+| [`setConfig`](<#pymmcore_plus.CMMCorePlus.setConfig>)(groupName, configName) | ➕ | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Applies a configuration to a group.<br>*Why override?* The native `onConfigGroupChanged` callback is not always called whenever `CMMCore.setConfig` has been called. We override here to emit a `configSet` event whenever `setConfig` is called. See \<https://github.com/micro-manager/mmCoreAndDevices/issues/25\> for details. |
+| [`setContext`](<#pymmcore_plus.CMMCorePlus.setContext>)(\*\*kwargs) | ✨ | [System state &amp; config files](<#cmmcoreplus-system-state-config-files>) | Set core properties in a context restoring the initial values on exit. |
+| [`setDeviceAdapterSearchPaths`](<#pymmcore_plus.CMMCorePlus.setDeviceAdapterSearchPaths>)(paths) | ➕ | [Devices](<#cmmcoreplus-devices>) | Set the device adapter search paths.<br>*Why override?* In cases where MM device adapters use dynamically loaded libraries, the device adapter search paths must also be added to the `PATH` environment variable (e.g. \<https://github.com/micro-manager/pymmcore/issues/28\>). This method overrides the default implementation to ensure that the `PATH` environment variable is updated when the device adapter search paths are changed. |
 | [`setDeviceDelayMs`](<#pymmcore_plus.CMMCorePlus.setDeviceDelayMs>)(label, delayMs) |  | [Devices](<#cmmcoreplus-devices>) | Overrides the built-in value for the action delay. |
 | [`setDeviceTimeoutMs`](<#pymmcore_plus.CMMCorePlus.setDeviceTimeoutMs>)(label, timeoutMs) |  | [Devices](<#cmmcoreplus-devices>) | Sets a per-device timeout in milliseconds. |
 | [`setExposure`](<#pymmcore_plus.CMMCorePlus.setExposure>)(exp) (2 overloads) |  | [Cameras](<#cmmcoreplus-cameras>) | Sets the exposure setting of the current camera in milliseconds. |
@@ -289,18 +291,18 @@ Parameters:
 | [`setOriginX`](<#pymmcore_plus.CMMCorePlus.setOriginX>)() (2 overloads) |  | [Stages](<#cmmcoreplus-stages>) | Zero the given XY stage's X coordinate at the current position. |
 | [`setOriginXY`](<#pymmcore_plus.CMMCorePlus.setOriginXY>)() (2 overloads) |  | [Stages](<#cmmcoreplus-stages>) | Zero the current XY stage's coordinates at the current position. |
 | [`setOriginY`](<#pymmcore_plus.CMMCorePlus.setOriginY>)() (2 overloads) |  | [Stages](<#cmmcoreplus-stages>) | Zero the given XY stage's Y coordinate at the current position. |
-| [`setParentLabel`](<#pymmcore_plus.CMMCorePlus.setParentLabel>)(deviceLabel, parentHubLabel) |  | [State devices](<#cmmcoreplus-state-devices>) | Sets parent device label |
+| [`setParentLabel`](<#pymmcore_plus.CMMCorePlus.setParentLabel>)(deviceLabel, parentHubLabel) |  | [Devices](<#cmmcoreplus-devices>) | Sets parent device label |
 | [`setPixelSizeAffine`](<#pymmcore_plus.CMMCorePlus.setPixelSizeAffine>)(resolutionID, affine) |  | [Pixel size](<#cmmcoreplus-pixel-size>) | Sets the raw affine transform for the specific pixel size configuration. |
 | [`setPixelSizeConfig`](<#pymmcore_plus.CMMCorePlus.setPixelSizeConfig>)(resolutionID) |  | [Pixel size](<#cmmcoreplus-pixel-size>) | Applies a Pixel Size Configuration. |
 | [`setPixelSizedxdz`](<#pymmcore_plus.CMMCorePlus.setPixelSizedxdz>)(resolutionID, dXdZ) |  | [Pixel size](<#cmmcoreplus-pixel-size>) | Sets the pixel size in the X direction in microns. |
 | [`setPixelSizedydz`](<#pymmcore_plus.CMMCorePlus.setPixelSizedydz>)(resolutionID, dYdZ) |  | [Pixel size](<#cmmcoreplus-pixel-size>) | Sets the pixel size in the Y direction in microns. |
 | [`setPixelSizeOptimalZUm`](<#pymmcore_plus.CMMCorePlus.setPixelSizeOptimalZUm>)(resolutionID, optimalZ) |  | [Pixel size](<#cmmcoreplus-pixel-size>) | Sets the pixel size in the Z direction in microns. |
-| [`setPixelSizeUm`](<#pymmcore_plus.CMMCorePlus.setPixelSizeUm>)(resolutionID, pixSize) | ➕ | [Pixel size](<#cmmcoreplus-pixel-size>) | Set pixel size in microns for the specified `resolutionID`. |
+| [`setPixelSizeUm`](<#pymmcore_plus.CMMCorePlus.setPixelSizeUm>)(resolutionID, pixSize) | ➕ | [Pixel size](<#cmmcoreplus-pixel-size>) | Set pixel size in microns for the specified `resolutionID`.<br>*Why override?* To emit a `pixelSizeChanged` event. |
 | [`setPosition`](<#pymmcore_plus.CMMCorePlus.setPosition>)(position) (2 overloads) |  | [Stages](<#cmmcoreplus-stages>) | Sets the position of the current FocusDevice in microns. |
 | [`setPrimaryLogFile`](<#pymmcore_plus.CMMCorePlus.setPrimaryLogFile>)(filename) (2 overloads) |  | [Logging &amp; errors](<#cmmcoreplus-logging-errors>) | Set the primary Core log file. |
 | [`setPrimaryLogFileRotation`](<#pymmcore_plus.CMMCorePlus.setPrimaryLogFileRotation>)(maxFileSize, maxBackupCount) |  | [Logging &amp; errors](<#cmmcoreplus-logging-errors>) | Set the primary log file rotation parameters. |
 | [`setPrimaryLogLevel`](<#pymmcore_plus.CMMCorePlus.setPrimaryLogLevel>)(level) |  | [Logging &amp; errors](<#cmmcoreplus-logging-errors>) | Set the log level for the primary log file. |
-| [`setProperty`](<#pymmcore_plus.CMMCorePlus.setProperty>)(label, propName, propValue) | ➕ | [Properties](<#cmmcoreplus-properties>) | Set property named `propName` on device `label` to `propValue`. |
+| [`setProperty`](<#pymmcore_plus.CMMCorePlus.setProperty>)(label, propName, propValue) | ➕ | [Properties](<#cmmcoreplus-properties>) | Set property named `propName` on device `label` to `propValue`.<br>*Why override?* In `MMCore`, the calling of the `onPropertyChanged` callback is left to the underlying device adapter, which means it is not always called. This method overrides the default implementation to ensure that `events.propertyChanged` is \*always\* emitted when `setProperty` has been called and the property Value has actually changed. |
 | [`setPumpFlowrate`](<#pymmcore_plus.CMMCorePlus.setPumpFlowrate>)(pumpLabel, volume) |  | [Pumps](<#cmmcoreplus-pumps>) | Set the flowrate of the pump in uL per second |
 | [`setPumpMaxVolume`](<#pymmcore_plus.CMMCorePlus.setPumpMaxVolume>)(pumpLabel, volume) |  | [Pumps](<#cmmcoreplus-pumps>) | Set the max volume of the pump in uL |
 | [`setPumpPressureKPa`](<#pymmcore_plus.CMMCorePlus.setPumpPressureKPa>)(pumpLabel, pressure) |  | [Pumps](<#cmmcoreplus-pumps>) | Sets the pressure of the pump in kPa. |
@@ -308,54 +310,54 @@ Parameters:
 | [`setRelativePosition`](<#pymmcore_plus.CMMCorePlus.setRelativePosition>)(d) (2 overloads) |  | [Stages](<#cmmcoreplus-stages>) | Sets the relative position of the stage in microns. |
 | [`setRelativeXYPosition`](<#pymmcore_plus.CMMCorePlus.setRelativeXYPosition>)(dx, dy) (2 overloads) |  | [Stages](<#cmmcoreplus-stages>) | Sets the relative position of the XY stage in microns. |
 | [`setRelativeXYZPosition`](<#pymmcore_plus.CMMCorePlus.setRelativeXYZPosition>)(dx, dy, dz) | ✨ | [Stages](<#cmmcoreplus-stages>) | Sets the relative XYZ position in microns. |
-| [`setROI`](<#pymmcore_plus.CMMCorePlus.setROI>)(args) (2 overloads) | ➕ | [Cameras](<#cmmcoreplus-cameras>) | Set the camera Region of Interest (ROI). |
+| [`setROI`](<#pymmcore_plus.CMMCorePlus.setROI>)(x, y, width, height) (2 overloads) | ➕ | [Cameras](<#cmmcoreplus-cameras>) | Set the camera Region of Interest (ROI).<br>*Why override?* To emit a `roiSet` event. |
 | [`setSerialPortCommand`](<#pymmcore_plus.CMMCorePlus.setSerialPortCommand>)(portLabel, command, term) |  | [Serial ports](<#cmmcoreplus-serial-ports>) | Send string to the serial device and return an answer. |
 | [`setSerialProperties`](<#pymmcore_plus.CMMCorePlus.setSerialProperties>)(portName, answerTimeout, baudRate, delayBetweenCharsMs, handshaking, parity, stopBits) |  | [Serial ports](<#cmmcoreplus-serial-ports>) | Sets all com port properties in a single call. |
 | [`setShutterDevice`](<#pymmcore_plus.CMMCorePlus.setShutterDevice>)(shutterLabel) |  | [Shutters](<#cmmcoreplus-shutters>) | the current shutter device. |
-| [`setShutterOpen`](<#pymmcore_plus.CMMCorePlus.setShutterOpen>)(args) (2 overloads) | ➕ | [Shutters](<#cmmcoreplus-shutters>) | Open or close the currently selected or `shutterLabel` shutter. |
+| [`setShutterOpen`](<#pymmcore_plus.CMMCorePlus.setShutterOpen>)(state) (2 overloads) | ➕ | [Shutters](<#cmmcoreplus-shutters>) | Open or close the currently selected or `shutterLabel` shutter.<br>*Why override?* To emit a `propertyChanged` event. |
 | [`setSLMDevice`](<#pymmcore_plus.CMMCorePlus.setSLMDevice>)(slmLabel) |  | [SLMs](<#cmmcoreplus-slms>) | Sets the current slm device. |
 | [`setSLMExposure`](<#pymmcore_plus.CMMCorePlus.setSLMExposure>)(slmLabel, exposure\_ms) |  | [SLMs](<#cmmcoreplus-slms>) | For SLM devices with build-in light source (such as projectors), this will set the exposure time, but not (yet) start the illumination |
 | [`setSLMImage`](<#pymmcore_plus.CMMCorePlus.setSLMImage>)(slmLabel, pixels) (2 overloads) |  | [SLMs](<#cmmcoreplus-slms>) | Write an image to the SLM . |
 | [`setSLMPixelsTo`](<#pymmcore_plus.CMMCorePlus.setSLMPixelsTo>)(slmLabel, intensity) (2 overloads) |  | [SLMs](<#cmmcoreplus-slms>) | Set all SLM pixels to a single 8-bit intensity. |
 | [`setStageLinearSequence`](<#pymmcore_plus.CMMCorePlus.setStageLinearSequence>)(stageLabel, dZ\_um, nSlices) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Loads a linear sequence (defined by stepsize and nr. of steps) into the device. |
-| [`setState`](<#pymmcore_plus.CMMCorePlus.setState>)(stateDeviceLabel, state) | ➕ | [State devices](<#cmmcoreplus-state-devices>) | Set state (by position) on `stateDeviceLabel`, with reliable event emission. |
-| [`setStateLabel`](<#pymmcore_plus.CMMCorePlus.setStateLabel>)(stateDeviceLabel, stateLabel) | ➕ | [State devices](<#cmmcoreplus-state-devices>) | Set state (by label) on `stateDeviceLabel`, with reliable event emission. |
+| [`setState`](<#pymmcore_plus.CMMCorePlus.setState>)(stateDeviceLabel, state) | ➕ | [State devices](<#cmmcoreplus-state-devices>) | Set state (by position) on `stateDeviceLabel`, with reliable event emission.<br>*Why override?* In `MMCore`, the calling of the `onPropertyChanged` callback is left to the underlying device adapter, which means it is not always called. This method overrides the default implementation to ensure that `events.propertyChanged` is \*always\* emitted when `setProperty` has been called and the property Value has actually changed. |
+| [`setStateLabel`](<#pymmcore_plus.CMMCorePlus.setStateLabel>)(stateDeviceLabel, stateLabel) | ➕ | [State devices](<#cmmcoreplus-state-devices>) | Set state (by label) on `stateDeviceLabel`, with reliable event emission.<br>*Why override?* In `MMCore`, the calling of the `onPropertyChanged` callback is left to the underlying device adapter, which means it is not always called. This method overrides the default implementation to ensure that `events.propertyChanged` is \*always\* emitted when `setProperty` has been called and the property Value has actually changed. |
 | [`setStderrLogLevel`](<#pymmcore_plus.CMMCorePlus.setStderrLogLevel>)(level) |  | [Logging &amp; errors](<#cmmcoreplus-logging-errors>) | Set the stderr log level. |
-| [`setSystemState`](<#pymmcore_plus.CMMCorePlus.setSystemState>)(conf) |  | [State devices](<#cmmcoreplus-state-devices>) | Sets all properties contained in the Configuration object. |
+| [`setSystemState`](<#pymmcore_plus.CMMCorePlus.setSystemState>)(conf) |  | [System state &amp; config files](<#cmmcoreplus-system-state-config-files>) | Sets all properties contained in the Configuration object. |
 | [`setTimeoutMs`](<#pymmcore_plus.CMMCorePlus.setTimeoutMs>)(timeoutMs) |  | [Devices](<#cmmcoreplus-devices>) | Sets the timeout for all wait commands. |
-| [`setXYPosition`](<#pymmcore_plus.CMMCorePlus.setXYPosition>)(args) (2 overloads) | ➕ | [Stages](<#cmmcoreplus-stages>) | Sets the position of the XY stage in microns. |
+| [`setXYPosition`](<#pymmcore_plus.CMMCorePlus.setXYPosition>)(x, y) (2 overloads) | ➕ | [Stages](<#cmmcoreplus-stages>) | Sets the position of the XY stage in microns.<br>*Why override?* to store the last commanded stage position internally. |
 | [`setXYStageDevice`](<#pymmcore_plus.CMMCorePlus.setXYStageDevice>)(xyStageLabel) |  | [Stages](<#cmmcoreplus-stages>) | Sets the current XY device. |
 | [`setZPosition`](<#pymmcore_plus.CMMCorePlus.setZPosition>)(val) | ✨ | [Stages](<#cmmcoreplus-stages>) | Set the position of the current focus device in microns. |
-| [`sleep`](<#pymmcore_plus.CMMCorePlus.sleep>)(intervalMs) |  | [Other](<#cmmcoreplus-other>) | Waits (blocks the calling thread) for specified time in milliseconds. |
+| [`sleep`](<#pymmcore_plus.CMMCorePlus.sleep>)(intervalMs) |  | [General](<#cmmcoreplus-general>) | Waits (blocks the calling thread) for specified time in milliseconds. |
 | [`snap`](<#pymmcore_plus.CMMCorePlus.snap>)(numChannel, fix) | ✨ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Snap and return an image. |
-| [`snapImage`](<#pymmcore_plus.CMMCorePlus.snapImage>)() | ➕ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Acquires a single image with current settings. |
-| [`startContinuousSequenceAcquisition`](<#pymmcore_plus.CMMCorePlus.startContinuousSequenceAcquisition>)(intervalMs) | ➕ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Start a ContinuousSequenceAcquisition. |
+| [`snapImage`](<#pymmcore_plus.CMMCorePlus.snapImage>)() | ➕ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Acquires a single image with current settings.<br>*Why override?* To emit the `imageSnapped` event after snapping an image, and to emit shutter property changes if `getAutoShutter` is `True`. |
+| [`startContinuousSequenceAcquisition`](<#pymmcore_plus.CMMCorePlus.startContinuousSequenceAcquisition>)(intervalMs) | ➕ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Start a ContinuousSequenceAcquisition.<br>*Why override?* To emit the `continuousSequenceAcquisitionStarting` and `continuousSequenceAcquisitionStarted` events. |
 | [`startExposureSequence`](<#pymmcore_plus.CMMCorePlus.startExposureSequence>)(cameraLabel) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Starts an ongoing sequence of triggered exposures in a camera. |
 | [`startPropertySequence`](<#pymmcore_plus.CMMCorePlus.startPropertySequence>)(label, propName) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Starts an ongoing sequence of triggered events in a property of a device. |
 | [`startSecondaryLogFile`](<#pymmcore_plus.CMMCorePlus.startSecondaryLogFile>)(filename, enableDebug) (3 overloads) |  | [Logging &amp; errors](<#cmmcoreplus-logging-errors>) | Start capturing logging output into an additional file. |
-| [`startSequenceAcquisition`](<#pymmcore_plus.CMMCorePlus.startSequenceAcquisition>)(args) (2 overloads) | ➕ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Starts streaming camera sequence acquisition. |
+| [`startSequenceAcquisition`](<#pymmcore_plus.CMMCorePlus.startSequenceAcquisition>)(numImages, intervalMs, stopOnOverflow) (2 overloads) | ➕ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Starts streaming camera sequence acquisition.<br>*Why override?* To emit the `sequenceAcquisitionStarting` and `sequenceAcquisitionStarted` events. |
 | [`startSLMSequence`](<#pymmcore_plus.CMMCorePlus.startSLMSequence>)(slmLabel) |  | [SLMs](<#cmmcoreplus-slms>) | Starts the sequence previously uploaded to the SLM |
 | [`startStageSequence`](<#pymmcore_plus.CMMCorePlus.startStageSequence>)(stageLabel) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Starts an ongoing sequence of triggered events in a stage. |
 | [`startXYStageSequence`](<#pymmcore_plus.CMMCorePlus.startXYStageSequence>)(xyStageLabel) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Starts an ongoing sequence of triggered events in an XY stage. |
-| [`state`](<#pymmcore_plus.CMMCorePlus.state>)(cached, include\_time, \_kwargs) | ✨ | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) | Return info on the current state of the core. |
+| [`state`](<#pymmcore_plus.CMMCorePlus.state>)(cached, include\_time) | ✨ | [General](<#cmmcoreplus-general>) | Return info on the current state of the core. |
 | [`stderrLogEnabled`](<#pymmcore_plus.CMMCorePlus.stderrLogEnabled>)() |  | [Logging &amp; errors](<#cmmcoreplus-logging-errors>) | Indicates whether logging output goes to stdErr |
 | [`stop`](<#pymmcore_plus.CMMCorePlus.stop>)(xyOrZStageLabel) |  | [Stages](<#cmmcoreplus-stages>) | Stop the XY or focus/Z stage motors |
 | [`stopExposureSequence`](<#pymmcore_plus.CMMCorePlus.stopExposureSequence>)(cameraLabel) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Stops an ongoing sequence of triggered exposures in a camera. |
 | [`stopPropertySequence`](<#pymmcore_plus.CMMCorePlus.stopPropertySequence>)(label, propName) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Stops an ongoing sequence of triggered events in a property of a device. |
 | [`stopSecondaryLogFile`](<#pymmcore_plus.CMMCorePlus.stopSecondaryLogFile>)(handle) |  | [Logging &amp; errors](<#cmmcoreplus-logging-errors>) | Stop capturing logging output into an additional file. |
-| [`stopSequenceAcquisition`](<#pymmcore_plus.CMMCorePlus.stopSequenceAcquisition>)(cameraLabel) | ➕ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Stops streaming camera sequence acquisition. |
+| [`stopSequenceAcquisition`](<#pymmcore_plus.CMMCorePlus.stopSequenceAcquisition>)(cameraLabel) | ➕ | [Images &amp; buffer](<#cmmcoreplus-images-buffer>) | Stops streaming camera sequence acquisition.<br>*Why override?* To emit a `sequenceAcquisitionStopped` event. |
 | [`stopSLMSequence`](<#pymmcore_plus.CMMCorePlus.stopSLMSequence>)(slmLabel) |  | [SLMs](<#cmmcoreplus-slms>) | Stops the SLM sequence if previously started |
 | [`stopStageSequence`](<#pymmcore_plus.CMMCorePlus.stopStageSequence>)(stageLabel) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Stops an ongoing sequence of triggered events in a stage. |
 | [`stopXYStageSequence`](<#pymmcore_plus.CMMCorePlus.stopXYStageSequence>)(xyStageLabel) |  | [Hardware sequencing](<#cmmcoreplus-hardware-sequencing>) | Stops an ongoing sequence of triggered events in an XY stage. |
 | [`supportsDeviceDetection`](<#pymmcore_plus.CMMCorePlus.supportsDeviceDetection>)(deviceLabel) |  | [Devices](<#cmmcoreplus-devices>) | Return whether or not the device supports automatic device detection (i.e. |
 | [`systemBusy`](<#pymmcore_plus.CMMCorePlus.systemBusy>)() |  | [Devices](<#cmmcoreplus-devices>) | Checks the busy status of the entire system. |
-| [`systemConfigurationFile`](<#pymmcore_plus.CMMCorePlus.systemConfigurationFile>)() | ✨ | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) | Return the path to the last loaded system configuration file, or `None`. |
-| [`unloadAllDevices`](<#pymmcore_plus.CMMCorePlus.unloadAllDevices>)() | ➕ | [Devices](<#cmmcoreplus-devices>) | Unload all devices from the core and reset all configuration data. |
+| [`systemConfigurationFile`](<#pymmcore_plus.CMMCorePlus.systemConfigurationFile>)() | ✨ | [System state &amp; config files](<#cmmcoreplus-system-state-config-files>) | Return the path to the last loaded system configuration file, or `None`. |
+| [`unloadAllDevices`](<#pymmcore_plus.CMMCorePlus.unloadAllDevices>)() | ➕ | [Devices](<#cmmcoreplus-devices>) | Unload all devices from the core and reset all configuration data.<br>*Why override?* To add logging. |
 | [`unloadDevice`](<#pymmcore_plus.CMMCorePlus.unloadDevice>)(label) |  | [Devices](<#cmmcoreplus-devices>) | Unloads the device from the core and adjusts all configuration data. |
 | [`unloadLibrary`](<#pymmcore_plus.CMMCorePlus.unloadLibrary>)(moduleName) |  | [Devices](<#cmmcoreplus-devices>) | Forcefully unload a library. |
 | [`unsetDeviceTimeout`](<#pymmcore_plus.CMMCorePlus.unsetDeviceTimeout>)(label) |  | [Devices](<#cmmcoreplus-devices>) | Removes any per-device timeout, restoring the default. |
 | [`updateCoreProperties`](<#pymmcore_plus.CMMCorePlus.updateCoreProperties>)() |  | [Properties](<#cmmcoreplus-properties>) | Updates CoreProperties (currently all Core properties are devices types) with the loaded hardware. |
-| [`updateSystemStateCache`](<#pymmcore_plus.CMMCorePlus.updateSystemStateCache>)() |  | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) | Updates the state of the entire hardware. |
+| [`updateSystemStateCache`](<#pymmcore_plus.CMMCorePlus.updateSystemStateCache>)() |  | [System state &amp; config files](<#cmmcoreplus-system-state-config-files>) | Updates the state of the entire hardware. |
 | [`usesDeviceDelay`](<#pymmcore_plus.CMMCorePlus.usesDeviceDelay>)(label) |  | [Devices](<#cmmcoreplus-devices>) | Signals if the device will use the delay setting or not. |
 | [`volumetricPumpHome`](<#pymmcore_plus.CMMCorePlus.volumetricPumpHome>)(pumpLabel) |  | [Pumps](<#cmmcoreplus-pumps>) | Homes the volumetric pump. |
 | [`volumetricPumpRequiresHoming`](<#pymmcore_plus.CMMCorePlus.volumetricPumpRequiresHoming>)(pumpLabel) |  | [Pumps](<#cmmcoreplus-pumps>) | Return True if the volumetric pump requires homing. |
@@ -363,8 +365,120 @@ Parameters:
 | [`waitForConfig`](<#pymmcore_plus.CMMCorePlus.waitForConfig>)(group, configName) |  | [Config groups &amp; presets](<#cmmcoreplus-config-groups-presets>) | Blocks until all devices included in the configuration become ready. |
 | [`waitForDevice`](<#pymmcore_plus.CMMCorePlus.waitForDevice>)(label) |  | [Devices](<#cmmcoreplus-devices>) | Waits (blocks the calling thread) until the specified device becomes non-busy. |
 | [`waitForDeviceType`](<#pymmcore_plus.CMMCorePlus.waitForDeviceType>)(devType) |  | [Devices](<#cmmcoreplus-devices>) | Blocks until all devices of the specific type become ready (not-busy). |
-| [`waitForSystem`](<#pymmcore_plus.CMMCorePlus.waitForSystem>)() |  | [System state &amp; configuration files](<#cmmcoreplus-system-state-configuration-files>) | Blocks until all devices in the system become ready (not-busy). |
+| [`waitForSystem`](<#pymmcore_plus.CMMCorePlus.waitForSystem>)() |  | [System state &amp; config files](<#cmmcoreplus-system-state-config-files>) | Blocks until all devices in the system become ready (not-busy). |
 | [`writeToSerialPort`](<#pymmcore_plus.CMMCorePlus.writeToSerialPort>)(portLabel, data) |  | [Serial ports](<#cmmcoreplus-serial-ports>) | Sends an array of characters to the serial port and returns immediately. |
+
+## General
+
+### describe
+
+```python
+describe(
+    sort: str | None = None,
+    show_config_groups: bool = False,
+    show_available: bool = False,
+) -> None
+```
+
+Print information table with the current configuration.
+
+Intended to provide a quick overview of the microscope configuration during interactive terminal usage.
+
+### getAPIVersionInfo
+
+```python
+getAPIVersionInfo() -> str
+```
+
+Returns the module and device interface versions.
+
+### getMMCoreVersionMajor
+
+```python
+getMMCoreVersionMajor() -> int
+```
+
+### getMMCoreVersionMinor
+
+```python
+getMMCoreVersionMinor() -> int
+```
+
+### getMMCoreVersionPatch
+
+```python
+getMMCoreVersionPatch() -> int
+```
+
+### getMMDeviceDeviceInterfaceVersion
+
+```python
+getMMDeviceDeviceInterfaceVersion() -> int
+```
+
+### getMMDeviceModuleInterfaceVersion
+
+```python
+getMMDeviceModuleInterfaceVersion() -> int
+```
+
+### getVersionInfo
+
+```python
+getVersionInfo() -> str
+```
+
+Displays core version.
+
+### instance
+
+```python
+instance() -> CMMCorePlus
+```
+
+Return the global singleton instance of `CMMCorePlus`.
+
+In many cases, a single instance of `CMMCorePlus` is all that will be created in a given session. This class method provides a convenient way to access that instance.
+
+> [!TIP]
+>
+> Creating/accessing a `CMMCorePlus` object using `CMMCorePlus.instance()` is a convenient way to access the same core instance from multiple places in your code. All widgets in [`pymmcore-widgets`](<https://github.com/pymmcore-plus/pymmcore-widgets>) also use `CMMCorePlus.instance()` by default, so any widgets you use will automatically connect to the same core instance without any additional configuration.
+>
+> Attempts *are* made to make it thread-safe. But please open an issue if you find any problems.
+
+### noop
+
+```python
+noop() -> None
+```
+
+A static method that does nothing.
+
+### reset
+
+```python
+reset() -> None
+```
+
+Unloads all devices from the core, clears all configuration data and property blocks.
+
+### sleep
+
+```python
+sleep(intervalMs: float) -> None
+```
+
+Waits (blocks the calling thread) for specified time in milliseconds.
+
+### state
+
+```python
+state(
+    *, cached: bool = True, include_time: bool = False, **_kwargs: Any
+) -> SummaryMetaV1
+```
+
+Return info on the current state of the core.
 
 ## Acquisition engine &amp; events
 
@@ -376,7 +490,7 @@ events: PCoreSignaler
 
 Signaler for core events.
 
-✨ *This method is new in `CMMCorePlus`.*
+✨ *This attribute is new in `CMMCorePlus`.*
 
 This attribute allows connecting callbacks to various events that occur within the core. See `pymmcore_plus.core.events.PCoreSignaler` documentation for details of the available signals, and how to connect to them.
 
@@ -388,7 +502,7 @@ mda: MDARunner
 
 Return the `MDARunner` for this `CMMCorePlus` instance.
 
-✨ *This method is new in `CMMCorePlus`.*
+✨ *This attribute is new in `CMMCorePlus`.*
 
 ### register\_mda\_engine
 
@@ -397,8 +511,6 @@ register_mda_engine(engine: PMDAEngine) -> None
 ```
 
 Set the MDA Engine to be used on `run_mda`.
-
-✨ *This method is new in `CMMCorePlus`.*
 
 This will unregister the previous engine and emit an `mdaEngineRegistered` signal. The current Engine must not be running an MDA in order to register a new engine.
 
@@ -432,21 +544,89 @@ run_mda(
 
 Run a sequence of useq.MDAEvent on a new thread.
 
-✨ *This method is new in `CMMCorePlus`.*
-
 The currently registered MDAEngine (`core.mda.engine`) will be responsible for executing the acquisition.
 
 After starting the sequence you can pause or cancel the mda with the mda object's `set_paused` and `cancel` methods.
 
 Parameters:
 
-<table>       <thead>         <tr>           <th>Name</th>           <th>Type</th>           <th>Description</th>           <th>Default</th>         </tr>       </thead>       <tbody>           <tr class="doc-section-item">             <td>                 <code>events</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" hover="" identifier="collections.abc.Iterable" optional="">Iterable</autoref>[<autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" hover="" identifier="useq.MDAEvent" optional="">MDAEvent</autoref>]</code>             </td>             <td>               <div class="doc-md-description">                 <p>An iterable of <autoref data-zensical-autoref="" domain="py" filepath="/Users/runner/work/pymmcore-plus.github.io/pymmcore-plus.github.io/.repos/pymmcore-plus/src/pymmcore_plus/core/_mmcore_plus.py" identifier="useq.MDAEvent" lineno="1630" origin="pymmcore_plus.CMMCorePlus.run_mda" role="meth" slug="useqmdaevent">useq.MDAEvent</autoref> to execute.  This may be an instance of <autoref data-zensical-autoref="" domain="py" filepath="/Users/runner/work/pymmcore-plus.github.io/pymmcore-plus.github.io/.repos/pymmcore-plus/src/pymmcore_plus/core/_mmcore_plus.py" identifier="useq.MDASequence" lineno="1630" origin="pymmcore_plus.CMMCorePlus.run_mda" role="meth" slug="useqmdasequence">useq.MDASequence</autoref>, or any other iterable of <autoref data-zensical-autoref="" domain="py" filepath="/Users/runner/work/pymmcore-plus.github.io/pymmcore-plus.github.io/.repos/pymmcore-plus/src/pymmcore_plus/core/_mmcore_plus.py" identifier="useq.MDAEvent" lineno="1630" origin="pymmcore_plus.CMMCorePlus.run_mda" role="meth" slug="useqmdaevent">useq.MDAEvent</autoref>.</p>                </div>             </td>             <td>                 <em>required</em>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>output</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" hover="" identifier="pymmcore_plus.mda._runner.SingleOutput" optional="">SingleOutput</autoref> | <autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" hover="" identifier="collections.abc.Sequence" optional="">Sequence</autoref>[<autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" hover="" identifier="pymmcore_plus.mda._runner.SingleOutput" optional="">SingleOutput</autoref>] | None</code>             </td>             <td>               <div class="doc-md-description">                 <p>The output handler(s) to use.  If None, no output will be saved. &quot;SingleOutput&quot; can be any of the following:</p> <ul> <li>A string or Path to a directory to save images to. A handler will be     created automatically based on the extension of the path.</li> <li>A handler object that implements the <code>DataHandler</code> protocol, currently     meaning it has a <code>frameReady</code> method.  See <code>mda_listeners_connected</code>     for more details.</li> <li>A sequence of either of the above. (all will be connected)</li> </ul>                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>block</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" identifier="bool" optional="">bool</autoref></code>             </td>             <td>               <div class="doc-md-description">                 <p>If True, block until the sequence is complete, by default False.</p>                </div>             </td>             <td>                   <code>False</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>dimension_overrides</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" identifier="dict" optional="">dict</autoref>[<autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" identifier="str" optional="">str</autoref>, <autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" hover="" identifier="pymmcore_plus.mda._runner.DimensionOverride" optional="">DimensionOverride</autoref>] | None</code>             </td>             <td>               <div class="doc-md-description">                 <p>Per-dimension storage overrides, keyed by dimension name. See <code>MDARunner.run</code> for details.</p>                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>       </tbody>     </table>
+<table>       <thead>         <tr>           <th>Name</th>           <th>Type</th>           <th>Description</th>           <th>Default</th>         </tr>       </thead>       <tbody>           <tr class="doc-section-item">             <td>                 <code>events</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" hover="" identifier="collections.abc.Iterable" optional="">Iterable</autoref>[<autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" hover="" identifier="useq.MDAEvent" optional="">MDAEvent</autoref>]</code>             </td>             <td>               <div class="doc-md-description">                 <p>An iterable of <autoref data-zensical-autoref="" domain="py" filepath="/Users/runner/work/pymmcore-plus.github.io/pymmcore-plus.github.io/.repos/pymmcore-plus/src/pymmcore_plus/core/_mmcore_plus.py" identifier="useq.MDAEvent" lineno="1642" origin="pymmcore_plus.CMMCorePlus.run_mda" role="meth" slug="useqmdaevent">useq.MDAEvent</autoref> to execute.  This may be an instance of <autoref data-zensical-autoref="" domain="py" filepath="/Users/runner/work/pymmcore-plus.github.io/pymmcore-plus.github.io/.repos/pymmcore-plus/src/pymmcore_plus/core/_mmcore_plus.py" identifier="useq.MDASequence" lineno="1642" origin="pymmcore_plus.CMMCorePlus.run_mda" role="meth" slug="useqmdasequence">useq.MDASequence</autoref>, or any other iterable of <autoref data-zensical-autoref="" domain="py" filepath="/Users/runner/work/pymmcore-plus.github.io/pymmcore-plus.github.io/.repos/pymmcore-plus/src/pymmcore_plus/core/_mmcore_plus.py" identifier="useq.MDAEvent" lineno="1642" origin="pymmcore_plus.CMMCorePlus.run_mda" role="meth" slug="useqmdaevent">useq.MDAEvent</autoref>.</p>                </div>             </td>             <td>                 <em>required</em>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>output</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" hover="" identifier="pymmcore_plus.mda._runner.SingleOutput" optional="">SingleOutput</autoref> | <autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" hover="" identifier="collections.abc.Sequence" optional="">Sequence</autoref>[<autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" hover="" identifier="pymmcore_plus.mda._runner.SingleOutput" optional="">SingleOutput</autoref>] | None</code>             </td>             <td>               <div class="doc-md-description">                 <p>Where to send the data.  If None (the default), nothing is saved.  This is passed on to <autoref data-zensical-autoref="" domain="py" filepath="/Users/runner/work/pymmcore-plus.github.io/pymmcore-plus.github.io/.repos/pymmcore-plus/src/pymmcore_plus/core/_mmcore_plus.py" identifier="pymmcore_plus.mda.MDARunner.run" lineno="1642" origin="pymmcore_plus.CMMCorePlus.run_mda" role="meth"><code>MDARunner.run</code></autoref>, which describes the options in detail.  In short, it may be:</p> <ul> <li>A <code>str</code> or <code>Path</code> ending in <code>.ome.zarr</code> or <code>.ome.tiff</code>, which will be   written with <a href="https://pymmcore-plus.github.io/ome-writers/">ome-writers</a>.</li> <li>An <autoref data-zensical-autoref="" domain="py" filepath="/Users/runner/work/pymmcore-plus.github.io/pymmcore-plus.github.io/.repos/pymmcore-plus/src/pymmcore_plus/core/_mmcore_plus.py" identifier="ome_writers.AcquisitionSettings" lineno="1642" origin="pymmcore_plus.CMMCorePlus.run_mda" role="meth"><code>ome_writers.AcquisitionSettings</code></autoref> object, for full control over   the output.</li> <li>A handler object with a <code>frameReady</code> method (connected to the   <code>frameReady</code> signal for the duration of the acquisition).</li> <li>A sequence of the above, containing no more than one path or   <code>AcquisitionSettings</code>.</li> </ul> <p>Note that <code>run_mda</code> has no <code>overwrite</code> argument, so an existing path will raise an error.  (<code>core.mda.run(..., overwrite=True)</code> accepts one, but it blocks the calling thread.)</p>                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>block</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" identifier="bool" optional="">bool</autoref></code>             </td>             <td>               <div class="doc-md-description">                 <p>If True, block until the sequence is complete, by default False.</p>                </div>             </td>             <td>                   <code>False</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>dimension_overrides</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" identifier="dict" optional="">dict</autoref>[<autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" identifier="str" optional="">str</autoref>, <autoref backlink-anchor="pymmcore_plus.CMMCorePlus.run_mda" backlink-type="used-by" hover="" identifier="pymmcore_plus.mda._runner.DimensionOverride" optional="">DimensionOverride</autoref>] | None</code>             </td>             <td>               <div class="doc-md-description">                 <p>Per-dimension storage overrides, keyed by dimension name. See <code>MDARunner.run</code> for details.</p>                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>       </tbody>     </table>
 
 Returns:
 
 | Type | Description |
 | --- | --- |
 | `Thread` | The thread the sequence is running on. Use `thread.join()` to block until done, or `thread.is_alive()` to check if the sequence is complete. |
+
+## System state &amp; config files
+
+### getSystemState
+
+```python
+getSystemState(*, native: bool = False) -> Configuration | Configuration
+```
+
+Return the entire system state.
+
+**Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
+
+### getSystemStateCache
+
+```python
+getSystemStateCache(*, native: Literal[True]) -> Configuration
+```
+
+```python
+getSystemStateCache(*, native: Literal[False] = False) -> Configuration
+```
+
+```python
+getSystemStateCache(*, native: bool = False) -> Configuration | Configuration
+```
+
+Return the entire system state from cache.
+
+**Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
+
+### loadSystemConfiguration
+
+```python
+loadSystemConfiguration(fileName: str | Path = 'MMConfig_demo.cfg') -> None
+```
+
+Load a system config file conforming to the MM `.cfg` format.
+
+[https://micro-manager.org/Micro-Manager\_Configuration\_Guide\#configuration-file-syntax](<https://micro-manager.org/Micro-Manager_Configuration_Guide#configuration-file-syntax>)
+
+For relative paths, the current working directory is first checked, then the then device adapter path is checked.
+
+**Why Override?** This method overrides the default implementation to A) allow loading the `MMConfig_demo.cfg` file by default, B) to provide more flexible path declarations and C) better error messages when the file cannot be found.
+
+### loadSystemState
+
+```python
+loadSystemState(fileName: str) -> None
+```
+
+Loads the system configuration from the text file conforming to the MM specific format.
+
+### saveSystemConfiguration
+
+```python
+saveSystemConfiguration(filename: str) -> None
+```
+
+Saves the current system configuration to a text file.
+
+**Why Override?** To also save pixel size configurations.
+
+### saveSystemState
+
+```python
+saveSystemState(fileName: str) -> None
+```
+
+Saves the current system state to a text file of the MM specific format.
 
 ### setContext
 
@@ -455,8 +635,6 @@ setContext(**kwargs: Unpack[SetContextKwargs]) -> Iterator[None]
 ```
 
 Set core properties in a context restoring the initial values on exit.
-
-✨ *This method is new in `CMMCorePlus`.*
 
 Parameters:
 
@@ -478,1547 +656,1286 @@ with core.setContext(autoShutter=False):
 assert core.getAutoShutter()
 ```
 
-## Pumps
+### setSystemState
 
-### getPumpFlowrate
-
-```python
-getPumpFlowrate(pumpLabel: str) -> float
-```
-
-Return the flowrate of the pump in uL per second
-
-### getPumpMaxVolume
-
-```python
-getPumpMaxVolume(pumpLabel: str) -> float
-```
-
-Return max volume of the pump in uL
-
-### getPumpPressureKPa
-
-```python
-getPumpPressureKPa(pumpLabel: str) -> float
-```
-
-Return the pressure of the pump in kPa.
-
-### getPumpVolume
-
-```python
-getPumpVolume(pumpLabel: str) -> float
-```
-
-Return the fluid volume in the pump in uL
-
-### invertPumpDirection
-
-```python
-invertPumpDirection(pumpLabel: str, invert: bool) -> None
-```
-
-Sets whether the pump direction needs to be inverted
-
-### isPumpDirectionInverted
-
-```python
-isPumpDirectionInverted(pumpLabel: str) -> bool
-```
-
-Return True if pump direction needs to be inverted
-
-### pressurePumpCalibrate
-
-```python
-pressurePumpCalibrate(pumpLabel: str) -> None
-```
-
-Calibrates the pressure pump.
-
-### pressurePumpRequiresCalibration
-
-```python
-pressurePumpRequiresCalibration(pumpLabel: str) -> bool
-```
-
-Return True if pump requires calibration before operation.
-
-### pressurePumpStop
-
-```python
-pressurePumpStop(pumpLabel: str) -> None
-```
-
-Stops the pressure pump.
-
-### pumpDispenseDurationSeconds
-
-```python
-pumpDispenseDurationSeconds(pumpLabel: str, seconds: float) -> None
-```
-
-Dispenses for the provided duration (in seconds) at the set flowrate.
-
-### pumpDispenseVolumeUl
-
-```python
-pumpDispenseVolumeUl(pumpLabel: str, microLiter: float) -> None
-```
-
-Dispenses the provided volume (in uL) at the set flowrate.
-
-### pumpStart
-
-```python
-pumpStart(pumpLabel: str) -> None
-```
-
-Start dispensing until syringe is empty, or manually stopped.
-
-(whichever occurs first).
-
-### setPumpFlowrate
-
-```python
-setPumpFlowrate(pumpLabel: str, volume: float) -> None
-```
-
-Set the flowrate of the pump in uL per second
-
-### setPumpMaxVolume
-
-```python
-setPumpMaxVolume(pumpLabel: str, volume: float) -> None
-```
-
-Set the max volume of the pump in uL
-
-### setPumpPressureKPa
-
-```python
-setPumpPressureKPa(pumpLabel: str, pressure: float) -> None
-```
-
-Sets the pressure of the pump in kPa.
-
-### setPumpVolume
-
-```python
-setPumpVolume(pumpLabel: str, volume: float) -> None
-```
-
-Sets the volume of fluid in the pump in uL.
-
-Note it does not withdraw upto this amount. It is merely to inform MM of the volume in a prefilled pump.
-
-### volumetricPumpHome
-
-```python
-volumetricPumpHome(pumpLabel: str) -> None
-```
-
-Homes the volumetric pump.
-
-### volumetricPumpRequiresHoming
-
-```python
-volumetricPumpRequiresHoming(pumpLabel: str) -> bool
-```
-
-Return True if the volumetric pump requires homing.
-
-### volumetricPumpStop
-
-```python
-volumetricPumpStop(pumpLabel: str) -> None
-```
-
-Stops the volumetric pump.
-
-## Galvos
-
-### addGalvoPolygonVertex
-
-```python
-addGalvoPolygonVertex(
-    galvoLabel: str, polygonIndex: int, x: float, y: float
-) -> None
-```
-
-Add a vertex to a galvo polygon.
-
-### deleteGalvoPolygons
-
-```python
-deleteGalvoPolygons(galvoLabel: DeviceLabel | str) -> None
-```
-
-Remove all added polygons
-
-### getGalvoChannel
-
-```python
-getGalvoChannel(galvoLabel: DeviceLabel | str) -> str
-```
-
-Get the name of the active galvo channel (for a multi-laser galvo device).
-
-### getGalvoDevice
-
-```python
-getGalvoDevice() -> DeviceLabel | Literal['']
-```
-
-Returns the label of the currently selected Galvo device.
-
-Returns empty string if no Galvo device is selected.
-
-### getGalvoPosition
-
-```python
-getGalvoPosition(galvoDevice: DeviceLabel | str) -> list[float]
-```
-
-```python
-getGalvoPosition(
-    galvoLabel: DeviceLabel | str,
-    x_stage: Sequence[float],
-    y_stage: Sequence[float],
-) -> None
-```
-
-```python
-getGalvoPosition(galvoDevice: DeviceLabel | str) -> list[float]
-```
-
-Get x,y position of the galvo device.
-
-### getGalvoXMinimum
-
-```python
-getGalvoXMinimum(galvoLabel: DeviceLabel | str) -> float
-```
-
-Get the Galvo x minimum
-
-### getGalvoXRange
-
-```python
-getGalvoXRange(galvoLabel: DeviceLabel | str) -> float
-```
-
-Get the Galvo x range
-
-### getGalvoYMinimum
-
-```python
-getGalvoYMinimum(galvoLabel: DeviceLabel | str) -> float
-```
-
-Get the Galvo y minimum
-
-### getGalvoYRange
-
-```python
-getGalvoYRange(galvoLabel: DeviceLabel | str) -> float
-```
-
-Get the Galvo y range
-
-### loadGalvoPolygons
-
-```python
-loadGalvoPolygons(galvoLabel: DeviceLabel | str) -> None
-```
-
-Load a set of galvo polygons to the device
-
-### pointGalvoAndFire
-
-```python
-pointGalvoAndFire(
-    galvoLabel: DeviceLabel | str, x: float, y: float, pulseTime_us: float
-) -> None
-```
-
-Set the Galvo to an x,y position and fire the laser for a predetermined duration.
-
-### runGalvoPolygons
-
-```python
-runGalvoPolygons(galvoLabel: DeviceLabel | str) -> None
-```
-
-Run a loop of galvo polygons
-
-### runGalvoSequence
-
-```python
-runGalvoSequence(galvoLabel: DeviceLabel | str) -> None
-```
-
-Run a sequence of galvo positions
-
-### setGalvoDevice
-
-```python
-setGalvoDevice(galvoLabel: DeviceLabel | str) -> None
-```
-
-Sets the current galvo device.
-
-### setGalvoIlluminationState
-
-```python
-setGalvoIlluminationState(galvoLabel: DeviceLabel | str, on: bool) -> None
-```
-
-Set the galvo's illumination state to on or off
-
-### setGalvoPolygonRepetitions
-
-```python
-setGalvoPolygonRepetitions(
-    galvoLabel: DeviceLabel | str, repetitions: int
-) -> None
-```
-
-Set the number of times to loop galvo polygons
-
-### setGalvoPosition
-
-```python
-setGalvoPosition(galvoLabel: DeviceLabel | str, x: float, y: float) -> None
-```
-
-Set the Galvo to an x,y position.
-
-### setGalvoSpotInterval
-
-```python
-setGalvoSpotInterval(
-    galvoLabel: DeviceLabel | str, pulseTime_us: float
-) -> None
-```
-
-Set the SpotInterval for the specified galvo device.
-
-## SLMs
-
-### displaySLMImage
-
-```python
-displaySLMImage(slmLabel: DeviceLabel | str) -> None
-```
-
-Display the waiting image on the SLM.
-
-### getSLMBytesPerPixel
-
-```python
-getSLMBytesPerPixel(slmLabel: DeviceLabel | str) -> int
-```
-
-Returns the number of bytes per SLM pixel
-
-### getSLMDevice
-
-```python
-getSLMDevice() -> DeviceLabel | Literal['']
-```
-
-Returns the label of the currently selected SLM device.
-
-Returns empty string if no SLM device is selected.
-
-### getSLMExposure
-
-```python
-getSLMExposure(slmLabel: DeviceLabel | str) -> float
-```
-
-Returns the exposure time that will be used by the SLM for illumination
-
-### getSLMHeight
-
-```python
-getSLMHeight(slmLabel: DeviceLabel | str) -> int
-```
-
-Returns the height (in "pixels") of the SLM
-
-### getSLMNumberOfComponents
-
-```python
-getSLMNumberOfComponents(slmLabel: DeviceLabel | str) -> int
-```
-
-Returns the number of components (usually these depict colors) of the SLM.
-
-For instance, an RGB projector will return 3, but a grey scale SLM returns 1
-
-### getSLMSequenceMaxLength
-
-```python
-getSLMSequenceMaxLength(slmLabel: DeviceLabel | str) -> int
-```
-
-For SLMs that support sequences, returns the maximum length of the sequence that can be uploaded to the device
-
-### getSLMWidth
-
-```python
-getSLMWidth(slmLabel: DeviceLabel | str) -> int
-```
-
-Returns the width (in "pixels") of the SLM
-
-### loadSLMSequence
-
-```python
-loadSLMSequence(
-    slmLabel: DeviceLabel | str, imageSequence: list[bytes]
-) -> None
-```
-
-Load a sequence of images into the SLM
-
-### setSLMDevice
-
-```python
-setSLMDevice(slmLabel: DeviceLabel | str) -> None
-```
-
-Sets the current slm device.
-
-### setSLMExposure
-
-```python
-setSLMExposure(slmLabel: DeviceLabel | str, exposure_ms: float) -> None
-```
-
-For SLM devices with build-in light source (such as projectors), this will set the exposure time, but not (yet) start the illumination
-
-### setSLMImage
-
-```python
-setSLMImage(slmLabel: DeviceLabel | str, pixels: NDArray[uint8]) -> None
-```
-
-```python
-setSLMImage(slmLabel: DeviceLabel | str, pixels: Any) -> None
-```
-
-```python
-setSLMImage(slmLabel: DeviceLabel | str, pixels: NDArray[uint8]) -> None
-```
-
-Write an image to the SLM .
-
-When passing a numpy array, `pixels` must be one of the following:
-
-- a 2D numpy array \[h,w\] of uint8s, representing a grayscale image to write to the SLM.
-- a 3D numpy array \[h,w,3\] of uint8s with 3 color channels \[R,G,B\], representing an imgRGB32 image to write to the SLM.
-
-In both cases, the dimensions of the array should match the width and height of the SLM.
-
-> [!WARNING]
->
-> SLM might convert grayscale to binary internally.
-
-### setSLMPixelsTo
-
-```python
-setSLMPixelsTo(slmLabel: DeviceLabel | str, intensity: int) -> None
-```
-
-```python
-setSLMPixelsTo(
-    slmLabel: DeviceLabel | str, red: int, green: int, blue: int
-) -> None
-```
-
-```python
-setSLMPixelsTo(slmLabel: DeviceLabel | str, intensity: int) -> None
-```
-
-Set all SLM pixels to a single 8-bit intensity.
-
-### startSLMSequence
-
-```python
-startSLMSequence(slmLabel: DeviceLabel | str) -> None
-```
-
-Starts the sequence previously uploaded to the SLM
-
-### stopSLMSequence
-
-```python
-stopSLMSequence(slmLabel: DeviceLabel | str) -> None
-```
-
-Stops the SLM sequence if previously started
-
-## Serial ports
-
-### getSerialPortAnswer
-
-```python
-getSerialPortAnswer(portLabel: str, term: str) -> str
-```
-
-Continuously read from the serial port until the terminating sequence is encountered.
-
-### readFromSerialPort
-
-```python
-readFromSerialPort(portLabel: str) -> list[str]
-```
-
-Reads the contents of the Rx buffer.
-
-### setSerialPortCommand
-
-```python
-setSerialPortCommand(portLabel: str, command: str, term: str) -> None
-```
-
-Send string to the serial device and return an answer.
-
-### setSerialProperties
-
-```python
-setSerialProperties(
-    portName: str,
-    answerTimeout: str,
-    baudRate: str,
-    delayBetweenCharsMs: str,
-    handshaking: str,
-    parity: str,
-    stopBits: str,
-) -> None
-```
-
-Sets all com port properties in a single call.
-
-### writeToSerialPort
-
-```python
-writeToSerialPort(portLabel: str, data: bytes) -> None
-```
-
-Sends an array of characters to the serial port and returns immediately.
-
-## Pixel size
-
-### definePixelSizeConfig
-
-```python
-definePixelSizeConfig(resolutionID: str) -> None
-```
-
-```python
-definePixelSizeConfig(
-    resolutionID: str, deviceLabel: str, propName: str, value: str
-) -> None
-```
-
 ```python
-definePixelSizeConfig(*args: str, **kwargs: str) -> None
+setSystemState(conf: Configuration) -> None
 ```
 
-Defines an empty pixel size entry.
+Sets all properties contained in the Configuration object.
 
-**Why Override?** To emit a `pixelSizeChanged` event.
+### systemConfigurationFile
 
-### deletePixelSizeConfig
-
-```python
-deletePixelSizeConfig(resolutionID: str) -> None
-```
-
-Delete the pixel size configuration for the given `resolutionID`.
-
-**Why Override?** To emit a `pixelSizeChanged` event.
-
-### getAvailablePixelSizeConfigs
-
-```python
-getAvailablePixelSizeConfigs() -> tuple[PixelSizeConfigName, ...]
-```
-
-Returns all defined resolution preset names
-
-### getCurrentPixelSizeConfig
-
-```python
-getCurrentPixelSizeConfig() -> PixelSizeConfigName
-```
-
-```python
-getCurrentPixelSizeConfig(cached: bool) -> PixelSizeConfigName
-```
-
-```python
-getCurrentPixelSizeConfig() -> PixelSizeConfigName
-```
-
-Get the current pixel configuration name
-
-### getMagnificationFactor
-
-```python
-getMagnificationFactor() -> float
-```
-
-Returns the product of all Magnifiers in the system or 1.0 when none is found. This is used internally by GetPixelSizeUm
-
-### getPixelSizeAffine
-
-```python
-getPixelSizeAffine() -> AffineTuple
-```
-
-```python
-getPixelSizeAffine(cached: bool) -> AffineTuple
-```
-
-```python
-getPixelSizeAffine() -> AffineTuple
-```
-
-Returns the current Affine Transform to related camera pixels with stage movement.
-
-### getPixelSizeAffineByID
-
-```python
-getPixelSizeAffineByID(resolutionID: PixelSizeConfigName | str) -> AffineTuple
-```
-
-Returns the Affine Transform to related camera pixels with stage movement for the requested pixel size group. The raw affine transform without correction for binning and magnification will be returned.
-
-### getPixelSizeConfigData
-
-```python
-getPixelSizeConfigData(
-    configName: str, *, native: Literal[True]
-) -> Configuration
-```
-
-```python
-getPixelSizeConfigData(
-    configName: str, *, native: Literal[False] = False
-) -> Configuration
-```
-
-```python
-getPixelSizeConfigData(
-    configName: str, *, native: bool = False
-) -> Configuration | Configuration
-```
-
-Return the configuration object for a given pixel size preset `configName`.
-
-**Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
-
-### getPixelSizedxdz
-
-```python
-getPixelSizedxdz() -> float
-```
-
-```python
-getPixelSizedxdz(cached: bool) -> float
-```
-
-```python
-getPixelSizedxdz(resolutionID: PixelSizeConfigName | str) -> float
-```
-
-```python
-getPixelSizedxdz() -> float
-```
-
-Returns the angle between the camera's x axis and the axis (direction) of the z drive.
-
-This angle is dimensionless (i.e. the ratio of the translation in x caused by a translation in z, i.e. dx / dz). This angle can be different for different z drives (if there are multiple Z drives in the system, please add the Core-Focus device to the pixel size configuration). See: [https://github.com/micro-manager/micro-manager/issues/1984](<https://github.com/micro-manager/micro-manager/issues/1984>)
-
-### getPixelSizedydz
-
-```python
-getPixelSizedydz() -> float
-```
-
-```python
-getPixelSizedydz(cached: bool) -> float
-```
-
-```python
-getPixelSizedydz(resolutionID: PixelSizeConfigName | str) -> float
-```
-
-```python
-getPixelSizedydz() -> float
-```
-
-Returns the angle between the camera's y axis and the axis (direction) of the z drive.
-
-This angle is dimensionless (i.e. the ratio of the translation in x caused by a translation in z, i.e. dy / dz). This angle can be different for different z drives (if there are multiple Z drives in the system, please add the Core-Focus device to the pixel size configuration). See: [https://github.com/micro-manager/micro-manager/issues/1984](<https://github.com/micro-manager/micro-manager/issues/1984>)
-
-### getPixelSizeOptimalZUm
-
 ```python
-getPixelSizeOptimalZUm() -> float
+systemConfigurationFile() -> str | None
 ```
 
-```python
-getPixelSizeOptimalZUm(cached: bool) -> float
-```
+Return the path to the last loaded system configuration file, or `None`.
 
-```python
-getPixelSizeOptimalZUm(resolutionID: PixelSizeConfigName | str) -> float
-```
+### updateSystemStateCache
 
 ```python
-getPixelSizeOptimalZUm() -> float
+updateSystemStateCache() -> None
 ```
 
-Returns the optimal z step size in um, optionally using cached pixel configuration.
+Updates the state of the entire hardware.
 
-There is no magic to this number, but lets the system configuration communicate to the end user what the optimal Z step size is for this pixel size configuration
-
-### getPixelSizeUm
-
-```python
-getPixelSizeUm() -> float
-```
+### waitForSystem
 
 ```python
-getPixelSizeUm(cached: bool) -> float
+waitForSystem() -> None
 ```
 
-```python
-getPixelSizeUm() -> float
-```
+Blocks until all devices in the system become ready (not-busy).
 
-Returns the current pixel size in microns.
+## Devices
 
-### getPixelSizeUmByID
+### detectDevice
 
 ```python
-getPixelSizeUmByID(resolutionID: PixelSizeConfigName | str) -> float
+detectDevice(deviceLabel: str) -> DeviceDetectionStatus
 ```
-
-Returns the pixel size in um for the requested pixel size group
 
-### isPixelSizeConfigDefined
+Tries to communicate to a device through a given serial port.
 
-```python
-isPixelSizeConfigDefined(resolutionID: str) -> bool
-```
+Used to automate discovery of correct serial port. Also configures the serial port correctly.
 
-Checks if the Pixel Size Resolution already exists
+**Why Override?** The returned `pymmcore_plus.DeviceDetectionStatus` enum is more interpretable than the raw `int` returned by `pymmcore`
 
-### renamePixelSizeConfig
+### deviceBusy
 
 ```python
-renamePixelSizeConfig(
-    oldConfigName: PixelSizeConfigName | str, newConfigName: str
-) -> None
+deviceBusy(label: DeviceLabel | str) -> bool
 ```
 
-Renames a pixel size configuration.
+Checks the busy status of the specific device.
 
-### setPixelSizeAffine
+### deviceTypeBusy
 
 ```python
-setPixelSizeAffine(
-    resolutionID: PixelSizeConfigName | str, affine: Sequence[float]
-) -> None
+deviceTypeBusy(devType: DeviceType) -> bool
 ```
 
-Sets the raw affine transform for the specific pixel size configuration.
+Checks the busy status for all devices of the specific type.
 
-The affine transform consists of the first two rows of a 3x3 matrix, the third row is always assumed to be 0.0 0.0 1.0.
+### getAdapterObject
 
-### setPixelSizeConfig
-
 ```python
-setPixelSizeConfig(resolutionID: PixelSizeConfigName | str) -> None
+getAdapterObject(library_name: str) -> DeviceAdapter
 ```
-
-Applies a Pixel Size Configuration.
 
-### setPixelSizedxdz
+Return an `Adapter` object bound to library\_name on this core.
 
-```python
-setPixelSizedxdz(resolutionID: PixelSizeConfigName | str, dXdZ: float) -> None
-```
-
-Sets the pixel size in the X direction in microns.
+`Adapter` objects are a convenient object oriented way to interact with device adapters. They allow you to call any method on `CMMCore` that normally requires a `library_name` as the first argument as an argument-free method on the `Adapter` object.
 
-### setPixelSizedydz
+### getAvailableDeviceDescriptions
 
 ```python
-setPixelSizedydz(resolutionID: PixelSizeConfigName | str, dYdZ: float) -> None
+getAvailableDeviceDescriptions(library: AdapterName | str) -> tuple[str, ...]
 ```
 
-Sets the pixel size in the Y direction in microns.
+Get descriptions for available devices from the specified library.
 
-### setPixelSizeOptimalZUm
+### getAvailableDevices
 
 ```python
-setPixelSizeOptimalZUm(
-    resolutionID: PixelSizeConfigName | str, optimalZ: float
-) -> None
+getAvailableDevices(library: AdapterName | str) -> tuple[DeviceName, ...]
 ```
 
-Sets the pixel size in the Z direction in microns.
+Get available devices from the specified device library.
 
-### setPixelSizeUm
+### getAvailableDeviceTypes
 
 ```python
-setPixelSizeUm(resolutionID: str, pixSize: float) -> None
+getAvailableDeviceTypes(library: AdapterName | str) -> tuple[int, ...]
 ```
 
-Set pixel size in microns for the specified `resolutionID`.
+Get type information for available devices from the specified library.
 
-**Why Override?** To emit a `pixelSizeChanged` event.
+### getCurrentDeviceOfType
 
-## Hardware sequencing
-
-### canSequenceEvents
-
 ```python
-canSequenceEvents(e1: MDAEvent, e2: MDAEvent, cur_length: int = -1) -> bool
+getCurrentDeviceOfType(
+    device_type: DeviceTypesWithCurrent,
+) -> DeviceLabel | Literal[""]
 ```
-
-Check whether two `useq.MDAEvent` are sequenceable by this core instance.
-
-Micro-manager calls hardware triggering "sequencing". Two events can be sequenced if *all* device properties that are changing between the first and second event support sequencing.
 
-If `cur_length` is provided, it is used to determine if the sequence is "full" (i.e. the sequence is already at the maximum length) as determined by the `...SequenceMaxLength()` method corresponding to the device property.
+Return the current device of type `device_type`.
 
-See: [https://micro-manager.org/Hardware-based\_Synchronization\_in\_Micro-Manager](<https://micro-manager.org/Hardware-based_Synchronization_in_Micro-Manager>)
+Only the following device types have a "current" device: - CameraDevice - ShutterDevice - StageDevice - XYStageDevice - AutoFocusDevice - SLMDevice - GalvoDevice - ImageProcessorDevice
 
-✨ *This method is new in `CMMCorePlus`.*
+Calling this method with any other device type will raise a `ValueError`.
 
 Parameters:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| `e1` | `MDAEvent` | The first event. | *required* |
-| `e2` | `MDAEvent` | The second event. | *required* |
-| `cur_length` | `int` | The current length of the sequence. Used when checking `.get<...>SequenceMaxLength` for a given property. If the current length is greater than the max length, the events cannot be sequenced. By default -1, which means the current length is not checked. | `-1` |
+| `device_type` | `DeviceType` | The type of device to get the current device for. See `DeviceType` for a list of device types. | *required* |
 
 Returns:
 
 | Type | Description |
 | --- | --- |
-| `bool` | True if the events can be sequenced, False otherwise. |
+| `str` | The label of the current device of type `device_type`. If no device of that type is currently set, an empty string is returned. |
+
+Raises:
+
+| Type | Description |
+| --- | --- |
+| `ValueError` | If the core does not have the concept of a "current" device of the provided `device_type`. |
+
+### getDeviceAdapterNames
+
+```python
+getDeviceAdapterNames() -> tuple[AdapterName, ...]
+```
+
+Return the names of discoverable device adapters.
+
+### getDeviceAdapterSearchPaths
+
+```python
+getDeviceAdapterSearchPaths() -> tuple[str, ...]
+```
+
+Return the current device adapter search paths.
+
+### getDeviceDelayMs
+
+```python
+getDeviceDelayMs(label: DeviceLabel | str) -> float
+```
+
+Reports action delay in milliseconds for the specific device.
+
+### getDeviceDescription
+
+```python
+getDeviceDescription(label: DeviceLabel | str) -> str
+```
+
+Returns description text for a given device label. "Description" is determined by the library and is immutable.
+
+### getDeviceInitializationState
+
+```python
+getDeviceInitializationState(label: str) -> DeviceInitializationState
+```
+
+Queries the initialization state of the given device.
+
+**Why Override?** The returned `pymmcore_plus.DeviceInitializationState` enum is more interpretable than the raw `int` returned by `pymmcore`
+
+### getDeviceLibrary
+
+```python
+getDeviceLibrary(label: DeviceLabel | str) -> AdapterName
+```
+
+Returns device library (aka module, device adapter) name.
+
+### getDeviceName
+
+```python
+getDeviceName(label: DeviceLabel | str) -> DeviceName
+```
+
+Returns device name for a given device label.
+
+### getDeviceObject
+
+```python
+getDeviceObject(
+    device_label: str, device_type: Literal[Camera]
+) -> CameraDevice
+```
+
+```python
+getDeviceObject(device_label: str, device_type: Literal[Stage]) -> StageDevice
+```
+
+```python
+getDeviceObject(device_label: str, device_type: Literal[State]) -> StateDevice
+```
+
+```python
+getDeviceObject(
+    device_label: str, device_type: Literal[Shutter]
+) -> ShutterDevice
+```
+
+```python
+getDeviceObject(
+    device_label: str, device_type: Literal[XYStage]
+) -> XYStageDevice
+```
+
+```python
+getDeviceObject(
+    device_label: str, device_type: Literal[Serial]
+) -> SerialDevice
+```
+
+```python
+getDeviceObject(
+    device_label: str, device_type: Literal[Generic]
+) -> GenericDevice
+```
+
+```python
+getDeviceObject(
+    device_label: str, device_type: Literal[AutoFocus]
+) -> AutoFocusDevice
+```
+
+```python
+getDeviceObject(
+    device_label: str, device_type: Literal[ImageProcessor]
+) -> ImageProcessorDevice
+```
+
+```python
+getDeviceObject(
+    device_label: str, device_type: Literal[SignalIO]
+) -> SignalIODevice
+```
+
+```python
+getDeviceObject(
+    device_label: str, device_type: Literal[Magnifier]
+) -> MagnifierDevice
+```
+
+```python
+getDeviceObject(device_label: str, device_type: Literal[SLM]) -> SLMDevice
+```
+
+```python
+getDeviceObject(device_label: str, device_type: Literal[Hub]) -> HubDevice
+```
+
+```python
+getDeviceObject(device_label: str, device_type: Literal[Galvo]) -> GalvoDevice
+```
+
+```python
+getDeviceObject(
+    device_label: Literal[CoreDevice], device_type: Literal[Core]
+) -> CoreDevice
+```
+
+```python
+getDeviceObject(device_label: str, device_type: DeviceType = ...) -> Device
+```
+
+```python
+getDeviceObject(device_label: str, device_type: type[_DT]) -> _DT
+```
+
+```python
+getDeviceObject(
+    device_label: str, device_type: type[_DT] | DeviceType = Any
+) -> _DT | Device
+```
+
+Return a `Device` object bound to device\_label on this core.
+
+`Device` objects are a convenient object oriented way to interact with devices. They allow you to call any method on `CMMCore` that normally requires a `deviceLabel` as the first argument as an argument-free method on the `Device` object.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `device_label` | `str` | Device label to get a device object for. | *required* |
 
 Examples:
 
-> [!NOTE]
->
-> The results here will depend on the current state of the core and devices.
-
-```python
->>> from useq import MDAEvent
->>> core = CMMCorePlus.instance()
->>> core.loadSystemConfiguration()
->>> core.canSequenceEvents(MDAEvent(), MDAEvent())
+```pycon
+>>> core = CMMCorePlus()
+>>> cam = core.getDeviceObject("DemoCamera")
+>>> cam.isLoaded()
+False
+>>> cam.load("DemoCamera", "DCam")
+>>> cam.isLoaded()
 True
->>> core.canSequenceEvents(MDAEvent(x_pos=1), MDAEvent(x_pos=2))
-False
->>> core.canSequenceEvents(
-...     MDAEvent(channel={'config': 'DAPI'}),
-...     MDAEvent(channel={'config': 'FITC'})
-... )
-False
+>>> cam.initialize()
 ```
 
-### getExposureSequenceMaxLength
+get the device schema
 
-```python
-getExposureSequenceMaxLength(cameraLabel: DeviceLabel | str) -> int
+```pycon
+>>> cam.schema()
+{
+    'title': 'DCam',
+    'description': 'Demo camera',
+    'type': 'object',
+    'properties': {
+        'HubID': {'type': 'string', 'readOnly': True, 'default': ''},
+        'MaximumExposureMs': {'type': 'number', 'preInit': True},
+        'TransposeCorrection': {'type': 'boolean'},
+        'TransposeMirrorX': {'type': 'boolean'},
+        'TransposeMirrorY': {'type': 'boolean'},
+        'TransposeXY': {'type': 'boolean'}
+    }
+}
 ```
 
-Gets the maximum length of a camera's exposure sequence.
-
-### getPropertySequenceMaxLength
+### getDeviceSchema
 
 ```python
-getPropertySequenceMaxLength(
+getDeviceSchema(device_label: str) -> DeviceSchema
+```
+
+Return JSON-schema describing device `device_label` and its properties.
+
+✨ *This method is new in `CMMCorePlus`. It provides a convenient way to get all of the information about a device in a single call.*
+
+Returns:
+
+| Type | Description |
+| --- | --- |
+| `DeviceSchema` | JSON-schema describing device `device_label` and its properties. |
+
+Examples:
+
+```pycon
+>>> core = CMMCorePlus()
+>>> core.loadDevice("DemoCamera", "DemoCamera", "DCam")
+>>> core.getDeviceSchema("DemoCamera")
+{
+    'title': 'DCam',
+    'description': 'Demo camera',
+    'type': 'object',
+    'properties': {
+        'HubID': {'type': 'string', 'readOnly': True, 'default': ''},
+        'MaximumExposureMs': {'type': 'number', 'preInit': True},
+        'TransposeCorrection': {'type': 'boolean'},
+        'TransposeMirrorX': {'type': 'boolean'},
+        'TransposeMirrorY': {'type': 'boolean'},
+        'TransposeXY': {'type': 'boolean'}
+    }
+}
+```
+
+### getDeviceTimeoutMs
+
+```python
+getDeviceTimeoutMs(label: DeviceLabel | str) -> int
+```
+
+Returns the per-device timeout in milliseconds, or the default if not set.
+
+### getDeviceType
+
+```python
+getDeviceType(label: str) -> DeviceType
+```
+
+Return device type for a given device.
+
+**Why Override?** The returned `pymmcore_plus.DeviceType` enum is more interpretable than the raw `int` returned by `pymmcore`
+
+### getInstalledDeviceDescription
+
+```python
+getInstalledDeviceDescription(
+    hubLabel: DeviceLabel | str, peripheralLabel: DeviceName | str
+) -> str
+```
+
+Returns description from the specified peripheral on `hubLabel` device.
+
+### getInstalledDevices
+
+```python
+getInstalledDevices(hubLabel: DeviceLabel | str) -> tuple[DeviceName, ...]
+```
+
+Performs auto-detection and loading of child devices that are attached to a Hub device.
+
+Raises RuntimeError if hubLabel is not a hub device.
+
+### getLoadedDevices
+
+```python
+getLoadedDevices() -> tuple[DeviceLabel, ...]
+```
+
+Returns an array of labels for currently loaded devices.
+
+### getLoadedDevicesOfType
+
+```python
+getLoadedDevicesOfType(devType: DeviceType) -> tuple[DeviceLabel, ...]
+```
+
+Returns an array of labels for currently loaded devices of specific type.
+
+### getLoadedPeripheralDevices
+
+```python
+getLoadedPeripheralDevices(
+    hubLabel: DeviceLabel | str,
+) -> tuple[DeviceLabel, ...]
+```
+
+Return labels of all loaded peripherals of `hubLabel` device.
+
+Returns empty tuple if hubLabel is not a hub device, or even if hubLabel is not the name of any device.
+
+### getParentLabel
+
+```python
+getParentLabel(peripheralLabel: DeviceLabel | str) -> DeviceLabel | Literal['']
+```
+
+Returns parent device. Returns empty string if no parent is found.
+
+### getTimeoutMs
+
+```python
+getTimeoutMs() -> int
+```
+
+Get the timeout for all wait commands.
+
+(Default is 5000 ms)
+
+### hasDeviceTimeout
+
+```python
+hasDeviceTimeout(label: DeviceLabel | str) -> bool
+```
+
+Returns True if a per-device timeout has been set for the given device.
+
+### initializeAllDevices
+
+```python
+initializeAllDevices() -> None
+```
+
+Calls Initialize() method for each loaded device.
+
+See `ParallelDeviceInitialization` feature flag for controlling the order of initialization.
+
+### initializeDevice
+
+```python
+initializeDevice(label: DeviceLabel | str) -> None
+```
+
+Initializes specific device.
+
+### iterDeviceAdapters
+
+```python
+iterDeviceAdapters(
+    adapter_pattern: str | Pattern | None = ...,
+    *,
+    as_object: Literal[True] = ...,
+) -> Iterator[DeviceAdapter]
+```
+
+```python
+iterDeviceAdapters(
+    adapter_pattern: str | Pattern | None = ..., *, as_object: Literal[False]
+) -> Iterator[str]
+```
+
+```python
+iterDeviceAdapters(
+    adapter_pattern: str | Pattern | None = None, *, as_object: bool = True
+) -> Iterator[DeviceAdapter] | Iterator[str]
+```
+
+Iterate over all available device adapters.
+
+It offers a convenient way to iterate over available device adaptor libraries, optionally filtering adapter library name. It can also yield `Adapter` objects if `as_object` is `True` (the default)
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `adapter_pattern` | `str \| None` | Device adapter name or pattern to filter by, by default all device adapters will be yielded. | `None` |
+| `as_object` | `bool` | If `True`, `Adapter` objects will be yielded instead of library name strings. By default True | `True` |
+
+Yields:
+
+| Type | Description |
+| --- | --- |
+| `Device \| str` | `Device` objects (if `as_object==True`) or device label strings. |
+
+### iterDevices
+
+```python
+iterDevices(
+    device_type: int | Iterable[int] | None = ...,
+    device_label: str | Pattern | None = ...,
+    device_adapter: str | Pattern | None = ...,
+    *,
+    as_object: Literal[False],
+) -> Iterator[str]
+```
+
+```python
+iterDevices(
+    device_type: int | Iterable[int] | None = ...,
+    device_label: str | Pattern | None = ...,
+    device_adapter: str | Pattern | None = ...,
+    *,
+    as_object: Literal[True] = ...,
+) -> Iterator[Device]
+```
+
+```python
+iterDevices(
+    device_type: int | Iterable[int] | None = None,
+    device_label: str | Pattern | None = None,
+    device_adapter: str | Pattern | None = None,
+    *,
+    as_object: bool = True,
+) -> Iterator[Device] | Iterator[str]
+```
+
+Iterate over currently loaded devices.
+
+It offers a convenient way to iterate over loaded devices, optionally filtering by `DeviceType` and/or device label. It can also yield `Device` objects if `as_object` is `True` (the default).
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `device_type` | `DeviceType \| None` | DeviceType to filter by, by default all device types will be yielded. | `None` |
+| `device_label` | `str \| None` | Device label to filter by, by default all device labels will be yielded. | `None` |
+| `device_adapter` | `str \| None` | Device adapter library to filter by, by default devices from all libraries will be yielded. | `None` |
+| `as_object` | `bool` | If `True`, `Device` objects will be yielded instead of device label strings. By default True | `True` |
+
+Yields:
+
+| Type | Description |
+| --- | --- |
+| `Device \| str` | `Device` objects (if `as_object==True`) or device label strings. |
+
+### loadDevice
+
+```python
+loadDevice(label: str, moduleName: str, deviceName: str) -> None
+```
+
+Load a device from the plugin library.
+
+**Why Override?** To add much better error messages in the case of failure.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `label` | `str` | Name to be assigned to the device during this core session. | *required* |
+| `moduleName` | `str` | The name of the device adapter module (short name, not full file name). See `pymmcore.CMMCore.getDeviceAdapterNames` for a list of valid module names. | *required* |
+| `deviceName` | `str` | the name of the device. The name must correspond to one of the names recognized by the specific plugin library. See `pymmcore.CMMCore.getAvailableDevices` for a list of valid device names. | *required* |
+
+### setDeviceAdapterSearchPaths
+
+```python
+setDeviceAdapterSearchPaths(paths: Sequence[str]) -> None
+```
+
+Set the device adapter search paths.
+
+**Why Override?** In cases where MM device adapters use dynamically loaded libraries, the device adapter search paths must also be added to the `PATH` environment variable (e.g. [https://github.com/micro-manager/pymmcore/issues/28](<https://github.com/micro-manager/pymmcore/issues/28>)). This method overrides the default implementation to ensure that the `PATH` environment variable is updated when the device adapter search paths are changed.
+
+### setDeviceDelayMs
+
+```python
+setDeviceDelayMs(label: DeviceLabel | str, delayMs: float) -> None
+```
+
+Overrides the built-in value for the action delay.
+
+### setDeviceTimeoutMs
+
+```python
+setDeviceTimeoutMs(label: DeviceLabel | str, timeoutMs: int) -> None
+```
+
+Sets a per-device timeout in milliseconds.
+
+### setParentLabel
+
+```python
+setParentLabel(
+    deviceLabel: DeviceLabel | str, parentHubLabel: DeviceLabel | str
+) -> None
+```
+
+Sets parent device label
+
+### setTimeoutMs
+
+```python
+setTimeoutMs(timeoutMs: int) -> None
+```
+
+Sets the timeout for all wait commands.
+
+(Default is 5000 ms)
+
+### supportsDeviceDetection
+
+```python
+supportsDeviceDetection(deviceLabel: DeviceLabel | str) -> bool
+```
+
+Return whether or not the device supports automatic device detection (i.e.
+
+### systemBusy
+
+```python
+systemBusy() -> bool
+```
+
+Checks the busy status of the entire system.
+
+### unloadAllDevices
+
+```python
+unloadAllDevices() -> None
+```
+
+Unload all devices from the core and reset all configuration data.
+
+**Why Override?** To add logging.
+
+### unloadDevice
+
+```python
+unloadDevice(label: DeviceLabel | str) -> None
+```
+
+Unloads the device from the core and adjusts all configuration data.
+
+### unloadLibrary
+
+```python
+unloadLibrary(moduleName: AdapterName | str) -> None
+```
+
+Forcefully unload a library.
+
+### unsetDeviceTimeout
+
+```python
+unsetDeviceTimeout(label: DeviceLabel | str) -> None
+```
+
+Removes any per-device timeout, restoring the default.
+
+### usesDeviceDelay
+
+```python
+usesDeviceDelay(label: DeviceLabel | str) -> bool
+```
+
+Signals if the device will use the delay setting or not.
+
+### waitForDevice
+
+```python
+waitForDevice(label: DeviceLabel | str) -> None
+```
+
+Waits (blocks the calling thread) until the specified device becomes non-busy.
+
+### waitForDeviceType
+
+```python
+waitForDeviceType(devType: DeviceType) -> None
+```
+
+Blocks until all devices of the specific type become ready (not-busy).
+
+## Properties
+
+### getAllowedPropertyValues
+
+```python
+getAllowedPropertyValues(
     label: DeviceLabel | str, propName: PropertyName | str
-) -> int
+) -> tuple[str, ...]
 ```
 
-Queries device property for the maximum number of events that can be put in a sequence
+Returns all valid values for the specified property.
 
-### getStageSequenceMaxLength
+### getDevicePropertyNames
 
 ```python
-getStageSequenceMaxLength(stageLabel: DeviceLabel | str) -> int
+getDevicePropertyNames(label: DeviceLabel | str) -> tuple[PropertyName, ...]
 ```
 
-Gets the maximum length of a stage's position sequence.
+Returns all property names supported by the device.
 
-### getXYStageSequenceMaxLength
+### getProperty
 
 ```python
-getXYStageSequenceMaxLength(xyStageLabel: DeviceLabel | str) -> int
+getProperty(label: DeviceLabel | str, propName: PropertyName | str) -> str
 ```
 
-Gets the maximum length of an XY stage's position sequence.
+Returns the property value for the specified device.
 
-### isExposureSequenceable
+The return value will always be a string. Use getPropertyType to determine the correct type.
+
+### getPropertyFromCache
 
 ```python
-isExposureSequenceable(cameraLabel: DeviceLabel | str) -> bool
+getPropertyFromCache(
+    deviceLabel: DeviceLabel | str, propName: PropertyName | str
+) -> str
 ```
 
-Queries camera if exposure can be used in a sequence
+Returns the cached property value for the specified device.
 
-### isPropertySequenceable
+### getPropertyLowerLimit
 
 ```python
-isPropertySequenceable(
+getPropertyLowerLimit(
+    label: DeviceLabel | str, propName: PropertyName | str
+) -> float
+```
+
+Returns the property lower limit value, if the property has limits - 0 otherwise.
+
+### getPropertyObject
+
+```python
+getPropertyObject(device_label: str, property_name: str) -> DeviceProperty
+```
+
+Return a DeviceProperty object bound to a device/property on this core.
+
+`DeviceProperty` objects are a convenient object oriented way to interact with a specific device properties. They allow you to call any method on `CMMCore` that normally requires a `deviceLabel` and `propertyName` as the first two arguments as an argument-free method on the `DeviceProperty` object.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `device_label` | `str` | Device label to get a property object for. | *required* |
+| `property_name` | `str` | Property name to get a property object for. | *required* |
+
+Examples:
+
+```pycon
+>>> core = CMMCorePlus()
+>>> core.loadDevice("DemoCamera", "DemoCamera", "DCam")
+>>> core.initializeDevice("DemoCamera")
+>>> core.setCameraDevice("DemoCamera")
+>>> exposure = core.getPropertyObject("DemoCamera", "Exposure")
+>>> exposure.type()
+<PropertyType.Float: 2>
+>>> exposure.upperLimit()
+10000.0
+```
+
+get/set property values easily:
+
+```pycon
+>>> exposure.value
+10.0
+>>> exposure.value = 5.0
+>>> exposure.value
+5.0
+>>> core.getExposure()  # changes reflected in core
+5.0
+```
+
+### getPropertyType
+
+```python
+getPropertyType(label: str, propName: str) -> PropertyType
+```
+
+Return the intrinsic property type for a given device and property.
+
+**Why Override?** The returned `pymmcore_plus.PropertyType` enum is more interpretable than the raw `int` returned by `pymmcore`
+
+### getPropertyUpperLimit
+
+```python
+getPropertyUpperLimit(
+    label: DeviceLabel | str, propName: PropertyName | str
+) -> float
+```
+
+Returns the property upper limit value, if the property has limits - 0 otherwise.
+
+### hasProperty
+
+```python
+hasProperty(label: DeviceLabel | str, propName: PropertyName | str) -> bool
+```
+
+Checks if device has a property with a specified name.
+
+### hasPropertyLimits
+
+```python
+hasPropertyLimits(
     label: DeviceLabel | str, propName: PropertyName | str
 ) -> bool
 ```
 
-Queries device if the specified property can be used in a sequence
+Queries device if the specific property has limits.
 
-### isStageLinearSequenceable
-
-```python
-isStageLinearSequenceable(stageLabel: DeviceLabel | str) -> bool
-```
-
-Queries if the stage can be used in a linear sequence.
-
-A linear sequence is defined by a stepsize and number of slices
-
-### isStageSequenceable
+### isPropertyPreInit
 
 ```python
-isStageSequenceable(stageLabel: DeviceLabel | str) -> bool
-```
-
-Queries stage if it can be used in a sequence
-
-### isXYStageSequenceable
-
-```python
-isXYStageSequenceable(xyStageLabel: DeviceLabel | str) -> bool
-```
-
-Queries XY stage if it can be used in a sequence
-
-### loadExposureSequence
-
-```python
-loadExposureSequence(
-    cameraLabel: DeviceLabel | str, exposureSequence_ms: Sequence[float]
-) -> None
-```
-
-Transfer a sequence of exposure times to the camera.
-
-### loadPropertySequence
-
-```python
-loadPropertySequence(
-    label: DeviceLabel | str,
-    propName: PropertyName | str,
-    eventSequence: Sequence[str],
-) -> None
-```
-
-Transfer a sequence of events/states/whatever to the device.
-
-This should only be called for device-properties that are sequenceable
-
-### loadStageSequence
-
-```python
-loadStageSequence(
-    stageLabel: DeviceLabel | str, positionSequence: Sequence[float]
-) -> None
-```
-
-Transfer a sequence of events/states/whatever to the device.
-
-This should only be called for device-properties that are sequenceable
-
-### loadXYStageSequence
-
-```python
-loadXYStageSequence(
-    xyStageLabel: DeviceLabel | str,
-    xSequence: Sequence[float],
-    ySequence: Sequence[float],
-) -> None
-```
-
-Transfer a sequence of stage positions to the xy stage.
-
-xSequence and ySequence must have the same length. This should only be called for XY stages that are sequenceable
-
-### setStageLinearSequence
-
-```python
-setStageLinearSequence(
-    stageLabel: DeviceLabel | str, dZ_um: float, nSlices: int
-) -> None
-```
-
-Loads a linear sequence (defined by stepsize and nr. of steps) into the device.
-
-### startExposureSequence
-
-```python
-startExposureSequence(cameraLabel: DeviceLabel | str) -> None
-```
-
-Starts an ongoing sequence of triggered exposures in a camera.
-
-This should only be called for cameras where exposure time is sequenceable
-
-### startPropertySequence
-
-```python
-startPropertySequence(
+isPropertyPreInit(
     label: DeviceLabel | str, propName: PropertyName | str
-) -> None
+) -> bool
 ```
 
-Starts an ongoing sequence of triggered events in a property of a device.
+Tells us whether the property must be defined prior to initialization.
 
-This should only be called for device-properties that are sequenceable
-
-### startStageSequence
+### isPropertyReadOnly
 
 ```python
-startStageSequence(stageLabel: DeviceLabel | str) -> None
-```
-
-Starts an ongoing sequence of triggered events in a stage.
-
-This should only be called for stages
-
-### startXYStageSequence
-
-```python
-startXYStageSequence(xyStageLabel: DeviceLabel | str) -> None
-```
-
-Starts an ongoing sequence of triggered events in an XY stage.
-
-This should only be called for stages
-
-### stopExposureSequence
-
-```python
-stopExposureSequence(cameraLabel: DeviceLabel | str) -> None
-```
-
-Stops an ongoing sequence of triggered exposures in a camera.
-
-This should only be called for cameras where exposure time is sequenceable
-
-### stopPropertySequence
-
-```python
-stopPropertySequence(
+isPropertyReadOnly(
     label: DeviceLabel | str, propName: PropertyName | str
-) -> None
+) -> bool
 ```
 
-Stops an ongoing sequence of triggered events in a property of a device.
+Tells us whether the property can be modified.
 
-This should only be called for device-properties that are sequenceable
-
-### stopStageSequence
+### iterProperties
 
 ```python
-stopStageSequence(stageLabel: DeviceLabel | str) -> None
+iterProperties(
+    property_type: int | Iterable[int] | None = ...,
+    property_name_pattern: str | Pattern | None = ...,
+    *,
+    device_type: int | Iterable[int] | None = ...,
+    device_label: str | Pattern | None = ...,
+    has_limits: bool | None = None,
+    is_read_only: bool | None = None,
+    is_sequenceable: bool | None = None,
+    as_object: Literal[False],
+) -> Iterator[tuple[str, str]]
 ```
-
-Stops an ongoing sequence of triggered events in a stage.
-
-This should only be called for stages that are sequenceable
-
-### stopXYStageSequence
 
 ```python
-stopXYStageSequence(xyStageLabel: DeviceLabel | str) -> None
+iterProperties(
+    property_type: int | Iterable[int] | None = ...,
+    property_name_pattern: str | Pattern | None = ...,
+    *,
+    device_type: int | Iterable[int] | None = ...,
+    device_label: str | Pattern | None = ...,
+    has_limits: bool | None = None,
+    is_read_only: bool | None = None,
+    is_sequenceable: bool | None = None,
+    as_object: Literal[True] = ...,
+) -> Iterator[DeviceProperty]
 ```
-
-Stops an ongoing sequence of triggered events in an XY stage.
-
-This should only be called for stages that are sequenceable
-
-## Images &amp; buffer
-
-### clearCircularBuffer
 
 ```python
-clearCircularBuffer() -> None
+iterProperties(
+    property_type: int | Iterable[int] | None = None,
+    property_name_pattern: str | Pattern | None = None,
+    *,
+    device_type: int | Iterable[int] | None = None,
+    device_label: str | Pattern | None = None,
+    has_limits: bool | None = None,
+    is_read_only: bool | None = None,
+    is_sequenceable: bool | None = None,
+    as_object: bool = True,
+) -> Iterator[DeviceProperty] | Iterator[tuple[str, str]]
 ```
 
-Removes all images from the circular buffer.
+Iterate over currently loaded (device\_label, property\_name) pairs.
 
-### fixImage
-
-```python
-fixImage(img: ndarray, ncomponents: int | None = None) -> ndarray
-```
-
-Fix img shape/dtype based on `self.getNumberOfComponents()`.
-
-✨ *This method is new in `CMMCorePlus`.*
-
-convert images with n\_components \> 1 to a shape (w, h, num\_components) and dtype `img.dtype.itemsize//ncomp`
+It offers a convenient way to iterate over loaded devices, optionally filtering by `DeviceType` and/or device label. It can also yields `DeviceProperty` objects if `as_object` is `True` (the default).
 
 Parameters:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| `img` | `ndarray` | input image | *required* |
-| `ncomponents` | `int` | number of components in the image, by default `self.getNumberOfComponents()` | `None` |
+| `property_type` | `int \| Sequence[int] \| None` | PropertyType (or types) to filter by, by default all property types will be yielded. | `None` |
+| `property_name_pattern` | `str \| Pattern \| None` | Property name to filter by, by default all property names will be yielded. May be a compiled regular expression or a string, in which case it will be compiled with `re.IGNORECASE`. | `None` |
+| `device_type` | `DeviceType \| None` | DeviceType to filter by, by default all device types will be yielded. | `None` |
+| `device_label` | `str \| None` | Device label to filter by, by default all device labels will be yielded. | `None` |
+| `has_limits` | `bool \| None` | If provided, only properties with `hasPropertyLimits` matching this value will be yielded. | `None` |
+| `is_read_only` | `bool \| None` | If provided, only properties with `isPropertyReadOnly` matching this value will be yielded. | `None` |
+| `is_sequenceable` | `bool \| None` | If provided only properties with `isPropertySequenceable` matching this value will be yielded. | `None` |
+| `as_object` | `bool` | If `True`, `DeviceProperty` objects will be yielded instead of `(device_label, property_name)` tuples. By default True | `True` |
+
+Yields:
+
+| Type | Description |
+| --- | --- |
+| `DeviceProperty \| tuple[str, str]` | `DeviceProperty` objects (if `as_object==True`) or 2-tuples of (device\_name, property\_name) |
+
+### setProperty
+
+```python
+setProperty(
+    label: str, propName: str, propValue: bool | float | int | str
+) -> None
+```
+
+Set property named `propName` on device `label` to `propValue`.
+
+**Why Override?** In `MMCore`, the calling of the `onPropertyChanged` callback is left to the underlying device adapter, which means it is not always called. This method overrides the default implementation to ensure that `events.propertyChanged` is *always* emitted when `setProperty` has been called and the property Value has actually changed.
+
+### updateCoreProperties
+
+```python
+updateCoreProperties() -> None
+```
+
+Updates CoreProperties (currently all Core properties are devices types) with the loaded hardware.
+
+## Config groups &amp; presets
+
+### channelGroup\_pattern
+
+```python
+channelGroup_pattern: Pattern
+```
+
+The regex pattern used to identify channel groups.
+
+It is the regex used by `getOrGuessChannelGroup` to find a config group likely to be a channel group in `getAvailableConfigGroups` if `getChannelGroup` returns `None`.
+
+By default:
+
+```text
+re.compile("(chan{1,2}(el)?|filt(er)?)s?", re.IGNORECASE)
+```
+
+### defineConfig
+
+```python
+defineConfig(groupName: str, configName: str) -> None
+```
+
+```python
+defineConfig(
+    groupName: str, configName: str, deviceLabel: str, propName: str, value: str
+) -> None
+```
+
+```python
+defineConfig(
+    groupName: str,
+    configName: str,
+    deviceLabel: str | None = None,
+    propName: str | None = None,
+    value: str | None = None,
+) -> None
+```
+
+Defines a configuration.
+
+**Why Override?** To emit a `configDefined` event. Also, if `groupName` is not a defined group, then `defineConfigGroup(groupName)` is called.
+
+### defineConfigGroup
+
+```python
+defineConfigGroup(groupName: str) -> None
+```
+
+Creates an empty configuration group.
+
+### deleteConfig
+
+```python
+deleteConfig(groupName: str, configName: str) -> None
+```
+
+```python
+deleteConfig(
+    groupName: str, configName: str, deviceLabel: str, propName: str
+) -> None
+```
+
+```python
+deleteConfig(
+    groupName: str,
+    configName: str,
+    deviceLabel: str | None = None,
+    propName: str | None = None,
+) -> None
+```
+
+Delete `configName` from `groupName`.
+
+**Why Override?** To emit a `configDeleted` event.
+
+### deleteConfigGroup
+
+```python
+deleteConfigGroup(groupName: str) -> None
+```
+
+Deletes an entire configuration `group`.
+
+**Why Override?** To emit a `configGroupDeleted` event.
+
+### getAvailableConfigGroups
+
+```python
+getAvailableConfigGroups() -> tuple[ConfigGroupName, ...]
+```
+
+Returns the names of all defined configuration groups
+
+### getAvailableConfigs
+
+```python
+getAvailableConfigs(
+    configGroup: ConfigGroupName | str,
+) -> tuple[ConfigPresetName, ...]
+```
+
+Returns all defined configuration (preset) names in a given group
+
+### getChannelGroup
+
+```python
+getChannelGroup() -> ConfigGroupName | Literal['']
+```
+
+Returns the group determining the channel selection.
+
+Returns empty string if no channel group is selected.
+
+### getConfigData
+
+```python
+getConfigData(
+    configGroup: str, configName: str, *, native: Literal[True]
+) -> Configuration
+```
+
+```python
+getConfigData(
+    configGroup: str, configName: str, *, native: Literal[False] = False
+) -> Configuration
+```
+
+```python
+getConfigData(
+    configGroup: str, configName: str, *, native: bool = False
+) -> Configuration | Configuration
+```
+
+Return the configuration object for a given `configGroup` and `configName`.
+
+**Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
+
+### getConfigGroupObject
+
+```python
+getConfigGroupObject(
+    group_name: str, allow_missing: bool = False
+) -> ConfigGroup
+```
+
+Return a `ConfigGroup` object bound to group\_name on this core.
+
+`ConfigGroup` objects are a convenient object oriented way to interact with configuration groups (i.e. groups of [Configuration Presets](<https://micro-manager.org/Micro-Manager_Configuration_Guide#configuration-presets>) in Micro-Manager). They allow you to call any method on `CMMCore` that normally requires a `groupName` as the first argument as an argument-free method on the `ConfigGroup` object.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `group_name` | `str` | Configuration group name to get a config group object for. | *required* |
+| `allow_missing` | `bool` | If `False` and the `ConfigGroup` does not exist, a `KeyError` will be raised. By default False. | `False` |
 
 Returns:
 
 | Type | Description |
 | --- | --- |
-| `ndarray` | output image (possibly new shape and dtype) |
+| `ConfigGroup` | `ConfigGroup` object bound to `group_name` on this core. |
 
-### getBufferFreeCapacity
-
-```python
-getBufferFreeCapacity() -> int
-```
-
-Returns the number of images that can be added to the buffer without overflowing.
-
-### getBufferTotalCapacity
+### getConfigGroupState
 
 ```python
-getBufferTotalCapacity() -> int
-```
-
-Returns the total number of images that can be stored in the buffer
-
-### getCircularBufferMemoryFootprint
-
-```python
-getCircularBufferMemoryFootprint() -> int
-```
-
-Returns the size of the Circular Buffer in MB
-
-### getImage
-
-```python
-getImage(*, fix: bool = True) -> ndarray
+getConfigGroupState(group: str, *, native: Literal[True]) -> Configuration
 ```
 
 ```python
-getImage(numChannel: int, *, fix: bool = True) -> ndarray
+getConfigGroupState(
+    group: str, *, native: Literal[False] = False
+) -> Configuration
 ```
 
 ```python
-getImage(numChannel: int | None = None, *, fix: bool = True) -> ndarray
+getConfigGroupState(
+    group: str, *, native: bool = False
+) -> Configuration | Configuration
 ```
 
-Return the internal image buffer.
+Return the state of the devices included in the specified `group`.
 
-**Why Override?** To fix the shape of images with n\_components \> 1 (like RGB images)
+**Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
 
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `numChannel` | `int` | The camera channel to get the image from. If None, (the default), then Multi-Channel cameras will return the content of the first channel. | `None` |
-| `fix` | `bool` | If `True` (the default), then images with n\_components \> 1 (like RGB images) will be reshaped to (w, h, n\_components) using `fixImage`. | `True` |
-
-### getImageBitDepth
+### getConfigGroupStateFromCache
 
 ```python
-getImageBitDepth() -> int
-```
-
-How many bits of dynamic range are to be expected from the camera.
-
-### getImageBufferSize
-
-```python
-getImageBufferSize() -> int
-```
-
-Returns the size of the internal image buffer.
-
-### getImageHeight
-
-```python
-getImageHeight() -> int
-```
-
-Vertical dimension of the image buffer in pixels.
-
-### getImageWidth
-
-```python
-getImageWidth() -> int
-```
-
-Horizontal dimension of the image buffer in pixels.
-
-### getLastImage
-
-```python
-getLastImage() -> ndarray
-```
-
-Gets the last image from the circular buffer.
-
-### getLastImageAndMD
-
-```python
-getLastImageAndMD(
-    channel: int, slice: int, *, fix: bool = True
-) -> tuple[ndarray, Metadata]
+getConfigGroupStateFromCache(
+    group: str, *, native: Literal[True]
+) -> Configuration
 ```
 
 ```python
-getLastImageAndMD(*, fix: bool = True) -> tuple[ndarray, Metadata]
+getConfigGroupStateFromCache(
+    group: str, *, native: Literal[False] = False
+) -> Configuration
 ```
 
 ```python
-getLastImageAndMD(
-    channel: int | None = None, slice: int | None = None, *, fix: bool = True
-) -> tuple[ndarray, Metadata]
+getConfigGroupStateFromCache(
+    group: str, *, native: bool = False
+) -> Configuration | Configuration
 ```
 
-Return last image from the circular buffer along with metadata.
+Return the state of the system cache, for the devices in the specified group.
 
-✨ *This method is new in `CMMCorePlus`.*
+**Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
 
-This is a convenience method that is very similar to `getLastImageMD`, except that it doesn't require instantiating a `MetaData` object first. It returns a tuple containing the image and a `pymmcore_plus.Metadata` object.
+### getConfigState
 
-It also adds a `fix` parameter, which reshapes multi-component images (like RGB images) to (w, h, n\_components) using `fixImage` by default.
+```python
+getConfigState(
+    group: str, config: str, *, native: bool = False
+) -> Configuration | Configuration
+```
 
-Parameters:
+Return state of devices included in the specified configuration.
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `channel` | `int` | Channel index, by default None | `None` |
-| `slice` | `int` | Slice index, by default None | `None` |
-| `fix` | `bool` | If `True` (the default), then images with n\_components \> 1 (like RGB images) will be reshaped to (w, h, n\_components) using `fixImage`. | `True` |
+**Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
 
-Returns:
+### getCurrentConfig
+
+```python
+getCurrentConfig(
+    groupName: ConfigGroupName | str,
+) -> ConfigPresetName | Literal[""]
+```
+
+Returns the current configuration (preset) for a given group.
+
+Returns empty string if no configuration is selected.
+
+### getCurrentConfigFromCache
+
+```python
+getCurrentConfigFromCache(
+    groupName: ConfigGroupName | str,
+) -> ConfigPresetName | Literal[""]
+```
+
+Returns the configuration for a given group based on the data in the cache.
+
+### getOrGuessChannelGroup
+
+```python
+getOrGuessChannelGroup() -> list[str]
+```
+
+Get the channelGroup or find a likely set of candidates.
+
+If the group is not defined via `.getChannelGroup` then likely candidates will be found by searching for config groups with names that match this object's `channelGroup_pattern` property. This is a settable property with a default value of:
+
+```text
+reg = re.compile("(chan{1,2}(el)?|filt(er)?)s?", re.IGNORECASE)
+```
+
+### isConfigDefined
+
+```python
+isConfigDefined(groupName: str, configName: str) -> bool
+```
+
+Checks if the configuration already exists within a group.
+
+If either the groupName or configName are not recognized, returns False.
+
+### isGroupDefined
+
+```python
+isGroupDefined(groupName: str) -> bool
+```
+
+Checks if the group already exists.
+
+### iterConfigGroups
+
+```python
+iterConfigGroups() -> Iterator[ConfigGroup]
+```
+
+Iterate `ConfigGroup` objects for all configs.
+
+Yields:
 
 | Type | Description |
 | --- | --- |
-| `tuple[ndarray, Metadata]` | Image and metadata |
+| `ConfigGroup` | `ConfigGroup` objects |
 
-### getLastImageMD
-
-```python
-getLastImageMD(channel: int, slice: int, md: Metadata) -> ndarray
-```
+### renameConfig
 
 ```python
-getLastImageMD(md: Metadata) -> ndarray
-```
-
-```python
-getLastImageMD(channel: int, slice: int, md: Metadata) -> ndarray
-```
-
-Returns a pointer to the pixels of the image that was last inserted into the circular buffer. Also provides all metadata associated with that image
-
-### getNBeforeLastImageAndMD
-
-```python
-getNBeforeLastImageAndMD(
-    n: int, *, fix: bool = True
-) -> tuple[ndarray, Metadata]
-```
-
-Return image taken `n` images ago along with associated metadata.
-
-✨ *This method is new in `CMMCorePlus`.*
-
-This is a convenience method that is very similar to `getNBeforeLastImageMD`, except that it doesn't require instantiating a `MetaData` object first. It returns a tuple containing the image and a `pymmcore_plus.Metadata` object.
-
-It also adds a `fix` parameter, which reshapes multi-component images (like RGB images) to (w, h, n\_components) using `fixImage` by default.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `n` | `int` | The number of images ago to retrieve. 0 is the last image, 1 is the image before that, etc. | *required* |
-| `fix` | `bool` | If `True` (the default), then images with n\_components \> 1 (like RGB images) will be reshaped to (w, h, n\_components) using `fixImage`. | `True` |
-
-### getNBeforeLastImageMD
-
-```python
-getNBeforeLastImageMD(n: int, md: Metadata) -> ndarray
-```
-
-Returns a pointer to the pixels of the image that was inserted n images ago. Also provides all metadata associated with that image
-
-### getRemainingImageCount
-
-```python
-getRemainingImageCount() -> int
-```
-
-Returns number ofimages available in the Circular Buffer
-
-### getTaggedImage
-
-```python
-getTaggedImage(channel_index: int = 0) -> TaggedImage
-```
-
-Return getImage as named tuple with metadata.
-
-✨ *This method is new in `CMMCorePlus`.* It returns an object similar to MMCoreJ.getTaggedImage().
-
-### getTags
-
-```python
-getTags(
-    meta: Metadata | None = None, channel_index: int | None = None
-) -> dict[str, Any]
-```
-
-Return a dict of metadata tags for the state of the core.
-
-NOTE: this function is pretty slow, and is potentially called on every frame of an acquisition. It would be nice to determine what is absolutely necessary, and possible allow the user to specify what they want to include.
-
-✨ *This method is new in `CMMCorePlus`.* It returns only the `.tags` attribute of what you would get with `getTaggedImage()` or `popNextTaggedImage()`.
-
-### initializeCircularBuffer
-
-```python
-initializeCircularBuffer() -> None
-```
-
-Initialize circular buffer based on the current camera settings.
-
-### isBufferOverflowed
-
-```python
-isBufferOverflowed() -> bool
-```
-
-Indicates whether the circular buffer is overflowed
-
-### isSequenceRunning
-
-```python
-isSequenceRunning() -> bool
-```
-
-```python
-isSequenceRunning(cameraLabel: DeviceLabel | str) -> bool
-```
-
-```python
-isSequenceRunning() -> bool
-```
-
-Check if the current camera is acquiring the sequence.
-
-Returns false when the sequence is done
-
-### popNextImage
-
-```python
-popNextImage(*, fix: bool = True) -> ndarray
-```
-
-Gets and removes the next image from the circular buffer.
-
-**Why Override?** to add the `fix` parameter, which reshapes multi-component images (like RGB images) to (w, h, n\_components) using `fixImage` by default.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `fix` | `bool` | If `True` (the default), then images with n\_components \> 1 (like RGB images) will be reshaped to (w, h, n\_components) using `fixImage`. | `True` |
-
-### popNextImageAndMD
-
-```python
-popNextImageAndMD(
-    channel: int, slice: int, *, fix: bool = True
-) -> tuple[ndarray, Metadata]
-```
-
-```python
-popNextImageAndMD(*, fix: bool = True) -> tuple[ndarray, Metadata]
-```
-
-```python
-popNextImageAndMD(
-    channel: int = 0, slice: int = 0, *, fix: bool = True
-) -> tuple[ndarray, Metadata]
-```
-
-Gets and removes the next image (and metadata) from the circular buffer.
-
-✨ *This method is new in `CMMCorePlus`.*
-
-This is a convenience method that is very similar to `popNextImageMD`, except that it doesn't require instantiating a `MetaData` object first. It returns a tuple containing the image and a `pymmcore_plus.Metadata` object.
-
-It also adds a `fix` parameter, which reshapes multi-component images (like RGB images) to (w, h, n\_components) using `fixImage` by default.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `channel` | `int` | Channel index, by default None | `0` |
-| `slice` | `int` | Slice index, by default None | `0` |
-| `fix` | `bool` | If `True` (the default), then images with n\_components \> 1 (like RGB images) will be reshaped to (w, h, n\_components) using `fixImage`. | `True` |
-
-Returns:
-
-| Type | Description |
-| --- | --- |
-| `tuple[ndarray, Metadata]` | Image and metadata |
-
-### popNextImageMD
-
-```python
-popNextImageMD(channel: int, slice: int, md: Metadata) -> ndarray
-```
-
-```python
-popNextImageMD(md: Metadata) -> ndarray
-```
-
-```python
-popNextImageMD(channel: int, slice: int, md: Metadata) -> ndarray
-```
-
-Gets and removes the next image (and metadata) from the circular buffer
-
-### popNextTaggedImage
-
-```python
-popNextTaggedImage(channel_index: int = 0) -> TaggedImage
-```
-
-Return popNextImageAndMD as named tuple with metadata.
-
-✨ *This method is new in `CMMCorePlus`.* It returns an object similar to MMCoreJ.popNextTaggedImage().
-
-### prepareSequenceAcquisition
-
-```python
-prepareSequenceAcquisition(cameraLabel: DeviceLabel | str) -> None
-```
-
-Prepare the camera for the sequence acquisition to save the time in the
-
-StartSequenceAcqusition() call which is supposed to come next.
-
-### setCircularBufferMemoryFootprint
-
-```python
-setCircularBufferMemoryFootprint(sizeMB: int) -> None
-```
-
-Reserve memory for the circular buffer.
-
-### snap
-
-```python
-snap(numChannel: int | None = None, *, fix: bool = True) -> ndarray
-```
-
-Snap and return an image.
-
-✨ *This method is new in `CMMCorePlus`.*
-
-Convenience for calling `self.snapImage()` followed by returning the value of `self.getImage()`.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `numChannel` | `int` | The camera channel to get the image from. If None, (the default), then Multi-Channel cameras will return the content of the first channel. | `None` |
-| `fix` | `bool` | If `True` (the default), then images with n\_components \> 1 (like RGB images) will be reshaped to (w, h, n\_components) using `fixImage`. | `True` |
-
-Returns:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `img` | `ndarray` |  |
-
-### snapImage
-
-```python
-snapImage() -> None
-```
-
-Acquires a single image with current settings.
-
-**Why Override?** to emit the `imageSnapped` event after snapping an image. and to emit shutter property changes if `getAutoShutter` is `True`.
-
-### startContinuousSequenceAcquisition
-
-```python
-startContinuousSequenceAcquisition(intervalMs: float = 0) -> None
-```
-
-Start a ContinuousSequenceAcquisition.
-
-**Why Override?** To emit a `startContinuousSequenceAcquisition` event.
-
-### startSequenceAcquisition
-
-```python
-startSequenceAcquisition(
-    numImages: int, intervalMs: float, stopOnOverflow: bool
+renameConfig(
+    groupName: ConfigGroupName | str,
+    oldConfigName: ConfigPresetName | str,
+    newConfigName: str,
 ) -> None
 ```
 
+Renames a configuration within a specified group.
+
+The command will fail if the configuration was not previously defined.
+
+### renameConfigGroup
+
 ```python
-startSequenceAcquisition(
-    cameraLabel: str, numImages: int, intervalMs: float, stopOnOverflow: bool
+renameConfigGroup(
+    oldGroupName: ConfigGroupName | str, newGroupName: str
 ) -> None
 ```
 
-```python
-startSequenceAcquisition(*args: Any) -> None
-```
+Renames a configuration group.
 
-Starts streaming camera sequence acquisition.
-
-This command does not block the calling thread for the duration of the acquisition.
-
-**Why Override?** To emit a `startSequenceAcquisition` event.
-
-### stopSequenceAcquisition
+### setChannelGroup
 
 ```python
-stopSequenceAcquisition(cameraLabel: str | None = None) -> None
+setChannelGroup(channelGroup: str) -> None
 ```
 
-Stops streaming camera sequence acquisition.
+Specifies the group determining the channel selection.
 
-(for a specified camera if `cameraLabel` is provided.)
+...and send a channelGroupChanged signal.
 
-**Why Override?** To emit a `stopSequenceAcquisition` event.
+### setConfig
+
+```python
+setConfig(groupName: str, configName: str) -> None
+```
+
+Applies a configuration to a group.
+
+**Why Override?** The native `onConfigGroupChanged` callback is not always called whenever `CMMCore.setConfig` has been called. We override here to emit a `configSet` event whenever `setConfig` is called. See [https://github.com/micro-manager/mmCoreAndDevices/issues/25](<https://github.com/micro-manager/mmCoreAndDevices/issues/25>) for details.
+
+### waitForConfig
+
+```python
+waitForConfig(
+    group: ConfigGroupName | str, configName: ConfigPresetName | str
+) -> None
+```
+
+Blocks until all devices included in the configuration become ready.
 
 ## Cameras
 
@@ -2085,8 +2002,6 @@ getCameraChannelNames() -> tuple[str, ...]
 ```
 
 Convenience method to call `getCameraChannelName` for all camera channels.
-
-✨ *This method is new in `CMMCorePlus`.*
 
 ### getCameraDevice
 
@@ -2279,109 +2194,453 @@ Set the camera Region of Interest (ROI).
 
 **Why Override?** To emit a `roiSet` event.
 
-## Autofocus
+## Images &amp; buffer
 
-### enableContinuousFocus
-
-```python
-enableContinuousFocus(enable: bool) -> None
-```
-
-Enables or disables the operation of the continuous focusing hardware device.
-
-### fullFocus
+### clearCircularBuffer
 
 ```python
-fullFocus() -> None
+clearCircularBuffer() -> None
 ```
 
-Performs focus acquisition and lock for the one-shot focusing device.
+Removes all images from the circular buffer.
 
-### getAutoFocusDevice
+### fixImage
 
 ```python
-getAutoFocusDevice() -> DeviceLabel | Literal['']
+fixImage(img: ndarray, ncomponents: int | None = None) -> ndarray
 ```
 
-Returns the label of the currently selected auto-focus device.
+Fix img shape/dtype based on `self.getNumberOfComponents()`.
 
-Returns empty string if no auto-focus device is selected.
+convert images with n\_components \> 1 to a shape (w, h, num\_components) and dtype `img.dtype.itemsize//ncomp`
 
-### getAutoFocusOffset
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `img` | `ndarray` | input image | *required* |
+| `ncomponents` | `int` | number of components in the image, by default `self.getNumberOfComponents()` | `None` |
+
+Returns:
+
+| Type | Description |
+| --- | --- |
+| `ndarray` | output image (possibly new shape and dtype) |
+
+### getBufferFreeCapacity
 
 ```python
-getAutoFocusOffset() -> float
+getBufferFreeCapacity() -> int
 ```
 
-### getCurrentFocusScore
+Returns the number of images that can be added to the buffer without overflowing.
+
+### getBufferTotalCapacity
 
 ```python
-getCurrentFocusScore() -> float
+getBufferTotalCapacity() -> int
 ```
 
-Returns the focus score from the default focusing device measured at the current Z position.
+Returns the total number of images that can be stored in the buffer
 
-### getLastFocusScore
+### getCircularBufferMemoryFootprint
 
 ```python
-getLastFocusScore() -> float
+getCircularBufferMemoryFootprint() -> int
 ```
 
-Returns the latest focus score from the focusing device.
+Returns the size of the Circular Buffer in MB
 
-### incrementalFocus
+### getImage
 
 ```python
-incrementalFocus() -> None
+getImage(*, fix: bool = True) -> ndarray
 ```
-
-Performs incremental focus for the one-shot focusing device.
-
-### isContinuousFocusDrive
 
 ```python
-isContinuousFocusDrive(stageLabel: DeviceLabel | str) -> bool
+getImage(numChannel: int, *, fix: bool = True) -> ndarray
 ```
-
-Check if a stage has continuous focusing capability.
-
-(positions can be set while continuous focus runs).
-
-### isContinuousFocusEnabled
 
 ```python
-isContinuousFocusEnabled() -> bool
+getImage(numChannel: int | None = None, *, fix: bool = True) -> ndarray
 ```
 
-Checks if the continuous focusing hardware device is ON or OFF.
+Return the internal image buffer.
 
-### isContinuousFocusLocked
+**Why Override?** To fix the shape of images with n\_components \> 1 (like RGB images)
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `numChannel` | `int` | The camera channel to get the image from. If None, (the default), then Multi-Channel cameras will return the content of the first channel. | `None` |
+| `fix` | `bool` | If `True` (the default), then images with n\_components \> 1 (like RGB images) will be reshaped to (w, h, n\_components) using `fixImage`. | `True` |
+
+### getImageBitDepth
 
 ```python
-isContinuousFocusLocked() -> bool
+getImageBitDepth() -> int
 ```
 
-Returns the lock-in status of the continuous focusing device.
+How many bits of dynamic range are to be expected from the camera.
 
-### setAutoFocusDevice
+### getImageBufferSize
 
 ```python
-setAutoFocusDevice(focusLabel: DeviceLabel | str) -> None
+getImageBufferSize() -> int
 ```
 
-Sets the current auto-focus device.
+Returns the size of the internal image buffer.
 
-### setAutoFocusOffset
+### getImageHeight
 
 ```python
-setAutoFocusOffset(offset: float) -> None
+getImageHeight() -> int
 ```
 
-Applies offset the one-shot focusing device.
+Vertical dimension of the image buffer in pixels.
 
-In micro-manager, there is some variability in the way that autofocus devices are implemented. Some have a separate offset device, while others can directly set the offset of an associated device. As a result, calling `setAutoFocusOffset`, may or may not do anything depending on the current autofocus device.
+### getImageWidth
 
-This method attempts to detect known autofocus devices and
+```python
+getImageWidth() -> int
+```
+
+Horizontal dimension of the image buffer in pixels.
+
+### getLastImage
+
+```python
+getLastImage() -> ndarray
+```
+
+Gets the last image from the circular buffer.
+
+### getLastImageAndMD
+
+```python
+getLastImageAndMD(
+    channel: int, slice: int, *, fix: bool = True
+) -> tuple[ndarray, Metadata]
+```
+
+```python
+getLastImageAndMD(*, fix: bool = True) -> tuple[ndarray, Metadata]
+```
+
+```python
+getLastImageAndMD(
+    channel: int | None = None, slice: int | None = None, *, fix: bool = True
+) -> tuple[ndarray, Metadata]
+```
+
+Return last image from the circular buffer along with metadata.
+
+This is a convenience method that is very similar to `getLastImageMD`, except that it doesn't require instantiating a `MetaData` object first. It returns a tuple containing the image and a `pymmcore_plus.Metadata` object.
+
+It also adds a `fix` parameter, which reshapes multi-component images (like RGB images) to (w, h, n\_components) using `fixImage` by default.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `channel` | `int` | Channel index, by default None | `None` |
+| `slice` | `int` | Slice index, by default None | `None` |
+| `fix` | `bool` | If `True` (the default), then images with n\_components \> 1 (like RGB images) will be reshaped to (w, h, n\_components) using `fixImage`. | `True` |
+
+Returns:
+
+| Type | Description |
+| --- | --- |
+| `tuple[ndarray, Metadata]` | Image and metadata |
+
+### getLastImageMD
+
+```python
+getLastImageMD(channel: int, slice: int, md: Metadata) -> ndarray
+```
+
+```python
+getLastImageMD(md: Metadata) -> ndarray
+```
+
+```python
+getLastImageMD(channel: int, slice: int, md: Metadata) -> ndarray
+```
+
+Returns a pointer to the pixels of the image that was last inserted into the circular buffer. Also provides all metadata associated with that image
+
+### getNBeforeLastImageAndMD
+
+```python
+getNBeforeLastImageAndMD(
+    n: int, *, fix: bool = True
+) -> tuple[ndarray, Metadata]
+```
+
+Return image taken `n` images ago along with associated metadata.
+
+This is a convenience method that is very similar to `getNBeforeLastImageMD`, except that it doesn't require instantiating a `MetaData` object first. It returns a tuple containing the image and a `pymmcore_plus.Metadata` object.
+
+It also adds a `fix` parameter, which reshapes multi-component images (like RGB images) to (w, h, n\_components) using `fixImage` by default.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `n` | `int` | The number of images ago to retrieve. 0 is the last image, 1 is the image before that, etc. | *required* |
+| `fix` | `bool` | If `True` (the default), then images with n\_components \> 1 (like RGB images) will be reshaped to (w, h, n\_components) using `fixImage`. | `True` |
+
+### getNBeforeLastImageMD
+
+```python
+getNBeforeLastImageMD(n: int, md: Metadata) -> ndarray
+```
+
+Returns a pointer to the pixels of the image that was inserted n images ago. Also provides all metadata associated with that image
+
+### getRemainingImageCount
+
+```python
+getRemainingImageCount() -> int
+```
+
+Returns number ofimages available in the Circular Buffer
+
+### getTaggedImage
+
+```python
+getTaggedImage(channel_index: int = 0) -> TaggedImage
+```
+
+Return getImage as named tuple with metadata.
+
+✨ *This method is new in `CMMCorePlus`.* It returns an object similar to MMCoreJ.getTaggedImage().
+
+### getTags
+
+```python
+getTags(
+    meta: Metadata | None = None, channel_index: int | None = None
+) -> dict[str, Any]
+```
+
+Return a dict of metadata tags for the state of the core.
+
+NOTE: this function is pretty slow, and is potentially called on every frame of an acquisition. It would be nice to determine what is absolutely necessary, and possible allow the user to specify what they want to include.
+
+✨ *This method is new in `CMMCorePlus`.* It returns only the `.tags` attribute of what you would get with `getTaggedImage()` or `popNextTaggedImage()`.
+
+### initializeCircularBuffer
+
+```python
+initializeCircularBuffer() -> None
+```
+
+Initialize circular buffer based on the current camera settings.
+
+### isBufferOverflowed
+
+```python
+isBufferOverflowed() -> bool
+```
+
+Indicates whether the circular buffer is overflowed
+
+### isSequenceRunning
+
+```python
+isSequenceRunning() -> bool
+```
+
+```python
+isSequenceRunning(cameraLabel: DeviceLabel | str) -> bool
+```
+
+```python
+isSequenceRunning() -> bool
+```
+
+Check if the current camera is acquiring the sequence.
+
+Returns false when the sequence is done
+
+### popNextImage
+
+```python
+popNextImage(*, fix: bool = True) -> ndarray
+```
+
+Gets and removes the next image from the circular buffer.
+
+**Why Override?** to add the `fix` parameter, which reshapes multi-component images (like RGB images) to (w, h, n\_components) using `fixImage` by default.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `fix` | `bool` | If `True` (the default), then images with n\_components \> 1 (like RGB images) will be reshaped to (w, h, n\_components) using `fixImage`. | `True` |
+
+### popNextImageAndMD
+
+```python
+popNextImageAndMD(
+    channel: int, slice: int, *, fix: bool = True
+) -> tuple[ndarray, Metadata]
+```
+
+```python
+popNextImageAndMD(*, fix: bool = True) -> tuple[ndarray, Metadata]
+```
+
+```python
+popNextImageAndMD(
+    channel: int = 0, slice: int = 0, *, fix: bool = True
+) -> tuple[ndarray, Metadata]
+```
+
+Gets and removes the next image (and metadata) from the circular buffer.
+
+This is a convenience method that is very similar to `popNextImageMD`, except that it doesn't require instantiating a `MetaData` object first. It returns a tuple containing the image and a `pymmcore_plus.Metadata` object.
+
+It also adds a `fix` parameter, which reshapes multi-component images (like RGB images) to (w, h, n\_components) using `fixImage` by default.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `channel` | `int` | Channel index, by default None | `0` |
+| `slice` | `int` | Slice index, by default None | `0` |
+| `fix` | `bool` | If `True` (the default), then images with n\_components \> 1 (like RGB images) will be reshaped to (w, h, n\_components) using `fixImage`. | `True` |
+
+Returns:
+
+| Type | Description |
+| --- | --- |
+| `tuple[ndarray, Metadata]` | Image and metadata |
+
+### popNextImageMD
+
+```python
+popNextImageMD(channel: int, slice: int, md: Metadata) -> ndarray
+```
+
+```python
+popNextImageMD(md: Metadata) -> ndarray
+```
+
+```python
+popNextImageMD(channel: int, slice: int, md: Metadata) -> ndarray
+```
+
+Gets and removes the next image (and metadata) from the circular buffer
+
+### popNextTaggedImage
+
+```python
+popNextTaggedImage(channel_index: int = 0) -> TaggedImage
+```
+
+Return popNextImageAndMD as named tuple with metadata.
+
+✨ *This method is new in `CMMCorePlus`.* It returns an object similar to MMCoreJ.popNextTaggedImage().
+
+### prepareSequenceAcquisition
+
+```python
+prepareSequenceAcquisition(cameraLabel: DeviceLabel | str) -> None
+```
+
+Prepare the camera for the sequence acquisition to save the time in the
+
+StartSequenceAcqusition() call which is supposed to come next.
+
+### setCircularBufferMemoryFootprint
+
+```python
+setCircularBufferMemoryFootprint(sizeMB: int) -> None
+```
+
+Reserve memory for the circular buffer.
+
+### snap
+
+```python
+snap(numChannel: int | None = None, *, fix: bool = True) -> ndarray
+```
+
+Snap and return an image.
+
+Convenience for calling `self.snapImage()` followed by returning the value of `self.getImage()`.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `numChannel` | `int` | The camera channel to get the image from. If None, (the default), then Multi-Channel cameras will return the content of the first channel. | `None` |
+| `fix` | `bool` | If `True` (the default), then images with n\_components \> 1 (like RGB images) will be reshaped to (w, h, n\_components) using `fixImage`. | `True` |
+
+Returns:
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `img` | `ndarray` |  |
+
+### snapImage
+
+```python
+snapImage() -> None
+```
+
+Acquires a single image with current settings.
+
+**Why Override?** To emit the `imageSnapped` event after snapping an image, and to emit shutter property changes if `getAutoShutter` is `True`.
+
+### startContinuousSequenceAcquisition
+
+```python
+startContinuousSequenceAcquisition(intervalMs: float = 0) -> None
+```
+
+Start a ContinuousSequenceAcquisition.
+
+**Why Override?** To emit the `continuousSequenceAcquisitionStarting` and `continuousSequenceAcquisitionStarted` events.
+
+### startSequenceAcquisition
+
+```python
+startSequenceAcquisition(
+    numImages: int, intervalMs: float, stopOnOverflow: bool
+) -> None
+```
+
+```python
+startSequenceAcquisition(
+    cameraLabel: str, numImages: int, intervalMs: float, stopOnOverflow: bool
+) -> None
+```
+
+```python
+startSequenceAcquisition(*args: Any) -> None
+```
+
+Starts streaming camera sequence acquisition.
+
+This command does not block the calling thread for the duration of the acquisition.
+
+**Why Override?** To emit the `sequenceAcquisitionStarting` and `sequenceAcquisitionStarted` events.
+
+### stopSequenceAcquisition
+
+```python
+stopSequenceAcquisition(cameraLabel: str | None = None) -> None
+```
+
+Stops streaming camera sequence acquisition.
+
+(for a specified camera if `cameraLabel` is provided.)
+
+**Why Override?** To emit a `sequenceAcquisitionStopped` event.
 
 ## Stages
 
@@ -2401,7 +2660,7 @@ Returns empty string if no focus device is selected.
 getFocusDirection(stageLabel: str) -> FocusDirection
 ```
 
-Return device type for a given device.
+Return the focus direction of a stage.
 
 **Why Override?** The returned `pymmcore_plus.FocusDirection` enum is more interpretable than the raw `int` returned by `pymmcore`
 
@@ -2691,8 +2950,6 @@ setRelativeXYZPosition(dx: float = 0, dy: float = 0, dz: float = 0) -> None
 
 Sets the relative XYZ position in microns.
 
-✨ *This method is new in `CMMCorePlus`.*
-
 This is a convenience method that calls `setXYPosition` and `setZPosition` with the current position as the starting point.
 
 Parameters:
@@ -2823,358 +3080,6 @@ Open or close the currently selected or `shutterLabel` shutter.
 
 **Why Override?** To emit a `propertyChanged` event.
 
-## Config groups &amp; presets
-
-### channelGroup\_pattern
-
-```python
-channelGroup_pattern: Pattern
-```
-
-The regex pattern used to identify channel groups.
-
-✨ \*This property is new in `CMMCorePlus`.
-
-It is the regex used by `getOrGuessChannelGroup` to find a config group likely to be a channel group in `getAvailableConfigGroups` if `getChannelGroup` returns `None`.
-
-By default:
-
-```text
-re.compile("(chan{1,2}(el)?|filt(er)?)s?", re.IGNORECASE)
-```
-
-### defineConfig
-
-```python
-defineConfig(groupName: str, configName: str) -> None
-```
-
-```python
-defineConfig(
-    groupName: str, configName: str, deviceLabel: str, propName: str, value: str
-) -> None
-```
-
-```python
-defineConfig(
-    groupName: str,
-    configName: str,
-    deviceLabel: str | None = None,
-    propName: str | None = None,
-    value: str | None = None,
-) -> None
-```
-
-Defines a configuration.
-
-**Why Override?** To emit a `configDefined` event. Also, if `groupName` is not a defined group, then `defineConfigGroup(groupName)` is called.
-
-### defineConfigGroup
-
-```python
-defineConfigGroup(groupName: str) -> None
-```
-
-Creates an empty configuration group.
-
-### deleteConfig
-
-```python
-deleteConfig(groupName: str, configName: str) -> None
-```
-
-```python
-deleteConfig(
-    groupName: str, configName: str, deviceLabel: str, propName: str
-) -> None
-```
-
-```python
-deleteConfig(
-    groupName: str,
-    configName: str,
-    deviceLabel: str | None = None,
-    propName: str | None = None,
-) -> None
-```
-
-Delete `configName` from `groupName`.
-
-**Why Override?** To emit a `configDeleted` event.
-
-### deleteConfigGroup
-
-```python
-deleteConfigGroup(groupName: str) -> None
-```
-
-Deletes an entire configuration `group`.
-
-**Why Override?** To emit a `configGroupDeleted` event.
-
-### getAvailableConfigGroups
-
-```python
-getAvailableConfigGroups() -> tuple[ConfigGroupName, ...]
-```
-
-Returns the names of all defined configuration groups
-
-### getAvailableConfigs
-
-```python
-getAvailableConfigs(
-    configGroup: ConfigGroupName | str,
-) -> tuple[ConfigPresetName, ...]
-```
-
-Returns all defined configuration (preset) names in a given group
-
-### getChannelGroup
-
-```python
-getChannelGroup() -> ConfigGroupName | Literal['']
-```
-
-Returns the group determining the channel selection.
-
-Returns empty string if no channel group is selected.
-
-### getConfigData
-
-```python
-getConfigData(
-    configGroup: str, configName: str, *, native: Literal[True]
-) -> Configuration
-```
-
-```python
-getConfigData(
-    configGroup: str, configName: str, *, native: Literal[False] = False
-) -> Configuration
-```
-
-```python
-getConfigData(
-    configGroup: str, configName: str, *, native: bool = False
-) -> Configuration | Configuration
-```
-
-Return the configuration object for a given `configGroup` and `configName`.
-
-**Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
-
-### getConfigGroupObject
-
-```python
-getConfigGroupObject(
-    group_name: str, allow_missing: bool = False
-) -> ConfigGroup
-```
-
-Return a `ConfigGroup` object bound to group\_name on this core.
-
-✨ *This method is new in `CMMCorePlus`.*
-
-`ConfigGroup` objects are a convenient object oriented way to interact with configuration groups (i.e. groups of [Configuration Presets](<https://micro-manager.org/Micro-Manager_Configuration_Guide#configuration-presets>) in Micro-Manager). They allow you to call any method on `CMMCore` that normally requires a `groupName` as the first argument as an argument-free method on the `ConfigGroup` object.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `group_name` | `str` | Configuration group name to get a config group object for. | *required* |
-| `allow_missing` | `bool` | If `False` and the `ConfigGroup` does not exist, a `KeyError` will be raised. By default False. | `False` |
-
-Returns:
-
-| Type | Description |
-| --- | --- |
-| `ConfigGroup` | `ConfigGroup` object bound to `group_name` on this core. |
-
-### getConfigGroupState
-
-```python
-getConfigGroupState(group: str, *, native: Literal[True]) -> Configuration
-```
-
-```python
-getConfigGroupState(
-    group: str, *, native: Literal[False] = False
-) -> Configuration
-```
-
-```python
-getConfigGroupState(
-    group: str, *, native: bool = False
-) -> Configuration | Configuration
-```
-
-Return the state of the devices included in the specified `group`.
-
-**Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
-
-### getConfigGroupStateFromCache
-
-```python
-getConfigGroupStateFromCache(
-    group: str, *, native: Literal[True]
-) -> Configuration
-```
-
-```python
-getConfigGroupStateFromCache(
-    group: str, *, native: Literal[False] = False
-) -> Configuration
-```
-
-```python
-getConfigGroupStateFromCache(
-    group: str, *, native: bool = False
-) -> Configuration | Configuration
-```
-
-Return the state of the system cache, for the devices in the specified group.
-
-**Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
-
-### getConfigState
-
-```python
-getConfigState(
-    group: str, config: str, *, native: bool = False
-) -> Configuration | Configuration
-```
-
-Return state of devices included in the specified configuration.
-
-**Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
-
-### getCurrentConfig
-
-```python
-getCurrentConfig(
-    groupName: ConfigGroupName | str,
-) -> ConfigPresetName | Literal[""]
-```
-
-Returns the current configuration (preset) for a given group.
-
-Returns empty string if no configuration is selected.
-
-### getCurrentConfigFromCache
-
-```python
-getCurrentConfigFromCache(
-    groupName: ConfigGroupName | str,
-) -> ConfigPresetName | Literal[""]
-```
-
-Returns the configuration for a given group based on the data in the cache.
-
-### getOrGuessChannelGroup
-
-```python
-getOrGuessChannelGroup() -> list[str]
-```
-
-Get the channelGroup or find a likely set of candidates.
-
-✨ *This method is new in `CMMCorePlus`.*
-
-If the group is not defined via `.getChannelGroup` then likely candidates will be found by searching for config groups with names that match this object's `channelGroup_pattern` property. This is a settable property with a default value of:
-
-```text
-reg = re.compile("(chan{1,2}(el)?|filt(er)?)s?", re.IGNORECASE)
-```
-
-### isConfigDefined
-
-```python
-isConfigDefined(groupName: str, configName: str) -> bool
-```
-
-Checks if the configuration already exists within a group.
-
-If either the groupName or configName are not recognized, returns False.
-
-### isGroupDefined
-
-```python
-isGroupDefined(groupName: str) -> bool
-```
-
-Checks if the group already exists.
-
-### iterConfigGroups
-
-```python
-iterConfigGroups() -> Iterator[ConfigGroup]
-```
-
-Iterate `ConfigGroup` objects for all configs.
-
-✨ *This method is new in `CMMCorePlus`.*
-
-Yields:
-
-| Type | Description |
-| --- | --- |
-| `ConfigGroup` | `ConfigGroup` objects |
-
-### renameConfig
-
-```python
-renameConfig(
-    groupName: ConfigGroupName | str,
-    oldConfigName: ConfigPresetName | str,
-    newConfigName: str,
-) -> None
-```
-
-Renames a configuration within a specified group.
-
-The command will fail if the configuration was not previously defined.
-
-### renameConfigGroup
-
-```python
-renameConfigGroup(
-    oldGroupName: ConfigGroupName | str, newGroupName: str
-) -> None
-```
-
-Renames a configuration group.
-
-### setChannelGroup
-
-```python
-setChannelGroup(channelGroup: str) -> None
-```
-
-Specifies the group determining the channel selection.
-
-...and send a channelGroupChanged signal.
-
-### setConfig
-
-```python
-setConfig(groupName: str, configName: str) -> None
-```
-
-Applies a configuration to a group.
-
-**Why Override?** The native `onConfigGroupChanged` callback is not always called whenever `CMMCore.setConfig` has been called. We override here to emit a `configSet` event whenever `setConfig` is called. See [https://github.com/micro-manager/mmCoreAndDevices/issues/25](<https://github.com/micro-manager/mmCoreAndDevices/issues/25>) for details.
-
-### waitForConfig
-
-```python
-waitForConfig(
-    group: ConfigGroupName | str, configName: ConfigPresetName | str
-) -> None
-```
-
-Blocks until all devices included in the configuration become ready.
-
 ## State devices
 
 ### defineStateLabel
@@ -3187,16 +3092,6 @@ defineStateLabel(
 
 Defines a label for the specific state.
 
-### getDeviceInitializationState
-
-```python
-getDeviceInitializationState(label: str) -> DeviceInitializationState
-```
-
-Queries the initialization state of the given device.
-
-**Why Override?** The returned `pymmcore_plus.DeviceInitializationState` enum is more interpretable than the raw `int` returned by `pymmcore`
-
 ### getNumberOfStates
 
 ```python
@@ -3204,14 +3099,6 @@ getNumberOfStates(stateDeviceLabel: DeviceLabel | str) -> int
 ```
 
 Returns the total number of available positions (states).
-
-### getParentLabel
-
-```python
-getParentLabel(peripheralLabel: DeviceLabel | str) -> DeviceLabel | Literal['']
-```
-
-Returns parent device. Returns empty string if no parent is found.
 
 ### getState
 
@@ -3247,16 +3134,6 @@ getStateLabels(stateDeviceLabel: DeviceLabel | str) -> tuple[StateLabel, ...]
 
 Return labels for all states
 
-### getSystemState
-
-```python
-getSystemState(*, native: bool = False) -> Configuration | Configuration
-```
-
-Return the entire system state.
-
-**Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
-
 ### guessObjectiveDevices
 
 ```python
@@ -3265,21 +3142,11 @@ guessObjectiveDevices() -> list[str]
 
 Find any loaded devices that are likely to be an Objective/Nosepiece.
 
-✨ *This method is new in `CMMCorePlus`.*
-
 Likely matches are loaded StateDevices with names that match this object's `objective_device_pattern` property. This is a settable property with a default value of::
 
 ```text
 re.compile("(.+)?(nosepiece|obj(ective)?)(turret)?s?", re.IGNORECASE)
 ```
-
-### loadSystemState
-
-```python
-loadSystemState(fileName: str) -> None
-```
-
-Loads the system configuration from the text file conforming to the MM specific format.
 
 ### objective\_device\_pattern
 
@@ -3289,8 +3156,6 @@ objective_device_pattern: Pattern
 
 Pattern used to guess objective device labels.
 
-✨ \*This property is new in `CMMCorePlus`.
-
 It is the regex used by `guessObjectiveDevices` to find any devices that are likely to be objective devices.
 
 By default:
@@ -3298,24 +3163,6 @@ By default:
 ```text
 re.compile("(.+)?(nosepiece|obj(ective)?)(turret)?s?", re.IGNORECASE)
 ```
-
-### saveSystemState
-
-```python
-saveSystemState(fileName: str) -> None
-```
-
-Saves the current system state to a text file of the MM specific format.
-
-### setParentLabel
-
-```python
-setParentLabel(
-    deviceLabel: DeviceLabel | str, parentHubLabel: DeviceLabel | str
-) -> None
-```
-
-Sets parent device label
 
 ### setState
 
@@ -3337,1054 +3184,668 @@ Set state (by label) on `stateDeviceLabel`, with reliable event emission.
 
 **Why Override?** In `MMCore`, the calling of the `onPropertyChanged` callback is left to the underlying device adapter, which means it is not always called. This method overrides the default implementation to ensure that `events.propertyChanged` is *always* emitted when `setProperty` has been called and the property Value has actually changed.
 
-### setSystemState
+## Autofocus
+
+### enableContinuousFocus
 
 ```python
-setSystemState(conf: Configuration) -> None
+enableContinuousFocus(enable: bool) -> None
 ```
 
-Sets all properties contained in the Configuration object.
+Enables or disables the operation of the continuous focusing hardware device.
 
-## System state &amp; configuration files
-
-### describe
+### fullFocus
 
 ```python
-describe(
-    sort: str | None = None,
-    show_config_groups: bool = False,
-    show_available: bool = False,
+fullFocus() -> None
+```
+
+Performs focus acquisition and lock for the one-shot focusing device.
+
+### getAutoFocusDevice
+
+```python
+getAutoFocusDevice() -> DeviceLabel | Literal['']
+```
+
+Returns the label of the currently selected auto-focus device.
+
+Returns empty string if no auto-focus device is selected.
+
+### getAutoFocusOffset
+
+```python
+getAutoFocusOffset() -> float
+```
+
+Return the current offset of the one-shot focusing device.
+
+**Why Override?** For known autofocus devices with a separate offset device (see `setAutoFocusOffset`), this returns the position of that offset device.
+
+### getCurrentFocusScore
+
+```python
+getCurrentFocusScore() -> float
+```
+
+Returns the focus score from the default focusing device measured at the current Z position.
+
+### getLastFocusScore
+
+```python
+getLastFocusScore() -> float
+```
+
+Returns the latest focus score from the focusing device.
+
+### incrementalFocus
+
+```python
+incrementalFocus() -> None
+```
+
+Performs incremental focus for the one-shot focusing device.
+
+### isContinuousFocusDrive
+
+```python
+isContinuousFocusDrive(stageLabel: DeviceLabel | str) -> bool
+```
+
+Check if a stage has continuous focusing capability.
+
+(positions can be set while continuous focus runs).
+
+### isContinuousFocusEnabled
+
+```python
+isContinuousFocusEnabled() -> bool
+```
+
+Checks if the continuous focusing hardware device is ON or OFF.
+
+### isContinuousFocusLocked
+
+```python
+isContinuousFocusLocked() -> bool
+```
+
+Returns the lock-in status of the continuous focusing device.
+
+### setAutoFocusDevice
+
+```python
+setAutoFocusDevice(focusLabel: DeviceLabel | str) -> None
+```
+
+Sets the current auto-focus device.
+
+### setAutoFocusOffset
+
+```python
+setAutoFocusOffset(offset: float) -> None
+```
+
+Applies offset the one-shot focusing device.
+
+In micro-manager, there is some variability in the way that autofocus devices are implemented. Some have a separate offset device, while others can directly set the offset of an associated device. As a result, calling `setAutoFocusOffset`, may or may not do anything depending on the current autofocus device.
+
+This method attempts to detect known autofocus devices that have a separate offset device, and for those it also sets the position of the offset device.
+
+## Pixel size
+
+### definePixelSizeConfig
+
+```python
+definePixelSizeConfig(resolutionID: str) -> None
+```
+
+```python
+definePixelSizeConfig(
+    resolutionID: str, deviceLabel: str, propName: str, value: str
 ) -> None
 ```
 
-Print information table with the current configuration.
-
-Intended to provide a quick overview of the microscope configuration during interactive terminal usage.
-
-✨ *This method is new in `CMMCorePlus`.*
-
-### getAPIVersionInfo
-
 ```python
-getAPIVersionInfo() -> str
+definePixelSizeConfig(*args: str, **kwargs: str) -> None
 ```
 
-Returns the module and device interface versions.
+Defines an empty pixel size entry.
 
-### getMMCoreVersionMajor
+**Why Override?** To emit a `pixelSizeChanged` event.
+
+### deletePixelSizeConfig
 
 ```python
-getMMCoreVersionMajor() -> int
+deletePixelSizeConfig(resolutionID: str) -> None
 ```
 
-### getMMCoreVersionMinor
+Delete the pixel size configuration for the given `resolutionID`.
+
+**Why Override?** To emit a `pixelSizeChanged` event.
+
+### getAvailablePixelSizeConfigs
 
 ```python
-getMMCoreVersionMinor() -> int
+getAvailablePixelSizeConfigs() -> tuple[PixelSizeConfigName, ...]
 ```
 
-### getMMCoreVersionPatch
+Returns all defined resolution preset names
+
+### getCurrentPixelSizeConfig
 
 ```python
-getMMCoreVersionPatch() -> int
-```
-
-### getMMDeviceDeviceInterfaceVersion
-
-```python
-getMMDeviceDeviceInterfaceVersion() -> int
-```
-
-### getMMDeviceModuleInterfaceVersion
-
-```python
-getMMDeviceModuleInterfaceVersion() -> int
-```
-
-### getSystemStateCache
-
-```python
-getSystemStateCache(*, native: Literal[True]) -> Configuration
+getCurrentPixelSizeConfig() -> PixelSizeConfigName
 ```
 
 ```python
-getSystemStateCache(*, native: Literal[False] = False) -> Configuration
+getCurrentPixelSizeConfig(cached: bool) -> PixelSizeConfigName
 ```
 
 ```python
-getSystemStateCache(*, native: bool = False) -> Configuration | Configuration
+getCurrentPixelSizeConfig() -> PixelSizeConfigName
 ```
 
-Return the entire system state from cache.
+Get the current pixel configuration name
+
+### getMagnificationFactor
+
+```python
+getMagnificationFactor() -> float
+```
+
+Returns the product of all Magnifiers in the system or 1.0 when none is found. This is used internally by GetPixelSizeUm
+
+### getPixelSizeAffine
+
+```python
+getPixelSizeAffine() -> AffineTuple
+```
+
+```python
+getPixelSizeAffine(cached: bool) -> AffineTuple
+```
+
+```python
+getPixelSizeAffine() -> AffineTuple
+```
+
+Returns the current Affine Transform to related camera pixels with stage movement.
+
+### getPixelSizeAffineByID
+
+```python
+getPixelSizeAffineByID(resolutionID: PixelSizeConfigName | str) -> AffineTuple
+```
+
+Returns the Affine Transform to related camera pixels with stage movement for the requested pixel size group. The raw affine transform without correction for binning and magnification will be returned.
+
+### getPixelSizeConfigData
+
+```python
+getPixelSizeConfigData(
+    configName: str, *, native: Literal[True]
+) -> Configuration
+```
+
+```python
+getPixelSizeConfigData(
+    configName: str, *, native: Literal[False] = False
+) -> Configuration
+```
+
+```python
+getPixelSizeConfigData(
+    configName: str, *, native: bool = False
+) -> Configuration | Configuration
+```
+
+Return the configuration object for a given pixel size preset `configName`.
 
 **Why Override?** The `pymmcore_plus.Configuration` object returned when `native=False` (the default) provides a nicer `Mapping` interface. Pass `native=True` to get the original `pymmcore.Configuration` object.
 
-### getVersionInfo
+### getPixelSizedxdz
 
 ```python
-getVersionInfo() -> str
-```
-
-Displays core version.
-
-### loadSystemConfiguration
-
-```python
-loadSystemConfiguration(fileName: str | Path = 'MMConfig_demo.cfg') -> None
-```
-
-Load a system config file conforming to the MM `.cfg` format.
-
-[https://micro-manager.org/Micro-Manager\_Configuration\_Guide\#configuration-file-syntax](<https://micro-manager.org/Micro-Manager_Configuration_Guide#configuration-file-syntax>)
-
-For relative paths, the current working directory is first checked, then the then device adapter path is checked.
-
-**Why Override?** This method overrides the default implementation to A) allow loading the `MMConfig_demo.cfg` file by default, B) to provide more flexible path declarations and C) better error messages when the file cannot be found.
-
-### reset
-
-```python
-reset() -> None
-```
-
-Unloads all devices from the core, clears all configuration data and property blocks.
-
-### saveSystemConfiguration
-
-```python
-saveSystemConfiguration(filename: str) -> None
-```
-
-Saves the current system configuration to a text file.
-
-**Why Override?** To also save pixel size configurations.
-
-### state
-
-```python
-state(
-    *, cached: bool = True, include_time: bool = False, **_kwargs: Any
-) -> SummaryMetaV1
-```
-
-Return info on the current state of the core.
-
-### systemConfigurationFile
-
-```python
-systemConfigurationFile() -> str | None
-```
-
-Return the path to the last loaded system configuration file, or `None`.
-
-✨ *This method is new in `CMMCorePlus`.*
-
-### updateSystemStateCache
-
-```python
-updateSystemStateCache() -> None
-```
-
-Updates the state of the entire hardware.
-
-### waitForSystem
-
-```python
-waitForSystem() -> None
-```
-
-Blocks until all devices in the system become ready (not-busy).
-
-## Properties
-
-### getAllowedPropertyValues
-
-```python
-getAllowedPropertyValues(
-    label: DeviceLabel | str, propName: PropertyName | str
-) -> tuple[str, ...]
-```
-
-Returns all valid values for the specified property.
-
-### getDevicePropertyNames
-
-```python
-getDevicePropertyNames(label: DeviceLabel | str) -> tuple[PropertyName, ...]
-```
-
-Returns all property names supported by the device.
-
-### getProperty
-
-```python
-getProperty(label: DeviceLabel | str, propName: PropertyName | str) -> str
-```
-
-Returns the property value for the specified device.
-
-The return value will always be a string. Use getPropertyType to determine the correct type.
-
-### getPropertyFromCache
-
-```python
-getPropertyFromCache(
-    deviceLabel: DeviceLabel | str, propName: PropertyName | str
-) -> str
-```
-
-Returns the cached property value for the specified device.
-
-### getPropertyLowerLimit
-
-```python
-getPropertyLowerLimit(
-    label: DeviceLabel | str, propName: PropertyName | str
-) -> float
-```
-
-Returns the property lower limit value, if the property has limits - 0 otherwise.
-
-### getPropertyObject
-
-```python
-getPropertyObject(device_label: str, property_name: str) -> DeviceProperty
-```
-
-Return a DeviceProperty object bound to a device/property on this core.
-
-✨ *This method is new in `CMMCorePlus`.*
-
-`DeviceProperty` objects are a convenient object oriented way to interact with a specific device properties. They allow you to call any method on `CMMCore` that normally requires a `deviceLabel` and `propertyName` as the first two arguments as an argument-free method on the `DeviceProperty` object.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `device_label` | `str` | Device label to get a property object for. | *required* |
-| `property_name` | `str` | Property name to get a property object for. | *required* |
-
-Examples:
-
-```pycon
->>> core = CMMCorePlus()
->>> core.loadDevice("DemoCamera", "DemoCamera", "DCam")
->>> core.initializeDevice("DemoCamera")
->>> core.setCameraDevice("DemoCamera")
->>> exposure = core.getPropertyObject("DemoCamera", "Exposure")
->>> exposure.type()
-<PropertyType.Float: 2>
->>> exposure.upperLimit()
-10000.0
-```
-
-get/set property values easily:
-
-```pycon
->>> exposure.value
-10.0
->>> exposure.value = 5.0
->>> exposure.value
-5.0
->>> core.getExposure()  # changes reflected in core
-5.0
-```
-
-### getPropertyType
-
-```python
-getPropertyType(label: str, propName: str) -> PropertyType
-```
-
-Return the intrinsic property type for a given device and property.
-
-**Why Override?** The returned `pymmcore_plus.PropertyType` enum is more interpretable than the raw `int` returned by `pymmcore`
-
-### getPropertyUpperLimit
-
-```python
-getPropertyUpperLimit(
-    label: DeviceLabel | str, propName: PropertyName | str
-) -> float
-```
-
-Returns the property upper limit value, if the property has limits - 0 otherwise.
-
-### hasProperty
-
-```python
-hasProperty(label: DeviceLabel | str, propName: PropertyName | str) -> bool
-```
-
-Checks if device has a property with a specified name.
-
-### hasPropertyLimits
-
-```python
-hasPropertyLimits(
-    label: DeviceLabel | str, propName: PropertyName | str
-) -> bool
-```
-
-Queries device if the specific property has limits.
-
-### isPropertyPreInit
-
-```python
-isPropertyPreInit(
-    label: DeviceLabel | str, propName: PropertyName | str
-) -> bool
-```
-
-Tells us whether the property must be defined prior to initialization.
-
-### isPropertyReadOnly
-
-```python
-isPropertyReadOnly(
-    label: DeviceLabel | str, propName: PropertyName | str
-) -> bool
-```
-
-Tells us whether the property can be modified.
-
-### iterProperties
-
-```python
-iterProperties(
-    property_type: int | Iterable[int] | None = ...,
-    property_name_pattern: str | Pattern | None = ...,
-    *,
-    device_type: int | Iterable[int] | None = ...,
-    device_label: str | Pattern | None = ...,
-    has_limits: bool | None = None,
-    is_read_only: bool | None = None,
-    is_sequenceable: bool | None = None,
-    as_object: Literal[False],
-) -> Iterator[tuple[str, str]]
+getPixelSizedxdz() -> float
 ```
 
 ```python
-iterProperties(
-    property_type: int | Iterable[int] | None = ...,
-    property_name_pattern: str | Pattern | None = ...,
-    *,
-    device_type: int | Iterable[int] | None = ...,
-    device_label: str | Pattern | None = ...,
-    has_limits: bool | None = None,
-    is_read_only: bool | None = None,
-    is_sequenceable: bool | None = None,
-    as_object: Literal[True] = ...,
-) -> Iterator[DeviceProperty]
+getPixelSizedxdz(cached: bool) -> float
 ```
 
 ```python
-iterProperties(
-    property_type: int | Iterable[int] | None = None,
-    property_name_pattern: str | Pattern | None = None,
-    *,
-    device_type: int | Iterable[int] | None = None,
-    device_label: str | Pattern | None = None,
-    has_limits: bool | None = None,
-    is_read_only: bool | None = None,
-    is_sequenceable: bool | None = None,
-    as_object: bool = True,
-) -> Iterator[DeviceProperty] | Iterator[tuple[str, str]]
+getPixelSizedxdz(resolutionID: PixelSizeConfigName | str) -> float
 ```
 
-Iterate over currently loaded (device\_label, property\_name) pairs.
+```python
+getPixelSizedxdz() -> float
+```
 
-✨ *This method is new in `CMMCorePlus`.*
+Returns the angle between the camera's x axis and the axis (direction) of the z drive.
 
-It offers a convenient way to iterate over loaded devices, optionally filtering by `DeviceType` and/or device label. It can also yields `DeviceProperty` objects if `as_object` is `True` (the default).
+This angle is dimensionless (i.e. the ratio of the translation in x caused by a translation in z, i.e. dx / dz). This angle can be different for different z drives (if there are multiple Z drives in the system, please add the Core-Focus device to the pixel size configuration). See: [https://github.com/micro-manager/micro-manager/issues/1984](<https://github.com/micro-manager/micro-manager/issues/1984>)
 
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `property_type` | `int \| Sequence[int] \| None` | PropertyType (or types) to filter by, by default all property types will be yielded. | `None` |
-| `property_name_pattern` | `str \| Pattern \| None` | Property name to filter by, by default all property names will be yielded. May be a compiled regular expression or a string, in which case it will be compiled with `re.IGNORECASE`. | `None` |
-| `device_type` | `DeviceType \| None` | DeviceType to filter by, by default all device types will be yielded. | `None` |
-| `device_label` | `str \| None` | Device label to filter by, by default all device labels will be yielded. | `None` |
-| `has_limits` | `bool \| None` | If provided, only properties with `hasPropertyLimits` matching this value will be yielded. | `None` |
-| `is_read_only` | `bool \| None` | If provided, only properties with `isPropertyReadOnly` matching this value will be yielded. | `None` |
-| `is_sequenceable` | `bool \| None` | If provided only properties with `isPropertySequenceable` matching this value will be yielded. | `None` |
-| `as_object` | `bool` | If `True`, `DeviceProperty` objects will be yielded instead of `(device_label, property_name)` tuples. By default True | `True` |
-
-Yields:
-
-| Type | Description |
-| --- | --- |
-| `DeviceProperty \| tuple[str, str]` | `DeviceProperty` objects (if `as_object==True`) or 2-tuples of (device\_name, property\_name) |
-
-### setProperty
+### getPixelSizedydz
 
 ```python
-setProperty(
-    label: str, propName: str, propValue: bool | float | int | str
+getPixelSizedydz() -> float
+```
+
+```python
+getPixelSizedydz(cached: bool) -> float
+```
+
+```python
+getPixelSizedydz(resolutionID: PixelSizeConfigName | str) -> float
+```
+
+```python
+getPixelSizedydz() -> float
+```
+
+Returns the angle between the camera's y axis and the axis (direction) of the z drive.
+
+This angle is dimensionless (i.e. the ratio of the translation in x caused by a translation in z, i.e. dy / dz). This angle can be different for different z drives (if there are multiple Z drives in the system, please add the Core-Focus device to the pixel size configuration). See: [https://github.com/micro-manager/micro-manager/issues/1984](<https://github.com/micro-manager/micro-manager/issues/1984>)
+
+### getPixelSizeOptimalZUm
+
+```python
+getPixelSizeOptimalZUm() -> float
+```
+
+```python
+getPixelSizeOptimalZUm(cached: bool) -> float
+```
+
+```python
+getPixelSizeOptimalZUm(resolutionID: PixelSizeConfigName | str) -> float
+```
+
+```python
+getPixelSizeOptimalZUm() -> float
+```
+
+Returns the optimal z step size in um, optionally using cached pixel configuration.
+
+There is no magic to this number, but lets the system configuration communicate to the end user what the optimal Z step size is for this pixel size configuration
+
+### getPixelSizeUm
+
+```python
+getPixelSizeUm() -> float
+```
+
+```python
+getPixelSizeUm(cached: bool) -> float
+```
+
+```python
+getPixelSizeUm() -> float
+```
+
+Returns the current pixel size in microns.
+
+### getPixelSizeUmByID
+
+```python
+getPixelSizeUmByID(resolutionID: PixelSizeConfigName | str) -> float
+```
+
+Returns the pixel size in um for the requested pixel size group
+
+### isPixelSizeConfigDefined
+
+```python
+isPixelSizeConfigDefined(resolutionID: str) -> bool
+```
+
+Checks if the Pixel Size Resolution already exists
+
+### renamePixelSizeConfig
+
+```python
+renamePixelSizeConfig(
+    oldConfigName: PixelSizeConfigName | str, newConfigName: str
 ) -> None
 ```
 
-Set property named `propName` on device `label` to `propValue`.
+Renames a pixel size configuration.
 
-**Why Override?** In `MMCore`, the calling of the `onPropertyChanged` callback is left to the underlying device adapter, which means it is not always called. This method overrides the default implementation to ensure that `events.propertyChanged` is *always* emitted when `setProperty` has been called and the property Value has actually changed.
-
-### updateCoreProperties
+### setPixelSizeAffine
 
 ```python
-updateCoreProperties() -> None
+setPixelSizeAffine(
+    resolutionID: PixelSizeConfigName | str, affine: Sequence[float]
+) -> None
 ```
 
-Updates CoreProperties (currently all Core properties are devices types) with the loaded hardware.
+Sets the raw affine transform for the specific pixel size configuration.
 
-## Devices
+The affine transform consists of the first two rows of a 3x3 matrix, the third row is always assumed to be 0.0 0.0 1.0.
 
-### detectDevice
+### setPixelSizeConfig
 
 ```python
-detectDevice(deviceLabel: str) -> DeviceDetectionStatus
+setPixelSizeConfig(resolutionID: PixelSizeConfigName | str) -> None
 ```
 
-Tries to communicate to a device through a given serial port.
+Applies a Pixel Size Configuration.
 
-Used to automate discovery of correct serial port. Also configures the serial port correctly.
-
-**Why Override?** The returned `pymmcore_plus.DeviceDetectionStatus` enum is more interpretable than the raw `int` returned by `pymmcore`
-
-### deviceBusy
+### setPixelSizedxdz
 
 ```python
-deviceBusy(label: DeviceLabel | str) -> bool
+setPixelSizedxdz(resolutionID: PixelSizeConfigName | str, dXdZ: float) -> None
 ```
 
-Checks the busy status of the specific device.
+Sets the pixel size in the X direction in microns.
 
-### deviceTypeBusy
+### setPixelSizedydz
 
 ```python
-deviceTypeBusy(devType: DeviceType) -> bool
+setPixelSizedydz(resolutionID: PixelSizeConfigName | str, dYdZ: float) -> None
 ```
 
-Checks the busy status for all devices of the specific type.
+Sets the pixel size in the Y direction in microns.
 
-### getAdapterObject
+### setPixelSizeOptimalZUm
 
 ```python
-getAdapterObject(library_name: str) -> DeviceAdapter
+setPixelSizeOptimalZUm(
+    resolutionID: PixelSizeConfigName | str, optimalZ: float
+) -> None
 ```
 
-Return an `Adapter` object bound to library\_name on this core.
+Sets the pixel size in the Z direction in microns.
 
-✨ *This method is new in `CMMCorePlus`.*
-
-`Adapter` objects are a convenient object oriented way to interact with device adapters. They allow you to call any method on `CMMCore` that normally requires a `library_name` as the first argument as an argument-free method on the `Adapter` object.
-
-### getAvailableDeviceDescriptions
+### setPixelSizeUm
 
 ```python
-getAvailableDeviceDescriptions(library: AdapterName | str) -> tuple[str, ...]
+setPixelSizeUm(resolutionID: str, pixSize: float) -> None
 ```
 
-Get descriptions for available devices from the specified library.
+Set pixel size in microns for the specified `resolutionID`.
 
-### getAvailableDevices
+**Why Override?** To emit a `pixelSizeChanged` event.
+
+## Hardware sequencing
+
+### canSequenceEvents
 
 ```python
-getAvailableDevices(library: AdapterName | str) -> tuple[DeviceName, ...]
+canSequenceEvents(e1: MDAEvent, e2: MDAEvent, cur_length: int = -1) -> bool
 ```
 
-Get available devices from the specified device library.
+Check whether two `useq.MDAEvent` are sequenceable by this core instance.
 
-### getAvailableDeviceTypes
+> [!WARNING]
+>
+> **Deprecated**
+>
+> `canSequenceEvents` is deprecated. To see how this core will combine a list of events into `SequencedEvent` objects, use `iter_sequenced_events`: `list(iter_sequenced_events(core, [e1, e2]))`.
 
-```python
-getAvailableDeviceTypes(library: AdapterName | str) -> tuple[int, ...]
-```
+Micro-Manager calls hardware triggering "sequencing". Two events can be sequenced if *all* device properties that are changing between the first and second event support sequencing.
 
-Get type information for available devices from the specified library.
+If `cur_length` is provided, it is used to determine if the sequence is "full" (i.e. the sequence is already at the maximum length) as determined by the `...SequenceMaxLength()` method corresponding to the device property.
 
-### getCurrentDeviceOfType
-
-```python
-getCurrentDeviceOfType(
-    device_type: DeviceTypesWithCurrent,
-) -> DeviceLabel | Literal[""]
-```
-
-Return the current device of type `device_type`.
-
-Only the following device types have a "current" device: - CameraDevice - ShutterDevice - StageDevice - XYStageDevice - AutoFocusDevice - SLMDevice - GalvoDevice - ImageProcessorDevice
-
-Calling this method with any other device type will raise a `ValueError`.
-
-✨ *This method is new in `CMMCorePlus`.*
+See: [https://micro-manager.org/Hardware-based\_Synchronization\_in\_Micro-Manager](<https://micro-manager.org/Hardware-based_Synchronization_in_Micro-Manager>)
 
 Parameters:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| `device_type` | `DeviceType` | The type of device to get the current device for. See `DeviceType` for a list of device types. | *required* |
+| `e1` | `MDAEvent` | The first event. | *required* |
+| `e2` | `MDAEvent` | The second event. | *required* |
+| `cur_length` | `int` | The current length of the sequence. Used when checking `.get<...>SequenceMaxLength` for a given property. If the current length is greater than the max length, the events cannot be sequenced. By default -1, which means the current length is not checked. | `-1` |
 
 Returns:
 
 | Type | Description |
 | --- | --- |
-| `str` | The label of the current device of type `device_type`. If no device of that type is currently set, an empty string is returned. |
-
-Raises:
-
-| Type | Description |
-| --- | --- |
-| `ValueError` | If the core does not have the concept of a "current" device of the provided `device_type`. |
-
-### getDeviceAdapterNames
-
-```python
-getDeviceAdapterNames() -> tuple[AdapterName, ...]
-```
-
-Return the names of discoverable device adapters.
-
-### getDeviceAdapterSearchPaths
-
-```python
-getDeviceAdapterSearchPaths() -> tuple[str, ...]
-```
-
-Return the current device adapter search paths.
-
-### getDeviceDelayMs
-
-```python
-getDeviceDelayMs(label: DeviceLabel | str) -> float
-```
-
-Reports action delay in milliseconds for the specific device.
-
-### getDeviceDescription
-
-```python
-getDeviceDescription(label: DeviceLabel | str) -> str
-```
-
-Returns description text for a given device label. "Description" is determined by the library and is immutable.
-
-### getDeviceLibrary
-
-```python
-getDeviceLibrary(label: DeviceLabel | str) -> AdapterName
-```
-
-Returns device library (aka module, device adapter) name.
-
-### getDeviceName
-
-```python
-getDeviceName(label: DeviceLabel | str) -> DeviceName
-```
-
-Returns device name for a given device label.
-
-### getDeviceObject
-
-```python
-getDeviceObject(
-    device_label: str, device_type: Literal[Camera]
-) -> CameraDevice
-```
-
-```python
-getDeviceObject(device_label: str, device_type: Literal[Stage]) -> StageDevice
-```
-
-```python
-getDeviceObject(device_label: str, device_type: Literal[State]) -> StateDevice
-```
-
-```python
-getDeviceObject(
-    device_label: str, device_type: Literal[Shutter]
-) -> ShutterDevice
-```
-
-```python
-getDeviceObject(
-    device_label: str, device_type: Literal[XYStage]
-) -> XYStageDevice
-```
-
-```python
-getDeviceObject(
-    device_label: str, device_type: Literal[Serial]
-) -> SerialDevice
-```
-
-```python
-getDeviceObject(
-    device_label: str, device_type: Literal[Generic]
-) -> GenericDevice
-```
-
-```python
-getDeviceObject(
-    device_label: str, device_type: Literal[AutoFocus]
-) -> AutoFocusDevice
-```
-
-```python
-getDeviceObject(
-    device_label: str, device_type: Literal[ImageProcessor]
-) -> ImageProcessorDevice
-```
-
-```python
-getDeviceObject(
-    device_label: str, device_type: Literal[SignalIO]
-) -> SignalIODevice
-```
-
-```python
-getDeviceObject(
-    device_label: str, device_type: Literal[Magnifier]
-) -> MagnifierDevice
-```
-
-```python
-getDeviceObject(device_label: str, device_type: Literal[SLM]) -> SLMDevice
-```
-
-```python
-getDeviceObject(device_label: str, device_type: Literal[Hub]) -> HubDevice
-```
-
-```python
-getDeviceObject(device_label: str, device_type: Literal[Galvo]) -> GalvoDevice
-```
-
-```python
-getDeviceObject(
-    device_label: Literal[CoreDevice], device_type: Literal[Core]
-) -> CoreDevice
-```
-
-```python
-getDeviceObject(device_label: str, device_type: DeviceType = ...) -> Device
-```
-
-```python
-getDeviceObject(device_label: str, device_type: type[_DT]) -> _DT
-```
-
-```python
-getDeviceObject(
-    device_label: str, device_type: type[_DT] | DeviceType = Any
-) -> _DT | Device
-```
-
-Return a `Device` object bound to device\_label on this core.
-
-✨ *This method is new in `CMMCorePlus`.*
-
-`Device` objects are a convenient object oriented way to interact with devices. They allow you to call any method on `CMMCore` that normally requires a `deviceLabel` as the first argument as an argument-free method on the `Device` object.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `device_label` | `str` | Device label to get a device object for. | *required* |
+| `bool` | True if the events can be sequenced, False otherwise. |
 
 Examples:
 
-```pycon
->>> core = CMMCorePlus()
->>> cam = core.getDeviceObject("DemoCamera")
->>> cam.isLoaded()
-False
->>> cam.load("DemoCamera", "DCam")
->>> cam.isLoaded()
+> [!NOTE]
+>
+> The results here will depend on the current state of the core and devices.
+
+```python
+>>> from useq import MDAEvent
+>>> core = CMMCorePlus.instance()
+>>> core.loadSystemConfiguration()
+>>> core.canSequenceEvents(MDAEvent(), MDAEvent())
 True
->>> cam.initialize()
+>>> core.canSequenceEvents(MDAEvent(x_pos=1), MDAEvent(x_pos=2))
+False
+>>> core.canSequenceEvents(
+...     MDAEvent(channel={'config': 'DAPI'}),
+...     MDAEvent(channel={'config': 'FITC'})
+... )
+False
 ```
 
-get the device schema
-
-```pycon
->>> cam.schema()
-{
-    'title': 'DCam',
-    'description': 'Demo camera',
-    'type': 'object',
-    'properties': {
-        'HubID': {'type': 'string', 'readOnly': True, 'default': ''},
-        'MaximumExposureMs': {'type': 'number', 'preInit': True},
-        'TransposeCorrection': {'type': 'boolean'},
-        'TransposeMirrorX': {'type': 'boolean'},
-        'TransposeMirrorY': {'type': 'boolean'},
-        'TransposeXY': {'type': 'boolean'}
-    }
-}
-```
-
-### getDeviceSchema
+### getExposureSequenceMaxLength
 
 ```python
-getDeviceSchema(device_label: str) -> DeviceSchema
+getExposureSequenceMaxLength(cameraLabel: DeviceLabel | str) -> int
 ```
 
-Return JSON-schema describing device `device_label` and its properties.
+Gets the maximum length of a camera's exposure sequence.
 
-✨ *This method is new in `CMMCorePlus`. It provides a convenient way to get all of the information about a device in a single call.*
-
-Returns:
-
-| Type | Description |
-| --- | --- |
-| `DeviceSchema` | JSON-schema describing device `device_label` and its properties. |
-
-Examples:
-
-```pycon
->>> core = CMMCorePlus()
->>> core.loadDevice("DemoCamera", "DemoCamera", "DCam")
->>> core.getDeviceSchema("DemoCamera")
-{
-    'title': 'DCam',
-    'description': 'Demo camera',
-    'type': 'object',
-    'properties': {
-        'HubID': {'type': 'string', 'readOnly': True, 'default': ''},
-        'MaximumExposureMs': {'type': 'number', 'preInit': True},
-        'TransposeCorrection': {'type': 'boolean'},
-        'TransposeMirrorX': {'type': 'boolean'},
-        'TransposeMirrorY': {'type': 'boolean'},
-        'TransposeXY': {'type': 'boolean'}
-    }
-}
-```
-
-### getDeviceTimeoutMs
+### getPropertySequenceMaxLength
 
 ```python
-getDeviceTimeoutMs(label: DeviceLabel | str) -> int
+getPropertySequenceMaxLength(
+    label: DeviceLabel | str, propName: PropertyName | str
+) -> int
 ```
 
-Returns the per-device timeout in milliseconds, or the default if not set.
+Queries device property for the maximum number of events that can be put in a sequence
 
-### getDeviceType
+### getStageSequenceMaxLength
 
 ```python
-getDeviceType(label: str) -> DeviceType
+getStageSequenceMaxLength(stageLabel: DeviceLabel | str) -> int
 ```
 
-Return device type for a given device.
+Gets the maximum length of a stage's position sequence.
 
-**Why Override?** The returned `pymmcore_plus.Device` enum is more interpretable than the raw `int` returned by `pymmcore`
-
-### getInstalledDeviceDescription
+### getXYStageSequenceMaxLength
 
 ```python
-getInstalledDeviceDescription(
-    hubLabel: DeviceLabel | str, peripheralLabel: DeviceName | str
-) -> str
+getXYStageSequenceMaxLength(xyStageLabel: DeviceLabel | str) -> int
 ```
 
-Returns description from the specified peripheral on `hubLabel` device.
+Gets the maximum length of an XY stage's position sequence.
 
-### getInstalledDevices
+### isExposureSequenceable
 
 ```python
-getInstalledDevices(hubLabel: DeviceLabel | str) -> tuple[DeviceName, ...]
+isExposureSequenceable(cameraLabel: DeviceLabel | str) -> bool
 ```
 
-Performs auto-detection and loading of child devices that are attached to a Hub device.
+Queries camera if exposure can be used in a sequence
 
-Raises RuntimeError if hubLabel is not a hub device.
-
-### getLoadedDevices
+### isPropertySequenceable
 
 ```python
-getLoadedDevices() -> tuple[DeviceLabel, ...]
+isPropertySequenceable(
+    label: DeviceLabel | str, propName: PropertyName | str
+) -> bool
 ```
 
-Returns an array of labels for currently loaded devices.
+Queries device if the specified property can be used in a sequence
 
-### getLoadedDevicesOfType
+### isStageLinearSequenceable
 
 ```python
-getLoadedDevicesOfType(devType: DeviceType) -> tuple[DeviceLabel, ...]
+isStageLinearSequenceable(stageLabel: DeviceLabel | str) -> bool
 ```
 
-Returns an array of labels for currently loaded devices of specific type.
+Queries if the stage can be used in a linear sequence.
 
-### getLoadedPeripheralDevices
+A linear sequence is defined by a stepsize and number of slices
+
+### isStageSequenceable
 
 ```python
-getLoadedPeripheralDevices(
-    hubLabel: DeviceLabel | str,
-) -> tuple[DeviceLabel, ...]
+isStageSequenceable(stageLabel: DeviceLabel | str) -> bool
 ```
 
-Return labels of all loaded peripherals of `hubLabel` device.
+Queries stage if it can be used in a sequence
 
-Returns empty tuple if hubLabel is not a hub device, or even if hubLabel is not the name of any device.
-
-### getTimeoutMs
+### isXYStageSequenceable
 
 ```python
-getTimeoutMs() -> int
+isXYStageSequenceable(xyStageLabel: DeviceLabel | str) -> bool
 ```
 
-Get the timeout for all wait commands.
+Queries XY stage if it can be used in a sequence
 
-(Default is 5000 ms)
-
-### hasDeviceTimeout
+### loadExposureSequence
 
 ```python
-hasDeviceTimeout(label: DeviceLabel | str) -> bool
+loadExposureSequence(
+    cameraLabel: DeviceLabel | str, exposureSequence_ms: Sequence[float]
+) -> None
 ```
 
-Returns True if a per-device timeout has been set for the given device.
+Transfer a sequence of exposure times to the camera.
 
-### initializeAllDevices
+### loadPropertySequence
 
 ```python
-initializeAllDevices() -> None
+loadPropertySequence(
+    label: DeviceLabel | str,
+    propName: PropertyName | str,
+    eventSequence: Sequence[str],
+) -> None
 ```
 
-Calls Initialize() method for each loaded device.
+Transfer a sequence of events/states/whatever to the device.
 
-See `ParallelDeviceInitialization` feature flag for controlling the order of initialization.
+This should only be called for device-properties that are sequenceable
 
-### initializeDevice
+### loadStageSequence
 
 ```python
-initializeDevice(label: DeviceLabel | str) -> None
+loadStageSequence(
+    stageLabel: DeviceLabel | str, positionSequence: Sequence[float]
+) -> None
 ```
 
-Initializes specific device.
+Transfer a sequence of events/states/whatever to the device.
 
-### iterDeviceAdapters
+This should only be called for device-properties that are sequenceable
+
+### loadXYStageSequence
 
 ```python
-iterDeviceAdapters(
-    adapter_pattern: str | Pattern | None = ...,
-    *,
-    as_object: Literal[True] = ...,
-) -> Iterator[DeviceAdapter]
+loadXYStageSequence(
+    xyStageLabel: DeviceLabel | str,
+    xSequence: Sequence[float],
+    ySequence: Sequence[float],
+) -> None
 ```
+
+Transfer a sequence of stage positions to the xy stage.
+
+xSequence and ySequence must have the same length. This should only be called for XY stages that are sequenceable
+
+### setStageLinearSequence
 
 ```python
-iterDeviceAdapters(
-    adapter_pattern: str | Pattern | None = ..., *, as_object: Literal[False]
-) -> Iterator[str]
+setStageLinearSequence(
+    stageLabel: DeviceLabel | str, dZ_um: float, nSlices: int
+) -> None
 ```
+
+Loads a linear sequence (defined by stepsize and nr. of steps) into the device.
+
+### startExposureSequence
 
 ```python
-iterDeviceAdapters(
-    adapter_pattern: str | Pattern | None = None, *, as_object: bool = True
-) -> Iterator[DeviceAdapter] | Iterator[str]
+startExposureSequence(cameraLabel: DeviceLabel | str) -> None
 ```
 
-Iterate over all available device adapters.
+Starts an ongoing sequence of triggered exposures in a camera.
 
-✨ *This method is new in `CMMCorePlus`.*
+This should only be called for cameras where exposure time is sequenceable
 
-It offers a convenient way to iterate over available device adaptor libraries, optionally filtering adapter library name. It can also yield `Adapter` objects if `as_object` is `True` (the default)
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `adapter_pattern` | `str \| None` | Device adapter name or pattern to filter by, by default all device adapters will be yielded. | `None` |
-| `as_object` | `bool` | If `True`, `Adapter` objects will be yielded instead of library name strings. By default True | `True` |
-
-Yields:
-
-| Type | Description |
-| --- | --- |
-| `Device \| str` | `Device` objects (if `as_object==True`) or device label strings. |
-
-### iterDevices
+### startPropertySequence
 
 ```python
-iterDevices(
-    device_type: int | Iterable[int] | None = ...,
-    device_label: str | Pattern | None = ...,
-    device_adapter: str | Pattern | None = ...,
-    *,
-    as_object: Literal[False],
-) -> Iterator[str]
+startPropertySequence(
+    label: DeviceLabel | str, propName: PropertyName | str
+) -> None
 ```
+
+Starts an ongoing sequence of triggered events in a property of a device.
+
+This should only be called for device-properties that are sequenceable
+
+### startStageSequence
 
 ```python
-iterDevices(
-    device_type: int | Iterable[int] | None = ...,
-    device_label: str | Pattern | None = ...,
-    device_adapter: str | Pattern | None = ...,
-    *,
-    as_object: Literal[True] = ...,
-) -> Iterator[Device]
+startStageSequence(stageLabel: DeviceLabel | str) -> None
 ```
+
+Starts an ongoing sequence of triggered events in a stage.
+
+This should only be called for stages
+
+### startXYStageSequence
 
 ```python
-iterDevices(
-    device_type: int | Iterable[int] | None = None,
-    device_label: str | Pattern | None = None,
-    device_adapter: str | Pattern | None = None,
-    *,
-    as_object: bool = True,
-) -> Iterator[Device] | Iterator[str]
+startXYStageSequence(xyStageLabel: DeviceLabel | str) -> None
 ```
 
-Iterate over currently loaded devices.
+Starts an ongoing sequence of triggered events in an XY stage.
 
-✨ *This method is new in `CMMCorePlus`.*
+This should only be called for stages
 
-It offers a convenient way to iterate over loaded devices, optionally filtering by `DeviceType` and/or device label. It can also yield `Device` objects if `as_object` is `True` (the default).
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `device_type` | `DeviceType \| None` | DeviceType to filter by, by default all device types will be yielded. | `None` |
-| `device_label` | `str \| None` | Device label to filter by, by default all device labels will be yielded. | `None` |
-| `device_adapter` | `str \| None` | Device adapter library to filter by, by default devices from all libraries will be yielded. | `None` |
-| `as_object` | `bool` | If `True`, `Device` objects will be yielded instead of device label strings. By default True | `True` |
-
-Yields:
-
-| Type | Description |
-| --- | --- |
-| `Device \| str` | `Device` objects (if `as_object==True`) or device label strings. |
-
-### loadDevice
+### stopExposureSequence
 
 ```python
-loadDevice(label: str, moduleName: str, deviceName: str) -> None
+stopExposureSequence(cameraLabel: DeviceLabel | str) -> None
 ```
 
-Load a device from the plugin library.
+Stops an ongoing sequence of triggered exposures in a camera.
 
-**Why Override?** To add much better error messages in the case of failure.
+This should only be called for cameras where exposure time is sequenceable
 
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `label` | `str` | Name to be assigned to the device during this core session. | *required* |
-| `moduleName` | `str` | The name of the device adapter module (short name, not full file name). See `pymmcore.CMMCore.getDeviceAdapterNames` for a list of valid module names. | *required* |
-| `deviceName` | `str` | the name of the device. The name must correspond to one of the names recognized by the specific plugin library. See `pymmcore.CMMCore.getAvailableDevices` for a list of valid device names. | *required* |
-
-### setDeviceAdapterSearchPaths
+### stopPropertySequence
 
 ```python
-setDeviceAdapterSearchPaths(paths: Sequence[str]) -> None
+stopPropertySequence(
+    label: DeviceLabel | str, propName: PropertyName | str
+) -> None
 ```
 
-Set the device adapter search paths.
+Stops an ongoing sequence of triggered events in a property of a device.
 
-**Why Override?** In cases where MM device adapters use dynamically loaded libraries, the device adapter search paths must also be added to the `PATH` environment variable (e.g. [https://github.com/micro-manager/pymmcore/issues/28](<https://github.com/micro-manager/pymmcore/issues/28>)). This method overrides the default implementation to ensure that the `PATH` environment variable is updated when the device adapter search paths are changed.
+This should only be called for device-properties that are sequenceable
 
-### setDeviceDelayMs
+### stopStageSequence
 
 ```python
-setDeviceDelayMs(label: DeviceLabel | str, delayMs: float) -> None
+stopStageSequence(stageLabel: DeviceLabel | str) -> None
 ```
 
-Overrides the built-in value for the action delay.
+Stops an ongoing sequence of triggered events in a stage.
 
-### setDeviceTimeoutMs
+This should only be called for stages that are sequenceable
+
+### stopXYStageSequence
 
 ```python
-setDeviceTimeoutMs(label: DeviceLabel | str, timeoutMs: int) -> None
+stopXYStageSequence(xyStageLabel: DeviceLabel | str) -> None
 ```
 
-Sets a per-device timeout in milliseconds.
+Stops an ongoing sequence of triggered events in an XY stage.
 
-### setTimeoutMs
-
-```python
-setTimeoutMs(timeoutMs: int) -> None
-```
-
-Sets the timeout for all wait commands.
-
-(Default is 5000 ms)
-
-### supportsDeviceDetection
-
-```python
-supportsDeviceDetection(deviceLabel: DeviceLabel | str) -> bool
-```
-
-Return whether or not the device supports automatic device detection (i.e.
-
-### systemBusy
-
-```python
-systemBusy() -> bool
-```
-
-Checks the busy status of the entire system.
-
-### unloadAllDevices
-
-```python
-unloadAllDevices() -> None
-```
-
-Unload all devices from the core and reset all configuration data.
-
-**Why Override?** To add logging.
-
-### unloadDevice
-
-```python
-unloadDevice(label: DeviceLabel | str) -> None
-```
-
-Unloads the device from the core and adjusts all configuration data.
-
-### unloadLibrary
-
-```python
-unloadLibrary(moduleName: AdapterName | str) -> None
-```
-
-Forcefully unload a library.
-
-### unsetDeviceTimeout
-
-```python
-unsetDeviceTimeout(label: DeviceLabel | str) -> None
-```
-
-Removes any per-device timeout, restoring the default.
-
-### usesDeviceDelay
-
-```python
-usesDeviceDelay(label: DeviceLabel | str) -> bool
-```
-
-Signals if the device will use the delay setting or not.
-
-### waitForDevice
-
-```python
-waitForDevice(label: DeviceLabel | str) -> None
-```
-
-Waits (blocks the calling thread) until the specified device becomes non-busy.
-
-### waitForDeviceType
-
-```python
-waitForDeviceType(devType: DeviceType) -> None
-```
-
-Blocks until all devices of the specific type become ready (not-busy).
+This should only be called for stages that are sequenceable
 
 ## Logging &amp; errors
 
@@ -4581,41 +4042,538 @@ stopSecondaryLogFile(handle: int) -> None
 
 Stop capturing logging output into an additional file.
 
-## Other
+## SLMs
 
-### instance
+### displaySLMImage
 
 ```python
-instance() -> CMMCorePlus
+displaySLMImage(slmLabel: DeviceLabel | str) -> None
 ```
 
-Return the global singleton instance of `CMMCorePlus`.
+Display the waiting image on the SLM.
 
-✨ *This method is new in `CMMCorePlus`.*
+### getSLMBytesPerPixel
 
-In many cases, a single instance of `CMMCorePlus` is all that will be created in a given session. This class method provides a convenient way to access that instance.
+```python
+getSLMBytesPerPixel(slmLabel: DeviceLabel | str) -> int
+```
 
-> [!TIP]
+Returns the number of bytes per SLM pixel
+
+### getSLMDevice
+
+```python
+getSLMDevice() -> DeviceLabel | Literal['']
+```
+
+Returns the label of the currently selected SLM device.
+
+Returns empty string if no SLM device is selected.
+
+### getSLMExposure
+
+```python
+getSLMExposure(slmLabel: DeviceLabel | str) -> float
+```
+
+Returns the exposure time that will be used by the SLM for illumination
+
+### getSLMHeight
+
+```python
+getSLMHeight(slmLabel: DeviceLabel | str) -> int
+```
+
+Returns the height (in "pixels") of the SLM
+
+### getSLMNumberOfComponents
+
+```python
+getSLMNumberOfComponents(slmLabel: DeviceLabel | str) -> int
+```
+
+Returns the number of components (usually these depict colors) of the SLM.
+
+For instance, an RGB projector will return 3, but a grey scale SLM returns 1
+
+### getSLMSequenceMaxLength
+
+```python
+getSLMSequenceMaxLength(slmLabel: DeviceLabel | str) -> int
+```
+
+For SLMs that support sequences, returns the maximum length of the sequence that can be uploaded to the device
+
+### getSLMWidth
+
+```python
+getSLMWidth(slmLabel: DeviceLabel | str) -> int
+```
+
+Returns the width (in "pixels") of the SLM
+
+### loadSLMSequence
+
+```python
+loadSLMSequence(
+    slmLabel: DeviceLabel | str, imageSequence: list[bytes]
+) -> None
+```
+
+Load a sequence of images into the SLM
+
+### setSLMDevice
+
+```python
+setSLMDevice(slmLabel: DeviceLabel | str) -> None
+```
+
+Sets the current slm device.
+
+### setSLMExposure
+
+```python
+setSLMExposure(slmLabel: DeviceLabel | str, exposure_ms: float) -> None
+```
+
+For SLM devices with build-in light source (such as projectors), this will set the exposure time, but not (yet) start the illumination
+
+### setSLMImage
+
+```python
+setSLMImage(slmLabel: DeviceLabel | str, pixels: NDArray[uint8]) -> None
+```
+
+```python
+setSLMImage(slmLabel: DeviceLabel | str, pixels: Any) -> None
+```
+
+```python
+setSLMImage(slmLabel: DeviceLabel | str, pixels: NDArray[uint8]) -> None
+```
+
+Write an image to the SLM .
+
+When passing a numpy array, `pixels` must be one of the following:
+
+- a 2D numpy array \[h,w\] of uint8s, representing a grayscale image to write to the SLM.
+- a 3D numpy array \[h,w,3\] of uint8s with 3 color channels \[R,G,B\], representing an imgRGB32 image to write to the SLM.
+
+In both cases, the dimensions of the array should match the width and height of the SLM.
+
+> [!WARNING]
 >
-> Creating/accessing a `CMMCorePlus` object using `CMMCorePlus.instance()` is a convenient way to access the same core instance from multiple places in your code. All widgets in [`pymmcore-widgets`](<https://github.com/pymmcore-plus/pymmcore-widgets>) also use `CMMCorePlus.instance()` by default, so any widgets you use will automatically connect to the same core instance without any additional configuration.
->
-> Attempts *are* made to make it thread-safe. But please open an issue if you find any problems.
+> SLM might convert grayscale to binary internally.
 
-### noop
+### setSLMPixelsTo
 
 ```python
-noop() -> None
+setSLMPixelsTo(slmLabel: DeviceLabel | str, intensity: int) -> None
 ```
-
-A static method that does nothing.
-
-### sleep
 
 ```python
-sleep(intervalMs: float) -> None
+setSLMPixelsTo(
+    slmLabel: DeviceLabel | str, red: int, green: int, blue: int
+) -> None
 ```
 
-Waits (blocks the calling thread) for specified time in milliseconds.
+```python
+setSLMPixelsTo(slmLabel: DeviceLabel | str, intensity: int) -> None
+```
+
+Set all SLM pixels to a single 8-bit intensity.
+
+### startSLMSequence
+
+```python
+startSLMSequence(slmLabel: DeviceLabel | str) -> None
+```
+
+Starts the sequence previously uploaded to the SLM
+
+### stopSLMSequence
+
+```python
+stopSLMSequence(slmLabel: DeviceLabel | str) -> None
+```
+
+Stops the SLM sequence if previously started
+
+## Galvos
+
+### addGalvoPolygonVertex
+
+```python
+addGalvoPolygonVertex(
+    galvoLabel: str, polygonIndex: int, x: float, y: float
+) -> None
+```
+
+Add a vertex to a galvo polygon.
+
+### deleteGalvoPolygons
+
+```python
+deleteGalvoPolygons(galvoLabel: DeviceLabel | str) -> None
+```
+
+Remove all added polygons
+
+### getGalvoChannel
+
+```python
+getGalvoChannel(galvoLabel: DeviceLabel | str) -> str
+```
+
+Get the name of the active galvo channel (for a multi-laser galvo device).
+
+### getGalvoDevice
+
+```python
+getGalvoDevice() -> DeviceLabel | Literal['']
+```
+
+Returns the label of the currently selected Galvo device.
+
+Returns empty string if no Galvo device is selected.
+
+### getGalvoPosition
+
+```python
+getGalvoPosition(galvoDevice: DeviceLabel | str) -> list[float]
+```
+
+```python
+getGalvoPosition(
+    galvoLabel: DeviceLabel | str,
+    x_stage: Sequence[float],
+    y_stage: Sequence[float],
+) -> None
+```
+
+```python
+getGalvoPosition(galvoDevice: DeviceLabel | str) -> list[float]
+```
+
+Get x,y position of the galvo device.
+
+### getGalvoXMinimum
+
+```python
+getGalvoXMinimum(galvoLabel: DeviceLabel | str) -> float
+```
+
+Get the Galvo x minimum
+
+### getGalvoXRange
+
+```python
+getGalvoXRange(galvoLabel: DeviceLabel | str) -> float
+```
+
+Get the Galvo x range
+
+### getGalvoYMinimum
+
+```python
+getGalvoYMinimum(galvoLabel: DeviceLabel | str) -> float
+```
+
+Get the Galvo y minimum
+
+### getGalvoYRange
+
+```python
+getGalvoYRange(galvoLabel: DeviceLabel | str) -> float
+```
+
+Get the Galvo y range
+
+### loadGalvoPolygons
+
+```python
+loadGalvoPolygons(galvoLabel: DeviceLabel | str) -> None
+```
+
+Load a set of galvo polygons to the device
+
+### pointGalvoAndFire
+
+```python
+pointGalvoAndFire(
+    galvoLabel: DeviceLabel | str, x: float, y: float, pulseTime_us: float
+) -> None
+```
+
+Set the Galvo to an x,y position and fire the laser for a predetermined duration.
+
+### runGalvoPolygons
+
+```python
+runGalvoPolygons(galvoLabel: DeviceLabel | str) -> None
+```
+
+Run a loop of galvo polygons
+
+### runGalvoSequence
+
+```python
+runGalvoSequence(galvoLabel: DeviceLabel | str) -> None
+```
+
+Run a sequence of galvo positions
+
+### setGalvoDevice
+
+```python
+setGalvoDevice(galvoLabel: DeviceLabel | str) -> None
+```
+
+Sets the current galvo device.
+
+### setGalvoIlluminationState
+
+```python
+setGalvoIlluminationState(galvoLabel: DeviceLabel | str, on: bool) -> None
+```
+
+Set the galvo's illumination state to on or off
+
+### setGalvoPolygonRepetitions
+
+```python
+setGalvoPolygonRepetitions(
+    galvoLabel: DeviceLabel | str, repetitions: int
+) -> None
+```
+
+Set the number of times to loop galvo polygons
+
+### setGalvoPosition
+
+```python
+setGalvoPosition(galvoLabel: DeviceLabel | str, x: float, y: float) -> None
+```
+
+Set the Galvo to an x,y position.
+
+### setGalvoSpotInterval
+
+```python
+setGalvoSpotInterval(
+    galvoLabel: DeviceLabel | str, pulseTime_us: float
+) -> None
+```
+
+Set the SpotInterval for the specified galvo device.
+
+## Serial ports
+
+### getSerialPortAnswer
+
+```python
+getSerialPortAnswer(portLabel: str, term: str) -> str
+```
+
+Continuously read from the serial port until the terminating sequence is encountered.
+
+### readFromSerialPort
+
+```python
+readFromSerialPort(portLabel: str) -> list[str]
+```
+
+Reads the contents of the Rx buffer.
+
+### setSerialPortCommand
+
+```python
+setSerialPortCommand(portLabel: str, command: str, term: str) -> None
+```
+
+Send string to the serial device and return an answer.
+
+### setSerialProperties
+
+```python
+setSerialProperties(
+    portName: str,
+    answerTimeout: str,
+    baudRate: str,
+    delayBetweenCharsMs: str,
+    handshaking: str,
+    parity: str,
+    stopBits: str,
+) -> None
+```
+
+Sets all com port properties in a single call.
+
+### writeToSerialPort
+
+```python
+writeToSerialPort(portLabel: str, data: bytes) -> None
+```
+
+Sends an array of characters to the serial port and returns immediately.
+
+## Pumps
+
+### getPumpFlowrate
+
+```python
+getPumpFlowrate(pumpLabel: str) -> float
+```
+
+Return the flowrate of the pump in uL per second
+
+### getPumpMaxVolume
+
+```python
+getPumpMaxVolume(pumpLabel: str) -> float
+```
+
+Return max volume of the pump in uL
+
+### getPumpPressureKPa
+
+```python
+getPumpPressureKPa(pumpLabel: str) -> float
+```
+
+Return the pressure of the pump in kPa.
+
+### getPumpVolume
+
+```python
+getPumpVolume(pumpLabel: str) -> float
+```
+
+Return the fluid volume in the pump in uL
+
+### invertPumpDirection
+
+```python
+invertPumpDirection(pumpLabel: str, invert: bool) -> None
+```
+
+Sets whether the pump direction needs to be inverted
+
+### isPumpDirectionInverted
+
+```python
+isPumpDirectionInverted(pumpLabel: str) -> bool
+```
+
+Return True if pump direction needs to be inverted
+
+### pressurePumpCalibrate
+
+```python
+pressurePumpCalibrate(pumpLabel: str) -> None
+```
+
+Calibrates the pressure pump.
+
+### pressurePumpRequiresCalibration
+
+```python
+pressurePumpRequiresCalibration(pumpLabel: str) -> bool
+```
+
+Return True if pump requires calibration before operation.
+
+### pressurePumpStop
+
+```python
+pressurePumpStop(pumpLabel: str) -> None
+```
+
+Stops the pressure pump.
+
+### pumpDispenseDurationSeconds
+
+```python
+pumpDispenseDurationSeconds(pumpLabel: str, seconds: float) -> None
+```
+
+Dispenses for the provided duration (in seconds) at the set flowrate.
+
+### pumpDispenseVolumeUl
+
+```python
+pumpDispenseVolumeUl(pumpLabel: str, microLiter: float) -> None
+```
+
+Dispenses the provided volume (in uL) at the set flowrate.
+
+### pumpStart
+
+```python
+pumpStart(pumpLabel: str) -> None
+```
+
+Start dispensing until syringe is empty, or manually stopped.
+
+(whichever occurs first).
+
+### setPumpFlowrate
+
+```python
+setPumpFlowrate(pumpLabel: str, volume: float) -> None
+```
+
+Set the flowrate of the pump in uL per second
+
+### setPumpMaxVolume
+
+```python
+setPumpMaxVolume(pumpLabel: str, volume: float) -> None
+```
+
+Set the max volume of the pump in uL
+
+### setPumpPressureKPa
+
+```python
+setPumpPressureKPa(pumpLabel: str, pressure: float) -> None
+```
+
+Sets the pressure of the pump in kPa.
+
+### setPumpVolume
+
+```python
+setPumpVolume(pumpLabel: str, volume: float) -> None
+```
+
+Sets the volume of fluid in the pump in uL.
+
+Note it does not withdraw upto this amount. It is merely to inform MM of the volume in a prefilled pump.
+
+### volumetricPumpHome
+
+```python
+volumetricPumpHome(pumpLabel: str) -> None
+```
+
+Homes the volumetric pump.
+
+### volumetricPumpRequiresHoming
+
+```python
+volumetricPumpRequiresHoming(pumpLabel: str) -> bool
+```
+
+Return True if the volumetric pump requires homing.
+
+### volumetricPumpStop
+
+```python
+volumetricPumpStop(pumpLabel: str) -> None
+```
+
+Stops the volumetric pump.
 
 ## Typed dictionaries
 
@@ -4626,15 +4584,6 @@ These are the return types of `getDeviceSchema`.
 Bases: `TypedDict`
 
 JSON schema `dict` describing a device.
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `title` | `str` |  |
-| `description` | `str` |  |
-| `type` | `str` |  |
-| `properties` | `dict[str, PropertySchema]` |  |
 
 #### title
 
@@ -4665,20 +4614,6 @@ properties: dict[str, PropertySchema]
 Bases: `TypedDict`
 
 JSON schema `dict` describing a device property.
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `type` | `str` |  |
-| `maximum` | `float` |  |
-| `minimum` | `float` |  |
-| `enum` | `list` |  |
-| `readOnly` | `bool` |  |
-| `default` | `Any` |  |
-| `sequenceable` | `bool` |  |
-| `sequenceMaxLength` | `int` |  |
-| `preInit` | `bool` |  |
 
 #### type
 

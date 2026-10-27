@@ -13,9 +13,6 @@
         <loc>https://pymmcore-plus.github.io/contributing/docs/</loc>
       </url>
       <url>
-        <loc>https://pymmcore-plus.github.io/getting-started/</loc>
-      </url>
-      <url>
         <loc>https://pymmcore-plus.github.io/getting-started/first-acquisition/</loc>
       </url>
       <url>
@@ -25,10 +22,19 @@
         <loc>https://pymmcore-plus.github.io/getting-started/first-steps/</loc>
       </url>
       <url>
+        <loc>https://pymmcore-plus.github.io/getting-started/from-micro-manager/</loc>
+      </url>
+      <url>
         <loc>https://pymmcore-plus.github.io/getting-started/install/</loc>
       </url>
       <url>
+        <loc>https://pymmcore-plus.github.io/getting-started/which-package/</loc>
+      </url>
+      <url>
         <loc>https://pymmcore-plus.github.io/guide/</loc>
+      </url>
+      <url>
+        <loc>https://pymmcore-plus.github.io/guide/own-microscope/</loc>
       </url>
       <url>
         <loc>https://pymmcore-plus.github.io/napari-micromanager/</loc>
@@ -91,12 +97,6 @@
         <loc>https://pymmcore-plus.github.io/pymmcore-plus/api/pymmcore_plus/experimental/unicore/</loc>
       </url>
       <url>
-        <loc>https://pymmcore-plus.github.io/pymmcore-plus/api/pymmcore_plus/experimental/unicore/core/</loc>
-      </url>
-      <url>
-        <loc>https://pymmcore-plus.github.io/pymmcore-plus/api/pymmcore_plus/experimental/unicore/devices/</loc>
-      </url>
-      <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-plus/api/pymmcore_plus/install/</loc>
       </url>
       <url>
@@ -113,9 +113,6 @@
       </url>
       <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-plus/api/pymmcore_plus/metadata/functions/</loc>
-      </url>
-      <url>
-        <loc>https://pymmcore-plus.github.io/pymmcore-plus/api/pymmcore_plus/metadata/schema/</loc>
       </url>
       <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-plus/api/pymmcore_plus/metadata/serialize/</loc>
@@ -139,16 +136,7 @@
         <loc>https://pymmcore-plus.github.io/pymmcore-plus/env_var/</loc>
       </url>
       <url>
-        <loc>https://pymmcore-plus.github.io/pymmcore-plus/examples/context-set/</loc>
-      </url>
-      <url>
-        <loc>https://pymmcore-plus.github.io/pymmcore-plus/examples/following_changes_in_core/</loc>
-      </url>
-      <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-plus/examples/integration-with-qt/</loc>
-      </url>
-      <url>
-        <loc>https://pymmcore-plus.github.io/pymmcore-plus/examples/mda/</loc>
       </url>
       <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-plus/examples/pycro-manager-api/</loc>
@@ -181,6 +169,9 @@
         <loc>https://pymmcore-plus.github.io/pymmcore-plus/guides/mda_engine/</loc>
       </url>
       <url>
+        <loc>https://pymmcore-plus.github.io/pymmcore-plus/guides/saving_data/</loc>
+      </url>
+      <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-plus/guides/unicore/</loc>
       </url>
       <url>
@@ -188,6 +179,9 @@
       </url>
       <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-plus/profiling/</loc>
+      </url>
+      <url>
+        <loc>https://pymmcore-plus.github.io/pymmcore-plus/reference/events/</loc>
       </url>
       <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-plus/troubleshooting/</loc>
@@ -301,22 +295,13 @@
         <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/config_presets/</loc>
       </url>
       <url>
-        <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/control/</loc>
-      </url>
-      <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/device_properties/</loc>
       </url>
       <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/experimental/</loc>
       </url>
       <url>
-        <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/hcs/</loc>
-      </url>
-      <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/hcwizard/</loc>
-      </url>
-      <url>
-        <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/hcwizard/config_wizard/</loc>
       </url>
       <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/hcwizard/delay_page/</loc>
@@ -337,16 +322,10 @@
         <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/hcwizard/roles_page/</loc>
       </url>
       <url>
-        <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/mda/</loc>
-      </url>
-      <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/useq_widgets/</loc>
       </url>
       <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/useq_widgets/points_plans/</loc>
-      </url>
-      <url>
-        <loc>https://pymmcore-plus.github.io/pymmcore-widgets/api/pymmcore_widgets/views/</loc>
       </url>
       <url>
         <loc>https://pymmcore-plus.github.io/pymmcore-widgets/contributing/</loc>
@@ -367,13 +346,13 @@
         <loc>https://pymmcore-plus.github.io/useq-schema/api/useq/</loc>
       </url>
       <url>
-        <loc>https://pymmcore-plus.github.io/useq-schema/api/useq/experimental/</loc>
-      </url>
-      <url>
         <loc>https://pymmcore-plus.github.io/useq-schema/api/useq/pycromanager/</loc>
       </url>
       <url>
         <loc>https://pymmcore-plus.github.io/useq-schema/api/useq/v2/</loc>
+      </url>
+      <url>
+        <loc>https://pymmcore-plus.github.io/useq-schema/guides/sequences/</loc>
       </url>
       <url>
         <loc>https://pymmcore-plus.github.io/useq-schema/schema/axes/</loc>

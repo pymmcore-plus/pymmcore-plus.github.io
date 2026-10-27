@@ -2,7 +2,14 @@
 
 A Micro-Manager GUI based on pymmcore-widgets and pymmcore-plus.
 
-Classes:
+**Submodules**
+
+| Name | Description |
+| --- | --- |
+| `actions` | Actions: the commands behind pymmcore-gui's menus, toolbars and dock widgets. |
+| `widgets` | Widgets that pymmcore-gui adds to those in pymmcore-widgets. |
+
+**Classes**
 
 | Name | Description |
 | --- | --- |
@@ -11,265 +18,15 @@ Classes:
 | `MicroManagerGUI` | Micro-Manager minimal GUI. |
 | `WidgetAction` | Widget Actions toggle/create singleton widgets. |
 
-Functions:
+**Functions**
 
 | Name | Description |
 | --- | --- |
 | `create_mmgui` | Initialize the pymmcore-gui application and Main Window. |
 
-Attributes:
+## Classes
 
-| Name | Type | Description |
-| --- | --- | --- |
-| `__version__` | `str` |  |
-
-## \_\_version\_\_
-
-```python
-__version__: str = version('pymmcore-gui')
-```
-
-## ActionInfo
-
-Bases: `BaseModel`
-
-Information for creating a QCoreAction.
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `model_post_init` |  |
-| `to_qaction` | Create a QCoreAction from this info. |
-| `for_key` | Get the ActionInfo for a given key. |
-| `widget_actions` | Return all widget actions. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `key` | `str` | A unique key to identify the action. |
-| `text` | `str` | How the action should be displayed in the GUI. |
-| `auto_repeat` | `bool` |  |
-| `checkable` | `bool` |  |
-| `checked` | `bool` |  |
-| `enabled` | `bool` |  |
-| `icon` | `str \| None \| QIconType` |  |
-| `icon_text` | `str \| None` |  |
-| `icon_visible_in_menu` | `bool \| None` |  |
-| `menu_role` | `MenuRole \| None` |  |
-| `priority` | `Priority \| None` |  |
-| `shortcut` | `str \| None \| QKeySequenceType` |  |
-| `shortcut_context` | `ShortcutContext \| None` |  |
-| `shortcut_visible_in_context_menu` | `bool \| None` |  |
-| `status_top` | `str \| None` |  |
-| `tooltip` | `str \| None` |  |
-| `visible` | `bool` |  |
-| `whats_this` | `str \| None` |  |
-| `on_triggered` | `ActionTriggeredFunc \| None` |  |
-| `on_created` | `CoreActionFunc \| None` |  |
-
-### key
-
-```python
-key: str
-```
-
-A unique key to identify the action.
-
-### text
-
-```python
-text: str
-```
-
-How the action should be displayed in the GUI.
-
-### auto\_repeat
-
-```python
-auto_repeat: bool = False
-```
-
-### checkable
-
-```python
-checkable: bool = False
-```
-
-### checked
-
-```python
-checked: bool = False
-```
-
-### enabled
-
-```python
-enabled: bool = True
-```
-
-### icon
-
-```python
-icon: str | None | QIconType = None
-```
-
-### icon\_text
-
-```python
-icon_text: str | None = None
-```
-
-### icon\_visible\_in\_menu
-
-```python
-icon_visible_in_menu: bool | None = None
-```
-
-### menu\_role
-
-```python
-menu_role: MenuRole | None = None
-```
-
-### priority
-
-```python
-priority: Priority | None = None
-```
-
-### shortcut
-
-```python
-shortcut: str | None | QKeySequenceType = None
-```
-
-### shortcut\_context
-
-```python
-shortcut_context: ShortcutContext | None = None
-```
-
-### shortcut\_visible\_in\_context\_menu
-
-```python
-shortcut_visible_in_context_menu: bool | None = None
-```
-
-### status\_top
-
-```python
-status_top: str | None = None
-```
-
-### tooltip
-
-```python
-tooltip: str | None = None
-```
-
-### visible
-
-```python
-visible: bool = True
-```
-
-### whats\_this
-
-```python
-whats_this: str | None = None
-```
-
-### on\_triggered
-
-```python
-on_triggered: ActionTriggeredFunc | None = None
-```
-
-### on\_created
-
-```python
-on_created: CoreActionFunc | None = None
-```
-
-### model\_post\_init
-
-```python
-model_post_init(__context: Any) -> None
-```
-
-### to\_qaction
-
-```python
-to_qaction(mmc: CMMCorePlus, parent: QObject | None = None) -> QCoreAction
-```
-
-Create a QCoreAction from this info.
-
-### for\_key
-
-```python
-for_key(key: str) -> Self
-```
-
-Get the ActionInfo for a given key.
-
-### widget\_actions
-
-```python
-widget_actions() -> dict[str, WidgetActionInfo]
-```
-
-Return all widget actions.
-
-## CoreAction
-
-Bases: `ActionKey`
-
-Actions that act on the global CMMCore instance.
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `SNAP` |  |  |
-| `TOGGLE_LIVE` |  |  |
-| `LOAD_DEMO` |  |  |
-| `LOAD_CONFIG` |  |  |
-| `SAVE_CONFIG` |  |  |
-
-### SNAP
-
-```python
-SNAP = 'pymmcore_gui.snap_image'
-```
-
-### TOGGLE\_LIVE
-
-```python
-TOGGLE_LIVE = 'pymmcore_gui.toggle_live'
-```
-
-### LOAD\_DEMO
-
-```python
-LOAD_DEMO = 'pymmcore_gui.load_demo_config'
-```
-
-### LOAD\_CONFIG
-
-```python
-LOAD_CONFIG = 'pymmcore_gui.load_config'
-```
-
-### SAVE\_CONFIG
-
-```python
-SAVE_CONFIG = 'pymmcore_gui.save_config'
-```
-
-## MicroManagerGUI
+### MicroManagerGUI
 
 ```python
 MicroManagerGUI(*, mmcore: CMMCorePlus | None = None)
@@ -279,28 +36,7 @@ Bases: `QMainWindow`
 
 Micro-Manager minimal GUI.
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `get_action` | Create a QAction from this key. |
-| `get_widget` | Get (or create) widget for `key` ensuring that it is linked to its QAction. |
-| `get_dock_widget` | Get the QDockWidget for `key`. |
-| `closeEvent` |  |
-| `restore_state` | Restore the state of the window from settings (or load default state). |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `TOOLBARS` | `Mapping[str, ToolDictValue]` |  |
-| `MENUS` | `Mapping[str, MenuDictValue]` |  |
-| `bell_button` |  |  |
-| `dock_manager` |  |  |
-| `nm` | `NotificationManager` | A callable that can be used to show a message in the status bar. |
-| `mmcore` | `CMMCorePlus` |  |
-
-### TOOLBARS
+#### TOOLBARS
 
 ```python
 TOOLBARS: Mapping[str, ToolDictValue] = {
@@ -316,7 +52,7 @@ TOOLBARS: Mapping[str, ToolDictValue] = {
 }
 ```
 
-### MENUS
+#### MENUS
 
 ```python
 MENUS: Mapping[str, MenuDictValue] = {
@@ -336,19 +72,7 @@ MENUS: Mapping[str, MenuDictValue] = {
 }
 ```
 
-### bell\_button
-
-```python
-bell_button = QPushButton(QIconifyIcon('codicon:bell'), None)
-```
-
-### dock\_manager
-
-```python
-dock_manager = CDockManager(self)
-```
-
-### nm
+#### nm
 
 ```python
 nm: NotificationManager
@@ -356,13 +80,13 @@ nm: NotificationManager
 
 A callable that can be used to show a message in the status bar.
 
-### mmcore
+#### mmcore
 
 ```python
 mmcore: CMMCorePlus
 ```
 
-### get\_action
+#### get\_action
 
 ```python
 get_action(key: str, create: bool = True) -> QAction
@@ -370,7 +94,7 @@ get_action(key: str, create: bool = True) -> QAction
 
 Create a QAction from this key.
 
-### get\_widget
+#### get\_widget
 
 ```python
 get_widget(key: Literal[ABOUT], create: bool = ...) -> AboutWidget
@@ -449,7 +173,7 @@ Raises:
 | --- | --- |
 | `KeyError` | If the widget doesn't exist and `create` is False. |
 
-### get\_dock\_widget
+#### get\_dock\_widget
 
 ```python
 get_dock_widget(key: str) -> CDockWidget
@@ -471,13 +195,13 @@ Raises:
 | --- | --- |
 | `KeyError` | If the widget doesn't exist. |
 
-### closeEvent
+#### closeEvent
 
 ```python
 closeEvent(a0: QCloseEvent) -> None
 ```
 
-### restore\_state
+#### restore\_state
 
 ```python
 restore_state(*, show: bool = False) -> None
@@ -487,102 +211,283 @@ Restore the state of the window from settings (or load default state).
 
 show is added as a convenience here because it may be a common use case to restore the state in a single shot timer and (only) then show the window. This avoids the window flashing on the screen before it is properly positioned.
 
-## WidgetAction
+### ActionInfo
+
+Bases: `BaseModel`
+
+Information for creating a QCoreAction.
+
+#### key
+
+```python
+key: str
+```
+
+A unique key to identify the action.
+
+#### text
+
+```python
+text: str
+```
+
+How the action should be displayed in the GUI.
+
+#### auto\_repeat
+
+```python
+auto_repeat: bool = False
+```
+
+#### checkable
+
+```python
+checkable: bool = False
+```
+
+#### checked
+
+```python
+checked: bool = False
+```
+
+#### enabled
+
+```python
+enabled: bool = True
+```
+
+#### icon
+
+```python
+icon: str | None | QIconType = None
+```
+
+#### icon\_text
+
+```python
+icon_text: str | None = None
+```
+
+#### icon\_visible\_in\_menu
+
+```python
+icon_visible_in_menu: bool | None = None
+```
+
+#### menu\_role
+
+```python
+menu_role: MenuRole | None = None
+```
+
+#### priority
+
+```python
+priority: Priority | None = None
+```
+
+#### shortcut
+
+```python
+shortcut: str | None | QKeySequenceType = None
+```
+
+#### shortcut\_context
+
+```python
+shortcut_context: ShortcutContext | None = None
+```
+
+#### shortcut\_visible\_in\_context\_menu
+
+```python
+shortcut_visible_in_context_menu: bool | None = None
+```
+
+#### status\_top
+
+```python
+status_top: str | None = None
+```
+
+#### tooltip
+
+```python
+tooltip: str | None = None
+```
+
+#### visible
+
+```python
+visible: bool = True
+```
+
+#### whats\_this
+
+```python
+whats_this: str | None = None
+```
+
+#### on\_triggered
+
+```python
+on_triggered: ActionTriggeredFunc | None = None
+```
+
+#### on\_created
+
+```python
+on_created: CoreActionFunc | None = None
+```
+
+#### model\_post\_init
+
+```python
+model_post_init(__context: Any) -> None
+```
+
+#### to\_qaction
+
+```python
+to_qaction(mmc: CMMCorePlus, parent: QObject | None = None) -> QCoreAction
+```
+
+Create a QCoreAction from this info.
+
+#### for\_key
+
+```python
+for_key(key: str) -> Self
+```
+
+Get the ActionInfo for a given key.
+
+#### widget\_actions
+
+```python
+widget_actions() -> dict[str, WidgetActionInfo]
+```
+
+Return all widget actions.
+
+### CoreAction
+
+Bases: `ActionKey`
+
+Actions that act on the global CMMCore instance.
+
+#### SNAP
+
+```python
+SNAP = 'pymmcore_gui.snap_image'
+```
+
+#### TOGGLE\_LIVE
+
+```python
+TOGGLE_LIVE = 'pymmcore_gui.toggle_live'
+```
+
+#### LOAD\_DEMO
+
+```python
+LOAD_DEMO = 'pymmcore_gui.load_demo_config'
+```
+
+#### LOAD\_CONFIG
+
+```python
+LOAD_CONFIG = 'pymmcore_gui.load_config'
+```
+
+#### SAVE\_CONFIG
+
+```python
+SAVE_CONFIG = 'pymmcore_gui.save_config'
+```
+
+### WidgetAction
 
 Bases: `ActionKey`
 
 Widget Actions toggle/create singleton widgets.
 
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `ABOUT` |  |  |
-| `PROP_BROWSER` |  |  |
-| `PIXEL_CONFIG` |  |  |
-| `INSTALL_DEVICES` |  |  |
-| `MDA_WIDGET` |  |  |
-| `CONFIG_GROUPS` |  |  |
-| `CAMERA_ROI` |  |  |
-| `CONSOLE` |  |  |
-| `EXCEPTION_LOG` |  |  |
-| `STAGE_CONTROL` |  |  |
-| `STAGE_EXPLORER` |  |  |
-| `CONFIG_WIZARD` |  |  |
-
-### ABOUT
+#### ABOUT
 
 ```python
 ABOUT = 'pymmcore_gui.about_widget'
 ```
 
-### PROP\_BROWSER
+#### PROP\_BROWSER
 
 ```python
 PROP_BROWSER = 'pymmcore_gui.property_browser'
 ```
 
-### PIXEL\_CONFIG
+#### PIXEL\_CONFIG
 
 ```python
 PIXEL_CONFIG = 'pymmcore_gui.pixel_config_widget'
 ```
 
-### INSTALL\_DEVICES
+#### INSTALL\_DEVICES
 
 ```python
 INSTALL_DEVICES = 'pymmcore_gui.install_devices_widget'
 ```
 
-### MDA\_WIDGET
+#### MDA\_WIDGET
 
 ```python
 MDA_WIDGET = 'pymmcore_gui.mda_widget'
 ```
 
-### CONFIG\_GROUPS
+#### CONFIG\_GROUPS
 
 ```python
 CONFIG_GROUPS = 'pymmcore_gui.config_groups_widget'
 ```
 
-### CAMERA\_ROI
+#### CAMERA\_ROI
 
 ```python
 CAMERA_ROI = 'pymmcore_gui.camera_roi_widget'
 ```
 
-### CONSOLE
+#### CONSOLE
 
 ```python
 CONSOLE = 'pymmcore_gui.console'
 ```
 
-### EXCEPTION\_LOG
+#### EXCEPTION\_LOG
 
 ```python
 EXCEPTION_LOG = 'pymmcore_gui.exception_log'
 ```
 
-### STAGE\_CONTROL
+#### STAGE\_CONTROL
 
 ```python
 STAGE_CONTROL = 'pymmcore_gui.stage_control_widget'
 ```
 
-### STAGE\_EXPLORER
+#### STAGE\_EXPLORER
 
 ```python
 STAGE_EXPLORER = 'pymmcore_gui.stage_explorer_widget'
 ```
 
-### CONFIG\_WIZARD
+#### CONFIG\_WIZARD
 
 ```python
 CONFIG_WIZARD = 'pymmcore_gui.hardware_config_wizard'
 ```
 
-## create\_mmgui
+## Functions
+
+### create\_mmgui
 
 ```python
 create_mmgui(

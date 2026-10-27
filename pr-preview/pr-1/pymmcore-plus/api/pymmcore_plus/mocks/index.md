@@ -1,12 +1,16 @@
 # pymmcore\_plus.mocks
 
-Classes:
+Mock objects for testing.
+
+**Classes**
 
 | Name | Description |
 | --- | --- |
 | `MockSequenceableCore` | Sequenceable mock for testing. |
 
-## MockSequenceableCore
+## Classes
+
+### MockSequenceableCore
 
 ```python
 MockSequenceableCore(*args: Any, max_len: int = 100, **kwargs: Any)

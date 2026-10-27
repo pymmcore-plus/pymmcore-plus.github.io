@@ -2,44 +2,6 @@
 
 Screenshot generated from the [example below](<#example>).
 
-Bases: `QTreeView`
-
-A tree widget that displays configuration groups.
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `create_from_core` | Create a ConfigGroupsTree from a CMMCorePlus instance. |
-| `setUndoStack` | Set the undo stack and configure undo-aware delegates. |
-| `setModel` | Set the model for the tree view. |
-
-## create\_from\_core
-
-```python
-create_from_core(
-    core: CMMCorePlus, parent: QWidget | None = None
-) -> ConfigGroupsTree
-```
-
-Create a ConfigGroupsTree from a CMMCorePlus instance.
-
-## setUndoStack
-
-```python
-setUndoStack(undo_stack: QUndoStack) -> None
-```
-
-Set the undo stack and configure undo-aware delegates.
-
-## setModel
-
-```python
-setModel(model: QAbstractItemModel | None) -> None
-```
-
-Set the model for the tree view.
-
 ## Example
 
 examples/config\_groups\_tree.py
@@ -63,3 +25,35 @@ tree.resize(600, 600)
 
 app.exec()
 ```
+
+## API
+
+Bases: `QTreeView`
+
+A tree widget that displays configuration groups.
+
+### create\_from\_core
+
+```python
+create_from_core(
+    core: CMMCorePlus, parent: QWidget | None = None
+) -> ConfigGroupsTree
+```
+
+Create a ConfigGroupsTree from a CMMCorePlus instance.
+
+### setUndoStack
+
+```python
+setUndoStack(undo_stack: QUndoStack) -> None
+```
+
+Set the undo stack and configure undo-aware delegates.
+
+### setModel
+
+```python
+setModel(model: QAbstractItemModel | None) -> None
+```
+
+Set the model for the tree view.

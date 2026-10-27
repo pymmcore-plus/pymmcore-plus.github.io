@@ -1,6 +1,15 @@
 # pymmcore\_gui.actions
 
-Classes:
+Actions: the commands behind pymmcore-gui's menus, toolbars and dock widgets.
+
+**Submodules**
+
+| Name | Description |
+| --- | --- |
+| `core_actions` | Defines actions that act on the global CMMCore instance. |
+| `widget_actions` | Defines actions that toggle/create singleton widgets. |
+
+**Classes**
 
 | Name | Description |
 | --- | --- |
@@ -8,7 +17,9 @@ Classes:
 | `QCoreAction` | QAction that can act on a CMMCorePlus instance. |
 | `WidgetActionInfo` | Subclass to set default values for WidgetAction. |
 
-## ActionKey
+## Classes
+
+### ActionKey
 
 Bases: `str`, `Enum`
 
@@ -16,7 +27,39 @@ A Key representing an action in the GUI.
 
 This is subclassed in core\_actions, widget\_actions, etc. to provide a unique key for each action.
 
-## QCoreAction
+### WidgetActionInfo
+
+Bases: `ActionInfo`
+
+Subclass to set default values for WidgetAction.
+
+#### checkable
+
+```python
+checkable: bool = True
+```
+
+#### dock\_area
+
+```python
+dock_area: DockWidgetArea | SideBarLocation | None = (
+    DockWidgetArea.RightDockWidgetArea
+)
+```
+
+#### scroll\_mode
+
+```python
+scroll_mode: eInsertMode = CDockWidget.eInsertMode.AutoScrollArea
+```
+
+#### floatable
+
+```python
+floatable: bool = True
+```
+
+### QCoreAction
 
 ```python
 QCoreAction(
@@ -30,32 +73,7 @@ Bases: `QAction`
 
 QAction that can act on a CMMCorePlus instance.
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `apply_info` | Apply settings from a `CoreActionInfo` object to the QAction. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `key` | `str` |  |
-| `mmc` |  |  |
-
-### key
-
-```python
-key: str
-```
-
-### mmc
-
-```python
-mmc = mmc
-```
-
-### apply\_info
+#### apply\_info
 
 ```python
 apply_info(info: ActionInfo) -> None
@@ -63,57 +81,9 @@ apply_info(info: ActionInfo) -> None
 
 Apply settings from a `CoreActionInfo` object to the QAction.
 
-## WidgetActionInfo
-
-Bases: `ActionInfo`
-
-Subclass to set default values for WidgetAction.
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `checkable` | `bool` |  |
-| `create_widget` | `Callable[[QWidgetType], QWidget]` |  |
-| `dock_area` | `DockWidgetArea \| SideBarLocation \| None` |  |
-| `scroll_mode` | `eInsertMode` |  |
-| `floatable` | `bool` |  |
-
-### checkable
-
-```python
-checkable: bool = True
-```
-
-### create\_widget
-
-```python
-create_widget: Callable[[QWidgetType], QWidget]
-```
-
-### dock\_area
-
-```python
-dock_area: DockWidgetArea | SideBarLocation | None = (
-    DockWidgetArea.RightDockWidgetArea
-)
-```
-
-### scroll\_mode
-
-```python
-scroll_mode: eInsertMode = CDockWidget.eInsertMode.AutoScrollArea
-```
-
-### floatable
-
-```python
-floatable: bool = True
-```
-
 ## Re-exports
 
-These names can be imported from this module, but are documented at their top-level location.
+These can also be imported from this module, but each is documented under its shortest import path (linked below).
 
 | Name | Description |
 | --- | --- |

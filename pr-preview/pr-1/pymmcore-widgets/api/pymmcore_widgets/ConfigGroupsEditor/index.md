@@ -2,46 +2,74 @@
 
 Screenshot generated from the [example below](<#example>).
 
+## Example
+
+examples/config\_groups\_editor.py
+
+```python
+"""ConfigGroupsEditor edits configuration groups and their presets.
+
+It doesn't change the core: when you click "Apply", it emits `applyRequested`
+with the changes, and it's up to you what to do with them.
+"""
+
+from pymmcore_plus import CMMCorePlus
+from qtpy.QtWidgets import QApplication
+
+from pymmcore_widgets import ConfigGroupsEditor
+
+app = QApplication([])
+core = CMMCorePlus.instance()
+core.loadSystemConfiguration()
+
+# load the core's devices, groups and presets into the editor
+# (pass `load_configs=False` to start with an empty list of groups)
+cfg = ConfigGroupsEditor.create_from_core(core)
+
+
+# connect to apply signal to print the changes
+def _on_apply_clicked(changed, deleted, channel_group):
+    print("\n\nApply clicked:")
+    print(f"Changed: {[cg.name for cg in changed]}")
+    print(f"Deleted: {deleted}")
+    print(f"Channel group: {channel_group}")
+
+
+cfg.applyRequested.connect(_on_apply_clicked)
+
+cfg.resize(900, 550)
+cfg.show()
+
+app.exec()
+```
+
+## API
+
 Bases: `QWidget`
 
-Widget composed of two QListViews backed by a single tree model.
+Editor for configuration groups and their presets.
 
-Methods:
+The editor doesn't change the core. Build it from a core with `create_from_core`, and connect to `applyRequested` to apply the user's changes.
 
-| Name | Description |
-| --- | --- |
-| `create_from_core` | Create a ConfigGroupsEditor from a CMMCorePlus instance. |
-| `update_from_core` | Refresh the editor from the current state of the core. |
-| `setCurrentGroup` | Set the currently selected group in the editor. |
-| `setCurrentPreset` | Set the currently selected preset in the editor. |
-| `setData` | Set the configuration data to be displayed in the editor. |
-| `data` | Return the current configuration data as a list of ConfigGroup. |
-| `isClean` | Return True if the editor has no unapplied changes. |
-| `setClean` | Mark the current state as the clean (saved) baseline. |
-| `undoStack` | Return the undo stack for this editor. |
-| `dirtyGroups` | Return groups that changed, deleted names, and desired channel group. |
-| `sizeHint` | Suggest a size for the widget. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `configChanged` |  |  |
-| `applyRequested` |  |  |
-
-## configChanged
+### configChanged
 
 ```python
 configChanged = Signal()
 ```
 
-## applyRequested
+Emitted (with no arguments) whenever the user edits a group or preset.
+
+### applyRequested
 
 ```python
 applyRequested = Signal(list, list, object)
 ```
 
-## create\_from\_core
+Emitted when the user clicks "Apply".
+
+Arguments are `(changed, deleted, channel_group)`: the new or changed `ConfigGroup`s, the names of deleted groups, and the name of the group that should become the channel group (or `None` if that didn't change).
+
+### create\_from\_core
 
 ```python
 create_from_core(
@@ -56,7 +84,7 @@ Create a ConfigGroupsEditor from a CMMCorePlus instance.
 
 Available devices are loaded from the core, and if `load_configs` is True, config groups/presets are also loaded.
 
-## update\_from\_core
+### update\_from\_core
 
 ```python
 update_from_core(
@@ -77,7 +105,7 @@ Parameters:
 | `update_devices` | `bool` | If True, refresh the list of loaded devices and their properties. This determines which devices and properties appear in the "Edit Properties" and "Add Property" dialogs. | `True` |
 | `update_configs` | `bool` | If True, replace the current editor contents with config groups, presets, and their settings from the core. If False, the current groups/presets will be left unchanged (meaning you will have an empty editor until you add groups/presets manually). | `False` |
 
-## setCurrentGroup
+### setCurrentGroup
 
 ```python
 setCurrentGroup(group: str) -> QModelIndex
@@ -87,7 +115,7 @@ Set the currently selected group in the editor.
 
 Returns the index of the group that was selected, or an invalid index if no such group exists.
 
-## setCurrentPreset
+### setCurrentPreset
 
 ```python
 setCurrentPreset(group: str, preset: str) -> QModelIndex
@@ -97,7 +125,7 @@ Set the currently selected preset in the editor.
 
 Returns the index of the preset that was selected, or an invalid index if no such preset exists.
 
-## setData
+### setData
 
 ```python
 setData(data: Iterable[ConfigGroup]) -> None
@@ -105,7 +133,7 @@ setData(data: Iterable[ConfigGroup]) -> None
 
 Set the configuration data to be displayed in the editor.
 
-## data
+### data
 
 ```python
 data() -> Sequence[ConfigGroup]
@@ -113,7 +141,7 @@ data() -> Sequence[ConfigGroup]
 
 Return the current configuration data as a list of ConfigGroup.
 
-## isClean
+### isClean
 
 ```python
 isClean() -> bool
@@ -121,7 +149,7 @@ isClean() -> bool
 
 Return True if the editor has no unapplied changes.
 
-## setClean
+### setClean
 
 ```python
 setClean() -> None
@@ -129,7 +157,7 @@ setClean() -> None
 
 Mark the current state as the clean (saved) baseline.
 
-## undoStack
+### undoStack
 
 ```python
 undoStack() -> QUndoStack
@@ -137,7 +165,7 @@ undoStack() -> QUndoStack
 
 Return the undo stack for this editor.
 
-## dirtyGroups
+### dirtyGroups
 
 ```python
 dirtyGroups() -> tuple[list[ConfigGroup], list[str], str | None]
@@ -152,47 +180,3 @@ Returns:
 | Type | Description |
 | --- | --- |
 | `tuple[list[ConfigGroup], list[str], str \| None]` | (changed\_or\_new\_groups, deleted\_group\_names, channel\_group\_name). *channel\_group\_name* is the name of the group that should be the channel group, or None if the designation did not change. |
-
-## sizeHint
-
-```python
-sizeHint() -> QSize
-```
-
-Suggest a size for the widget.
-
-## Example
-
-examples/config\_groups\_editor.py
-
-```python
-import sys
-
-from pymmcore_plus import CMMCorePlus
-from qtpy.QtWidgets import QApplication
-
-from pymmcore_widgets import ConfigGroupsEditor
-
-app = QApplication([])
-core = CMMCorePlus()
-core.loadSystemConfiguration("tests/test_config.cfg")
-
-with_cfg = sys.argv[1].lower() in ("1", "true") if len(sys.argv) > 1 else False
-cfg = ConfigGroupsEditor.create_from_core(core, load_configs=with_cfg)
-
-
-# connect to apply signal to print the changes
-def _on_apply_clicked(changed, deleted, channel_group):
-    print("\n\nApply clicked:")
-    print(f"Changed: {[cg.name for cg in changed]}")
-    print(f"Deleted: {deleted}")
-    print(f"Channel group: {channel_group}")
-
-
-cfg.applyRequested.connect(_on_apply_clicked)
-
-cfg.resize(900, 550)
-cfg.show()
-
-app.exec()
-```

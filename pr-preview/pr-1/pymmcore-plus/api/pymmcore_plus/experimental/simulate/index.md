@@ -59,7 +59,7 @@ Manual install/uninstall:
 >>> sample.uninstall()
 ```
 
-Classes:
+**Classes**
 
 | Name | Description |
 | --- | --- |
@@ -75,25 +75,21 @@ Classes:
 | `Sample` | A simulated microscope sample that integrates with CMMCorePlus. |
 | `SampleObject` | Base class for drawable sample objects. |
 
-Functions:
+**Functions**
 
 | Name | Description |
 | --- | --- |
 | `rects_intersect` | Check if two rectangles intersect. |
 
-Attributes:
+**Attributes**
 
-| Name | Type | Description |
-| --- | --- | --- |
-| `Bounds` | `TypeAlias` |  |
+| Name | Description |
+| --- | --- |
+| `Bounds` |  |
 
-## Bounds
+## Classes
 
-```python
-Bounds: TypeAlias = tuple[float, float, float, float]
-```
-
-## Arc
+### Arc
 
 ```python
 Arc(
@@ -123,87 +119,67 @@ Parameters:
 | `intensity` | `int` | Brightness value (0-255). Default 255. | `255` |
 | `width` | `int` | Arc width in pixels. Default 1. | `1` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `draw` |  |
-| `draw_cv2` |  |
-| `get_bounds` |  |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `center` | `tuple[float, float]` |  |
-| `rx` | `float` |  |
-| `ry` | `float` |  |
-| `start_angle` | `float` |  |
-| `end_angle` | `float` |  |
-| `intensity` | `int` |  |
-| `width` | `int` |  |
-
-### center
+#### center
 
 ```python
 center: tuple[float, float]
 ```
 
-### rx
+#### rx
 
 ```python
 rx: float
 ```
 
-### ry
+#### ry
 
 ```python
 ry: float
 ```
 
-### start\_angle
+#### start\_angle
 
 ```python
 start_angle: float
 ```
 
-### end\_angle
+#### end\_angle
 
 ```python
 end_angle: float
 ```
 
-### intensity
+#### intensity
 
 ```python
 intensity: int = 255
 ```
 
-### width
+#### width
 
 ```python
 width: int = 1
 ```
 
-### draw
+#### draw
 
 ```python
 draw(draw_context: ImageDraw, transform: TransformFn, scale: float) -> None
 ```
 
-### draw\_cv2
+#### draw\_cv2
 
 ```python
 draw_cv2(img: ndarray, transform: TransformFn, scale: float) -> None
 ```
 
-### get\_bounds
+#### get\_bounds
 
 ```python
 get_bounds() -> Bounds
 ```
 
-## Bitmap
+### Bitmap
 
 ```python
 Bitmap(
@@ -227,52 +203,37 @@ Parameters:
 | `data` | `ndarray \| Image \| str` | Image data as numpy array, PIL Image, or path to image file. | *required* |
 | `bitmap_scale` | `float` | World units per bitmap pixel. Default 1.0 (1 pixel = 1 world unit). | `1.0` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `draw` |  |
-| `get_bounds` |  |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `top_left` | `tuple[float, float]` |  |
-| `data` | `ndarray \| Image \| str` |  |
-| `bitmap_scale` | `float` |  |
-
-### top\_left
+#### top\_left
 
 ```python
 top_left: tuple[float, float]
 ```
 
-### data
+#### data
 
 ```python
 data: ndarray | Image | str
 ```
 
-### bitmap\_scale
+#### bitmap\_scale
 
 ```python
 bitmap_scale: float = 1.0
 ```
 
-### draw
+#### draw
 
 ```python
 draw(draw_context: ImageDraw, transform: TransformFn, scale: float) -> None
 ```
 
-### get\_bounds
+#### get\_bounds
 
 ```python
 get_bounds() -> Bounds
 ```
 
-## Ellipse
+### Ellipse
 
 ```python
 Ellipse(
@@ -300,80 +261,61 @@ Parameters:
 | `fill` | `bool` | If True, fill the ellipse. If False, draw outline only. Default False. | `False` |
 | `width` | `int` | Outline width in pixels (only used if fill=False). Default 1. | `1` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `draw` |  |
-| `draw_cv2` |  |
-| `get_bounds` |  |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `center` | `tuple[float, float]` |  |
-| `rx` | `float` |  |
-| `ry` | `float` |  |
-| `intensity` | `int` |  |
-| `fill` | `bool` |  |
-| `width` | `int` |  |
-
-### center
+#### center
 
 ```python
 center: tuple[float, float]
 ```
 
-### rx
+#### rx
 
 ```python
 rx: float
 ```
 
-### ry
+#### ry
 
 ```python
 ry: float
 ```
 
-### intensity
+#### intensity
 
 ```python
 intensity: int = 255
 ```
 
-### fill
+#### fill
 
 ```python
 fill: bool = False
 ```
 
-### width
+#### width
 
 ```python
 width: int = 1
 ```
 
-### draw
+#### draw
 
 ```python
 draw(draw_context: ImageDraw, transform: TransformFn, scale: float) -> None
 ```
 
-### draw\_cv2
+#### draw\_cv2
 
 ```python
 draw_cv2(img: ndarray, transform: TransformFn, scale: float) -> None
 ```
 
-### get\_bounds
+#### get\_bounds
 
 ```python
 get_bounds() -> Bounds
 ```
 
-## Line
+### Line
 
 ```python
 Line(
@@ -397,66 +339,49 @@ Parameters:
 | `intensity` | `int` | Brightness value (0-255). Default 255. | `255` |
 | `width` | `int` | Line width in pixels. Default 1. | `1` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `draw` |  |
-| `draw_cv2` |  |
-| `get_bounds` |  |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `start` | `tuple[float, float]` |  |
-| `end` | `tuple[float, float]` |  |
-| `intensity` | `int` |  |
-| `width` | `int` |  |
-
-### start
+#### start
 
 ```python
 start: tuple[float, float]
 ```
 
-### end
+#### end
 
 ```python
 end: tuple[float, float]
 ```
 
-### intensity
+#### intensity
 
 ```python
 intensity: int = 255
 ```
 
-### width
+#### width
 
 ```python
 width: int = 1
 ```
 
-### draw
+#### draw
 
 ```python
 draw(draw_context: ImageDraw, transform: TransformFn, scale: float) -> None
 ```
 
-### draw\_cv2
+#### draw\_cv2
 
 ```python
 draw_cv2(img: ndarray, transform: TransformFn, scale: float) -> None
 ```
 
-### get\_bounds
+#### get\_bounds
 
 ```python
 get_bounds() -> Bounds
 ```
 
-## Point
+### Point
 
 ```python
 Point(x: float, y: float, intensity: int = 255, radius: float = 2.0)
@@ -475,66 +400,49 @@ Parameters:
 | `intensity` | `int` | Brightness value (0-255). Default 255. | `255` |
 | `radius` | `float` | Radius in world units. Default 2.0. | `2.0` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `draw` |  |
-| `draw_cv2` |  |
-| `get_bounds` |  |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `x` | `float` |  |
-| `y` | `float` |  |
-| `intensity` | `int` |  |
-| `radius` | `float` |  |
-
-### x
+#### x
 
 ```python
 x: float
 ```
 
-### y
+#### y
 
 ```python
 y: float
 ```
 
-### intensity
+#### intensity
 
 ```python
 intensity: int = 255
 ```
 
-### radius
+#### radius
 
 ```python
 radius: float = 2.0
 ```
 
-### draw
+#### draw
 
 ```python
 draw(draw_context: ImageDraw, transform: TransformFn, scale: float) -> None
 ```
 
-### draw\_cv2
+#### draw\_cv2
 
 ```python
 draw_cv2(img: ndarray, transform: TransformFn, scale: float) -> None
 ```
 
-### get\_bounds
+#### get\_bounds
 
 ```python
 get_bounds() -> Bounds
 ```
 
-## Polygon
+### Polygon
 
 ```python
 Polygon(
@@ -558,66 +466,49 @@ Parameters:
 | `fill` | `bool` | If True, fill the polygon. Default False. | `False` |
 | `width` | `int` | Outline width in pixels (only used if fill=False). Default 1. | `1` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `draw` |  |
-| `draw_cv2` |  |
-| `get_bounds` |  |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `vertices` | `Sequence[tuple[float, float]]` |  |
-| `intensity` | `int` |  |
-| `fill` | `bool` |  |
-| `width` | `int` |  |
-
-### vertices
+#### vertices
 
 ```python
 vertices: Sequence[tuple[float, float]]
 ```
 
-### intensity
+#### intensity
 
 ```python
 intensity: int = 255
 ```
 
-### fill
+#### fill
 
 ```python
 fill: bool = False
 ```
 
-### width
+#### width
 
 ```python
 width: int = 1
 ```
 
-### draw
+#### draw
 
 ```python
 draw(draw_context: ImageDraw, transform: TransformFn, scale: float) -> None
 ```
 
-### draw\_cv2
+#### draw\_cv2
 
 ```python
 draw_cv2(img: ndarray, transform: TransformFn, scale: float) -> None
 ```
 
-### get\_bounds
+#### get\_bounds
 
 ```python
 get_bounds() -> Bounds
 ```
 
-## Rectangle
+### Rectangle
 
 ```python
 Rectangle(
@@ -647,70 +538,49 @@ Parameters:
 | `corner_radius` | `float` | Corner radius for rounded rectangles, in world units. Default 0. | `0` |
 | `line_width` | `int` | Outline width in pixels (only used if fill=False). Default 1. | `1` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `draw` |  |
-| `draw_cv2` |  |
-| `get_bounds` |  |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `top_left` | `tuple[float, float]` |  |
-| `width` | `float` |  |
-| `height` | `float` |  |
-| `intensity` | `int` |  |
-| `fill` | `bool` |  |
-| `corner_radius` | `float` |  |
-| `line_width` | `int` |  |
-| `bottom_right` | `tuple[float, float]` | Bottom-right corner coordinates. |
-
-### top\_left
+#### top\_left
 
 ```python
 top_left: tuple[float, float]
 ```
 
-### width
+#### width
 
 ```python
 width: float
 ```
 
-### height
+#### height
 
 ```python
 height: float
 ```
 
-### intensity
+#### intensity
 
 ```python
 intensity: int = 255
 ```
 
-### fill
+#### fill
 
 ```python
 fill: bool = False
 ```
 
-### corner\_radius
+#### corner\_radius
 
 ```python
 corner_radius: float = 0
 ```
 
-### line\_width
+#### line\_width
 
 ```python
 line_width: int = 1
 ```
 
-### bottom\_right
+#### bottom\_right
 
 ```python
 bottom_right: tuple[float, float]
@@ -718,25 +588,25 @@ bottom_right: tuple[float, float]
 
 Bottom-right corner coordinates.
 
-### draw
+#### draw
 
 ```python
 draw(draw_context: ImageDraw, transform: TransformFn, scale: float) -> None
 ```
 
-### draw\_cv2
+#### draw\_cv2
 
 ```python
 draw_cv2(img: ndarray, transform: TransformFn, scale: float) -> None
 ```
 
-### get\_bounds
+#### get\_bounds
 
 ```python
 get_bounds() -> Bounds
 ```
 
-## RegularPolygon
+### RegularPolygon
 
 ```python
 RegularPolygon(
@@ -767,87 +637,151 @@ Parameters:
 | `fill` | `bool` | If True, fill the polygon. Default False. | `False` |
 | `width` | `int` | Outline width in pixels (only used if fill=False). Default 1. | `1` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `draw` |  |
-| `draw_cv2` |  |
-| `get_bounds` |  |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `center` | `tuple[float, float]` |  |
-| `radius` | `float` |  |
-| `n_sides` | `int` |  |
-| `rotation` | `float` |  |
-| `intensity` | `int` |  |
-| `fill` | `bool` |  |
-| `width` | `int` |  |
-
-### center
+#### center
 
 ```python
 center: tuple[float, float]
 ```
 
-### radius
+#### radius
 
 ```python
 radius: float
 ```
 
-### n\_sides
+#### n\_sides
 
 ```python
 n_sides: int
 ```
 
-### rotation
+#### rotation
 
 ```python
 rotation: float = 0
 ```
 
-### intensity
+#### intensity
 
 ```python
 intensity: int = 255
 ```
 
-### fill
+#### fill
 
 ```python
 fill: bool = False
 ```
 
-### width
+#### width
 
 ```python
 width: int = 1
 ```
 
-### draw
+#### draw
 
 ```python
 draw(draw_context: ImageDraw, transform: TransformFn, scale: float) -> None
 ```
 
-### draw\_cv2
+#### draw\_cv2
 
 ```python
 draw_cv2(img: ndarray, transform: TransformFn, scale: float) -> None
 ```
 
-### get\_bounds
+#### get\_bounds
 
 ```python
 get_bounds() -> Bounds
 ```
 
-## RenderConfig
+### SampleObject
+
+Bases: `ABC`
+
+Base class for drawable sample objects.
+
+All coordinates are in world-space (typically microns). Objects are rendered by calling `draw()` with a transform function that converts world coordinates to pixel coordinates.
+
+Subclasses must implement: - `draw()`: Render the object onto a PIL ImageDraw context - `get_bounds()`: Return the bounding box in world coordinates - `intensity`: Property returning the object's intensity value
+
+#### intensity
+
+```python
+intensity: int
+```
+
+#### draw
+
+```python
+draw(draw_context: ImageDraw, transform: TransformFn, scale: float) -> None
+```
+
+Draw this object onto the given context.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `draw_context` | `ImageDraw` | PIL ImageDraw context to draw on. | *required* |
+| `transform` | `TransformFn` | Function to convert (world\_x, world\_y) to (pixel\_x, pixel\_y). | *required* |
+| `scale` | `float` | Pixels per world unit (e.g., pixels per micron). | *required* |
+
+#### get\_bounds
+
+```python
+get_bounds() -> Bounds
+```
+
+Return bounding box in world coordinates.
+
+Returns:
+
+| Type | Description |
+| --- | --- |
+| `Bounds` | Tuple of (left, top, right, bottom) in world units. |
+
+#### draw\_cv2
+
+```python
+draw_cv2(img: ndarray, transform: TransformFn, scale: float) -> None
+```
+
+Draw this object using OpenCV (optional, for performance).
+
+Default implementation falls back to PIL via a temporary image. Subclasses can override for better performance.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `img` | `ndarray` | Image array to draw on (modified in-place). | *required* |
+| `transform` | `TransformFn` | Function to convert (world\_x, world\_y) to (pixel\_x, pixel\_y). | *required* |
+| `scale` | `float` | Pixels per world unit. | *required* |
+
+#### should\_draw
+
+```python
+should_draw(fov_rect: Bounds) -> bool
+```
+
+Check if this object intersects the field of view.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `fov_rect` | `Bounds` | Field of view rectangle in world coordinates. | *required* |
+
+Returns:
+
+| Type | Description |
+| --- | --- |
+| `bool` | True if object should be drawn (intersects FOV). |
+
+### RenderConfig
 
 ```python
 RenderConfig(
@@ -871,47 +805,37 @@ Parameters:
 | `random_seed` | `int \| None` | Random seed for reproducible noise. Default None (random). | `None` |
 | `backend` | `Backend` | Rendering backend: "auto" (default), "pil", or "cv2". "auto" uses cv2 if available, otherwise PIL. "cv2" raises ImportError if opencv-python is not installed. | `'auto'` |
 
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `shot_noise` | `bool` |  |
-| `defocus_scale` | `float` |  |
-| `base_blur` | `float` |  |
-| `random_seed` | `int \| None` |  |
-| `backend` | `Backend` |  |
-
-### shot\_noise
+#### shot\_noise
 
 ```python
 shot_noise: bool = True
 ```
 
-### defocus\_scale
+#### defocus\_scale
 
 ```python
 defocus_scale: float = 0.125
 ```
 
-### base\_blur
+#### base\_blur
 
 ```python
 base_blur: float = 1.5
 ```
 
-### random\_seed
+#### random\_seed
 
 ```python
 random_seed: int | None = None
 ```
 
-### backend
+#### backend
 
 ```python
 backend: Backend = 'auto'
 ```
 
-## Sample
+### Sample
 
 ```python
 Sample(objects: Iterable[SampleObject], config: RenderConfig | None = None)
@@ -928,21 +852,7 @@ Parameters:
 | `objects` | `Iterable[SampleObject]` | Sample objects to render (points, lines, shapes, etc.). | *required* |
 | `config` | `RenderConfig \| None` | Rendering configuration. If None, uses default config. | `None` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `render` | Render the sample for the given microscope state. |
-| `patch` | Patch the core to use this sample for image generation. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `objects` | `list[SampleObject]` | List of sample objects. |
-| `config` | `RenderConfig` | Rendering configuration. |
-
-### objects
+#### objects
 
 ```python
 objects: list[SampleObject]
@@ -950,7 +860,7 @@ objects: list[SampleObject]
 
 List of sample objects.
 
-### config
+#### config
 
 ```python
 config: RenderConfig
@@ -958,7 +868,7 @@ config: RenderConfig
 
 Rendering configuration.
 
-### render
+#### render
 
 ```python
 render(state: SummaryMetaV1) -> ndarray
@@ -966,7 +876,7 @@ render(state: SummaryMetaV1) -> ndarray
 
 Render the sample for the given microscope state.
 
-### patch
+#### patch
 
 ```python
 patch(core: CMMCorePlus) -> Generator[Sample, None, None]
@@ -986,106 +896,9 @@ Yields:
 | --- | --- |
 | `Sample` | This sample instance. |
 
-## SampleObject
+## Functions
 
-Bases: `ABC`
-
-Base class for drawable sample objects.
-
-All coordinates are in world-space (typically microns). Objects are rendered by calling `draw()` with a transform function that converts world coordinates to pixel coordinates.
-
-Subclasses must implement: - `draw()`: Render the object onto a PIL ImageDraw context - `get_bounds()`: Return the bounding box in world coordinates - `intensity`: Property returning the object's intensity value
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `draw` | Draw this object onto the given context. |
-| `get_bounds` | Return bounding box in world coordinates. |
-| `draw_cv2` | Draw this object using OpenCV (optional, for performance). |
-| `should_draw` | Check if this object intersects the field of view. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `intensity` | `int` |  |
-
-### intensity
-
-```python
-intensity: int
-```
-
-### draw
-
-```python
-draw(draw_context: ImageDraw, transform: TransformFn, scale: float) -> None
-```
-
-Draw this object onto the given context.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `draw_context` | `ImageDraw` | PIL ImageDraw context to draw on. | *required* |
-| `transform` | `TransformFn` | Function to convert (world\_x, world\_y) to (pixel\_x, pixel\_y). | *required* |
-| `scale` | `float` | Pixels per world unit (e.g., pixels per micron). | *required* |
-
-### get\_bounds
-
-```python
-get_bounds() -> Bounds
-```
-
-Return bounding box in world coordinates.
-
-Returns:
-
-| Type | Description |
-| --- | --- |
-| `Bounds` | Tuple of (left, top, right, bottom) in world units. |
-
-### draw\_cv2
-
-```python
-draw_cv2(img: ndarray, transform: TransformFn, scale: float) -> None
-```
-
-Draw this object using OpenCV (optional, for performance).
-
-Default implementation falls back to PIL via a temporary image. Subclasses can override for better performance.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `img` | `ndarray` | Image array to draw on (modified in-place). | *required* |
-| `transform` | `TransformFn` | Function to convert (world\_x, world\_y) to (pixel\_x, pixel\_y). | *required* |
-| `scale` | `float` | Pixels per world unit. | *required* |
-
-### should\_draw
-
-```python
-should_draw(fov_rect: Bounds) -> bool
-```
-
-Check if this object intersects the field of view.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `fov_rect` | `Bounds` | Field of view rectangle in world coordinates. | *required* |
-
-Returns:
-
-| Type | Description |
-| --- | --- |
-| `bool` | True if object should be drawn (intersects FOV). |
-
-## rects\_intersect
+### rects\_intersect
 
 ```python
 rects_intersect(a: Bounds, b: Bounds) -> bool
@@ -1105,3 +918,11 @@ Returns:
 | Type | Description |
 | --- | --- |
 | `bool` | True if rectangles intersect. |
+
+## Attributes
+
+### Bounds
+
+```python
+Bounds: TypeAlias = tuple[float, float, float, float]
+```

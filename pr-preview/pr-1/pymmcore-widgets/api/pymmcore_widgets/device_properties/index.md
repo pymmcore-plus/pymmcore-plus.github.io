@@ -2,13 +2,15 @@
 
 Widgets related to device properties.
 
-Classes:
+**Classes**
 
 | Name | Description |
 | --- | --- |
 | `DevicePropertyTable` | Table of all currently loaded device properties. |
 
-## DevicePropertyTable
+## Classes
+
+### DevicePropertyTable
 
 ```python
 DevicePropertyTable(
@@ -35,49 +37,25 @@ Parameters:
 | `mmcore` | `CMMCorePlus` | CMMCore instance, by default None | `None` |
 | `connect_core` | `bool` | Whether to connect the widget to the core. If False, changes in the table will not update the core. By default, True. | `True` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `checkGroup` |  |
-| `setRowNumbersVisible` | Set whether line numbers are visible. |
-| `setRowsCheckable` | Set whether individual row checkboxes are visible. |
-| `setReadOnlyDevicesVisible` | Set whether read-only devices are visible. |
-| `filterDevices` | Update the table to only show devices that match the given query/filter. |
-| `getCheckedProperties` | Return a list of checked properties. |
-| `value` |  |
-| `setValue` |  |
-| `setCheckedProperties` |  |
-| `getRowData` |  |
-| `setPropertyWidgetsEnabled` | Set whether each widget is enabled. |
-| `uncheckAll` | Uncheck all rows. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `valueChanged` |  |  |
-| `PROP_ROLE` |  |  |
-
-### valueChanged
+#### valueChanged
 
 ```python
 valueChanged = Signal()
 ```
 
-### PROP\_ROLE
+#### PROP\_ROLE
 
 ```python
 PROP_ROLE = QTableWidgetItem.ItemType.UserType + 1
 ```
 
-### checkGroup
+#### checkGroup
 
 ```python
 checkGroup(group: str) -> None
 ```
 
-### setRowNumbersVisible
+#### setRowNumbersVisible
 
 ```python
 setRowNumbersVisible(visible: bool = True) -> None
@@ -85,7 +63,7 @@ setRowNumbersVisible(visible: bool = True) -> None
 
 Set whether line numbers are visible.
 
-### setRowsCheckable
+#### setRowsCheckable
 
 ```python
 setRowsCheckable(checkable: bool = True) -> None
@@ -93,7 +71,7 @@ setRowsCheckable(checkable: bool = True) -> None
 
 Set whether individual row checkboxes are visible.
 
-### setReadOnlyDevicesVisible
+#### setReadOnlyDevicesVisible
 
 ```python
 setReadOnlyDevicesVisible(visible: bool = True) -> None
@@ -101,7 +79,7 @@ setReadOnlyDevicesVisible(visible: bool = True) -> None
 
 Set whether read-only devices are visible.
 
-### filterDevices
+#### filterDevices
 
 ```python
 filterDevices(
@@ -132,7 +110,7 @@ Parameters:
 | `always_show_checked` | `bool` | Whether to always include rows that are checked, by default False. | `False` |
 | `predicate` | `Callable[[DeviceProperty, QTableWidgetItem], bool \| None] \| None` | A function that takes a `DeviceProperty` and `QTableWidgetItem` and returns True to include the row, False to exclude it, or None to skip filtering. If None, no additional filtering is applied, by default None | `None` |
 
-### getCheckedProperties
+#### getCheckedProperties
 
 ```python
 getCheckedProperties(*, visible_only: bool = False) -> list[Setting]
@@ -142,19 +120,19 @@ Return a list of checked properties.
 
 Each item in the list is a tuple of (device, property, value).
 
-### value
+#### value
 
 ```python
 value() -> list[Setting]
 ```
 
-### setValue
+#### setValue
 
 ```python
 setValue(value: Iterable[tuple[str, str, str]]) -> None
 ```
 
-### setCheckedProperties
+#### setCheckedProperties
 
 ```python
 setCheckedProperties(
@@ -162,13 +140,13 @@ setCheckedProperties(
 ) -> None
 ```
 
-### getRowData
+#### getRowData
 
 ```python
 getRowData(row: int) -> tuple[str, str, str]
 ```
 
-### setPropertyWidgetsEnabled
+#### setPropertyWidgetsEnabled
 
 ```python
 setPropertyWidgetsEnabled(enabled: bool) -> None
@@ -176,7 +154,7 @@ setPropertyWidgetsEnabled(enabled: bool) -> None
 
 Set whether each widget is enabled.
 
-### uncheckAll
+#### uncheckAll
 
 ```python
 uncheckAll() -> None
@@ -186,10 +164,10 @@ Uncheck all rows.
 
 ## Re-exports
 
-These names can be imported from this module, but are documented at their top-level location.
+These can also be imported from this module, but each is documented under its shortest import path (linked below).
 
 | Name | Description |
 | --- | --- |
-| `PropertiesWidget` | Convenience container to control a specific set of PropertyWidgets. |
+| `PropertiesWidget` | Controls for a filtered set of device properties (a PropertyWidget each). |
 | `PropertyBrowser` | A Widget to browse and change properties of all devices. |
 | `PropertyWidget` | Widget to display and control a single device property. |

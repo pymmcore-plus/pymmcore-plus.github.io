@@ -2,17 +2,6 @@
 
 Screenshot generated from the [example below](<#example>).
 
-Bases: `QComboBox`
-
-A QComboBox to follow and control Micro-Manager ChannelGroup.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `parent` | `QWidget \| None` | Optional parent widget. By default, None. | `None` |
-| `mmcore` | `CMMCorePlus \| None` | Optional `pymmcore_plus.CMMCorePlus` micromanager core. By default, None. If not specified, the widget will use the active (or create a new) `CMMCorePlus.instance`. | `None` |
-
 ## Example
 
 examples/channel\_group\_widget.py
@@ -25,7 +14,7 @@ from pymmcore_widgets import ChannelGroupWidget
 
 app = QApplication([])
 
-mmc = CMMCorePlus().instance()
+mmc = CMMCorePlus.instance()
 mmc.loadSystemConfiguration()
 
 ch_group_wdg = ChannelGroupWidget()
@@ -33,3 +22,16 @@ ch_group_wdg.show()
 
 app.exec()
 ```
+
+## API
+
+Bases: `QComboBox`
+
+Combo box that chooses which configuration group is the channel group.
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `parent` | `QWidget \| None` | Optional parent widget. By default, None. | `None` |
+| `mmcore` | `CMMCorePlus \| None` | Optional `pymmcore_plus.CMMCorePlus` micromanager core. By default, None. If not specified, the widget will use the active (or create a new) `CMMCorePlus.instance`. | `None` |

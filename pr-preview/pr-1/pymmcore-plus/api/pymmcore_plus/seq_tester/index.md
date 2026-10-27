@@ -28,7 +28,7 @@ core.snapImage()
 info = decode_image(core.getImage())
 ```
 
-Classes:
+**Classes**
 
 | Name | Description |
 | --- | --- |
@@ -37,13 +37,15 @@ Classes:
 | `Setting` | Setting of a SequenceTester property. |
 | `SettingEvent` | Historical Setting. |
 
-Functions:
+**Functions**
 
 | Name | Description |
 | --- | --- |
 | `decode_image` | Extract data produced by a SequenceTester camera. |
 
-## CameraInfo
+## Classes
+
+### CameraInfo
 
 ```python
 CameraInfo(
@@ -57,22 +59,6 @@ CameraInfo(
 
 Information about a SequenceTester camera.
 
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `name` | `str` |  | *required* |
-| `serial_img_num` | `int` |  | *required* |
-| `is_sequence` | `bool` |  | *required* |
-| `cumulative_img_num` | `int` |  | *required* |
-| `frame_num` | `int` |  | *required* |
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `validate` | Coerce val into CameraInfo object. |
-
 Attributes:
 
 | Name | Type | Description |
@@ -83,37 +69,37 @@ Attributes:
 | `cumulative_img_num` | `int` |  |
 | `frame_num` | `int` |  |
 
-### name
+#### name
 
 ```python
 name: str
 ```
 
-### serial\_img\_num
+#### serial\_img\_num
 
 ```python
 serial_img_num: int
 ```
 
-### is\_sequence
+#### is\_sequence
 
 ```python
 is_sequence: bool
 ```
 
-### cumulative\_img\_num
+#### cumulative\_img\_num
 
 ```python
 cumulative_img_num: int
 ```
 
-### frame\_num
+#### frame\_num
 
 ```python
 frame_num: int
 ```
 
-### validate
+#### validate
 
 ```python
 validate(val: Any) -> CameraInfo
@@ -121,7 +107,82 @@ validate(val: Any) -> CameraInfo
 
 Coerce val into CameraInfo object.
 
-## InfoPacket
+### Setting
+
+```python
+Setting(device: str, property: str, type: type, value: Any)
+```
+
+Setting of a SequenceTester property.
+
+Attributes:
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `device` | `str` |  |
+| `property` | `str` |  |
+| `type` | `type` |  |
+| `value` | `Any` |  |
+
+#### device
+
+```python
+device: str
+```
+
+#### property
+
+```python
+property: str
+```
+
+#### type
+
+```python
+type: type
+```
+
+#### value
+
+```python
+value: Any
+```
+
+#### validate
+
+```python
+validate(val: Any) -> Self
+```
+
+Coerce val into Setting object.
+
+### SettingEvent
+
+```python
+SettingEvent(device: str, property: str, type: type, value: Any, count: int)
+```
+
+Bases: `Setting`
+
+Historical Setting.
+
+Attributes:
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `device` | `str` |  |
+| `property` | `str` |  |
+| `type` | `type` |  |
+| `value` | `Any` |  |
+| `count` | `int` |  |
+
+#### count
+
+```python
+count: int
+```
+
+### InfoPacket
 
 ```python
 InfoPacket(
@@ -137,18 +198,6 @@ InfoPacket(
 
 Data produced by a SequenceTester camera.
 
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `hub_global_packet_nr` | `int` |  | *required* |
-| `camera_info` | `CameraInfo` |  | *required* |
-| `start_counter` | `int` |  | *required* |
-| `current_counter` | `int` |  | *required* |
-| `start_state` | `list[Setting]` |  | *required* |
-| `current_state` | `list[Setting]` |  | *required* |
-| `history` | `list[SettingEvent]` |  | *required* |
-
 Attributes:
 
 | Name | Type | Description |
@@ -161,145 +210,51 @@ Attributes:
 | `current_state` | `list[Setting]` |  |
 | `history` | `list[SettingEvent]` |  |
 
-### hub\_global\_packet\_nr
+#### hub\_global\_packet\_nr
 
 ```python
 hub_global_packet_nr: int
 ```
 
-### camera\_info
+#### camera\_info
 
 ```python
 camera_info: CameraInfo
 ```
 
-### start\_counter
+#### start\_counter
 
 ```python
 start_counter: int
 ```
 
-### current\_counter
+#### current\_counter
 
 ```python
 current_counter: int
 ```
 
-### start\_state
+#### start\_state
 
 ```python
 start_state: list[Setting]
 ```
 
-### current\_state
+#### current\_state
 
 ```python
 current_state: list[Setting]
 ```
 
-### history
+#### history
 
 ```python
 history: list[SettingEvent]
 ```
 
-## Setting
+## Functions
 
-```python
-Setting(device: str, property: str, type: type, value: Any)
-```
-
-Setting of a SequenceTester property.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `device` | `str` |  | *required* |
-| `property` | `str` |  | *required* |
-| `type` | `type` |  | *required* |
-| `value` | `Any` |  | *required* |
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `validate` | Coerce val into Setting object. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `device` | `str` |  |
-| `property` | `str` |  |
-| `type` | `type` |  |
-| `value` | `Any` |  |
-
-### device
-
-```python
-device: str
-```
-
-### property
-
-```python
-property: str
-```
-
-### type
-
-```python
-type: type
-```
-
-### value
-
-```python
-value: Any
-```
-
-### validate
-
-```python
-validate(val: Any) -> Self
-```
-
-Coerce val into Setting object.
-
-## SettingEvent
-
-```python
-SettingEvent(device: str, property: str, type: type, value: Any, count: int)
-```
-
-Bases: `Setting`
-
-Historical Setting.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `device` | `str` |  | *required* |
-| `property` | `str` |  | *required* |
-| `type` | `type` |  | *required* |
-| `value` | `Any` |  | *required* |
-| `count` | `int` |  | *required* |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `count` | `int` |  |
-
-### count
-
-```python
-count: int
-```
-
-## decode\_image
+### decode\_image
 
 ```python
 decode_image(img: ndarray) -> InfoPacket

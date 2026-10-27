@@ -1,18 +1,18 @@
 # pymmcore\_plus.core.events
 
-Classes:
+Signals emitted by `CMMCorePlus.events`.
+
+See `PCoreSignaler` for the list of signals.
+
+**Classes**
 
 | Name | Description |
 | --- | --- |
-| `QCoreSignaler` |  |
+| `QCoreSignaler` | Signals that will be emitted from CMMCorePlus objects (Qt backend). |
 
-Functions:
+## Classes
 
-| Name | Description |
-| --- | --- |
-| `_get_auto_core_callback_class` |  |
-
-## QCoreSignaler
+### QCoreSignaler
 
 ```python
 QCoreSignaler()
@@ -20,214 +20,179 @@ QCoreSignaler()
 
 Bases: `QObject`
 
-Methods:
+Signals that will be emitted from CMMCorePlus objects (Qt backend).
 
-| Name | Description |
-| --- | --- |
-| `devicePropertyChanged` | Return object to connect/disconnect to device/property-specific changes. |
+See `PCoreSignaler` for what each signal emits.
 
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `propertiesChanged` |  |  |
-| `propertyChanged` |  |  |
-| `channelGroupChanged` |  |  |
-| `configGroupChanged` |  |  |
-| `configSet` |  |  |
-| `systemConfigurationLoaded` |  |  |
-| `pixelSizeChanged` |  |  |
-| `pixelSizeAffineChanged` |  |  |
-| `stagePositionChanged` |  |  |
-| `XYStagePositionChanged` |  |  |
-| `xYStagePositionChanged` |  |  |
-| `exposureChanged` |  |  |
-| `SLMExposureChanged` |  |  |
-| `sLMExposureChanged` |  |  |
-| `shutterOpenChanged` |  |  |
-| `imageSnapped` |  |  |
-| `sequenceAcquisitionStopped` |  |  |
-| `sequenceAcquisitionStarted` |  |  |
-| `mdaEngineRegistered` |  |  |
-| `continuousSequenceAcquisitionStarting` |  |  |
-| `continuousSequenceAcquisitionStarted` |  |  |
-| `sequenceAcquisitionStarting` |  |  |
-| `autoShutterSet` |  |  |
-| `configGroupDeleted` |  |  |
-| `configDeleted` |  |  |
-| `configDefined` |  |  |
-| `roiSet` |  |  |
-| `property_callbacks` | `PropKeyDict` |  |
-
-### propertiesChanged
+#### propertiesChanged
 
 ```python
 propertiesChanged = Signal()
 ```
 
-### propertyChanged
+#### propertyChanged
 
 ```python
 propertyChanged = Signal(str, str, object)
 ```
 
-### channelGroupChanged
+#### channelGroupChanged
 
 ```python
 channelGroupChanged = Signal(str)
 ```
 
-### configGroupChanged
+#### configGroupChanged
 
 ```python
 configGroupChanged = Signal(str, str)
 ```
 
-### configSet
+#### configSet
 
 ```python
 configSet = Signal(str, str)
 ```
 
-### systemConfigurationLoaded
+#### systemConfigurationLoaded
 
 ```python
 systemConfigurationLoaded = Signal()
 ```
 
-### pixelSizeChanged
+#### pixelSizeChanged
 
 ```python
 pixelSizeChanged = Signal(float)
 ```
 
-### pixelSizeAffineChanged
+#### pixelSizeAffineChanged
 
 ```python
 pixelSizeAffineChanged = Signal(float, float, float, float, float, float)
 ```
 
-### stagePositionChanged
+#### stagePositionChanged
 
 ```python
 stagePositionChanged = Signal(str, float)
 ```
 
-### XYStagePositionChanged
+#### XYStagePositionChanged
 
 ```python
 XYStagePositionChanged = Signal(str, float, float)
 ```
 
-### xYStagePositionChanged
+#### xYStagePositionChanged
 
 ```python
 xYStagePositionChanged = XYStagePositionChanged
 ```
 
-### exposureChanged
+#### exposureChanged
 
 ```python
 exposureChanged = Signal(str, float)
 ```
 
-### SLMExposureChanged
+#### SLMExposureChanged
 
 ```python
 SLMExposureChanged = Signal(str, float)
 ```
 
-### sLMExposureChanged
+#### sLMExposureChanged
 
 ```python
 sLMExposureChanged = SLMExposureChanged
 ```
 
-### shutterOpenChanged
+#### shutterOpenChanged
 
 ```python
 shutterOpenChanged = Signal(str, bool)
 ```
 
-### imageSnapped
+#### imageSnapped
 
 ```python
 imageSnapped = Signal(str)
 ```
 
-### sequenceAcquisitionStopped
+#### sequenceAcquisitionStopped
 
 ```python
 sequenceAcquisitionStopped = Signal(str)
 ```
 
-### sequenceAcquisitionStarted
+#### sequenceAcquisitionStarted
 
 ```python
 sequenceAcquisitionStarted
 ```
 
-### mdaEngineRegistered
+#### mdaEngineRegistered
 
 ```python
 mdaEngineRegistered = Signal(object, object)
 ```
 
-### continuousSequenceAcquisitionStarting
+#### continuousSequenceAcquisitionStarting
 
 ```python
 continuousSequenceAcquisitionStarting = Signal()
 ```
 
-### continuousSequenceAcquisitionStarted
+#### continuousSequenceAcquisitionStarted
 
 ```python
 continuousSequenceAcquisitionStarted = Signal()
 ```
 
-### sequenceAcquisitionStarting
+#### sequenceAcquisitionStarting
 
 ```python
 sequenceAcquisitionStarting
 ```
 
-### autoShutterSet
+#### autoShutterSet
 
 ```python
 autoShutterSet = Signal(bool)
 ```
 
-### configGroupDeleted
+#### configGroupDeleted
 
 ```python
 configGroupDeleted = Signal(str)
 ```
 
-### configDeleted
+#### configDeleted
 
 ```python
 configDeleted = Signal(str, str)
 ```
 
-### configDefined
+#### configDefined
 
 ```python
 configDefined = Signal(str, str, str, str, str)
 ```
 
-### roiSet
+#### roiSet
 
 ```python
 roiSet = Signal(str, int, int, int, int)
 ```
 
-### property\_callbacks
+#### property\_callbacks
 
 ```python
 property_callbacks: PropKeyDict = {}
 ```
 
-### devicePropertyChanged
+#### devicePropertyChanged
 
 ```python
 devicePropertyChanged(
@@ -259,17 +224,11 @@ Examples:
 >>> core.events.devicePropertyChanged("Camera").connect(callback)
 ```
 
-## \_get\_auto\_core\_callback\_class
-
-```python
-_get_auto_core_callback_class() -> type[PCoreSignaler]
-```
-
 ## Re-exports
 
-These names can be imported from this module, but are documented at their top-level location.
+These can also be imported from this module, but each is documented under its shortest import path (linked below).
 
 | Name | Description |
 | --- | --- |
-| `CMMCoreSignaler` | Signals that will be emitted from CMMCorePlus objects. |
+| `CMMCoreSignaler` | Signals that will be emitted from CMMCorePlus objects (psygnal backend). |
 | `PCoreSignaler` | Declares the protocol for all signals that will be emitted from CMMCorePlus. |

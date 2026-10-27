@@ -2,43 +2,70 @@
 
 Screenshot generated from the [example below](<#example>).
 
+## Example
+
+examples/channel\_table.py
+
+```python
+"""Example usage of the ChannelTable class.
+
+ChannelTable edits a list of `useq.Channel`s.  It doesn't use a CMMCorePlus, so
+you tell it which channel groups and channels to offer.
+
+Check also the 'mda_widget.py' example to see the ChannelTable
+used in combination of other widgets.
+"""
+
+from qtpy.QtWidgets import QApplication
+
+from pymmcore_widgets import ChannelTable
+
+app = QApplication([])
+
+ch_table_wdg = ChannelTable(rows=1)
+ch_table_wdg.setChannelGroups({"Channel": ["DAPI", "FITC"]})
+ch_table_wdg.valueChanged.connect(lambda: print(ch_table_wdg.value()))
+ch_table_wdg.resize(500, 200)
+ch_table_wdg.show()
+
+app.exec()
+```
+
+## API
+
 Bases: `DataTableWidget`
 
-Table to edit a list of [useq.Channels](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#useq.Channel>).
+Table to edit a list of channels (`useq.Channel`).
 
-Methods:
+It doesn't use a core: call `setChannelGroups` to say which channel groups and presets to offer.
 
-| Name | Description |
-| --- | --- |
-| `setChannelGroups` | Set the channel groups that can be selected in the table. |
-| `channelGroups` | Return the current channel groups that can be selected in the table. |
-| `value` | Return the current value of the table as a tuple of [useq.Channels](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#useq.Channel>). |
-| `setValue` | Set the current value of the table from an Iterable of [useq.Channels](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#useq.Channel>). |
+### valueChanged
 
-Attributes:
+```python
+valueChanged = Signal()
+```
 
-| Name | Type | Description |
-| --- | --- | --- |
-| `GROUP` |  |  |
-| `CONFIG` |  |  |
-| `EXPOSURE` |  |  |
-| `ACQUIRE_EVERY` |  |  |
-| `DO_STACK` |  |  |
-| `Z_OFFSET` |  |  |
+Emitted (with no arguments) when the table changes; read it with `value()`.
 
-## GROUP
+### COLUMNS
+
+```python
+COLUMNS: tuple[ColumnInfo, ...]
+```
+
+### GROUP
 
 ```python
 GROUP = TextColumn(key='group', default=DEFAULT_GROUP, hidden=True)
 ```
 
-## CONFIG
+### CONFIG
 
 ```python
 CONFIG = TextColumn(key='config', default=None, is_row_selector=True)
 ```
 
-## EXPOSURE
+### EXPOSURE
 
 ```python
 EXPOSURE = FloatColumn(
@@ -46,19 +73,19 @@ EXPOSURE = FloatColumn(
 )
 ```
 
-## ACQUIRE\_EVERY
+### ACQUIRE\_EVERY
 
 ```python
 ACQUIRE_EVERY = IntColumn(key='acquire_every', default=1, minimum=1)
 ```
 
-## DO\_STACK
+### DO\_STACK
 
 ```python
 DO_STACK = BoolColumn(key='do_stack', default=True)
 ```
 
-## Z\_OFFSET
+### Z\_OFFSET
 
 ```python
 Z_OFFSET = FloatColumn(
@@ -66,7 +93,19 @@ Z_OFFSET = FloatColumn(
 )
 ```
 
-## setChannelGroups
+### table
+
+```python
+table() -> DataTable
+```
+
+### toolBar
+
+```python
+toolBar() -> QToolBar
+```
+
+### setChannelGroups
 
 ```python
 setChannelGroups(groups: Mapping[str, Sequence[str]] | None) -> None
@@ -80,7 +119,7 @@ Parameters:
 | --- | --- | --- | --- |
 | `groups` | `Mapping[str, Sequence[str]]` | A mapping of group names to a sequence of config names. | *required* |
 
-## channelGroups
+### channelGroups
 
 ```python
 channelGroups() -> Mapping[str, Sequence[str]]
@@ -88,13 +127,13 @@ channelGroups() -> Mapping[str, Sequence[str]]
 
 Return the current channel groups that can be selected in the table.
 
-## value
+### value
 
 ```python
 value(exclude_unchecked: bool = True) -> tuple[Channel, ...]
 ```
 
-Return the current value of the table as a tuple of [useq.Channels](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#useq.Channel>).
+Return the current value of the table as a tuple of `useq.Channel`.
 
 Parameters:
 
@@ -106,47 +145,18 @@ Returns:
 
 | Type | Description |
 | --- | --- |
-| `tuple[Channel, ...]` | A tuple of [useq.Channels](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#useq.Channel>). |
+| `tuple[Channel, ...]` | A tuple of `useq.Channel`. |
 
-## setValue
+### setValue
 
 ```python
 setValue(value: Iterable[Channel]) -> None
 ```
 
-Set the current value of the table from an Iterable of [useq.Channels](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#useq.Channel>).
+Set the current value of the table from an Iterable of `useq.Channel`.
 
 Parameters:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| `value` | `Iterable[Channel]` | An Iterable of [useq.Channels](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#useq.Channel>). | *required* |
-
-## Example
-
-examples/channel\_table.py
-
-```python
-"""Example usage of the ChannelTable class.
-
-Check also the 'mda_widget.py' example to see the ChannelTable
-used in combination of other widgets.
-"""
-
-from pymmcore_plus import CMMCorePlus
-from qtpy.QtWidgets import QApplication
-
-from pymmcore_widgets import ChannelTable
-
-app = QApplication([])
-
-mmc = CMMCorePlus().instance()
-mmc.loadSystemConfiguration()
-
-ch_table_wdg = ChannelTable(rows=1)
-ch_table_wdg.setChannelGroups({"Channel": ["DAPI", "FITC"]})
-ch_table_wdg.resize(500, 200)
-ch_table_wdg.show()
-
-app.exec()
-```
+| `value` | `Iterable[Channel]` | An Iterable of `useq.Channel`. | *required* |

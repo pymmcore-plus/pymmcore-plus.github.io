@@ -2,140 +2,122 @@
 
 Widgets for the useq-schema data model.
 
-Classes:
+**Submodules**
 
 | Name | Description |
 | --- | --- |
-| `BoolColumn` | BoolColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.\_CenteredCheckBox'\>, getter=, setter=, connect=\<function  at 0x1141b8ae0\>), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None) |
-| `ChoiceColumn` | ChoiceColumn(key: 'str', data\_type: 'WdgGetSet\[CheckableCombo, str\]' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.CheckableCombo'\>, getter=, setter=, connect=), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None, allowed\_values: 'tuple\[str, ...\] \| None' = None) |
-| `DataTable` |  |
-| `DataTableWidget` |  |
-| `FloatColumn` | FloatColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.TableDoubleSpinBox'\>, getter=, setter=, connect=\<function  at 0x1143967a0\>), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None, minimum: 'float' = 0, maximum: 'float' = 999999, decimals: 'int' = 2) |
-| `IntColumn` | IntColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.TableSpinBox'\>, getter=, setter=, connect=\<function  at 0x114396020\>), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None, minimum: 'int' = 0, maximum: 'int' = 999999999, decimals: 'int' = 2) |
-| `PointsPlanWidget` | Widget to select the FOVVs per well of the plate. |
+| `points_plans` | Widgets that create MultiPoint plans. |
+
+**Classes**
+
+| Name | Description |
+| --- | --- |
+| `BoolColumn` | Column of checkboxes (`bool` values). |
+| `ChoiceColumn` | Column of combo boxes, choosing from `allowed_values`. |
+| `DataTable` | Table whose columns are defined by `ColumnInfo` class attributes. |
+| `DataTableWidget` | A `DataTable` with a toolbar to add, select and remove rows. |
+| `FloatColumn` | Column of float spin boxes, between `minimum` and `maximum`. |
+| `IntColumn` | Column of integer spin boxes, between `minimum` and `maximum`. |
+| `PointsPlanWidget` | Widget to select the FOVs per well of the plate. |
 | `TextColumn` | Column that will use a standard QTableWidgetItem. |
-| `TimeDeltaColumn` | TimeDeltaColumn(key: 'str', data\_type: 'WdgGetSet\[QTimeLineEdit, float\]' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.QTimeLineEdit'\>, getter=, setter=, connect=\<function  at 0x114397920\>), header: 'str \| None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] \| None' = None, minimum\_unit: 'Unit' = 'seconds') |
+| `TimeDeltaColumn` | Column of durations, typed as text with units (e.g. `"1.5 s"`, `"2 min"`). |
 | `WellPlateWidget` | Widget for selecting a well plate and a subset of wells. |
 
-Attributes:
+**Attributes**
 
-| Name | Type | Description |
-| --- | --- | --- |
-| `PYMMCW_METADATA_KEY` |  |  |
+| Name | Description |
+| --- | --- |
+| `PYMMCW_METADATA_KEY` |  |
 
-## PYMMCW\_METADATA\_KEY
+## Classes
 
-```python
-PYMMCW_METADATA_KEY = 'pymmcore_widgets'
-```
-
-## BoolColumn
+### BoolColumn
 
 ```python
 BoolColumn(
-    key: str,
-    data_type: WdgGetSet = TableBoolWidget,
+    _ROLE: int = UserRole + 1,
     header: str | None = None,
     is_row_selector: bool = False,
     hidden: bool = False,
     default: Any = None,
     default_factory: Callable[[], Any] | None = None,
+    data_type: WdgGetSet = TableBoolWidget,
 )
 ```
 
 Bases: `WidgetColumn`
 
-BoolColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.\_CenteredCheckBox'\>, getter=, setter=, connect=\<function  at 0x1141b8ae0\>), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None)
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `key` | `str` |  | *required* |
-| `data_type` | `WdgGetSet` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info._CenteredCheckBox'>, getter=<function _CenteredCheckBox.isChecked at 0x114395a80>, setter=<function _CenteredCheckBox.setChecked at 0x114395f80>, connect=<function <lambda> at 0x1141b8ae0>)` |
-| `header` | `str \| None` |  | `None` |
-| `is_row_selector` | `bool` |  | `False` |
-| `hidden` | `bool` |  | `False` |
-| `default` | `Any` |  | `None` |
-| `default_factory` | `Callable[[], Any] \| None` |  | `None` |
+Column of checkboxes (`bool` values).
 
 Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `key` | `str` |  |
 | `data_type` | `WdgGetSet` |  |
+| `header` | `str \| None` |  |
+| `is_row_selector` | `bool` |  |
+| `hidden` | `bool` |  |
+| `default` | `Any` |  |
+| `default_factory` | `Callable[[], Any] \| None` |  |
 
-### data\_type
+#### data\_type
 
 ```python
 data_type: WdgGetSet = TableBoolWidget
 ```
 
-## ChoiceColumn
+### ChoiceColumn
 
 ```python
 ChoiceColumn(
-    key: str,
-    data_type: WdgGetSet[CheckableCombo, str] = ChoiceWidget,
+    _ROLE: int = UserRole + 1,
     header: str | None = None,
     is_row_selector: bool = False,
     hidden: bool = False,
     default: Any = None,
     default_factory: Callable[[], Any] | None = None,
+    data_type: WdgGetSet[CheckableCombo, str] = ChoiceWidget,
     allowed_values: tuple[str, ...] | None = None,
 )
 ```
 
 Bases: `WidgetColumn`
 
-ChoiceColumn(key: 'str', data\_type: 'WdgGetSet\[CheckableCombo, str\]' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.CheckableCombo'\>, getter=, setter=, connect=), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None, allowed\_values: 'tuple\[str, ...\] | None' = None)
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `key` | `str` |  | *required* |
-| `data_type` | `WdgGetSet[CheckableCombo, str]` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info.CheckableCombo'>, getter=<function CheckableCombo.currentText at 0x1143c04a0>, setter=<function CheckableCombo.setCurrentText at 0x1143c0ae0>, connect=<function CheckableCombo._connect at 0x1143c0e00>)` |
-| `header` | `str \| None` |  | `None` |
-| `is_row_selector` | `bool` |  | `False` |
-| `hidden` | `bool` |  | `False` |
-| `default` | `Any` |  | `None` |
-| `default_factory` | `Callable[[], Any] \| None` |  | `None` |
-| `allowed_values` | `tuple[str, ...] \| None` |  | `None` |
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `isChecked` |  |
-| `setCheckState` |  |
+Column of combo boxes, choosing from `allowed_values`.
 
 Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `key` | `str` |  |
 | `data_type` | `WdgGetSet[CheckableCombo, str]` |  |
+| `header` | `str \| None` |  |
+| `is_row_selector` | `bool` |  |
+| `hidden` | `bool` |  |
+| `default` | `Any` |  |
+| `default_factory` | `Callable[[], Any] \| None` |  |
 | `allowed_values` | `tuple[str, ...] \| None` |  |
 
-### data\_type
+#### data\_type
 
 ```python
 data_type: WdgGetSet[CheckableCombo, str] = ChoiceWidget
 ```
 
-### allowed\_values
+#### allowed\_values
 
 ```python
 allowed_values: tuple[str, ...] | None = None
 ```
 
-### isChecked
+#### isChecked
 
 ```python
 isChecked(table: QTableWidget, row: int, col: int) -> bool
 ```
 
-### setCheckState
+#### setCheckState
 
 ```python
 setCheckState(
@@ -143,243 +125,11 @@ setCheckState(
 ) -> None
 ```
 
-## DataTable
-
-```python
-DataTable(rows: int = 0, parent: QWidget | None = None)
-```
-
-Bases: `QTableWidget`
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `columnInfo` |  |
-| `addColumns` |  |
-| `addColumn` | Add a new column to the table. |
-| `indexOf` |  |
-| `iterRecords` | Return an iterator over the data in the table in records format. |
-| `setValue` | Set the value of the table. |
-| `checkAllRows` |  |
-| `clearChecks` |  |
-| `rowData` |  |
-| `setRowData` |  |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `valueChanged` |  |  |
-| `COLUMNS` | `tuple[ColumnInfo, ...]` |  |
-
-### valueChanged
-
-```python
-valueChanged = Signal()
-```
-
-### COLUMNS
-
-```python
-COLUMNS: tuple[ColumnInfo, ...] = ()
-```
-
-### columnInfo
-
-```python
-columnInfo(col: int) -> ColumnInfo | None
-```
-
-### addColumns
-
-```python
-addColumns(column_info: Iterable[ColumnInfo]) -> None
-```
-
-### addColumn
-
-```python
-addColumn(column_info: ColumnInfo, position: int | None = None) -> None
-```
-
-Add a new column to the table.
-
-The ColumnInfo object is stored in the header item's data and used to populate the new column, and new rows that are added later, based on the data type and other info in the ColumnInfo object.
-
-### indexOf
-
-```python
-indexOf(header: str | ColumnInfo) -> int
-```
-
-### iterRecords
-
-```python
-iterRecords(
-    exclude_unchecked: bool = False, exclude_hidden_cols: bool = False
-) -> Iterator[Record]
-```
-
-Return an iterator over the data in the table in records format.
-
-(Records are a list of dicts mapping {'column header' -\> value} for each row.)
-
-### setValue
-
-```python
-setValue(records: Iterable[Record]) -> None
-```
-
-Set the value of the table.
-
-### checkAllRows
-
-```python
-checkAllRows() -> None
-```
-
-### clearChecks
-
-```python
-clearChecks() -> None
-```
-
-### rowData
-
-```python
-rowData(row: int, exclude_hidden_cols: bool = False) -> Record
-```
-
-### setRowData
-
-```python
-setRowData(row: int, data: Record) -> None
-```
-
-## DataTableWidget
-
-```python
-DataTableWidget(rows: int = 0, parent: QWidget | None = None)
-```
-
-Bases: `QWidget`
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `table` |  |
-| `toolBar` |  |
-| `value` | Return a list of dicts of the data in the table. |
-| `setValue` | Set the value of the table. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `valueChanged` |  |  |
-| `COLUMNS` | `tuple[ColumnInfo, ...]` |  |
-| `act_add_row` |  |  |
-| `act_check_all` |  |  |
-| `act_check_none` |  |  |
-| `act_remove_row` |  |  |
-| `act_clear` |  |  |
-
-### valueChanged
-
-```python
-valueChanged = Signal()
-```
-
-### COLUMNS
-
-```python
-COLUMNS: tuple[ColumnInfo, ...]
-```
-
-### act\_add\_row
-
-```python
-act_add_row = QAction(
-    QIconifyIcon("mdi:plus-thick", color=green), "Add new row", self
-)
-```
-
-### act\_check\_all
-
-```python
-act_check_all = QAction(
-    QIconifyIcon("mdi:checkbox-multiple-marked-outline", color=gray),
-    "Select all rows",
-    self,
-)
-```
-
-### act\_check\_none
-
-```python
-act_check_none = QAction(
-    QIconifyIcon("mdi:checkbox-multiple-blank-outline", color=gray),
-    "Clear selection",
-    self,
-)
-```
-
-### act\_remove\_row
-
-```python
-act_remove_row = QAction(
-    QIconifyIcon("mdi:close-box-outline", color=red),
-    "Remove selected row",
-    self,
-)
-```
-
-### act\_clear
-
-```python
-act_clear = QAction(
-    QIconifyIcon("mdi:close-box-multiple-outline", color=red),
-    "Remove all rows",
-    self,
-)
-```
-
-### table
-
-```python
-table() -> DataTable
-```
-
-### toolBar
-
-```python
-toolBar() -> QToolBar
-```
-
-### value
-
-```python
-value(exclude_unchecked: bool = True) -> Any
-```
-
-Return a list of dicts of the data in the table.
-
-### setValue
-
-```python
-setValue(value: Iterable[Any]) -> None
-```
-
-Set the value of the table.
-
-## FloatColumn
+### FloatColumn
 
 ```python
 FloatColumn(
-    key: str,
-    data_type: WdgGetSet = TableFloatWidget,
+    _ROLE: int = UserRole + 1,
     header: str | None = None,
     is_row_selector: bool = False,
     hidden: bool = False,
@@ -388,46 +138,38 @@ FloatColumn(
     minimum: float = 0,
     maximum: float = 999999,
     decimals: int = 2,
+    data_type: WdgGetSet = TableFloatWidget,
 )
 ```
 
-Bases: `_RangeColumn`
-
-FloatColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.TableDoubleSpinBox'\>, getter=, setter=, connect=\<function  at 0x1143967a0\>), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None, minimum: 'float' = 0, maximum: 'float' = 999999, decimals: 'int' = 2)
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `key` | `str` |  | *required* |
-| `data_type` | `WdgGetSet` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info.TableDoubleSpinBox'>, getter=<built-in method value of PyQt6.sip.wrappertype object at 0xaaffc7410>, setter=<built-in method setValue of PyQt6.sip.wrappertype object at 0xaaffc7410>, connect=<function <lambda> at 0x1143967a0>)` |
-| `header` | `str \| None` |  | `None` |
-| `is_row_selector` | `bool` |  | `False` |
-| `hidden` | `bool` |  | `False` |
-| `default` | `Any` |  | `None` |
-| `default_factory` | `Callable[[], Any] \| None` |  | `None` |
-| `minimum` | `float` |  | `0` |
-| `maximum` | `float` |  | `999999` |
-| `decimals` | `int` |  | `2` |
+Column of float spin boxes, between `minimum` and `maximum`.
 
 Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `key` | `str` |  |
 | `data_type` | `WdgGetSet` |  |
+| `header` | `str \| None` |  |
+| `is_row_selector` | `bool` |  |
+| `hidden` | `bool` |  |
+| `default` | `Any` |  |
+| `default_factory` | `Callable[[], Any] \| None` |  |
+| `minimum` | `float` |  |
+| `maximum` | `float` |  |
+| `decimals` | `int` |  |
 
-### data\_type
+#### data\_type
 
 ```python
 data_type: WdgGetSet = TableFloatWidget
 ```
 
-## IntColumn
+### IntColumn
 
 ```python
 IntColumn(
-    key: str,
-    data_type: WdgGetSet = TableIntWidget,
+    _ROLE: int = UserRole + 1,
     header: str | None = None,
     is_row_selector: bool = False,
     hidden: bool = False,
@@ -436,164 +178,56 @@ IntColumn(
     minimum: int = 0,
     maximum: int = 999999999,
     decimals: int = 2,
+    data_type: WdgGetSet = TableIntWidget,
 )
 ```
 
-Bases: `_RangeColumn`
-
-IntColumn(key: 'str', data\_type: 'WdgGetSet' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.TableSpinBox'\>, getter=, setter=, connect=\<function  at 0x114396020\>), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None, minimum: 'int' = 0, maximum: 'int' = 999999999, decimals: 'int' = 2)
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `key` | `str` |  | *required* |
-| `data_type` | `WdgGetSet` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info.TableSpinBox'>, getter=<built-in method value of PyQt6.sip.wrappertype object at 0xaaffc7010>, setter=<built-in method setValue of PyQt6.sip.wrappertype object at 0xaaffc7010>, connect=<function <lambda> at 0x114396020>)` |
-| `header` | `str \| None` |  | `None` |
-| `is_row_selector` | `bool` |  | `False` |
-| `hidden` | `bool` |  | `False` |
-| `default` | `Any` |  | `None` |
-| `default_factory` | `Callable[[], Any] \| None` |  | `None` |
-| `minimum` | `int` |  | `0` |
-| `maximum` | `int` |  | `999999999` |
-| `decimals` | `int` |  | `2` |
+Column of integer spin boxes, between `minimum` and `maximum`.
 
 Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `key` | `str` |  |
 | `data_type` | `WdgGetSet` |  |
+| `header` | `str \| None` |  |
+| `is_row_selector` | `bool` |  |
+| `hidden` | `bool` |  |
+| `default` | `Any` |  |
+| `default_factory` | `Callable[[], Any] \| None` |  |
 | `minimum` | `int` |  |
 | `maximum` | `int` |  |
+| `decimals` | `int` |  |
 
-### data\_type
+#### data\_type
 
 ```python
 data_type: WdgGetSet = TableIntWidget
 ```
 
-### minimum
+#### minimum
 
 ```python
 minimum: int = 0
 ```
 
-### maximum
+#### maximum
 
 ```python
 maximum: int = 999999999
 ```
 
-## PointsPlanWidget
-
-```python
-PointsPlanWidget(
-    plan: RelativeMultiPointPlan | None = None, parent: QWidget | None = None
-)
-```
-
-Bases: `QWidget`
-
-Widget to select the FOVVs per well of the plate.
-
-This widget allows the user to select the number of FOVs per well, (or to generally show a multi-point plan, such as a grid or random points plan, even if not within the context of a well plate.)
-
-The value() method returns the selected plan, one of: - useq.GridRowsColumns - useq.RandomPoints - useq.RelativePosition
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `plan` | `RelativeMultiPointPlan \| None` | The useq MultiPoint plan to display and edit. | `None` |
-| `parent` | `QWidget \| None` | The parent widget. | `None` |
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `value` | Return the selected plan. |
-| `setValue` | Set the current plan. |
-| `setWellSize` | Set the well size width and/or height in mm. |
-| `setWellShape` | Set the shape of the well. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `valueChanged` |  |  |
-| `single_pos_wdg` |  |  |
-| `random_points_wdg` |  |  |
-| `grid_wdg` |  |  |
-
-### valueChanged
-
-```python
-valueChanged = Signal(object)
-```
-
-### single\_pos\_wdg
-
-```python
-single_pos_wdg = self._selector.single_pos_wdg
-```
-
-### random\_points\_wdg
-
-```python
-random_points_wdg = self._selector.random_points_wdg
-```
-
-### grid\_wdg
-
-```python
-grid_wdg = self._selector.grid_wdg
-```
-
-### value
-
-```python
-value() -> RelativeMultiPointPlan
-```
-
-Return the selected plan.
-
-### setValue
-
-```python
-setValue(plan: RelativeMultiPointPlan) -> None
-```
-
-Set the current plan.
-
-### setWellSize
-
-```python
-setWellSize(width: float | None = None, height: float | None = None) -> None
-```
-
-Set the well size width and/or height in mm.
-
-### setWellShape
-
-```python
-setWellShape(shape: Shape | str) -> None
-```
-
-Set the shape of the well.
-
-Can be a `useq.Shape` enum or the strings "circle", "ellipse", "square", or "rectangle".
-
-## TextColumn
+### TextColumn
 
 ```python
 TextColumn(
-    key: str,
-    data_type: type = str,
+    _ROLE: int = UserRole + 1,
     header: str | None = None,
     is_row_selector: bool = False,
     hidden: bool = False,
     default: str | None = None,
     default_factory: Callable[[], Any] | None = None,
+    data_type: type = str,
     checkable: bool = False,
     checked: bool = True,
 )
@@ -602,30 +236,6 @@ TextColumn(
 Bases: `ColumnInfo`
 
 Column that will use a standard QTableWidgetItem.
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `key` | `str` |  | *required* |
-| `data_type` | `type` |  | `<class 'str'>` |
-| `header` | `str \| None` |  | `None` |
-| `is_row_selector` | `bool` |  | `False` |
-| `hidden` | `bool` |  | `False` |
-| `default` | `str \| None` |  | `None` |
-| `default_factory` | `Callable[[], Any] \| None` |  | `None` |
-| `checkable` | `bool` |  | `False` |
-| `checked` | `bool` |  | `True` |
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `init_cell` |  |
-| `get_cell_data` |  |
-| `set_cell_data` |  |
-| `isChecked` |  |
-| `setCheckState` |  |
 
 Attributes:
 
@@ -637,58 +247,53 @@ Attributes:
 | `is_row_selector` | `bool` |  |
 | `hidden` | `bool` |  |
 | `default` | `str \| None` |  |
+| `default_factory` | `Callable[[], Any] \| None` |  |
 | `checkable` | `bool` |  |
 | `checked` | `bool` |  |
 
-### key
-
-```python
-key: str
-```
-
-### data\_type
+#### data\_type
 
 ```python
 data_type: type = str
 ```
 
-### header
+#### header
 
 ```python
 header: str | None = None
 ```
 
-### is\_row\_selector
+#### is\_row\_selector
 
 ```python
 is_row_selector: bool = False
 ```
 
-### hidden
+#### hidden
 
 ```python
 hidden: bool = False
 ```
 
-### default
+#### default
 
 ```python
 default: str | None = None
 ```
 
-### checkable
+#### checkable
 
 ```python
 checkable: bool = False
 ```
 
-### checked
+#### checked
 
 ```python
 checked: bool = True
 ```
 
-### init\_cell
+#### init\_cell
 
 ```python
 init_cell(
@@ -696,25 +301,25 @@ init_cell(
 ) -> None
 ```
 
-### get\_cell\_data
+#### get\_cell\_data
 
 ```python
 get_cell_data(table: QTableWidget, row: int, col: int) -> dict[str, Any]
 ```
 
-### set\_cell\_data
+#### set\_cell\_data
 
 ```python
 set_cell_data(table: QTableWidget, row: int, col: int, value: Any) -> None
 ```
 
-### isChecked
+#### isChecked
 
 ```python
 isChecked(table: QTableWidget, row: int, col: int) -> bool
 ```
 
-### setCheckState
+#### setCheckState
 
 ```python
 setCheckState(
@@ -722,58 +327,199 @@ setCheckState(
 ) -> None
 ```
 
-## TimeDeltaColumn
+### TimeDeltaColumn
 
 ```python
 TimeDeltaColumn(
-    key: str,
-    data_type: WdgGetSet[QTimeLineEdit, float] = TableTimeWidget,
+    _ROLE: int = UserRole + 1,
     header: str | None = None,
     is_row_selector: bool = False,
     hidden: bool = False,
     default: Any = None,
     default_factory: Callable[[], Any] | None = None,
+    data_type: WdgGetSet[QTimeLineEdit, float] = TableTimeWidget,
     minimum_unit: Unit = "seconds",
 )
 ```
 
 Bases: `WidgetColumn`
 
-TimeDeltaColumn(key: 'str', data\_type: 'WdgGetSet\[QTimeLineEdit, float\]' = WdgGetSet(widget=\<class 'pymmcore\_widgets.useq\_widgets.\_column\_info.QTimeLineEdit'\>, getter=, setter=, connect=\<function  at 0x114397920\>), header: 'str | None' = None, is\_row\_selector: 'bool' = False, hidden: 'bool' = False, default: 'Any' = None, default\_factory: 'Callable\[\[\], Any\] | None' = None, minimum\_unit: 'Unit' = 'seconds')
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `key` | `str` |  | *required* |
-| `data_type` | `WdgGetSet[QTimeLineEdit, float]` |  | `WdgGetSet(widget=<class 'pymmcore_widgets.useq_widgets._column_info.QTimeLineEdit'>, getter=<function QTimeLineEdit.value at 0x1143c0040>, setter=<function QTimeLineEdit.setValue at 0x1143c00e0>, connect=<function <lambda> at 0x114397920>)` |
-| `header` | `str \| None` |  | `None` |
-| `is_row_selector` | `bool` |  | `False` |
-| `hidden` | `bool` |  | `False` |
-| `default` | `Any` |  | `None` |
-| `default_factory` | `Callable[[], Any] \| None` |  | `None` |
-| `minimum_unit` | `Unit` |  | `'seconds'` |
+Column of durations, typed as text with units (e.g. `"1.5 s"`, `"2 min"`).
 
 Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `key` | `str` |  |
 | `data_type` | `WdgGetSet[QTimeLineEdit, float]` |  |
+| `header` | `str \| None` |  |
+| `is_row_selector` | `bool` |  |
+| `hidden` | `bool` |  |
+| `default` | `Any` |  |
+| `default_factory` | `Callable[[], Any] \| None` |  |
 | `minimum_unit` | `Unit` |  |
 
-### data\_type
+#### data\_type
 
 ```python
 data_type: WdgGetSet[QTimeLineEdit, float] = TableTimeWidget
 ```
 
-### minimum\_unit
+#### minimum\_unit
 
 ```python
 minimum_unit: Unit = 'seconds'
 ```
 
-## WellPlateWidget
+### DataTable
+
+```python
+DataTable(rows: int = 0, parent: QWidget | None = None)
+```
+
+Bases: `QTableWidget`
+
+Table whose columns are defined by `ColumnInfo` class attributes.
+
+#### valueChanged
+
+```python
+valueChanged = Signal()
+```
+
+#### COLUMNS
+
+```python
+COLUMNS: tuple[ColumnInfo, ...] = ()
+```
+
+#### columnInfo
+
+```python
+columnInfo(col: int) -> ColumnInfo | None
+```
+
+#### addColumns
+
+```python
+addColumns(column_info: Iterable[ColumnInfo]) -> None
+```
+
+#### addColumn
+
+```python
+addColumn(column_info: ColumnInfo, position: int | None = None) -> None
+```
+
+Add a new column to the table.
+
+The ColumnInfo object is stored in the header item's data and used to populate the new column, and new rows that are added later, based on the data type and other info in the ColumnInfo object.
+
+#### indexOf
+
+```python
+indexOf(header: str | ColumnInfo) -> int
+```
+
+#### iterRecords
+
+```python
+iterRecords(
+    exclude_unchecked: bool = False, exclude_hidden_cols: bool = False
+) -> Iterator[Record]
+```
+
+Return an iterator over the data in the table in records format.
+
+(Records are a list of dicts mapping {'column header' -\> value} for each row.)
+
+#### setValue
+
+```python
+setValue(records: Iterable[Record]) -> None
+```
+
+Set the value of the table.
+
+#### checkAllRows
+
+```python
+checkAllRows() -> None
+```
+
+#### clearChecks
+
+```python
+clearChecks() -> None
+```
+
+#### rowData
+
+```python
+rowData(row: int, exclude_hidden_cols: bool = False) -> Record
+```
+
+#### setRowData
+
+```python
+setRowData(row: int, data: Record) -> None
+```
+
+### DataTableWidget
+
+```python
+DataTableWidget(rows: int = 0, parent: QWidget | None = None)
+```
+
+Bases: `QWidget`
+
+A `DataTable` with a toolbar to add, select and remove rows.
+
+Base class of `ChannelTable`, `PositionTable` and `TimePlanWidget`.
+
+#### valueChanged
+
+```python
+valueChanged = Signal()
+```
+
+Emitted (with no arguments) when the table changes; read it with `value()`.
+
+#### COLUMNS
+
+```python
+COLUMNS: tuple[ColumnInfo, ...]
+```
+
+#### table
+
+```python
+table() -> DataTable
+```
+
+#### toolBar
+
+```python
+toolBar() -> QToolBar
+```
+
+#### value
+
+```python
+value(exclude_unchecked: bool = True) -> Any
+```
+
+Return a list of dicts of the data in the table.
+
+#### setValue
+
+```python
+setValue(value: Iterable[Any]) -> None
+```
+
+Set the value of the table.
+
+### WellPlateWidget
 
 ```python
 WellPlateWidget(
@@ -794,36 +540,15 @@ Parameters:
 | `plan` | `WellPlatePlan \| WellPlate \| None` | The initial well plate plan. Accepts both a useq.WellPlate (which lacks a selection definition), or a full WellPlatePlan. By default None. | `None` |
 | `parent` | `QWidget` | The parent widget, by default None | `None` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `setShowRotation` | Set whether to allow visible rotation of the well plate. |
-| `value` | Return the current plate and the selected wells as a `useq.WellPlatePlan`. |
-| `setValue` | Set the current plate and the selected wells. |
-| `currentSelection` | Return the indices of the selected wells as `((row, col), ...)`. |
-| `setCurrentSelection` | Select the wells with the given indices. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `valueChanged` |  |  |
-| `plate_name` |  |  |
-
-### valueChanged
+#### valueChanged
 
 ```python
 valueChanged = Signal(object)
 ```
 
-### plate\_name
+Emitted with the new `useq.WellPlatePlan` when the plate or selection changes.
 
-```python
-plate_name = QComboBox()
-```
-
-### setShowRotation
+#### setShowRotation
 
 ```python
 setShowRotation(allow: bool) -> None
@@ -833,7 +558,7 @@ Set whether to allow visible rotation of the well plate.
 
 If `allow` is False, the rotation checkbox is hidden and the rotation is never shown. If True, the checkbox is shown and the user can toggle the rotation on/off.
 
-### value
+#### value
 
 ```python
 value() -> WellPlatePlan
@@ -841,7 +566,7 @@ value() -> WellPlatePlan
 
 Return the current plate and the selected wells as a `useq.WellPlatePlan`.
 
-### setValue
+#### setValue
 
 ```python
 setValue(value: WellPlatePlan | WellPlate | Mapping) -> None
@@ -855,7 +580,7 @@ Parameters:
 | --- | --- | --- | --- |
 | `value` | `PlateInfo` | The plate information to set containing the plate and the selected wells as a list of (name, row, column). | *required* |
 
-### currentSelection
+#### currentSelection
 
 ```python
 currentSelection() -> tuple[tuple[int, int], ...]
@@ -863,7 +588,7 @@ currentSelection() -> tuple[tuple[int, int], ...]
 
 Return the indices of the selected wells as `((row, col), ...)`.
 
-### setCurrentSelection
+#### setCurrentSelection
 
 ```python
 setCurrentSelection(selection: IndexExpression) -> None
@@ -873,15 +598,88 @@ Select the wells with the given indices.
 
 `selection` can be any 2-d numpy indexing expression, e.g.: - (0, 0) - \[(0, 0), (1, 1), (2, 2)\] - slice(0, 2) - (0, slice(0, 2))
 
+### PointsPlanWidget
+
+```python
+PointsPlanWidget(
+    plan: RelativeMultiPointPlan | None = None, parent: QWidget | None = None
+)
+```
+
+Bases: `QWidget`
+
+Widget to select the FOVs per well of the plate.
+
+This widget allows the user to select the number of FOVs per well, (or to generally show a multi-point plan, such as a grid or random points plan, even if not within the context of a well plate.)
+
+The value() method returns the selected plan, one of: - useq.GridRowsColumns - useq.RandomPoints - useq.RelativePosition
+
+Parameters:
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| `plan` | `RelativeMultiPointPlan \| None` | The useq MultiPoint plan to display and edit. | `None` |
+| `parent` | `QWidget \| None` | The parent widget. | `None` |
+
+#### valueChanged
+
+```python
+valueChanged = Signal(object)
+```
+
+Emitted with the new points plan when the widget changes.
+
+#### value
+
+```python
+value() -> RelativeMultiPointPlan
+```
+
+Return the selected plan.
+
+#### setValue
+
+```python
+setValue(plan: RelativeMultiPointPlan) -> None
+```
+
+Set the current plan.
+
+#### setWellSize
+
+```python
+setWellSize(width: float | None = None, height: float | None = None) -> None
+```
+
+Set the well size width and/or height in mm.
+
+#### setWellShape
+
+```python
+setWellShape(shape: Shape | str) -> None
+```
+
+Set the shape of the well.
+
+Can be a `useq.Shape` enum or the strings "circle", "ellipse", "square", or "rectangle".
+
+## Attributes
+
+### PYMMCW\_METADATA\_KEY
+
+```python
+PYMMCW_METADATA_KEY = 'pymmcore_widgets'
+```
+
 ## Re-exports
 
-These names can be imported from this module, but are documented at their top-level location.
+These can also be imported from this module, but each is documented under its shortest import path (linked below).
 
 | Name | Description |
 | --- | --- |
-| `ChannelTable` | Table to edit a list of [useq.Channels](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#useq.Channel>). |
-| `GridPlanWidget` | Widget to edit a [`useq-schema` GridPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#grid-plans>). |
+| `ChannelTable` | Table to edit a list of channels (`useq.Channel`). |
+| `GridPlanWidget` | Widget to edit a grid plan. |
 | `MDASequenceWidget` | A widget that provides a GUI to construct and edit a `useq.MDASequence`. |
-| `PositionTable` | Table to edit a list of [useq.Position](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#useq.Position>). |
-| `TimePlanWidget` | Table to edit a [useq.TimePlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#time-plans>). |
-| `ZPlanWidget` | Widget to edit a [useq.ZPlan](<https://pymmcore-plus.github.io/useq-schema/schema/axes/#z-plans>). |
+| `PositionTable` | Table to edit a list of stage positions (`useq.Position`). |
+| `TimePlanWidget` | Table to edit a time plan (`useq.AnyTimePlan`), one row per phase. |
+| `ZPlanWidget` | Widget to edit a z plan (`useq.AnyZPlan`). |

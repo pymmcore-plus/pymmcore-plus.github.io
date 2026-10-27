@@ -1,6 +1,6 @@
 # Axes
 
-The following objects may be used to describe iteration over specific types of dimensions.
+The following objects may be used to describe iteration over specific types of dimensions: the stage positions, channels, time plans, z plans, grids and well plates of an [`MDASequence`](<https://pymmcore-plus.github.io/useq-schema/schema/sequence/index.md>). (Most of them may also be given as plain dicts, see [Building Sequences](<https://pymmcore-plus.github.io/useq-schema/guides/sequences/index.md>).)
 
 ## useq.Position
 
@@ -18,20 +18,15 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `config` | `str` | Name of the configuration to use for this channel, (e.g. `"488nm"`, `"DAPI"`, `"FITC"`). |
+| `group` | `str` | Optional name of the group to which this channel belongs. By default, `"Channel"`. |
+| `exposure` | `float \| None` | Exposure time in milliseconds. Must be positive. If not provided, implies use current exposure time. By default, `None`. |
+| `do_stack` | `bool` | If `True`, instructs engine to include this channel in any Z stacks being acquired. By default, `True`. |
+| `z_offset` | `float` | Relative Z offset from current position, in microns. By default, `0`. |
+| `acquire_every` | `int` | Acquire every Nth frame (if acquiring a time series). By default, `1`. |
+| `camera` | `str \| None` | Name of the camera to use for this channel. If not provided, implies use current camera. By default, `None`. |
 
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `config` | `str` |  | *required* |
-| `group` | `str` |  | `'Channel'` |
-| `exposure` | `float \| None` |  | `None` |
-| `do_stack` | `bool` |  | `True` |
-| `z_offset` | `float` |  | `0.0` |
-| `acquire_every` | `int` |  | `1` |
-| `camera` | `str \| None` |  | `None` |
-
-## Time Plans
+## Time plans
 
 Ways to describe a temporal acquisition sequence.
 
@@ -45,14 +40,9 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `prioritize_duration` | `bool` |  | `True` |
-| `interval` | `timedelta` |  | *required* |
-| `duration` | `timedelta` |  | *required* |
+| `interval` | `timedelta` | Time between frames. Scalars are interpreted as seconds. Strings are parsed according to ISO 8601. |
+| `duration` | `timedelta` | Total duration of sequence. |
+| `prioritize_duration` | `bool` | If `True`, instructs engine to prioritize duration over number of frames in case of conflict. By default, `True`. |
 
 ## useq.TIntervalLoops
 
@@ -64,14 +54,9 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `prioritize_duration` | `bool` |  | `False` |
-| `interval` | `timedelta` |  | *required* |
-| `loops` | `int` |  | *required* |
+| `interval` | `timedelta` | Time between frames. Scalars are interpreted as seconds. Strings are parsed according to ISO 8601. |
+| `loops` | `int` | Number of frames. |
+| `prioritize_duration` | `bool` | If `True`, instructs engine to prioritize duration over number of frames in case of conflict. By default, `False`. |
 
 ## useq.TDurationLoops
 
@@ -83,14 +68,9 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `prioritize_duration` | `bool` |  | `False` |
-| `duration` | `timedelta` |  | *required* |
-| `loops` | `int` |  | *required* |
+| `duration` | `timedelta` | Total duration of sequence. Scalars are interpreted as seconds. Strings are parsed according to ISO 8601. |
+| `loops` | `int` | Number of frames. |
+| `prioritize_duration` | `bool` | If `True`, instructs engine to prioritize duration over number of frames in case of conflict. By default, `False`. |
 
 ## useq.MultiPhaseTimePlan
 
@@ -102,15 +82,10 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `phases` | `Sequence[TIntervalDuration \| TIntervalLoops \| TDurationLoops]` | Sequence of time plans. |
+| `prioritize_duration` | `bool` |  |
 
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `prioritize_duration` | `bool` |  | `False` |
-| `phases` | `Sequence[TIntervalDuration \| TIntervalLoops \| TDurationLoops]` |  | *required* |
-
-## Z Plans
+## Z plans
 
 Ways to describe a z-stack acquisition sequence.
 
@@ -126,15 +101,10 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `go_up` | `bool` |  | `True` |
-| `top` | `float` |  | *required* |
-| `bottom` | `float` |  | *required* |
-| `step` | `float` |  | *required* |
+| `top` | `float` | Top position in microns (inclusive). |
+| `bottom` | `float` | Bottom position in microns (inclusive). |
+| `step` | `float` | Step size in microns. |
+| `go_up` | `bool` | If `True`, instructs engine to start at bottom and move towards top. By default, `True`. |
 
 ## useq.ZAboveBelow
 
@@ -148,15 +118,10 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `go_up` | `bool` |  | `True` |
-| `above` | `float` |  | *required* |
-| `below` | `float` |  | *required* |
-| `step` | `float` |  | *required* |
+| `above` | `float` | Range above reference position in microns (inclusive). |
+| `below` | `float` | Range below reference position in microns (inclusive). |
+| `step` | `float` | Step size in microns. |
+| `go_up` | `bool` | If `True`, instructs engine to start at bottom and move towards top. By default, `True`. |
 
 ## useq.ZAbsolutePositions
 
@@ -168,13 +133,8 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `go_up` | `bool` |  | `True` |
-| `absolute` | `list[float]` |  | *required* |
+| `absolute` | `list[float]` | List of absolute z positions. |
+| `go_up` | `bool` | If `True` (the default), visits points in the order provided, otherwise in reverse. |
 
 ## useq.ZRangeAround
 
@@ -188,14 +148,9 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `go_up` | `bool` |  | `True` |
-| `range` | `float` |  | *required* |
-| `step` | `float` |  | *required* |
+| `range` | `float` | Range in microns (inclusive). For example, a range of 4 with a step size of 1 would visit \[-2, -1, 0, 1, 2\]. |
+| `step` | `float` | Step size in microns. |
+| `go_up` | `bool` | If `True`, instructs engine to start at bottom and move towards top. By default, `True`. |
 
 ## useq.ZRelativePositions
 
@@ -209,21 +164,14 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `relative` | `list[float]` | List of relative z positions. |
+| `go_up` | `bool` | If `True` (the default), visits points in the order provided, otherwise in reverse. |
 
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `go_up` | `bool` |  | `True` |
-| `relative` | `list[float]` |  | *required* |
-
-## Grid Plans
+## Grid plans
 
 Ways to describe a grid acquisition sequence.
 
 ## useq.GridRowsColumns
-
-Bases: `_GridPlan[RelativePosition]`
 
 Grid plan based on number of rows and columns.
 
@@ -231,22 +179,15 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `fov_width` | `float \| None` |  | `None` |
-| `fov_height` | `float \| None` |  | `None` |
-| `overlap` | `tuple[float, float]` |  | `(0.0, 0.0)` |
-| `mode` | `OrderMode` |  | `<OrderMode.row_wise_snake: 'row_wise_snake'>` |
-| `rows` | `int` |  | *required* |
-| `columns` | `int` |  | *required* |
-| `relative_to` | `RelativeTo` |  | `<RelativeTo.center: 'center'>` |
+| `rows` | `int` | Number of rows. |
+| `columns` | `int` | Number of columns. |
+| `relative_to` | `RelativeTo` | Point in the grid to which the coordinates are relative. If "center", the grid is centered around the origin. If "top\_left", the grid is positioned such that the top left corner is at the origin. |
+| `overlap` | `tuple[float, float]` | Overlap between grid positions in percent. If a single value is provided, it is used for both x and y. If a tuple is provided, the first value is used for x and the second for y. |
+| `mode` | `OrderMode` | Define the ways of ordering the grid positions. Options are row\_wise, column\_wise, row\_wise\_snake, column\_wise\_snake and spiral. By default, row\_wise\_snake. |
+| `fov_width` | `float \| None` | Width of the field of view in microns. If not provided, acquisition engines should use current width of the FOV based on the current objective and camera. Engines MAY override this even if provided. |
+| `fov_height` | `float \| None` | Height of the field of view in microns. If not provided, acquisition engines should use current height of the FOV based on the current objective and camera. Engines MAY override this even if provided. |
 
 ## useq.GridWidthHeight
-
-Bases: `_GridPlan[RelativePosition]`
 
 Grid plan based on total width and height.
 
@@ -254,22 +195,15 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `fov_width` | `float \| None` |  | `None` |
-| `fov_height` | `float \| None` |  | `None` |
-| `overlap` | `tuple[float, float]` |  | `(0.0, 0.0)` |
-| `mode` | `OrderMode` |  | `<OrderMode.row_wise_snake: 'row_wise_snake'>` |
-| `width` | `float` |  | *required* |
-| `height` | `float` |  | *required* |
-| `relative_to` | `RelativeTo` |  | `<RelativeTo.center: 'center'>` |
+| `width` | `float` | Minimum total width of the grid, in microns. (may be larger based on fov\_width) |
+| `height` | `float` | Minimum total height of the grid, in microns. (may be larger based on fov\_height) |
+| `relative_to` | `RelativeTo` | Point in the grid to which the coordinates are relative. If "center", the grid is centered around the origin. If "top\_left", the grid is positioned such that the top left corner is at the origin. |
+| `overlap` | `tuple[float, float]` | Overlap between grid positions in percent. If a single value is provided, it is used for both x and y. If a tuple is provided, the first value is used for x and the second for y. |
+| `mode` | `OrderMode` | Define the ways of ordering the grid positions. Options are row\_wise, column\_wise, row\_wise\_snake, column\_wise\_snake and spiral. By default, row\_wise\_snake. |
+| `fov_width` | `float \| None` | Width of the field of view in microns. If not provided, acquisition engines should use current width of the FOV based on the current objective and camera. Engines MAY override this even if provided. |
+| `fov_height` | `float \| None` | Height of the field of view in microns. If not provided, acquisition engines should use current height of the FOV based on the current objective and camera. Engines MAY override this even if provided. |
 
 ## useq.GridFromEdges
-
-Bases: `_GridPlan[AbsolutePosition]`
 
 Yield absolute stage positions to cover a bounded area.
 
@@ -279,23 +213,16 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `fov_width` | `float \| None` |  | `None` |
-| `fov_height` | `float \| None` |  | `None` |
-| `overlap` | `tuple[float, float]` |  | `(0.0, 0.0)` |
-| `mode` | `OrderMode` |  | `<OrderMode.row_wise_snake: 'row_wise_snake'>` |
-| `top` | `float` |  | *required* |
-| `left` | `float` |  | *required* |
-| `bottom` | `float` |  | *required* |
-| `right` | `float` |  | *required* |
+| `top` | `float` | Top stage position of the bounding area |
+| `left` | `float` | Left stage position of the bounding area |
+| `bottom` | `float` | Bottom stage position of the bounding area |
+| `right` | `float` | Right stage position of the bounding area |
+| `overlap` | `tuple[float, float]` | Overlap between grid positions in percent. If a single value is provided, it is used for both x and y. If a tuple is provided, the first value is used for x and the second for y. |
+| `mode` | `OrderMode` | Define the ways of ordering the grid positions. Options are row\_wise, column\_wise, row\_wise\_snake, column\_wise\_snake and spiral. By default, row\_wise\_snake. |
+| `fov_width` | `float \| None` | Width of the field of view in microns. If not provided, acquisition engines should use current width of the FOV based on the current objective and camera. Engines MAY override this even if provided. |
+| `fov_height` | `float \| None` | Height of the field of view in microns. If not provided, acquisition engines should use current height of the FOV based on the current objective and camera. Engines MAY override this even if provided. |
 
 ## useq.RandomPoints
-
-Bases: `_MultiPointPlan[RelativePosition]`
 
 Yield random points in a specified geometric shape.
 
@@ -303,25 +230,18 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `fov_width` | `float \| None` |  | `None` |
-| `fov_height` | `float \| None` |  | `None` |
-| `num_points` | `int` |  | *required* |
-| `max_width` | `float` |  | `1` |
-| `max_height` | `float` |  | `1` |
-| `shape` | `Shape` |  | `<Shape.ELLIPSE: 'ellipse'>` |
-| `random_seed` | `int \| None` |  | `None` |
-| `allow_overlap` | `bool` |  | `True` |
-| `order` | `TraversalOrder \| None` |  | `<TraversalOrder.TWO_OPT: 'two_opt'>` |
-| `start_at` | `RelativePosition \| int` |  | `0` |
+| `num_points` | `int` | Number of points to generate. |
+| `max_width` | `float` | Maximum width of the bounding box in microns. |
+| `max_height` | `float` | Maximum height of the bounding box in microns. |
+| `shape` | `Shape` | Shape of the bounding box. Current options are "ellipse" and "rectangle". |
+| `random_seed` | `int \| None` | Random numpy seed that should be used to generate the points. If None, a random seed will be used. |
+| `allow_overlap` | `bool` | By default, True. If False and `fov_width` and `fov_height` are specified, points will not overlap and will be at least `fov_width` and `fov_height` apart. |
+| `order` | `TraversalOrder \| None` | Order in which the points will be visited. If None, order is simply the order in which the points are generated (random). Use 'nearest\_neighbor' or 'two\_opt' to order the points in a more structured way. |
+| `start_at` | `RelativePosition \| int` | Position or index of the point to start at. This is only used if `order` is 'nearest\_neighbor' or 'two\_opt'. If a position is provided, it will *always* be included in the list of points. If an index is provided, it must be less than the number of points, and corresponds to the index of the (randomly generated) points; this likely only makes sense when `random_seed` is provided. |
+| `fov_width` | `float \| None` |  |
+| `fov_height` | `float \| None` |  |
 
 ## useq.GridFromPolygon
-
-Bases: `_GridPlan[AbsolutePosition]`
 
 Grid plan based on a polygon boundary.
 
@@ -331,18 +251,13 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `fov_width` | `float \| None` |  | `None` |
-| `fov_height` | `float \| None` |  | `None` |
-| `overlap` | `tuple[float, float]` |  | `(0.0, 0.0)` |
-| `mode` | `OrderMode` |  | `<OrderMode.row_wise_snake: 'row_wise_snake'>` |
-| `vertices` | `list[tuple[float, float]]` | List of vertices that define the polygon, must have at least 3 vertices. | *required* |
-| `convex_hull` | `bool \| None` | If True, the convex hull of the polygon will be used. | `False` |
-| `offset` | `float \| None` | Offsets the polygon in all directions to improve tile coverage. | `None` |
+| `vertices` | `list[tuple[float, float]]` | List of (x, y) points that define the polygon boundary. Must have at least 3 points. |
+| `convex_hull` | `bool \| None` | If True, the convex hull of the polygon will be used. |
+| `offset` | `float \| None` | Expand area bounded by vertices to include all points within a `offset` of the original boundary. A positive offset produces a dilation, a negative offset an erosion. |
+| `overlap` | `tuple[float, float]` | Overlap between grid positions in percent. If a single value is provided, it is used for both x and y. If a tuple is provided, the first value is used for x and the second for y. |
+| `mode` | `OrderMode` | Define the ways of ordering the grid positions. Options are row\_wise, column\_wise, row\_wise\_snake, column\_wise\_snake and spiral. By default, row\_wise\_snake. |
+| `fov_width` | `float \| None` | Width of the field of view in microns. If not provided, acquisition engines should use current width of the FOV based on the current objective and camera. Engines MAY override this even if provided. |
+| `fov_height` | `float \| None` | Height of the field of view in microns. If not provided, acquisition engines should use current height of the FOV based on the current objective and camera. Engines MAY override this even if provided. |
 
 ### Grid options
 
@@ -361,12 +276,6 @@ Attributes:
 | `row_wise_snake` | `Literal['row_wise_snake']` | Iterate row by row, but alternate the direction of the columns. |
 | `column_wise_snake` | `Literal['column_wise_snake']` | Iterate column by column, but alternate the direction of the rows. |
 | `spiral` | `Literal['spiral']` | Iterate in a spiral pattern, starting from the center. |
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `generate_indices` | Generate indices for the given grid size. |
 
 ### row\_wise
 
@@ -435,19 +344,7 @@ RECTANGLE = 'rectangle'
 
 Bases: `Enum`
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `order_points` | Return the order of points based on the traversal order. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `NEAREST_NEIGHBOR` |  |  |
-| `TWO_OPT` |  |  |
-| `RANDOM` |  |  |
+Order in which random points are visited.
 
 ### NEAREST\_NEIGHBOR
 
@@ -487,16 +384,11 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `plate` | `WellPlate` |  | *required* |
-| `a1_center_xy` | `tuple[float, float]` |  | *required* |
-| `rotation` | `float \| None` |  | `None` |
-| `selected_wells` | `tuple[tuple[int, ...], tuple[int, ...]] \| None` |  | `None` |
-| `well_points_plan` | `GridRowsColumns \| GridWidthHeight \| RandomPoints \| RelativePosition` | A relative position in 3D space.<br><br>Relative positions also support `fov_width` and `fov_height` attributes, and can be used to define a single field of view for a "multi-point" plan. | `<dynamic>` |
+| `plate` | `WellPlate` | The well-plate definition. Minimally including rows, columns, and well spacing. If expressed as a string, it is assumed to be a key in `useq.registered_well_plate_keys`. |
+| `a1_center_xy` | `tuple[float, float]` | The stage coordinates in µm of the center of well A1 (top-left corner). |
+| `rotation` | `float \| None` | The rotation angle in degrees (anti-clockwise) of the plate. If None, no rotation is applied. If expressed as a string, it is assumed to be an angle with units (e.g., "5°", "4 rad", "4.5deg"). If expressed as an arraylike, it is assumed to be a 2x2 rotation matrix `[[cos, -sin], [sin, cos]]`, or a 4-tuple `(cos, -sin, sin, cos)`. |
+| `selected_wells` | `tuple[tuple[int, ...], tuple[int, ...]] \| None` | Any \<=2-dimensional index expression for selecting wells. for example: - None -\> No wells are selected. - slice(0) -\> (also) select no wells. - slice(None) -\> Selects all wells. - 0 -\> Selects the first row. - \[0, 1, 2\] -\> Selects the first three rows. - slice(1, 5) -\> selects wells from row 1 to row 4. - (2, slice(1, 4)) -\> select wells in the second row and only columns 1 to 3. - (\[1, 2\], \[3, 4\]) -\> select wells in (row, column): (1, 3) and (2, 4) |
+| `well_points_plan` | `GridRowsColumns \| GridWidthHeight \| RandomPoints \| RelativePosition` | A plan for acquiring images within each well. This can be a single position (for a single image per well), a GridRowsColumns (for a grid of images), or RandomPoints (for random points within each well). |
 
 ## useq.WellPlate
 
@@ -508,17 +400,12 @@ Attributes:
 
 | Name | Type | Description |
 | --- | --- | --- |
-
-Parameters:
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| `rows` | `int` |  | *required* |
-| `columns` | `int` |  | *required* |
-| `well_spacing` | `tuple[float, float]` |  | *required* |
-| `well_size` | `tuple[float, float]` |  | *required* |
-| `circular_wells` | `bool` |  | `True` |
-| `name` | `str` |  | `''` |
+| `rows` | `int` | The number of rows in the plate. Must be \> 0. |
+| `columns` | `int` | The number of columns in the plate. Must be \> 0. |
+| `well_spacing` | `tuple[float, float]` | The center-to-center distance in mm (pitch) between wells in the x and y directions. If a single value is provided, it is used for both x and y. |
+| `well_size` | `tuple[float, float]` | The size in mm of each well in the x and y directions. If the well is squared or rectangular, this is the width and height of the well. If the well is circular, this is the diameter. If a single value is provided, it is used for both x and y. |
+| `circular_wells` | `bool` | Whether wells are circular (True) or squared/rectangular (False). |
+| `name` | `str` | A name for the plate. |
 
 ## useq.register\_well\_plates
 

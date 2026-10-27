@@ -1,12 +1,16 @@
 # pymmcore\_gui.widgets.image\_preview
 
-Classes:
+The image preview: what a snap, live mode or an MDA shows.
+
+**Classes**
 
 | Name | Description |
 | --- | --- |
 | `ImagePreviewBase` |  |
 
-## ImagePreviewBase
+## Classes
+
+### ImagePreviewBase
 
 ```python
 ImagePreviewBase(
@@ -16,28 +20,7 @@ ImagePreviewBase(
 
 Bases: `QWidget`
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `attach` | Attach this widget to events in `core`. |
-| `detach` | Detach this widget from events in `core`. |
-| `append` | Set texture data. |
-| `timerEvent` |  |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `use_with_mda` |  |  |
-
-### use\_with\_mda
-
-```python
-use_with_mda = use_with_mda
-```
-
-### attach
+#### attach
 
 ```python
 attach(core: CMMCorePlus) -> None
@@ -45,7 +28,7 @@ attach(core: CMMCorePlus) -> None
 
 Attach this widget to events in `core`.
 
-### detach
+#### detach
 
 ```python
 detach() -> None
@@ -53,7 +36,7 @@ detach() -> None
 
 Detach this widget from events in `core`.
 
-### append
+#### append
 
 ```python
 append(data: ndarray) -> None
@@ -63,7 +46,7 @@ Set texture data.
 
 The dtype must be compatible with wgpu texture formats. Will also apply contrast limits if \_clims is "auto".
 
-### timerEvent
+#### timerEvent
 
 ```python
 timerEvent(a0: QTimerEvent) -> None

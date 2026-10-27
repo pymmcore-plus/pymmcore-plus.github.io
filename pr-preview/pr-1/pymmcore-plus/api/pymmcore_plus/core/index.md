@@ -1,6 +1,16 @@
 # pymmcore\_plus.core
 
-Classes:
+`CMMCorePlus` and its supporting classes.
+
+This includes the object-oriented views onto devices, properties and config groups, the enums that replace pymmcore's integer constants, and hardware sequencing helpers.
+
+**Submodules**
+
+| Name | Description |
+| --- | --- |
+| `events` | Signals emitted by `CMMCorePlus.events`. |
+
+**Classes**
 
 | Name | Description |
 | --- | --- |
@@ -21,13 +31,15 @@ Classes:
 | `StateDevice` |  |
 | `XYStageDevice` |  |
 
-Functions:
+**Functions**
 
 | Name | Description |
 | --- | --- |
 | `iter_sequenced_events` | Iterate over a sequence of MDAEvents, yielding SequencedEvents when possible. |
 
-## AutoFocusDevice
+## Classes
+
+### AutoFocusDevice
 
 ```python
 AutoFocusDevice(
@@ -42,19 +54,13 @@ AutoFocusDevice(
 
 Bases: `Device`
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-
-### type
+#### type
 
 ```python
 type() -> Literal[AutoFocus]
 ```
 
-## CameraDevice
+### CameraDevice
 
 ```python
 CameraDevice(
@@ -69,79 +75,49 @@ CameraDevice(
 
 Bases: `Device`
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-| `setROI` | Set region of interest for camera. |
-| `getROI` | Return region of interest for camera. |
-| `setExposure` | Set exposure time for camera. |
-| `getExposure` | Return exposure time for camera. |
-| `startSequenceAcquisition` | Start sequence acquisition. |
-| `prepareSequenceAcquisition` | Prepare sequence acquisition. |
-| `stopSequenceAcquisition` | Stop sequence acquisition. |
-| `isSequenceRunning` | Return `True` if sequence acquisition is running. |
-| `isExposureSequenceable` | Return `True` if camera supports exposure sequence. |
-| `loadExposureSequence` | Load exposure sequence. |
-| `startExposureSequence` | Start exposure sequence. |
-| `stopExposureSequence` | Stop exposure sequence. |
-| `getExposureSequenceMaxLength` | Return the maximum length of a camera's exposure sequence. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `exposure` | `float` |  |
-| `isSequenceable` |  |  |
-| `loadSequence` |  |  |
-| `startSequence` |  |  |
-| `stopSequence` |  |  |
-| `getSequenceMaxLength` |  |  |
-
-### exposure
+#### exposure
 
 ```python
 exposure: float
 ```
 
-### isSequenceable
+#### isSequenceable
 
 ```python
 isSequenceable = isExposureSequenceable
 ```
 
-### loadSequence
+#### loadSequence
 
 ```python
 loadSequence = loadExposureSequence
 ```
 
-### startSequence
+#### startSequence
 
 ```python
 startSequence = startExposureSequence
 ```
 
-### stopSequence
+#### stopSequence
 
 ```python
 stopSequence = stopExposureSequence
 ```
 
-### getSequenceMaxLength
+#### getSequenceMaxLength
 
 ```python
 getSequenceMaxLength = getExposureSequenceMaxLength
 ```
 
-### type
+#### type
 
 ```python
 type() -> Literal[Camera]
 ```
 
-### setROI
+#### setROI
 
 ```python
 setROI(x: int, y: int, width: int, height: int) -> None
@@ -149,7 +125,7 @@ setROI(x: int, y: int, width: int, height: int) -> None
 
 Set region of interest for camera.
 
-### getROI
+#### getROI
 
 ```python
 getROI() -> list[int]
@@ -157,7 +133,7 @@ getROI() -> list[int]
 
 Return region of interest for camera.
 
-### setExposure
+#### setExposure
 
 ```python
 setExposure(exposure: float) -> None
@@ -165,7 +141,7 @@ setExposure(exposure: float) -> None
 
 Set exposure time for camera.
 
-### getExposure
+#### getExposure
 
 ```python
 getExposure() -> float
@@ -173,7 +149,7 @@ getExposure() -> float
 
 Return exposure time for camera.
 
-### startSequenceAcquisition
+#### startSequenceAcquisition
 
 ```python
 startSequenceAcquisition(
@@ -183,7 +159,7 @@ startSequenceAcquisition(
 
 Start sequence acquisition.
 
-### prepareSequenceAcquisition
+#### prepareSequenceAcquisition
 
 ```python
 prepareSequenceAcquisition() -> None
@@ -191,7 +167,7 @@ prepareSequenceAcquisition() -> None
 
 Prepare sequence acquisition.
 
-### stopSequenceAcquisition
+#### stopSequenceAcquisition
 
 ```python
 stopSequenceAcquisition() -> None
@@ -199,7 +175,7 @@ stopSequenceAcquisition() -> None
 
 Stop sequence acquisition.
 
-### isSequenceRunning
+#### isSequenceRunning
 
 ```python
 isSequenceRunning() -> bool
@@ -207,7 +183,7 @@ isSequenceRunning() -> bool
 
 Return `True` if sequence acquisition is running.
 
-### isExposureSequenceable
+#### isExposureSequenceable
 
 ```python
 isExposureSequenceable() -> bool
@@ -215,7 +191,7 @@ isExposureSequenceable() -> bool
 
 Return `True` if camera supports exposure sequence.
 
-### loadExposureSequence
+#### loadExposureSequence
 
 ```python
 loadExposureSequence(sequence: Sequence[float]) -> None
@@ -223,7 +199,7 @@ loadExposureSequence(sequence: Sequence[float]) -> None
 
 Load exposure sequence.
 
-### startExposureSequence
+#### startExposureSequence
 
 ```python
 startExposureSequence() -> None
@@ -231,7 +207,7 @@ startExposureSequence() -> None
 
 Start exposure sequence.
 
-### stopExposureSequence
+#### stopExposureSequence
 
 ```python
 stopExposureSequence() -> None
@@ -239,7 +215,7 @@ stopExposureSequence() -> None
 
 Stop exposure sequence.
 
-### getExposureSequenceMaxLength
+#### getExposureSequenceMaxLength
 
 ```python
 getExposureSequenceMaxLength() -> int
@@ -247,7 +223,7 @@ getExposureSequenceMaxLength() -> int
 
 Return the maximum length of a camera's exposure sequence.
 
-## CoreDevice
+### CoreDevice
 
 ```python
 CoreDevice(
@@ -262,19 +238,13 @@ CoreDevice(
 
 Bases: `Device`
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-
-### type
+#### type
 
 ```python
 type() -> Literal[Core]
 ```
 
-## GalvoDevice
+### GalvoDevice
 
 ```python
 GalvoDevice(
@@ -289,47 +259,19 @@ GalvoDevice(
 
 Bases: `Device`
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-| `pointAndFire` | Set Galvo to (x, y) and fire the laser for a predetermined duration. |
-| `setSpotInterval` | Set the SpotInterval for the specified galvo device. |
-| `setPosition` | Set the position of the galvo device. |
-| `getPosition` | Return the position of the galvo device. |
-| `setIlluminationState` | Set the galvo's illumination state to on or off. |
-| `getXRange` | Get the Galvo x range. |
-| `getXMinimum` | Get the Galvo x minimum. |
-| `getYRange` | Get the Galvo y range. |
-| `getYMinimum` | Get the Galvo y minimum. |
-| `addPolygonVertex` | Add a vertex to the polygon. |
-| `deletePolygons` | Delete all polygons. |
-| `loadPolygons` | Load a set of galvo polygons to the device. |
-| `runPolygons` | Run a loop of galvo polygons. |
-| `runSequence` | Run a sequence of galvo positions. |
-| `setPolygonRepetitions` | Set the number of times the galvo polygon should be repeated. |
-| `getChannel` | Get the name of the active galvo channel (for a multi-laser galvo device). |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `position` | `list[float]` |  |
-
-### position
+#### position
 
 ```python
 position: list[float]
 ```
 
-### type
+#### type
 
 ```python
 type() -> Literal[Galvo]
 ```
 
-### pointAndFire
+#### pointAndFire
 
 ```python
 pointAndFire(x: float, y: float, pulseTime_us: float) -> None
@@ -337,7 +279,7 @@ pointAndFire(x: float, y: float, pulseTime_us: float) -> None
 
 Set Galvo to (x, y) and fire the laser for a predetermined duration.
 
-### setSpotInterval
+#### setSpotInterval
 
 ```python
 setSpotInterval(pulseTime_us: float) -> None
@@ -345,7 +287,7 @@ setSpotInterval(pulseTime_us: float) -> None
 
 Set the SpotInterval for the specified galvo device.
 
-### setPosition
+#### setPosition
 
 ```python
 setPosition(x: float, y: float) -> None
@@ -353,7 +295,7 @@ setPosition(x: float, y: float) -> None
 
 Set the position of the galvo device.
 
-### getPosition
+#### getPosition
 
 ```python
 getPosition() -> list[float]
@@ -361,7 +303,7 @@ getPosition() -> list[float]
 
 Return the position of the galvo device.
 
-### setIlluminationState
+#### setIlluminationState
 
 ```python
 setIlluminationState(state: bool) -> None
@@ -369,7 +311,7 @@ setIlluminationState(state: bool) -> None
 
 Set the galvo's illumination state to on or off.
 
-### getXRange
+#### getXRange
 
 ```python
 getXRange() -> float
@@ -377,7 +319,7 @@ getXRange() -> float
 
 Get the Galvo x range.
 
-### getXMinimum
+#### getXMinimum
 
 ```python
 getXMinimum() -> float
@@ -385,7 +327,7 @@ getXMinimum() -> float
 
 Get the Galvo x minimum.
 
-### getYRange
+#### getYRange
 
 ```python
 getYRange() -> float
@@ -393,7 +335,7 @@ getYRange() -> float
 
 Get the Galvo y range.
 
-### getYMinimum
+#### getYMinimum
 
 ```python
 getYMinimum() -> float
@@ -401,7 +343,7 @@ getYMinimum() -> float
 
 Get the Galvo y minimum.
 
-### addPolygonVertex
+#### addPolygonVertex
 
 ```python
 addPolygonVertex(polygonIndex: int, x: float, y: float) -> None
@@ -409,7 +351,7 @@ addPolygonVertex(polygonIndex: int, x: float, y: float) -> None
 
 Add a vertex to the polygon.
 
-### deletePolygons
+#### deletePolygons
 
 ```python
 deletePolygons() -> None
@@ -417,7 +359,7 @@ deletePolygons() -> None
 
 Delete all polygons.
 
-### loadPolygons
+#### loadPolygons
 
 ```python
 loadPolygons() -> None
@@ -425,7 +367,7 @@ loadPolygons() -> None
 
 Load a set of galvo polygons to the device.
 
-### runPolygons
+#### runPolygons
 
 ```python
 runPolygons() -> None
@@ -433,7 +375,7 @@ runPolygons() -> None
 
 Run a loop of galvo polygons.
 
-### runSequence
+#### runSequence
 
 ```python
 runSequence() -> None
@@ -441,7 +383,7 @@ runSequence() -> None
 
 Run a sequence of galvo positions.
 
-### setPolygonRepetitions
+#### setPolygonRepetitions
 
 ```python
 setPolygonRepetitions(repetitions: int) -> None
@@ -449,7 +391,7 @@ setPolygonRepetitions(repetitions: int) -> None
 
 Set the number of times the galvo polygon should be repeated.
 
-### getChannel
+#### getChannel
 
 ```python
 getChannel() -> str
@@ -457,7 +399,7 @@ getChannel() -> str
 
 Get the name of the active galvo channel (for a multi-laser galvo device).
 
-## GenericDevice
+### GenericDevice
 
 ```python
 GenericDevice(
@@ -472,19 +414,13 @@ GenericDevice(
 
 Bases: `Device`
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-
-### type
+#### type
 
 ```python
 type() -> Literal[Generic]
 ```
 
-## HubDevice
+### HubDevice
 
 ```python
 HubDevice(
@@ -499,22 +435,13 @@ HubDevice(
 
 Bases: `Device`
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-| `getInstalledDevices` | Return the list of installed devices. |
-| `getInstalledDeviceDescription` | Return the description of the installed device. |
-| `getLoadedPeripheralDevices` | Return the list of loaded peripheral devices. |
-
-### type
+#### type
 
 ```python
 type() -> Literal[Hub]
 ```
 
-### getInstalledDevices
+#### getInstalledDevices
 
 ```python
 getInstalledDevices() -> tuple[str, ...]
@@ -522,7 +449,7 @@ getInstalledDevices() -> tuple[str, ...]
 
 Return the list of installed devices.
 
-### getInstalledDeviceDescription
+#### getInstalledDeviceDescription
 
 ```python
 getInstalledDeviceDescription(device_label: str) -> str
@@ -530,7 +457,7 @@ getInstalledDeviceDescription(device_label: str) -> str
 
 Return the description of the installed device.
 
-### getLoadedPeripheralDevices
+#### getLoadedPeripheralDevices
 
 ```python
 getLoadedPeripheralDevices() -> tuple[str, ...]
@@ -538,7 +465,7 @@ getLoadedPeripheralDevices() -> tuple[str, ...]
 
 Return the list of loaded peripheral devices.
 
-## ImageProcessorDevice
+### ImageProcessorDevice
 
 ```python
 ImageProcessorDevice(
@@ -553,19 +480,13 @@ ImageProcessorDevice(
 
 Bases: `Device`
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-
-### type
+#### type
 
 ```python
 type() -> Literal[ImageProcessor]
 ```
 
-## MagnifierDevice
+### MagnifierDevice
 
 ```python
 MagnifierDevice(
@@ -580,19 +501,203 @@ MagnifierDevice(
 
 Bases: `Device`
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-
-### type
+#### type
 
 ```python
 type() -> Literal[Magnifier]
 ```
 
-## SLMDevice
+### SerialDevice
+
+```python
+SerialDevice(
+    device_label: str = UNASSIGNED,
+    mmcore: CMMCorePlus | None = None,
+    adapter_name: str = "",
+    device_name: str = "",
+    type: DeviceType = UnknownType,
+    description: str = "",
+)
+```
+
+Bases: `Device`
+
+#### answer\_timeout
+
+```python
+answer_timeout: str
+```
+
+Return the timeout for serial port commands.
+
+#### baud\_rate
+
+```python
+baud_rate: str
+```
+
+Return the baud rate for serial port commands.
+
+#### data\_bits
+
+```python
+data_bits: str
+```
+
+Return the data bits for serial port commands.
+
+#### parity
+
+```python
+parity: str
+```
+
+Return the parity for serial port commands.
+
+#### stop\_bits
+
+```python
+stop_bits: str
+```
+
+Return the stop bits for serial port commands.
+
+#### handshaking
+
+```python
+handshaking: str
+```
+
+Return the handshaking for serial port commands.
+
+#### delay\_between\_chars\_ms
+
+```python
+delay_between_chars_ms: str
+```
+
+Return the delay between characters in milliseconds.
+
+#### type
+
+```python
+type() -> Literal[Serial]
+```
+
+#### setCommand
+
+```python
+setCommand(command: str, term: str) -> None
+```
+
+Send string to the serial device and return an answer.
+
+#### getAnswer
+
+```python
+getAnswer(term: str) -> str
+```
+
+Continuously read from the serial port until the term is encountered.
+
+#### write
+
+```python
+write(data: bytes) -> None
+```
+
+Send string to the serial device.
+
+#### read
+
+```python
+read() -> list[str]
+```
+
+Reads the contents of the Rx buffer.
+
+#### setProperties
+
+```python
+setProperties(
+    answerTimeout: str,
+    baudRate: str,
+    delayBetweenCharsMs: str,
+    handshaking: str,
+    parity: str,
+    stopBits: str,
+) -> None
+```
+
+Sets all com port properties in a single call.
+
+### ShutterDevice
+
+```python
+ShutterDevice(
+    device_label: str = UNASSIGNED,
+    mmcore: CMMCorePlus | None = None,
+    adapter_name: str = "",
+    device_name: str = "",
+    type: DeviceType = UnknownType,
+    description: str = "",
+)
+```
+
+Bases: `Device`
+
+#### type
+
+```python
+type() -> Literal[Shutter]
+```
+
+#### open
+
+```python
+open() -> None
+```
+
+Open shutter.
+
+#### close
+
+```python
+close() -> None
+```
+
+Close shutter.
+
+#### isOpen
+
+```python
+isOpen() -> bool
+```
+
+Return `True` if shutter is open.
+
+### SignalIODevice
+
+```python
+SignalIODevice(
+    device_label: str = UNASSIGNED,
+    mmcore: CMMCorePlus | None = None,
+    adapter_name: str = "",
+    device_name: str = "",
+    type: DeviceType = UnknownType,
+    description: str = "",
+)
+```
+
+Bases: `Device`
+
+#### type
+
+```python
+type() -> Literal[SignalIO]
+```
+
+### SLMDevice
 
 ```python
 SLMDevice(
@@ -607,45 +712,19 @@ SLMDevice(
 
 Bases: `Device`
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-| `setImage` | Write an image to the SLM . |
-| `setPixelsTo` | Set all SLM pixels to a single 8-bit intensity or RGB color. |
-| `displayImage` | Display the image on the SLM. |
-| `setExposure` | Set exposure time for SLM. |
-| `getExposure` | Return exposure time for SLM. |
-| `width` | Return the width of the SLM image. |
-| `height` | Return the height of the SLM image. |
-| `numberOfComponents` | Return the number of components in the SLM image. |
-| `bytesPerPixel` | Return the number of bytes per pixel in the SLM image. |
-| `getSequenceMaxLength` | Return the maximum length of a sequence for the SLM. |
-| `isSequenceable` | Return `True` if the SLM supports sequences. |
-| `loadSequence` | Load a sequence of images to the SLM. |
-| `startSequence` | Start the sequence of images on the SLM. |
-| `stopSequence` | Stop the sequence of images on the SLM. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `exposure` | `float` |  |
-
-### exposure
+#### exposure
 
 ```python
 exposure: float
 ```
 
-### type
+#### type
 
 ```python
 type() -> Literal[SLM]
 ```
 
-### setImage
+#### setImage
 
 ```python
 setImage(pixels: Any) -> None
@@ -653,7 +732,7 @@ setImage(pixels: Any) -> None
 
 Write an image to the SLM .
 
-### setPixelsTo
+#### setPixelsTo
 
 ```python
 setPixelsTo(intensity: int) -> None
@@ -669,7 +748,7 @@ setPixelsTo(*args: int) -> None
 
 Set all SLM pixels to a single 8-bit intensity or RGB color.
 
-### displayImage
+#### displayImage
 
 ```python
 displayImage() -> None
@@ -677,7 +756,7 @@ displayImage() -> None
 
 Display the image on the SLM.
 
-### setExposure
+#### setExposure
 
 ```python
 setExposure(exposure_ms: float) -> None
@@ -685,7 +764,7 @@ setExposure(exposure_ms: float) -> None
 
 Set exposure time for SLM.
 
-### getExposure
+#### getExposure
 
 ```python
 getExposure() -> float
@@ -693,7 +772,7 @@ getExposure() -> float
 
 Return exposure time for SLM.
 
-### width
+#### width
 
 ```python
 width() -> int
@@ -701,7 +780,7 @@ width() -> int
 
 Return the width of the SLM image.
 
-### height
+#### height
 
 ```python
 height() -> int
@@ -709,7 +788,7 @@ height() -> int
 
 Return the height of the SLM image.
 
-### numberOfComponents
+#### numberOfComponents
 
 ```python
 numberOfComponents() -> int
@@ -717,7 +796,7 @@ numberOfComponents() -> int
 
 Return the number of components in the SLM image.
 
-### bytesPerPixel
+#### bytesPerPixel
 
 ```python
 bytesPerPixel() -> int
@@ -725,7 +804,7 @@ bytesPerPixel() -> int
 
 Return the number of bytes per pixel in the SLM image.
 
-### getSequenceMaxLength
+#### getSequenceMaxLength
 
 ```python
 getSequenceMaxLength() -> int
@@ -733,7 +812,7 @@ getSequenceMaxLength() -> int
 
 Return the maximum length of a sequence for the SLM.
 
-### isSequenceable
+#### isSequenceable
 
 ```python
 isSequenceable() -> bool
@@ -741,7 +820,7 @@ isSequenceable() -> bool
 
 Return `True` if the SLM supports sequences.
 
-### loadSequence
+#### loadSequence
 
 ```python
 loadSequence(imageSequence: list[bytes]) -> None
@@ -749,7 +828,7 @@ loadSequence(imageSequence: list[bytes]) -> None
 
 Load a sequence of images to the SLM.
 
-### startSequence
+#### startSequence
 
 ```python
 startSequence() -> None
@@ -757,7 +836,7 @@ startSequence() -> None
 
 Start the sequence of images on the SLM.
 
-### stopSequence
+#### stopSequence
 
 ```python
 stopSequence() -> None
@@ -765,308 +844,7 @@ stopSequence() -> None
 
 Stop the sequence of images on the SLM.
 
-## SequencedEvent
-
-Bases: `MDAEvent`
-
-Subclass of MDAEvent that represents a sequence of triggered events.
-
-Parameters:
-
-<table>       <thead>         <tr>           <th>Name</th>           <th>Type</th>           <th>Description</th>           <th>Default</th>         </tr>       </thead>       <tbody>           <tr class="doc-section-item">             <td>                 <code>index</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="ReadOnlyDict" optional="">ReadOnlyDict</autoref></code>             </td>             <td>               <div class="doc-md-description">                 <p>A read-only dictionary.</p>                </div>             </td>             <td>                   <code>&lt;dynamic&gt;</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>channel</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="Channel" optional="">Channel</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>exposure</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="float" optional="">float</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>min_start_time</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="float" optional="">float</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>pos_name</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="str" optional="">str</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>x_pos</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="float" optional="">float</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>y_pos</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="float" optional="">float</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>z_pos</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="float" optional="">float</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>slm_image</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="SLMImage" optional="">SLMImage</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>sequence</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" hover="" identifier="useq.MDASequence" optional="">MDASequence</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>properties</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="list" optional="">list</autoref>[<autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="PropertyTuple" optional="">PropertyTuple</autoref>] | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>roi</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="CameraROI" optional="">CameraROI</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>None</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>metadata</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="dict" optional="">dict</autoref>[<autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="str" optional="">str</autoref>, <autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" hover="" identifier="typing.Any" optional="">Any</autoref>]</code>             </td>             <td>               <div class="doc-md-description">                 <p>dict() -&gt; new empty dictionary dict(mapping) -&gt; new dictionary initialized from a mapping object's     (key, value) pairs dict(iterable) -&gt; new dictionary initialized as if via:     d = {}     for k, v in iterable:         d[k] = v dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs     in the keyword argument list.  For example:  dict(one=1, two=2)</p>                </div>             </td>             <td>                   <code>&lt;class 'dict'&gt;</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>action</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="HardwareAutofocus" optional="">HardwareAutofocus</autoref> | <autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" hover="" identifier="useq.AcquireImage" optional="">AcquireImage</autoref> | <autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="CustomAction" optional="">CustomAction</autoref></code>             </td>             <td>               <div class="doc-md-description">                 <p><autoref data-zensical-autoref="" domain="py" filepath="/Users/runner/work/pymmcore-plus.github.io/pymmcore-plus.github.io/.repos/pymmcore-plus/src/pymmcore_plus/core/_sequencing.py" identifier="useq.Action" lineno="58" origin="pymmcore_plus.core.SequencedEvent" role="class"><code>useq.Action</code></autoref> to acquire an image.</p> <h4 id="pymmcore_plus.core.SequencedEvent--attributes">Attributes</h4> <p>type : Literal[&quot;acquire_image&quot;]     This action can be used to acquire an image.</p>                </div>             </td>             <td>                   <code>&lt;dynamic&gt;</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>keep_shutter_open</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="bool" optional="">bool</autoref></code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>False</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>reset_event_timer</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="bool" optional="">bool</autoref></code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                   <code>False</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>events</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="tuple" optional="">tuple</autoref>[<autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" hover="" identifier="useq.MDAEvent" optional="">MDAEvent</autoref>, ...]</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>             <td>                 <em>required</em>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>exposure_sequence</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="tuple" optional="">tuple</autoref>[<autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="float" optional="">float</autoref>, ...]</code>             </td>             <td>               <div class="doc-md-description">                 <p>Built-in immutable sequence.</p> <p>If no argument is given, the constructor returns an empty tuple. If iterable is specified the tuple is initialized from iterable's items.</p> <p>If the argument is a tuple, the return value is the same object.</p>                </div>             </td>             <td>                   <code>&lt;dynamic&gt;</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>x_sequence</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="tuple" optional="">tuple</autoref>[<autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="float" optional="">float</autoref>, ...]</code>             </td>             <td>               <div class="doc-md-description">                 <p>Built-in immutable sequence.</p> <p>If no argument is given, the constructor returns an empty tuple. If iterable is specified the tuple is initialized from iterable's items.</p> <p>If the argument is a tuple, the return value is the same object.</p>                </div>             </td>             <td>                   <code>&lt;dynamic&gt;</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>y_sequence</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="tuple" optional="">tuple</autoref>[<autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="float" optional="">float</autoref>, ...]</code>             </td>             <td>               <div class="doc-md-description">                 <p>Built-in immutable sequence.</p> <p>If no argument is given, the constructor returns an empty tuple. If iterable is specified the tuple is initialized from iterable's items.</p> <p>If the argument is a tuple, the return value is the same object.</p>                </div>             </td>             <td>                   <code>&lt;dynamic&gt;</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>z_sequence</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="tuple" optional="">tuple</autoref>[<autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="float" optional="">float</autoref>, ...]</code>             </td>             <td>               <div class="doc-md-description">                 <p>Built-in immutable sequence.</p> <p>If no argument is given, the constructor returns an empty tuple. If iterable is specified the tuple is initialized from iterable's items.</p> <p>If the argument is a tuple, the return value is the same object.</p>                </div>             </td>             <td>                   <code>&lt;dynamic&gt;</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>slm_sequence</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="tuple" optional="">tuple</autoref>[<autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="bytes" optional="">bytes</autoref>, ...]</code>             </td>             <td>               <div class="doc-md-description">                 <p>Built-in immutable sequence.</p> <p>If no argument is given, the constructor returns an empty tuple. If iterable is specified the tuple is initialized from iterable's items.</p> <p>If the argument is a tuple, the return value is the same object.</p>                </div>             </td>             <td>                   <code>&lt;dynamic&gt;</code>             </td>           </tr>           <tr class="doc-section-item">             <td>                 <code>property_sequences</code>             </td>             <td>                   <code><autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="dict" optional="">dict</autoref>[<autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="tuple" optional="">tuple</autoref>[<autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="str" optional="">str</autoref>, <autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="str" optional="">str</autoref>], <autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="list" optional="">list</autoref>[<autoref backlink-anchor="pymmcore_plus.core.SequencedEvent" backlink-type="used-by" identifier="str" optional="">str</autoref>]]</code>             </td>             <td>               <div class="doc-md-description">                 <p>dict() -&gt; new empty dictionary dict(mapping) -&gt; new dictionary initialized from a mapping object's     (key, value) pairs dict(iterable) -&gt; new dictionary initialized as if via:     d = {}     for k, v in iterable:         d[k] = v dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs     in the keyword argument list.  For example:  dict(one=1, two=2)</p>                </div>             </td>             <td>                   <code>&lt;class 'dict'&gt;</code>             </td>           </tr>       </tbody>     </table>
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `events` | `tuple[MDAEvent, ...]` |  |
-| `exposure_sequence` | `tuple[float, ...]` |  |
-| `x_sequence` | `tuple[float, ...]` |  |
-| `y_sequence` | `tuple[float, ...]` |  |
-| `z_sequence` | `tuple[float, ...]` |  |
-| `slm_sequence` | `tuple[bytes, ...]` |  |
-| `sequence` | `MDASequence \| None` |  |
-| `property_sequences` | `dict[tuple[str, str], list[str]]` |  |
-
-### events
-
-```python
-events: tuple[MDAEvent, ...] = Field(repr=False)
-```
-
-### exposure\_sequence
-
-```python
-exposure_sequence: tuple[float, ...] = Field(default_factory=tuple)
-```
-
-### x\_sequence
-
-```python
-x_sequence: tuple[float, ...] = Field(default_factory=tuple)
-```
-
-### y\_sequence
-
-```python
-y_sequence: tuple[float, ...] = Field(default_factory=tuple)
-```
-
-### z\_sequence
-
-```python
-z_sequence: tuple[float, ...] = Field(default_factory=tuple)
-```
-
-### slm\_sequence
-
-```python
-slm_sequence: tuple[bytes, ...] = Field(default_factory=tuple)
-```
-
-### sequence
-
-```python
-sequence: MDASequence | None = Field(default=None, repr=False)
-```
-
-### property\_sequences
-
-```python
-property_sequences: dict[tuple[str, str], list[str]] = Field(
-    default_factory=dict
-)
-```
-
-## SerialDevice
-
-```python
-SerialDevice(
-    device_label: str = UNASSIGNED,
-    mmcore: CMMCorePlus | None = None,
-    adapter_name: str = "",
-    device_name: str = "",
-    type: DeviceType = UnknownType,
-    description: str = "",
-)
-```
-
-Bases: `Device`
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-| `setCommand` | Send string to the serial device and return an answer. |
-| `getAnswer` | Continuously read from the serial port until the term is encountered. |
-| `write` | Send string to the serial device. |
-| `read` | Reads the contents of the Rx buffer. |
-| `setProperties` | Sets all com port properties in a single call. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `answer_timeout` | `str` | Return the timeout for serial port commands. |
-| `baud_rate` | `str` | Return the baud rate for serial port commands. |
-| `data_bits` | `str` | Return the data bits for serial port commands. |
-| `parity` | `str` | Return the parity for serial port commands. |
-| `stop_bits` | `str` | Return the stop bits for serial port commands. |
-| `handshaking` | `str` | Return the handshaking for serial port commands. |
-| `delay_between_chars_ms` | `str` | Return the delay between characters in milliseconds. |
-
-### answer\_timeout
-
-```python
-answer_timeout: str
-```
-
-Return the timeout for serial port commands.
-
-### baud\_rate
-
-```python
-baud_rate: str
-```
-
-Return the baud rate for serial port commands.
-
-### data\_bits
-
-```python
-data_bits: str
-```
-
-Return the data bits for serial port commands.
-
-### parity
-
-```python
-parity: str
-```
-
-Return the parity for serial port commands.
-
-### stop\_bits
-
-```python
-stop_bits: str
-```
-
-Return the stop bits for serial port commands.
-
-### handshaking
-
-```python
-handshaking: str
-```
-
-Return the handshaking for serial port commands.
-
-### delay\_between\_chars\_ms
-
-```python
-delay_between_chars_ms: str
-```
-
-Return the delay between characters in milliseconds.
-
-### type
-
-```python
-type() -> Literal[Serial]
-```
-
-### setCommand
-
-```python
-setCommand(command: str, term: str) -> None
-```
-
-Send string to the serial device and return an answer.
-
-### getAnswer
-
-```python
-getAnswer(term: str) -> str
-```
-
-Continuously read from the serial port until the term is encountered.
-
-### write
-
-```python
-write(data: bytes) -> None
-```
-
-Send string to the serial device.
-
-### read
-
-```python
-read() -> list[str]
-```
-
-Reads the contents of the Rx buffer.
-
-### setProperties
-
-```python
-setProperties(
-    answerTimeout: str,
-    baudRate: str,
-    delayBetweenCharsMs: str,
-    handshaking: str,
-    parity: str,
-    stopBits: str,
-) -> None
-```
-
-Sets all com port properties in a single call.
-
-## ShutterDevice
-
-```python
-ShutterDevice(
-    device_label: str = UNASSIGNED,
-    mmcore: CMMCorePlus | None = None,
-    adapter_name: str = "",
-    device_name: str = "",
-    type: DeviceType = UnknownType,
-    description: str = "",
-)
-```
-
-Bases: `Device`
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-| `open` | Open shutter. |
-| `close` | Close shutter. |
-| `isOpen` | Return `True` if shutter is open. |
-
-### type
-
-```python
-type() -> Literal[Shutter]
-```
-
-### open
-
-```python
-open() -> None
-```
-
-Open shutter.
-
-### close
-
-```python
-close() -> None
-```
-
-Close shutter.
-
-### isOpen
-
-```python
-isOpen() -> bool
-```
-
-Return `True` if shutter is open.
-
-## SignalIODevice
-
-```python
-SignalIODevice(
-    device_label: str = UNASSIGNED,
-    mmcore: CMMCorePlus | None = None,
-    adapter_name: str = "",
-    device_name: str = "",
-    type: DeviceType = UnknownType,
-    description: str = "",
-)
-```
-
-Bases: `Device`
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-
-### type
-
-```python
-type() -> Literal[SignalIO]
-```
-
-## StageDevice
+### StageDevice
 
 ```python
 StageDevice(
@@ -1079,132 +857,97 @@ StageDevice(
 )
 ```
 
-Bases: `_StageBase`
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-| `setPosition` |  |
-| `getPosition` |  |
-| `setRelativePosition` |  |
-| `getPositionAccumulator` |  |
-| `setOrigin` |  |
-| `setAdapterOrigin` |  |
-| `setFocusDirection` |  |
-| `getFocusDirection` |  |
-| `isContinuousFocusDrive` | Return `True` if device supports continuous focus. |
-| `isStageSequenceable` | Return `True` if device supports stage sequence. |
-| `isStageLinearSequenceable` | Return `True` if device supports linear stage sequence. |
-| `startStageSequence` | Start stage sequence. |
-| `stopStageSequence` | Stop stage sequence. |
-| `getStageSequenceMaxLength` | Return maximum length of stage sequence. |
-| `loadStageSequence` | Load stage sequence. |
-| `setStageLinearSequence` | Set stage linear sequence. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `position` | `float` |  |
-| `isSequenceable` |  |  |
-| `loadSequence` |  |  |
-| `startSequence` |  |  |
-| `stopSequence` |  |  |
-| `getSequenceMaxLength` |  |  |
-
-### position
+#### position
 
 ```python
 position: float
 ```
 
-### isSequenceable
+#### isSequenceable
 
 ```python
 isSequenceable = isStageSequenceable
 ```
 
-### loadSequence
+#### loadSequence
 
 ```python
 loadSequence = loadStageSequence
 ```
 
-### startSequence
+#### startSequence
 
 ```python
 startSequence = startStageSequence
 ```
 
-### stopSequence
+#### stopSequence
 
 ```python
 stopSequence = stopStageSequence
 ```
 
-### getSequenceMaxLength
+#### getSequenceMaxLength
 
 ```python
 getSequenceMaxLength = getStageSequenceMaxLength
 ```
 
-### type
+#### type
 
 ```python
 type() -> Literal[Stage]
 ```
 
-### setPosition
+#### setPosition
 
 ```python
 setPosition(position: float) -> None
 ```
 
-### getPosition
+#### getPosition
 
 ```python
 getPosition() -> float
 ```
 
-### setRelativePosition
+#### setRelativePosition
 
 ```python
 setRelativePosition(offset: float) -> None
 ```
 
-### getPositionAccumulator
+#### getPositionAccumulator
 
 ```python
 getPositionAccumulator() -> PositionChangeAccumulator
 ```
 
-### setOrigin
+#### setOrigin
 
 ```python
 setOrigin() -> None
 ```
 
-### setAdapterOrigin
+#### setAdapterOrigin
 
 ```python
 setAdapterOrigin(newZUm: float) -> None
 ```
 
-### setFocusDirection
+#### setFocusDirection
 
 ```python
 setFocusDirection(sign: int) -> None
 ```
 
-### getFocusDirection
+#### getFocusDirection
 
 ```python
 getFocusDirection() -> FocusDirection
 ```
 
-### isContinuousFocusDrive
+#### isContinuousFocusDrive
 
 ```python
 isContinuousFocusDrive() -> bool
@@ -1212,7 +955,7 @@ isContinuousFocusDrive() -> bool
 
 Return `True` if device supports continuous focus.
 
-### isStageSequenceable
+#### isStageSequenceable
 
 ```python
 isStageSequenceable() -> bool
@@ -1220,7 +963,7 @@ isStageSequenceable() -> bool
 
 Return `True` if device supports stage sequence.
 
-### isStageLinearSequenceable
+#### isStageLinearSequenceable
 
 ```python
 isStageLinearSequenceable() -> bool
@@ -1228,7 +971,7 @@ isStageLinearSequenceable() -> bool
 
 Return `True` if device supports linear stage sequence.
 
-### startStageSequence
+#### startStageSequence
 
 ```python
 startStageSequence() -> None
@@ -1236,7 +979,7 @@ startStageSequence() -> None
 
 Start stage sequence.
 
-### stopStageSequence
+#### stopStageSequence
 
 ```python
 stopStageSequence() -> None
@@ -1244,7 +987,7 @@ stopStageSequence() -> None
 
 Stop stage sequence.
 
-### getStageSequenceMaxLength
+#### getStageSequenceMaxLength
 
 ```python
 getStageSequenceMaxLength() -> int
@@ -1252,7 +995,7 @@ getStageSequenceMaxLength() -> int
 
 Return maximum length of stage sequence.
 
-### loadStageSequence
+#### loadStageSequence
 
 ```python
 loadStageSequence(positions: Sequence[float]) -> None
@@ -1260,7 +1003,7 @@ loadStageSequence(positions: Sequence[float]) -> None
 
 Load stage sequence.
 
-### setStageLinearSequence
+#### setStageLinearSequence
 
 ```python
 setStageLinearSequence(dZ_um: float, nSlices: int) -> None
@@ -1268,7 +1011,7 @@ setStageLinearSequence(dZ_um: float, nSlices: int) -> None
 
 Set stage linear sequence.
 
-## StateDevice
+### StateDevice
 
 ```python
 StateDevice(
@@ -1283,39 +1026,19 @@ StateDevice(
 
 Bases: `Device`
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-| `setState` | Set state. |
-| `getState` | Return state. |
-| `getNumberOfStates` | Return number of states. |
-| `setStateLabel` | Set state by label. |
-| `getStateLabel` | Return state label. |
-| `defineStateLabel` | Define state labels. |
-| `getStateLabels` | Return state labels. |
-| `getStateFromLabel` | Return state for given label. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `state` | `int` |  |
-
-### state
+#### state
 
 ```python
 state: int
 ```
 
-### type
+#### type
 
 ```python
 type() -> Literal[State]
 ```
 
-### setState
+#### setState
 
 ```python
 setState(state: int) -> None
@@ -1323,7 +1046,7 @@ setState(state: int) -> None
 
 Set state.
 
-### getState
+#### getState
 
 ```python
 getState() -> int
@@ -1331,7 +1054,7 @@ getState() -> int
 
 Return state.
 
-### getNumberOfStates
+#### getNumberOfStates
 
 ```python
 getNumberOfStates() -> int
@@ -1339,7 +1062,7 @@ getNumberOfStates() -> int
 
 Return number of states.
 
-### setStateLabel
+#### setStateLabel
 
 ```python
 setStateLabel(label: str) -> None
@@ -1347,7 +1070,7 @@ setStateLabel(label: str) -> None
 
 Set state by label.
 
-### getStateLabel
+#### getStateLabel
 
 ```python
 getStateLabel() -> StateLabel
@@ -1355,7 +1078,7 @@ getStateLabel() -> StateLabel
 
 Return state label.
 
-### defineStateLabel
+#### defineStateLabel
 
 ```python
 defineStateLabel(state: int, label: str) -> None
@@ -1363,7 +1086,7 @@ defineStateLabel(state: int, label: str) -> None
 
 Define state labels.
 
-### getStateLabels
+#### getStateLabels
 
 ```python
 getStateLabels() -> tuple[StateLabel, ...]
@@ -1371,7 +1094,7 @@ getStateLabels() -> tuple[StateLabel, ...]
 
 Return state labels.
 
-### getStateFromLabel
+#### getStateFromLabel
 
 ```python
 getStateFromLabel(label: str) -> int
@@ -1379,7 +1102,7 @@ getStateFromLabel(label: str) -> int
 
 Return state for given label.
 
-## XYStageDevice
+### XYStageDevice
 
 ```python
 XYStageDevice(
@@ -1392,42 +1115,7 @@ XYStageDevice(
 )
 ```
 
-Bases: `_StageBase`
-
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `type` |  |
-| `setXYPosition` | Set the position of the XY stage in microns. |
-| `getXYPosition` | Return the position of the XY stage in microns. |
-| `setRelativeXYPosition` | Set the relative position of the XY stage in microns. |
-| `getPositionAccumulator` |  |
-| `getXPosition` | Return the X position of the XY stage in microns. |
-| `getYPosition` | Return the Y position of the XY stage in microns. |
-| `setOriginXY` | Zero the current XY stage's coordinates at the current position. |
-| `setOriginX` | Zero the given XY stage's X coordinate at the current position. |
-| `setOriginY` | Zero the given XY stage's Y coordinate at the current position. |
-| `setAdapterOriginXY` | Enable software translation of coordinates for the current XY stage. |
-| `isXYStageSequenceable` | Return `True` if device supports XY stage sequence. |
-| `startXYStageSequence` | Start XY stage sequence. |
-| `stopXYStageSequence` | Stop XY stage sequence. |
-| `getXYStageSequenceMaxLength` | Return maximum length of XY stage sequence. |
-| `loadXYStageSequence` | Load XY stage sequence. |
-| `loadSequence` | Load XY stage sequence with a sequence of 2-tuples. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `position` | `tuple[float, float]` | Return the position of the XY stage in microns. |
-| `setOrigin` |  |  |
-| `isSequenceable` |  |  |
-| `startSequence` |  |  |
-| `stopSequence` |  |  |
-| `getSequenceMaxLength` |  |  |
-
-### position
+#### position
 
 ```python
 position: tuple[float, float]
@@ -1435,43 +1123,43 @@ position: tuple[float, float]
 
 Return the position of the XY stage in microns.
 
-### setOrigin
+#### setOrigin
 
 ```python
 setOrigin = setOriginXY
 ```
 
-### isSequenceable
+#### isSequenceable
 
 ```python
 isSequenceable = isXYStageSequenceable
 ```
 
-### startSequence
+#### startSequence
 
 ```python
 startSequence = startXYStageSequence
 ```
 
-### stopSequence
+#### stopSequence
 
 ```python
 stopSequence = stopXYStageSequence
 ```
 
-### getSequenceMaxLength
+#### getSequenceMaxLength
 
 ```python
 getSequenceMaxLength = getXYStageSequenceMaxLength
 ```
 
-### type
+#### type
 
 ```python
 type() -> Literal[XYStage]
 ```
 
-### setXYPosition
+#### setXYPosition
 
 ```python
 setXYPosition(x: float, y: float) -> None
@@ -1479,7 +1167,7 @@ setXYPosition(x: float, y: float) -> None
 
 Set the position of the XY stage in microns.
 
-### getXYPosition
+#### getXYPosition
 
 ```python
 getXYPosition() -> Sequence[float]
@@ -1487,7 +1175,7 @@ getXYPosition() -> Sequence[float]
 
 Return the position of the XY stage in microns.
 
-### setRelativeXYPosition
+#### setRelativeXYPosition
 
 ```python
 setRelativeXYPosition(dx: float, dy: float) -> None
@@ -1495,13 +1183,13 @@ setRelativeXYPosition(dx: float, dy: float) -> None
 
 Set the relative position of the XY stage in microns.
 
-### getPositionAccumulator
+#### getPositionAccumulator
 
 ```python
 getPositionAccumulator() -> XYPositionChangeAccumulator
 ```
 
-### getXPosition
+#### getXPosition
 
 ```python
 getXPosition() -> float
@@ -1509,7 +1197,7 @@ getXPosition() -> float
 
 Return the X position of the XY stage in microns.
 
-### getYPosition
+#### getYPosition
 
 ```python
 getYPosition() -> float
@@ -1517,7 +1205,7 @@ getYPosition() -> float
 
 Return the Y position of the XY stage in microns.
 
-### setOriginXY
+#### setOriginXY
 
 ```python
 setOriginXY() -> None
@@ -1525,7 +1213,7 @@ setOriginXY() -> None
 
 Zero the current XY stage's coordinates at the current position.
 
-### setOriginX
+#### setOriginX
 
 ```python
 setOriginX() -> None
@@ -1533,7 +1221,7 @@ setOriginX() -> None
 
 Zero the given XY stage's X coordinate at the current position.
 
-### setOriginY
+#### setOriginY
 
 ```python
 setOriginY() -> None
@@ -1541,7 +1229,7 @@ setOriginY() -> None
 
 Zero the given XY stage's Y coordinate at the current position.
 
-### setAdapterOriginXY
+#### setAdapterOriginXY
 
 ```python
 setAdapterOriginXY(newXUm: float, newYUm: float) -> None
@@ -1551,7 +1239,7 @@ Enable software translation of coordinates for the current XY stage.
 
 The current position of the stage becomes (newXUm, newYUm). It is recommended that setOriginXY() be used instead where available.
 
-### isXYStageSequenceable
+#### isXYStageSequenceable
 
 ```python
 isXYStageSequenceable() -> bool
@@ -1559,7 +1247,7 @@ isXYStageSequenceable() -> bool
 
 Return `True` if device supports XY stage sequence.
 
-### startXYStageSequence
+#### startXYStageSequence
 
 ```python
 startXYStageSequence() -> None
@@ -1567,7 +1255,7 @@ startXYStageSequence() -> None
 
 Start XY stage sequence.
 
-### stopXYStageSequence
+#### stopXYStageSequence
 
 ```python
 stopXYStageSequence() -> None
@@ -1575,7 +1263,7 @@ stopXYStageSequence() -> None
 
 Stop XY stage sequence.
 
-### getXYStageSequenceMaxLength
+#### getXYStageSequenceMaxLength
 
 ```python
 getXYStageSequenceMaxLength() -> int
@@ -1583,7 +1271,7 @@ getXYStageSequenceMaxLength() -> int
 
 Return maximum length of XY stage sequence.
 
-### loadXYStageSequence
+#### loadXYStageSequence
 
 ```python
 loadXYStageSequence(
@@ -1593,7 +1281,7 @@ loadXYStageSequence(
 
 Load XY stage sequence.
 
-### loadSequence
+#### loadSequence
 
 ```python
 loadSequence(sequence: Sequence[tuple[float, float]]) -> None
@@ -1603,7 +1291,69 @@ Load XY stage sequence with a sequence of 2-tuples.
 
 Provided as a wrapper for loadXYStageSequence, for API parity with other sequencaable devices.
 
-## iter\_sequenced\_events
+### SequencedEvent
+
+Bases: `MDAEvent`
+
+Subclass of MDAEvent that represents a sequence of triggered events.
+
+Attributes:
+
+<table>       <thead>         <tr>           <th>Name</th>           <th>Type</th>           <th>Description</th>         </tr>       </thead>       <tbody>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.index" optional="">index</autoref></code></td>             <td>                   <code><autoref identifier="ReadOnlyDict" optional="">ReadOnlyDict</autoref></code>             </td>             <td>               <div class="doc-md-description">                 <p>A read-only dictionary.</p>                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.channel" optional="">channel</autoref></code></td>             <td>                   <code><autoref identifier="Channel" optional="">Channel</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.exposure" optional="">exposure</autoref></code></td>             <td>                   <code><autoref identifier="float" optional="">float</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.min_start_time" optional="">min_start_time</autoref></code></td>             <td>                   <code><autoref identifier="float" optional="">float</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.pos_name" optional="">pos_name</autoref></code></td>             <td>                   <code><autoref identifier="str" optional="">str</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.x_pos" optional="">x_pos</autoref></code></td>             <td>                   <code><autoref identifier="float" optional="">float</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.y_pos" optional="">y_pos</autoref></code></td>             <td>                   <code><autoref identifier="float" optional="">float</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.z_pos" optional="">z_pos</autoref></code></td>             <td>                   <code><autoref identifier="float" optional="">float</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.slm_image" optional="">slm_image</autoref></code></td>             <td>                   <code><autoref identifier="SLMImage" optional="">SLMImage</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.sequence" optional="">sequence</autoref></code></td>             <td>                   <code><autoref hover="" identifier="useq.MDASequence" optional="">MDASequence</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.properties" optional="">properties</autoref></code></td>             <td>                   <code><autoref identifier="list" optional="">list</autoref>[<autoref identifier="PropertyTuple" optional="">PropertyTuple</autoref>] | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.roi" optional="">roi</autoref></code></td>             <td>                   <code><autoref identifier="CameraROI" optional="">CameraROI</autoref> | None</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.metadata" optional="">metadata</autoref></code></td>             <td>                   <code><autoref identifier="dict" optional="">dict</autoref>[<autoref identifier="str" optional="">str</autoref>, <autoref hover="" identifier="typing.Any" optional="">Any</autoref>]</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.action" optional="">action</autoref></code></td>             <td>                   <code><autoref identifier="HardwareAutofocus" optional="">HardwareAutofocus</autoref> | <autoref hover="" identifier="useq.AcquireImage" optional="">AcquireImage</autoref> | <autoref identifier="CustomAction" optional="">CustomAction</autoref></code>             </td>             <td>               <div class="doc-md-description">                 <p><autoref data-zensical-autoref="" domain="py" filepath="/Users/runner/work/pymmcore-plus.github.io/pymmcore-plus.github.io/.repos/pymmcore-plus/src/pymmcore_plus/core/_sequencing.py" identifier="useq.Action" lineno="58" origin="pymmcore_plus.core.SequencedEvent" role="class"><code>useq.Action</code></autoref> to acquire an image.</p> <h5 id="pymmcore_plus.core.SequencedEvent--attributes">Attributes</h5> <p>type : Literal[&quot;acquire_image&quot;]     This action can be used to acquire an image.</p>                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.keep_shutter_open" optional="">keep_shutter_open</autoref></code></td>             <td>                   <code><autoref identifier="bool" optional="">bool</autoref></code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.reset_event_timer" optional="">reset_event_timer</autoref></code></td>             <td>                   <code><autoref identifier="bool" optional="">bool</autoref></code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.events" optional="">events</autoref></code></td>             <td>                   <code><autoref identifier="tuple" optional="">tuple</autoref>[<autoref hover="" identifier="useq.MDAEvent" optional="">MDAEvent</autoref>, ...]</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.exposure_sequence" optional="">exposure_sequence</autoref></code></td>             <td>                   <code><autoref identifier="tuple" optional="">tuple</autoref>[<autoref identifier="float" optional="">float</autoref>, ...]</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.x_sequence" optional="">x_sequence</autoref></code></td>             <td>                   <code><autoref identifier="tuple" optional="">tuple</autoref>[<autoref identifier="float" optional="">float</autoref>, ...]</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.y_sequence" optional="">y_sequence</autoref></code></td>             <td>                   <code><autoref identifier="tuple" optional="">tuple</autoref>[<autoref identifier="float" optional="">float</autoref>, ...]</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.z_sequence" optional="">z_sequence</autoref></code></td>             <td>                   <code><autoref identifier="tuple" optional="">tuple</autoref>[<autoref identifier="float" optional="">float</autoref>, ...]</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.slm_sequence" optional="">slm_sequence</autoref></code></td>             <td>                   <code><autoref identifier="tuple" optional="">tuple</autoref>[<autoref identifier="bytes" optional="">bytes</autoref>, ...]</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>           <tr class="doc-section-item">             <td><code><autoref hover="" identifier="pymmcore_plus.core.SequencedEvent.property_sequences" optional="">property_sequences</autoref></code></td>             <td>                   <code><autoref identifier="dict" optional="">dict</autoref>[<autoref identifier="tuple" optional="">tuple</autoref>[<autoref identifier="str" optional="">str</autoref>, <autoref identifier="str" optional="">str</autoref>], <autoref identifier="list" optional="">list</autoref>[<autoref identifier="str" optional="">str</autoref>]]</code>             </td>             <td>               <div class="doc-md-description">                                </div>             </td>           </tr>       </tbody>     </table>
+
+#### events
+
+```python
+events: tuple[MDAEvent, ...] = Field(repr=False)
+```
+
+#### exposure\_sequence
+
+```python
+exposure_sequence: tuple[float, ...] = Field(default_factory=tuple)
+```
+
+#### x\_sequence
+
+```python
+x_sequence: tuple[float, ...] = Field(default_factory=tuple)
+```
+
+#### y\_sequence
+
+```python
+y_sequence: tuple[float, ...] = Field(default_factory=tuple)
+```
+
+#### z\_sequence
+
+```python
+z_sequence: tuple[float, ...] = Field(default_factory=tuple)
+```
+
+#### slm\_sequence
+
+```python
+slm_sequence: tuple[bytes, ...] = Field(default_factory=tuple)
+```
+
+#### sequence
+
+```python
+sequence: MDASequence | None = Field(default=None, repr=False)
+```
+
+#### property\_sequences
+
+```python
+property_sequences: dict[tuple[str, str], list[str]] = Field(
+    default_factory=dict
+)
+```
+
+## Functions
+
+### iter\_sequenced\_events
 
 ```python
 iter_sequenced_events(
@@ -1628,13 +1378,13 @@ Returns:
 
 ## Re-exports
 
-These names can be imported from this module, but are documented at their top-level location.
+These can also be imported from this module, but each is documented under its shortest import path (linked below).
 
 | Name | Description |
 | --- | --- |
-| `ActionType` |  |
-| `CFGCommand` |  |
-| `CFGGroup` |  |
+| `ActionType` | Action that triggered a device property handler. |
+| `CFGCommand` | Commands used in Micro-Manager configuration (`.cfg`) files. |
+| `CFGGroup` | Names of built-in config groups and presets (`System`, `Startup`, etc...). |
 | `CMMCorePlus` | Wrapper for CMMCore with extended functionality. |
 | `ConfigGroup` | Convenience object for dealing with a set of related Configuration objects. |
 | `Configuration` | Encapsulation of configuration information. |
@@ -1643,10 +1393,10 @@ These names can be imported from this module, but are documented at their top-le
 | `DeviceDetectionStatus` | DeviceDetectionStatus from device discovery. |
 | `DeviceInitializationState` | DeviceInitializationState returned by getDeviceInitializationState. |
 | `DeviceProperty` | Convenience view onto a device property. |
-| `DeviceType` |  |
-| `FocusDirection` |  |
-| `Keyword` |  |
+| `DeviceType` | Type of a Micro-Manager device. |
+| `FocusDirection` | Direction a focus stage moves (towards or away from the sample). |
+| `Keyword` | Standard property and device names (the `g_Keyword_*` constants). |
 | `Metadata` | Subclass of `pymmcore.Metadata` with a pythonic interface. |
 | `PixelFormat` | Subset of GeniCam Pixel Format names used by pymmcore-plus. |
-| `PortType` |  |
-| `PropertyType` |  |
+| `PortType` | Type of a port device (serial, USB, HID). |
+| `PropertyType` | Type of a device property value. |

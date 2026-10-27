@@ -2,6 +2,29 @@
 
 Screenshot generated from the [example below](<#example>).
 
+## Example
+
+examples/pixel\_configuration\_widget.py
+
+```python
+from pymmcore_plus import CMMCorePlus
+from qtpy.QtWidgets import QApplication
+
+from pymmcore_widgets import PixelConfigurationWidget
+
+app = QApplication([])
+
+mmc = CMMCorePlus.instance()
+mmc.loadSystemConfiguration()
+
+px_wdg = PixelConfigurationWidget()
+px_wdg.show()
+
+app.exec()
+```
+
+## API
+
 Bases: `QWidget`
 
 A Widget to define the pixel size configurations.
@@ -15,14 +38,7 @@ Parameters:
 | `parent` | `QWidget \| None` | Optional parent widget, by default None | `None` |
 | `mmcore` | `CMMCorePlus \| None` | Optional `pymmcore_plus.CMMCorePlus` micromanager core. By default, None. If not specified, the widget will use the active (or create a new) `CMMCorePlus.instance`. | `None` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `value` | Return the current state of the widget describing the pixel configurations. |
-| `setValue` | Set the state of the widget describing the pixel configurations. |
-
-## value
+### value
 
 ```python
 value() -> list[PixelSizePreset]
@@ -34,7 +50,7 @@ Returns:
 
 | Type | Description |
 | --- | --- |
-| `list[PixelSizePreset][PixelSizePreset]` | A list of pixel configurations data. |
+| `list[PixelSizePreset]` | A list of pixel configurations data (`PixelSizePreset` objects). |
 
 **Example:**
 
@@ -49,7 +65,7 @@ output = [
 ]
 ```
 
-## setValue
+### setValue
 
 ```python
 setValue(value: list[PixelSizePreset]) -> None
@@ -61,7 +77,7 @@ Parameters:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| `value` | `list[PixelSizePreset][PixelSizePreset]` | The list of pixel configurations data to set. | *required* |
+| `value` | `list[PixelSizePreset]` | The list of pixel configurations data (`PixelSizePreset` objects) to set. | *required* |
 
 **Example:**
 
@@ -74,25 +90,4 @@ input = [
     ),
     ...
 ]
-```
-
-## Example
-
-examples/pixel\_configuration\_widget.py
-
-```python
-from pymmcore_plus import CMMCorePlus
-from qtpy.QtWidgets import QApplication
-
-from pymmcore_widgets import PixelConfigurationWidget
-
-app = QApplication([])
-
-mmc = CMMCorePlus().instance()
-mmc.loadSystemConfiguration()
-
-px_wdg = PixelConfigurationWidget()
-px_wdg.show()
-
-app.exec()
 ```

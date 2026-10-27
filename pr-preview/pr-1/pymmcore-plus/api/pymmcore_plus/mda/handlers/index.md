@@ -1,6 +1,14 @@
 # pymmcore\_plus.mda.handlers
 
-Classes:
+Deprecated data handlers (writers) for MDA acquisitions.
+
+> [!WARNING]
+>
+> **Deprecated**
+>
+> This module is deprecated, and importing it emits a `FutureWarning`. To save data, pass a path ending in `.ome.zarr` or `.ome.tiff` (or an `ome_writers.AcquisitionSettings`) as the `output` of `MDARunner.run`, which writes with [ome-writers](<https://pymmcore-plus.github.io/ome-writers/>) (see Saving Data). These handlers will be removed in a future version; if you depend on one, please copy it into your own code.
+
+**Classes**
 
 | Name | Description |
 | --- | --- |
@@ -9,13 +17,15 @@ Classes:
 | `OMEZarrWriter` | MDA handler that writes to a zarr file following the ome-ngff spec. |
 | `TensorStoreHandler` | Tensorstore handler for writing MDA sequences. |
 
-Functions:
+**Functions**
 
 | Name | Description |
 | --- | --- |
 | `handler_for_path` | Convert a string or Path into a handler object. |
 
-## ImageSequenceWriter
+## Classes
+
+### ImageSequenceWriter
 
 ```python
 ImageSequenceWriter(
@@ -68,35 +78,19 @@ Parameters:
 | `include_frame_count` | `bool` | Whether to include a frame count item in the template (`{frame:05}`). This will come after the prefix and before the indices. It is a good way to ensure unique keys. by default True | `True` |
 | `imwrite_kwargs` | `dict \| None` | Extra keyword arguments to pass to the `imwrite` function. | `None` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `sequenceStarted` | Store the sequence metadata and reset the frame counter. |
-| `sequenceFinished` |  |
-| `frameReady` | Write a frame to disk. |
-| `fname_template` | Generate a string template for file names. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `FRAME_META_PATH` | `str` |  |
-| `SEQ_META_PATH` | `str` |  |
-
-### FRAME\_META\_PATH
+#### FRAME\_META\_PATH
 
 ```python
 FRAME_META_PATH: str = '_frame_metadata.json'
 ```
 
-### SEQ\_META\_PATH
+#### SEQ\_META\_PATH
 
 ```python
 SEQ_META_PATH: str = '_useq_MDASequence.json'
 ```
 
-### sequenceStarted
+#### sequenceStarted
 
 ```python
 sequenceStarted(seq: MDASequence) -> None
@@ -104,13 +98,13 @@ sequenceStarted(seq: MDASequence) -> None
 
 Store the sequence metadata and reset the frame counter.
 
-### sequenceFinished
+#### sequenceFinished
 
 ```python
 sequenceFinished(seq: MDASequence) -> None
 ```
 
-### frameReady
+#### frameReady
 
 ```python
 frameReady(frame: ndarray, event: MDAEvent, meta: FrameMetaV1) -> None
@@ -118,7 +112,7 @@ frameReady(frame: ndarray, event: MDAEvent, meta: FrameMetaV1) -> None
 
 Write a frame to disk.
 
-### fname\_template
+#### fname\_template
 
 ```python
 fname_template(
@@ -151,13 +145,11 @@ Examples:
 'some_prefix{frame:05}_c{c:02}_z{z:03}.tif'
 ```
 
-## OMETiffWriter
+### OMETiffWriter
 
 ```python
 OMETiffWriter(filename: Path | str)
 ```
-
-Bases: `_5DWriterBase[memmap]`
 
 MDA handler that writes to a 5D OME-TIFF file.
 
@@ -171,21 +163,13 @@ Parameters:
 | --- | --- | --- | --- |
 | `filename` | `Path \| str` | The filename to write to. Must end with '.ome.tiff' or '.ome.tif'. | *required* |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `sequenceStarted` |  |
-| `write_frame` | Write a frame to the file. |
-| `new_array` | Create a new tifffile file and memmap for this position. |
-
-### sequenceStarted
+#### sequenceStarted
 
 ```python
 sequenceStarted(seq: MDASequence, meta: SummaryMetaV1 | object = _NULL) -> None
 ```
 
-### write\_frame
+#### write\_frame
 
 ```python
 write_frame(ary: memmap, index: tuple[int, ...], frame: ndarray) -> None
@@ -193,7 +177,7 @@ write_frame(ary: memmap, index: tuple[int, ...], frame: ndarray) -> None
 
 Write a frame to the file.
 
-### new\_array
+#### new\_array
 
 ```python
 new_array(position_key: str, dtype: dtype, sizes: dict[str, int]) -> memmap
@@ -201,7 +185,7 @@ new_array(position_key: str, dtype: dtype, sizes: dict[str, int]) -> memmap
 
 Create a new tifffile file and memmap for this position.
 
-## OMEZarrWriter
+### OMEZarrWriter
 
 ```python
 OMEZarrWriter(
@@ -214,8 +198,6 @@ OMEZarrWriter(
     minify_attrs_metadata: bool = False,
 )
 ```
-
-Bases: `_5DWriterBase['zarr.Array']`
 
 MDA handler that writes to a zarr file following the ome-ngff spec.
 
@@ -258,22 +240,7 @@ Parameters:
 | `array_kwargs` | `dict` | Keyword arguments passed to `zarr.group.create` when creating the arrays. This may be used to set the zarr `compressor`, `fill_value`, `synchronizer`, etc... Default is `{'dimension_separator': '/'}`. | `None` |
 | `minify_attrs_metadata` | `bool` | If True, zattrs metadata will be read from disk, minified, and written back to disk at the end of a successful acquisition (to save space). Default is False. | `False` |
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `in_tmpdir` | Create OMEZarrHandler that writes to a temporary directory. |
-| `finalize_metadata` | Called by superclass in sequenceFinished. Flush metadata to disk. |
-| `new_array` | Create a new array in the group, under `key`. |
-| `as_xarray` |  |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `group` | `Group` | Read-only access to the zarr group. |
-
-### group
+#### group
 
 ```python
 group: Group
@@ -281,7 +248,7 @@ group: Group
 
 Read-only access to the zarr group.
 
-### in\_tmpdir
+#### in\_tmpdir
 
 ```python
 in_tmpdir(
@@ -305,7 +272,7 @@ Parameters:
 | `cleanup_atexit` | `bool` | Whether to automatically cleanup the temporary directory when the python process exits. Default is True. | `True` |
 | `**kwargs` | `Any` | Remaining kwargs are passed to `OMEZarrHandler.__init__` | `{}` |
 
-### finalize\_metadata
+#### finalize\_metadata
 
 ```python
 finalize_metadata() -> None
@@ -313,7 +280,7 @@ finalize_metadata() -> None
 
 Called by superclass in sequenceFinished. Flush metadata to disk.
 
-### new\_array
+#### new\_array
 
 ```python
 new_array(key: str, dtype: dtype, sizes: dict[str, int]) -> Array
@@ -321,13 +288,13 @@ new_array(key: str, dtype: dtype, sizes: dict[str, int]) -> Array
 
 Create a new array in the group, under `key`.
 
-### as\_xarray
+#### as\_xarray
 
 ```python
 as_xarray() -> Dataset
 ```
 
-## TensorStoreHandler
+### TensorStoreHandler
 
 ```python
 TensorStoreHandler(
@@ -378,64 +345,37 @@ writer = TensorStoreHandler(path="example_ts.zarr", delete_existing=True)
 core.mda.run(sequence, output=writer)
 ```
 
-Methods:
-
-| Name | Description |
-| --- | --- |
-| `in_tmpdir` | Create TensorStoreHandler that writes to a temporary directory. |
-| `reset` | Reset state to prepare for new `sequence`. |
-| `sequenceStarted` | On sequence started, simply store the sequence. |
-| `sequenceFinished` | On sequence finished, clear the current sequence. |
-| `frameReady` | Write frame to the zarr array for the appropriate position. |
-| `isel` | Select data from the array. |
-| `new_store` |  |
-| `get_shape_chunks_labels` |  |
-| `get_spec` | Construct the tensorstore spec. |
-| `finalize_metadata` | Finalize and flush metadata to storage. |
-
-Attributes:
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `ts_driver` |  |  |
-| `kvstore` | `dict \| str` |  |
-| `delete_existing` |  |  |
-| `spec` |  |  |
-| `frame_metadatas` | `list[tuple[MDAEvent, FrameMetaV1]]` |  |
-| `store` | `TensorStore \| None` | The current tensorstore. |
-| `current_sequence` | `MDASequence \| None` | Return current sequence, or none. |
-
-### ts\_driver
+#### ts\_driver
 
 ```python
 ts_driver = driver
 ```
 
-### kvstore
+#### kvstore
 
 ```python
 kvstore: dict | str = {'driver': 'file', 'path': str(path)}
 ```
 
-### delete\_existing
+#### delete\_existing
 
 ```python
 delete_existing = delete_existing
 ```
 
-### spec
+#### spec
 
 ```python
 spec = spec
 ```
 
-### frame\_metadatas
+#### frame\_metadatas
 
 ```python
 frame_metadatas: list[tuple[MDAEvent, FrameMetaV1]] = []
 ```
 
-### store
+#### store
 
 ```python
 store: TensorStore | None
@@ -443,7 +383,7 @@ store: TensorStore | None
 
 The current tensorstore.
 
-### current\_sequence
+#### current\_sequence
 
 ```python
 current_sequence: MDASequence | None
@@ -453,7 +393,7 @@ Return current sequence, or none.
 
 Use `.reset()` to initialize the handler for a new sequence.
 
-### in\_tmpdir
+#### in\_tmpdir
 
 ```python
 in_tmpdir(
@@ -477,7 +417,7 @@ Parameters:
 | `cleanup_atexit` | `bool` | Whether to automatically cleanup the temporary directory when the python process exits. Default is True. | `True` |
 | `**kwargs` | `Any` | Remaining kwargs are passed to `TensorStoreHandler.__init__` | `{}` |
 
-### reset
+#### reset
 
 ```python
 reset(sequence: MDASequence) -> None
@@ -485,7 +425,7 @@ reset(sequence: MDASequence) -> None
 
 Reset state to prepare for new `sequence`.
 
-### sequenceStarted
+#### sequenceStarted
 
 ```python
 sequenceStarted(seq: MDASequence, meta: SummaryMetaV1) -> None
@@ -493,7 +433,7 @@ sequenceStarted(seq: MDASequence, meta: SummaryMetaV1) -> None
 
 On sequence started, simply store the sequence.
 
-### sequenceFinished
+#### sequenceFinished
 
 ```python
 sequenceFinished(seq: MDASequence) -> None
@@ -501,7 +441,7 @@ sequenceFinished(seq: MDASequence) -> None
 
 On sequence finished, clear the current sequence.
 
-### frameReady
+#### frameReady
 
 ```python
 frameReady(frame: ndarray, event: MDAEvent, meta: FrameMetaV1) -> None
@@ -509,7 +449,7 @@ frameReady(frame: ndarray, event: MDAEvent, meta: FrameMetaV1) -> None
 
 Write frame to the zarr array for the appropriate position.
 
-### isel
+#### isel
 
 ```python
 isel(
@@ -520,7 +460,7 @@ isel(
 
 Select data from the array.
 
-### new\_store
+#### new\_store
 
 ```python
 new_store(
@@ -528,7 +468,7 @@ new_store(
 ) -> Future[TensorStore]
 ```
 
-### get\_shape\_chunks\_labels
+#### get\_shape\_chunks\_labels
 
 ```python
 get_shape_chunks_labels(
@@ -536,7 +476,7 @@ get_shape_chunks_labels(
 ) -> tuple[tuple[int, ...], tuple[int, ...], tuple[str, ...]]
 ```
 
-### get\_spec
+#### get\_spec
 
 ```python
 get_spec() -> dict
@@ -544,7 +484,7 @@ get_spec() -> dict
 
 Construct the tensorstore spec.
 
-### finalize\_metadata
+#### finalize\_metadata
 
 ```python
 finalize_metadata() -> None
@@ -552,7 +492,9 @@ finalize_metadata() -> None
 
 Finalize and flush metadata to storage.
 
-## handler\_for\_path
+## Functions
+
+### handler\_for\_path
 
 ```python
 handler_for_path(path: str | Path) -> object

@@ -15,7 +15,7 @@ You may not always know the exact sequence of events that you want to execute ah
 > For two compelling examples of this type of event-driven microscopy, see:
 >
 > 1. Mahecic D, Stepp WL, Zhang C, Griffié J, Weigert M, Manley S. *Event-driven acquisition for content-enriched microscopy.* Nat Methods 19, 1262–1267 (2022). [https://doi.org/10.1038/s41592-022-01589-x](<https://doi.org/10.1038/s41592-022-01589-x>)
-> 2. Shi Y, Tabet JS, Milkie DE, Daugird TA, Yang CQ, Giovannucci A, Legant WR. *Smart Lattice Light Sheet Microscopy for imaging rare and complex cellular events.* bioRxiv. 2023 Mar 9 [https://doi.org/10.1101/2023.03.07.531517.](<https://doi.org/10.1101/2023.03.07.531517>)
+> 2. Shi Y, Tabet JS, Milkie DE, Daugird TA, Yang CQ, Ritter AT, Giovannucci A, Legant WR. *Smart lattice light-sheet microscopy for imaging rare and complex cellular events.* Nat Methods 21, 301–310 (2024). [https://doi.org/10.1038/s41592-023-02126-0](<https://doi.org/10.1038/s41592-023-02126-0>)
 
 Obviously, in this case, you can't just create a list of `useq.MDAEvent` objects and pass them to the acquisition engine, since that list needs to change based on the results of previous events.
 
@@ -31,10 +31,12 @@ import useq
 
 
 class MDARunner:
-    def run(self, events: Iterable[useq.MDAEvent]) -> None: ...
+    def run(self, events: Iterable[useq.MDAEvent], **kwargs) -> None: ...
 ```
 
-👀 **The `run` method expects an *iterable* of `useq.MDAEvent` objects.** 👀
+> [!TIP]
+>
+> The `run` method expects an *iterable* of `useq.MDAEvent` objects.
 
 > [!NOTE]
 >
@@ -42,7 +44,7 @@ class MDARunner:
 >
 > An `Iterable` is any object that implements an `__iter__()` method that returns an [iterator object](<https://docs.python.org/3/library/stdtypes.html#iterator-types>). This includes sequences of known length, like `list`, `tuple`, but also many other types of objects, such as [generators](<https://docs.python.org/3/library/stdtypes.html#generator-types>), `deque`, and more. Other types such as `Queue` can easily be converted to an iterator as well, as we'll see below.
 
-## Useful Iterables
+## Useful iterables
 
 Many python objects are iterable. Let's look at a few types of iterables that can be used to implement event-driven acquisition in pymmcore-plus.
 
@@ -100,7 +102,7 @@ def my_events() -> Iterator[useq.MDAEvent]:
             for _ in range(5):
                 yield useq.MDAEvent(metadata={"bursting": True})
         elif i > 5:
-            # stop after 5 events
+            # stop after a few rounds
             # (just an example of some stop condition)
             return
         else:
@@ -157,7 +159,7 @@ core.run_mda(my_events())
 
 ### Queues
 
-Python's `Queue` class is useful for managing and synchronizing data between multiple threads or processes. It ensures orderly execution and prevents race conditions. Generally, a Queue is passed between threads or processes, and one thread or process [puts](<https://docs.python.org/3/library/queue.html#queue.Queue.put>) data (such as an `MDAEvent` to execute) into the queue, while another thread or process [gets](<https://docs.python.org/3/library/queue.html#queue.Queue.get>) data out of the queue.
+Python's `Queue` class is a thread-safe way to pass data between threads. Generally, a Queue is shared between threads, and one thread [puts](<https://docs.python.org/3/library/queue.html#queue.Queue.put>) data (such as an `MDAEvent` to execute) into the queue, while another thread [gets](<https://docs.python.org/3/library/queue.html#queue.Queue.get>) data out of the queue.
 
 A `Queue` instance itself is not an iterable...
 
@@ -206,15 +208,15 @@ q = Queue()  # create the queue
 STOP = object()  # any object can serve as the sentinel
 q_iterator = iter(q.get, STOP)  # create the queue-backed iterable
 
-# start the acquisition in a separate thread
-core.run_mda(q_iterator)
 
-
-# (optional) connect some callback to the imageReady signal
+# (optional) connect some callback to the frameReady signal
 @core.mda.events.frameReady.connect
 def on_frame(img, event):
     print(f"Frame {event.index} received: {img.shape}")
 
+
+# start the acquisition in a separate thread
+core.run_mda(q_iterator)
 
 # now we can put events into the queue
 # according to whatever logic we want:
@@ -239,7 +241,6 @@ q.put(STOP)
 > """Simple simulator demonstrating event-driven acquisitions with pymmcore-plus."""
 >
 > import random
-> import time
 > from queue import Queue
 >
 > import numpy as np
@@ -252,7 +253,7 @@ q.put(STOP)
 >     """Analyzes images and returns a dict of results."""
 >
 >     def run(self, data) -> dict:
->         # Fake analysis; randomly return a dict with a value of None 10% of the time
+>         # Fake analysis; randomly return a "STOP" result 10% of the time
 >         if random.random() < 0.1:
 >             return {"result": "STOP"}
 >         else:
@@ -265,14 +266,14 @@ q.put(STOP)
 >     def __init__(self, analyzer: Analyzer, mmc: CMMCorePlus, queue: Queue):
 >         self._analyzer = analyzer  # analyzer of images
 >         self._queue = queue  # queue of MDAEvents
->         self._results: dict = {}  # results of analysis
+>         self._images: Queue[np.ndarray] = Queue()  # images waiting to be analyzed
 >
 >         self._mmc = mmc
 >         mmc.mda.events.frameReady.connect(self._on_frame_ready)
 >
 >     def _on_frame_ready(self, img: np.ndarray, event: MDAEvent) -> None:
->         # Analyze the image
->         self._results = self._analyzer.run(img)
+>         # This is called in the acquisition thread: just hand the image over
+>         self._images.put(img)
 >
 >     def run(self) -> None:
 >         # convert the queue to an iterable
@@ -286,23 +287,19 @@ q.put(STOP)
 >
 >         # loop until the analyzer returns "STOP"
 >         while True:
->             # get the last results from the analyzer
->             result = self._results.pop("result", None)
+>             # wait for the next image, and analyze it (in this thread)
+>             result = self._analyzer.run(self._images.get())["result"]
 >
 >             # Decide what to do. This is the key part of the reactive loop.
 >             if result == "STOP":
->                 # Do nothing and return
->                 print("Analyzer returned no results. Stopping...")
+>                 print("Analyzer says stop. Stopping...")
 >                 self._queue.put(self.STOP_EVENT)
 >                 break
->             elif result:
+>             else:
 >                 # Adjust the exposure time based on the results and continue
 >                 print("Analyzer returned results. Continuing...")
 >                 next_event = MDAEvent(exposure=10 * result)
 >                 self._queue.put(next_event)
->             else:
->                 # No results yet, wait a bit and check again
->                 time.sleep(0.1)
 >
 >
 > def main():
@@ -340,7 +337,7 @@ my_sequence = useq.MDASequence(
 In the generator example above, we could yield the events in this sequence when the condition is met (saving us from constructing the events manually)
 
 ```python
-# example usage in the
+# in the generator example above:
 def my_events() -> Iterator[useq.MDAEvent]:
     while True:
         if some_condition_is_met():
@@ -357,3 +354,12 @@ In the `Queue` example above, we could `put` the events in the sequence into the
 for event in my_sequence:
     q.put(event)
 ```
+
+## Things to keep in mind
+
+A few things to keep in mind when you pass the runner an *iterator* (a generator, or `iter(queue.get, STOP)`) instead of a list or an `MDASequence`:
+
+- The engine can't look ahead, so events are never merged into [hardware-triggered sequences](<https://pymmcore-plus.github.io/pymmcore-plus/guides/mda_engine/#hardware-triggered-sequences>).
+- The shape of the data isn't known in advance, so if you pass `output=`, the frames are written into one flat `(t, y, x)` stack, in the order they were acquired (see [Saving Data](<https://pymmcore-plus.github.io/pymmcore-plus/guides/saving_data/#lists-and-generators-are-saved-as-a-flat-stack>)).
+- `min_start_time` is measured from the start of the run, or from the last event that had `reset_event_timer=True`. So to start an event "5 seconds after *this* one started", set `reset_event_timer=True` on this event, and `min_start_time=5` on the next.
+- `frameReady` callbacks run in the acquisition thread (with the default psygnal backend), and the next event waits for them. If deciding on the next event takes a while, do that work in another thread (the `Controller` in the example above only stores the image in its callback, and analyzes it in the main thread). See [Threads](<https://pymmcore-plus.github.io/pymmcore-plus/guides/events/#threads>).
