@@ -1,6 +1,6 @@
-# pymmcore-plus
+# Control microscopes with Python
 
-These docs cover `pymmcore-plus` and the packages built around it, which let you control a microscope from Python by talking directly to [Micro-Manager](<https://micro-manager.org>)'s C++ core and device adapters (with no Java process involved). You can use them to script your hardware and run multi-dimensional acquisitions, or to build your own GUI (or just use one of ours).
+A set of Python packages for running a microscope through [Micro-Manager](<https://micro-manager.org>)'s C++ core and device adapters, with no Java process involved. Script your hardware, run multi-dimensional acquisitions, build your own GUI, or just use one of ours.
 
 [Get started](<https://pymmcore-plus.github.io/getting-started/which-package/index.md>) [User guide](<https://pymmcore-plus.github.io/guide/index.md>)
 
@@ -20,9 +20,28 @@ core.mda.run(sequence, output="data.ome.zarr")
 
 ## Where to start
 
-If you're new here, [Getting Started](<https://pymmcore-plus.github.io/getting-started/which-package/index.md>) walks you through installing things, controlling Micro-Manager's demo devices from Python, running a first acquisition, and putting together a small GUI (no microscope required). If you already know Micro-Manager, have a look at [Coming from Micro-Manager](<https://pymmcore-plus.github.io/getting-started/from-micro-manager/index.md>), which maps what you know onto these packages.
+- **Script a microscope**
 
-If you'd rather not write any code, [pymmcore-gui](<https://pymmcore-plus.github.io/pymmcore-gui/index.md>) is our (work in progress) desktop application, and [napari-micromanager](<https://pymmcore-plus.github.io/napari-micromanager/index.md>) controls a microscope from inside [napari](<https://napari.org>).
+  ---
+
+  Load a configuration, move stages, snap images, and connect callbacks to changes in the core, from a script or a notebook.
+- **Run acquisitions**
+
+  ---
+
+  Describe time-lapses, z-stacks, channels and positions with `useq`, run them with an acquisition engine you can customize, and save to OME-Zarr or OME-TIFF.
+- **Build a GUI**
+
+  ---
+
+  Combine Qt widgets (property browsers, stage controls, MDA editors, image previews, etc...) into your own application.
+- **Just use an app**
+
+  ---
+
+  Point-and-click microscope control with `pymmcore-gui`, or inside napari with `napari-micromanager`.
+
+[Getting Started](<https://pymmcore-plus.github.io/getting-started/which-package/index.md>) goes through these in order, using Micro-Manager's demo devices (no microscope required). If you already know Micro-Manager, [Coming from Micro-Manager](<https://pymmcore-plus.github.io/getting-started/from-micro-manager/index.md>) maps what you know onto these packages.
 
 ## How the pieces fit together
 
@@ -42,9 +61,9 @@ Qt widgets for devices, properties, configurations and acquisitions.
 
 Control &amp; acquisition
 
-[**pymmcore-plus**](<https://pymmcore-plus.github.io/pymmcore-plus/index.md>) · [**useq-schema**](<https://pymmcore-plus.github.io/useq-schema/index.md>)
+[**pymmcore-plus**](<https://pymmcore-plus.github.io/pymmcore-plus/index.md>) · [**useq-schema**](<https://pymmcore-plus.github.io/useq-schema/index.md>) · [**ome-writers**](<https://pymmcore-plus.github.io/ome-writers/>)
 
-The core, extended with events and an acquisition engine, and a schema for describing experiments.
+The core, extended with events and an acquisition engine, a schema for describing experiments, and writers for OME-Zarr and OME-TIFF.
 
 Micro-Manager
 
@@ -56,6 +75,8 @@ Your microscope
 
 Micro-Manager's demo devices, or your own hardware
 
-## Getting help
+## Community
 
-If you have usage questions (*"How do I...?"*), please ask on the [image.sc forum](<https://forum.image.sc/tag/pymmcore-plus>) with the `pymmcore-plus` tag, or come chat with us on [Zulip](<https://imagesc.zulipchat.com/#narrow/channel/442785-pymmcore.5B-plus.5D>). Bug reports and feature requests are always welcome on [GitHub](<https://github.com/pymmcore-plus>) (each package has its own repository; see [Contributing](<https://pymmcore-plus.github.io/contributing/index.md>) if you're not sure which one).
+- **Ask a question** on the [image.sc forum](<https://forum.image.sc/tag/pymmcore-plus>)
+- **Chat with developers** on [Zulip](<https://imagesc.zulipchat.com/#narrow/channel/442785-pymmcore.5B-plus.5D>)
+- **Report a bug or request a feature** on [GitHub](<https://github.com/pymmcore-plus>)

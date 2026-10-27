@@ -6,7 +6,7 @@ If you've used Micro-Manager's Java application (MMStudio), much of what you kno
 
 `pymmcore-plus` doesn't connect to a running copy of Micro-Manager; it *replaces* it. Each program loads its own copy of the core, and the core opens your devices itself (serial ports, camera drivers, etc...). Most devices can only be opened by one program at a time, so if MMStudio has your configuration loaded, loading it again from Python will usually fail (and if it doesn't, the two programs will be fighting over the same hardware). So please close MMStudio before you load your configuration in Python, and vice versa. (The demo devices don't mind, so it's fine to have both open while you're trying things out.)
 
-If you want to keep using MMStudio *and* control it from Python at the same time, that's what Pycro-Manager is for (see [below](<#how-is-this-different-from-pycro-manager>)).
+If you want to keep using the classic Java-based MMStudio application *and* control it from Python at the same time, that's what Pycro-Manager is for (see [below](<#how-is-this-different-from-pycro-manager>)).
 
 ## Where things went
 
@@ -63,10 +63,6 @@ The primary difference is that Pycro-Manager (with its default Java backend) con
 
 `pymmcore-plus` aims to remove the need for a Java process by communicating directly with the C++ core (via the [`pymmcore`](<https://github.com/micro-manager/pymmcore>) library), and re-implementing any necessary event-based or GUI-based functionality in pure Python or C.
 
-A major advantage of Pycro-Manager is that you get the entire Java-based Micro-Manager ecosystem, including the GUI and plugins. A potential disadvantage (depending on your needs) is that it requires a Java runtime environment and cross-process communication.
+The advantage of Pycro-Manager is that you get the entire Java-based Micro-Manager ecosystem, including the well-established GUI and plugins. A potential disadvantage (depending on your needs) is that it requires a Java runtime environment and cross-process communication, which adds complexity and has performance implications.
 
-(Pycro-Manager has since added a [Python backend](<https://pycro-manager.readthedocs.io/en/latest/backends.html>) for its headless mode, which also runs the core inside the Python process via `pymmcore`, along with a Python version of its acquisition engine. It's a separate project from `pymmcore-plus`, with its own API.)
-
-If you are looking to control a microscope via Python without any need for Java or interprocess communication, `pymmcore-plus` may help. Note, however, that you will be sacrificing the MMStudio GUI! See [pymmcore-gui](<https://pymmcore-plus.github.io/pymmcore-gui/index.md>), [napari-micromanager](<https://pymmcore-plus.github.io/napari-micromanager/index.md>) and [pymmcore-widgets](<https://pymmcore-plus.github.io/pymmcore-widgets/widgets/index.md>) for our ongoing efforts to implement a complete Python-based GUI for Micro-Manager.
-
-If you've been using Pycro-Manager and like its API, see [A Pycro-Manager-style API](<https://pymmcore-plus.github.io/pymmcore-plus/examples/pycro-manager-api/index.md>) for an example of what that could look like on top of `pymmcore-plus`.
+`pymmcore-plus` was designed to let you control a microscope via Python without any need for Java or interprocess communication. Note, however, that you will be sacrificing the MMStudio GUI! See [pymmcore-gui](<https://pymmcore-plus.github.io/pymmcore-gui/index.md>), [napari-micromanager](<https://pymmcore-plus.github.io/napari-micromanager/index.md>) and [pymmcore-widgets](<https://pymmcore-plus.github.io/pymmcore-widgets/widgets/index.md>) for our ongoing efforts to implement a complete Python-based GUI for Micro-Manager.

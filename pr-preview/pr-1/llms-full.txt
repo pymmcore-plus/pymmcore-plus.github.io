@@ -6,9 +6,9 @@ Python tools for controlling microscopes with Micro-Manager: pymmcore-plus (core
 
 # Getting started
 
-# pymmcore-plus
+# Control microscopes with Python
 
-These docs cover `pymmcore-plus` and the packages built around it, which let you control a microscope from Python by talking directly to [Micro-Manager](<https://micro-manager.org>)'s C++ core and device adapters (with no Java process involved). You can use them to script your hardware and run multi-dimensional acquisitions, or to build your own GUI (or just use one of ours).
+A set of Python packages for running a microscope through [Micro-Manager](<https://micro-manager.org>)'s C++ core and device adapters, with no Java process involved. Script your hardware, run multi-dimensional acquisitions, build your own GUI, or just use one of ours.
 
 [Get started](<https://pymmcore-plus.github.io/getting-started/which-package/index.md>) [User guide](<https://pymmcore-plus.github.io/guide/index.md>)
 
@@ -28,9 +28,28 @@ core.mda.run(sequence, output="data.ome.zarr")
 
 ## Where to start
 
-If you're new here, [Getting Started](<https://pymmcore-plus.github.io/getting-started/which-package/index.md>) walks you through installing things, controlling Micro-Manager's demo devices from Python, running a first acquisition, and putting together a small GUI (no microscope required). If you already know Micro-Manager, have a look at [Coming from Micro-Manager](<https://pymmcore-plus.github.io/getting-started/from-micro-manager/index.md>), which maps what you know onto these packages.
+- **Script a microscope**
 
-If you'd rather not write any code, [pymmcore-gui](<https://pymmcore-plus.github.io/pymmcore-gui/index.md>) is our (work in progress) desktop application, and [napari-micromanager](<https://pymmcore-plus.github.io/napari-micromanager/index.md>) controls a microscope from inside [napari](<https://napari.org>).
+  ---
+
+  Load a configuration, move stages, snap images, and connect callbacks to changes in the core, from a script or a notebook.
+- **Run acquisitions**
+
+  ---
+
+  Describe time-lapses, z-stacks, channels and positions with `useq`, run them with an acquisition engine you can customize, and save to OME-Zarr or OME-TIFF.
+- **Build a GUI**
+
+  ---
+
+  Combine Qt widgets (property browsers, stage controls, MDA editors, image previews, etc...) into your own application.
+- **Just use an app**
+
+  ---
+
+  Point-and-click microscope control with `pymmcore-gui`, or inside napari with `napari-micromanager`.
+
+[Getting Started](<https://pymmcore-plus.github.io/getting-started/which-package/index.md>) goes through these in order, using Micro-Manager's demo devices (no microscope required). If you already know Micro-Manager, [Coming from Micro-Manager](<https://pymmcore-plus.github.io/getting-started/from-micro-manager/index.md>) maps what you know onto these packages.
 
 ## How the pieces fit together
 
@@ -50,9 +69,9 @@ Qt widgets for devices, properties, configurations and acquisitions.
 
 Control &amp; acquisition
 
-[**pymmcore-plus**](<https://pymmcore-plus.github.io/pymmcore-plus/index.md>) · [**useq-schema**](<https://pymmcore-plus.github.io/useq-schema/index.md>)
+[**pymmcore-plus**](<https://pymmcore-plus.github.io/pymmcore-plus/index.md>) · [**useq-schema**](<https://pymmcore-plus.github.io/useq-schema/index.md>) · [**ome-writers**](<https://pymmcore-plus.github.io/ome-writers/>)
 
-The core, extended with events and an acquisition engine, and a schema for describing experiments.
+The core, extended with events and an acquisition engine, a schema for describing experiments, and writers for OME-Zarr and OME-TIFF.
 
 Micro-Manager
 
@@ -64,9 +83,11 @@ Your microscope
 
 Micro-Manager's demo devices, or your own hardware
 
-## Getting help
+## Community
 
-If you have usage questions (*"How do I...?"*), please ask on the [image.sc forum](<https://forum.image.sc/tag/pymmcore-plus>) with the `pymmcore-plus` tag, or come chat with us on [Zulip](<https://imagesc.zulipchat.com/#narrow/channel/442785-pymmcore.5B-plus.5D>). Bug reports and feature requests are always welcome on [GitHub](<https://github.com/pymmcore-plus>) (each package has its own repository; see [Contributing](<https://pymmcore-plus.github.io/contributing/index.md>) if you're not sure which one).
+- **Ask a question** on the [image.sc forum](<https://forum.image.sc/tag/pymmcore-plus>)
+- **Chat with developers** on [Zulip](<https://imagesc.zulipchat.com/#narrow/channel/442785-pymmcore.5B-plus.5D>)
+- **Report a bug or request a feature** on [GitHub](<https://github.com/pymmcore-plus>)
 
 # Your First Acquisition
 
@@ -371,7 +392,7 @@ If you've used Micro-Manager's Java application (MMStudio), much of what you kno
 
 `pymmcore-plus` doesn't connect to a running copy of Micro-Manager; it *replaces* it. Each program loads its own copy of the core, and the core opens your devices itself (serial ports, camera drivers, etc...). Most devices can only be opened by one program at a time, so if MMStudio has your configuration loaded, loading it again from Python will usually fail (and if it doesn't, the two programs will be fighting over the same hardware). So please close MMStudio before you load your configuration in Python, and vice versa. (The demo devices don't mind, so it's fine to have both open while you're trying things out.)
 
-If you want to keep using MMStudio *and* control it from Python at the same time, that's what Pycro-Manager is for (see [below](<#how-is-this-different-from-pycro-manager>)).
+If you want to keep using the classic Java-based MMStudio application *and* control it from Python at the same time, that's what Pycro-Manager is for (see [below](<#how-is-this-different-from-pycro-manager>)).
 
 ## Where things went
 
@@ -428,13 +449,9 @@ The primary difference is that Pycro-Manager (with its default Java backend) con
 
 `pymmcore-plus` aims to remove the need for a Java process by communicating directly with the C++ core (via the [`pymmcore`](<https://github.com/micro-manager/pymmcore>) library), and re-implementing any necessary event-based or GUI-based functionality in pure Python or C.
 
-A major advantage of Pycro-Manager is that you get the entire Java-based Micro-Manager ecosystem, including the GUI and plugins. A potential disadvantage (depending on your needs) is that it requires a Java runtime environment and cross-process communication.
+The advantage of Pycro-Manager is that you get the entire Java-based Micro-Manager ecosystem, including the well-established GUI and plugins. A potential disadvantage (depending on your needs) is that it requires a Java runtime environment and cross-process communication, which adds complexity and has performance implications.
 
-(Pycro-Manager has since added a [Python backend](<https://pycro-manager.readthedocs.io/en/latest/backends.html>) for its headless mode, which also runs the core inside the Python process via `pymmcore`, along with a Python version of its acquisition engine. It's a separate project from `pymmcore-plus`, with its own API.)
-
-If you are looking to control a microscope via Python without any need for Java or interprocess communication, `pymmcore-plus` may help. Note, however, that you will be sacrificing the MMStudio GUI! See [pymmcore-gui](<https://pymmcore-plus.github.io/pymmcore-gui/index.md>), [napari-micromanager](<https://pymmcore-plus.github.io/napari-micromanager/index.md>) and [pymmcore-widgets](<https://pymmcore-plus.github.io/pymmcore-widgets/widgets/index.md>) for our ongoing efforts to implement a complete Python-based GUI for Micro-Manager.
-
-If you've been using Pycro-Manager and like its API, see [A Pycro-Manager-style API](<https://pymmcore-plus.github.io/pymmcore-plus/examples/pycro-manager-api/index.md>) for an example of what that could look like on top of `pymmcore-plus`.
+`pymmcore-plus` was designed to let you control a microscope via Python without any need for Java or interprocess communication. Note, however, that you will be sacrificing the MMStudio GUI! See [pymmcore-gui](<https://pymmcore-plus.github.io/pymmcore-gui/index.md>), [napari-micromanager](<https://pymmcore-plus.github.io/napari-micromanager/index.md>) and [pymmcore-widgets](<https://pymmcore-plus.github.io/pymmcore-widgets/widgets/index.md>) for our ongoing efforts to implement a complete Python-based GUI for Micro-Manager.
 
 # Installation
 
@@ -534,22 +551,93 @@ Once that's done, head to [First steps](<https://pymmcore-plus.github.io/getting
 
 # Which Package Do I Need?
 
-There are five packages here, each building on the ones below it (see the [stack on the home page](<https://pymmcore-plus.github.io/#how-the-pieces-fit-together>)). Most people only need one of them:
+These packages form a stack. Each one builds on the ones below it, and installing one installs all of the Python packages below it, so you only need to pick one:
+
+```
+%% pymm:align-groups (see pymm.js)
+graph TB
+  subgraph py [Python]
+    gui(pymmcore-gui)
+    nmm(napari-micromanager)
+    ndv(ndv)
+    napari(napari)
+    widgets(pymmcore-widgets)
+    plus(pymmcore-plus)
+    useq(useq-schema)
+    omew(ome-writers)
+    pyqt(PyQt / PySide)
+    pymmcore(pymmcore)
+  end
+  subgraph cpp ["C++"]
+    qt(Qt)
+    core(MMCore)
+    adapters("device adapters<br/>(cameras, stages, ...)")
+  end
+  gui --> ndv
+  gui --> widgets
+  nmm --> widgets
+  nmm --> napari
+  widgets --> pyqt
+  widgets --> plus
+  plus --> useq
+  plus --> omew
+  plus --> pymmcore
+  pyqt -.-> qt
+  pymmcore -.-> core
+  core --> adapters
+  classDef app fill:#7c3aed,stroke:#7c3aed,color:#fff
+  classDef wid fill:#db2777,stroke:#db2777,color:#fff
+  classDef lib fill:#3279b2,stroke:#3279b2,color:#fff
+  classDef mm fill:#0d9488,stroke:#0d9488,color:#fff
+  classDef ext fill:#6b7280,stroke:#6b7280,color:#fff
+  style py rx:10px,ry:10px
+  style cpp rx:10px,ry:10px
+  class gui,nmm app
+  class widgets wid
+  class plus,useq,omew lib
+  class pymmcore,core,adapters mm
+  class ndv,napari,pyqt,qt ext
+  click gui "../../pymmcore-gui/"
+  click nmm "../../napari-micromanager/"
+  click widgets "../../pymmcore-widgets/widgets/"
+  click plus "../../pymmcore-plus/"
+  click useq "../../useq-schema/"
+  click omew "https://pymmcore-plus.github.io/ome-writers/" _blank
+  click ndv "https://pyapp-kit.github.io/ndv/" _blank
+  click napari "https://napari.org" _blank
+  click pymmcore "https://github.com/micro-manager/pymmcore" _blank
+  click core "https://github.com/micro-manager/mmCoreAndDevices" _blank
+  click adapters "../install/#installing-the-device-adapters"
+```
+
+An arrow means "uses": `pymmcore-widgets` uses `pymmcore-plus`, which uses `pymmcore` to talk to Micro-Manager's C++ core, which in turn talks to your hardware through the device adapters.
+
+(If you've used Micro-Manager before, [Coming from Micro-Manager](<https://pymmcore-plus.github.io/getting-started/from-micro-manager/index.md>) maps what you know onto these packages.)
+
+## Applications
+
+If you mainly want to work with your microscope through a GUI, start with one of the two apps. They're alternatives to each other, both built on the libraries below. Both can be scripted from Python while they're running, and pymmcore-gui can be extended with your own widgets, so they're worth a look even if you write code:
+
+| App | What it is | Start here |
+| --- | --- | --- |
+| pymmcore-gui | A desktop application (our replacement for Micro-Manager's Java GUI, still early) | [pymmcore-gui](<https://pymmcore-plus.github.io/pymmcore-gui/index.md>) |
+| napari-micromanager | Microscope control from inside [napari](<https://napari.org>) | [napari-micromanager](<https://pymmcore-plus.github.io/napari-micromanager/index.md>) |
+
+## Libraries
+
+If you want to write your own scripts or applications, pick the highest library you need (it includes the ones below it):
 
 | If you want to… | Use | Start here |
 | --- | --- | --- |
-| Control a microscope with a point-and-click app | pymmcore-gui | [pymmcore-gui](<https://pymmcore-plus.github.io/pymmcore-gui/index.md>) |
-| Control a microscope from inside [napari](<https://napari.org>) | napari-micromanager | [napari-micromanager](<https://pymmcore-plus.github.io/napari-micromanager/index.md>) |
-| Script your microscope from Python or Jupyter | pymmcore-plus | [First steps](<https://pymmcore-plus.github.io/getting-started/first-steps/index.md>) |
-| Run multi-dimensional acquisitions from code | pymmcore-plus (includes useq-schema) | [Your first acquisition](<https://pymmcore-plus.github.io/getting-started/first-acquisition/index.md>) |
-| Describe experiments independently of any hardware | useq-schema | [Describing experiments](<https://pymmcore-plus.github.io/useq-schema/index.md>) |
 | Build your own Qt GUI for a microscope | pymmcore-widgets | [Your first GUI](<https://pymmcore-plus.github.io/getting-started/first-gui/index.md>) |
+| Script your microscope, or run multi-dimensional acquisitions | pymmcore-plus | [First steps](<https://pymmcore-plus.github.io/getting-started/first-steps/index.md>), then [Your first acquisition](<https://pymmcore-plus.github.io/getting-started/first-acquisition/index.md>) |
+| Describe experiments without any hardware | useq-schema | [Describing experiments](<https://pymmcore-plus.github.io/useq-schema/index.md>) |
 
 (A *multi-dimensional acquisition*, or MDA, is a series of images across time points, stage positions, channels, z-planes, etc... It's what Micro-Manager's Multi-D Acquisition window does.)
 
-Installing a package also installs the ones it builds on (`pip install pymmcore-widgets` gets you `pymmcore-plus`, `useq-schema` and `pymmcore` too). The Micro-Manager device adapters (the drivers for your hardware) are *not* Python packages, though, and always need to be installed separately. [Installation](<https://pymmcore-plus.github.io/getting-started/install/index.md>) covers both, so whichever package you pick, start there.
+## Installing
 
-If you've used Micro-Manager before, you may also want to read [Coming from Micro-Manager](<https://pymmcore-plus.github.io/getting-started/from-micro-manager/index.md>).
+The Micro-Manager device adapters (the drivers for your hardware) are *not* Python packages, so none of these install them for you. [Installation](<https://pymmcore-plus.github.io/getting-started/install/index.md>) covers the packages and the adapters, so whichever one you pick, start there.
 
 ## What each package does
 
@@ -560,6 +648,10 @@ Extends [`pymmcore`](<https://github.com/micro-manager/pymmcore>), the Python bi
 **[useq-schema](<https://pymmcore-plus.github.io/useq-schema/index.md>)**
 
 A schema for describing multi-dimensional acquisitions (`MDASequence`, `MDAEvent`). It *tries* to stay agnostic to the acquisition engine (though it was designed around what Micro-Manager can do).
+
+**[ome-writers](<https://pymmcore-plus.github.io/ome-writers/>)**
+
+Writes OME-Zarr and OME-TIFF files. pymmcore-plus uses it to [save acquisitions](<https://pymmcore-plus.github.io/pymmcore-plus/guides/saving_data/index.md>), but it doesn't depend on Micro-Manager and can be used on its own.
 
 **[pymmcore-widgets](<https://pymmcore-plus.github.io/pymmcore-widgets/widgets/index.md>)**
 
