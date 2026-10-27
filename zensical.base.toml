@@ -20,13 +20,10 @@ extra_javascript = ["assets/js/pymm.js"]
 [project.theme]
 custom_dir = "overrides"
 variant = "modern"
-icon.logo = "lucide/microscope"
-favicon = "assets/img/favicon.ico"
+logo = "assets/img/logo.svg"
+favicon = "assets/img/favicon.png"
 features = [
-  "announce.dismiss",
   "content.action.copy",
-  "content.action.edit",
-  "content.action.view",
   "content.code.annotate",
   "content.code.copy",
   "content.code.select",

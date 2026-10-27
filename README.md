@@ -46,7 +46,7 @@ compose.toml          members (name, GitHub repo, branch)
 zensical.base.toml    theme, markdown extensions, plugins, global mkdocstrings options
 redirects.toml        old URL -> new URL, for pages that moved
 docs/                 hub pages, docs/.nav.yml (site navigation), assets/
-overrides/            theme template overrides (edit links, package badge, banner)
+overrides/            theme template overrides (page actions, package badge)
 tools/repos.py        clone / update / worktree member repos into .repos/
 tools/compose.py      generate -> copy -> API pages -> zensical.toml -> build
 tools/api.py          de-duplicated API reference generation

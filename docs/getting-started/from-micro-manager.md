@@ -23,7 +23,7 @@ fighting over the same hardware).  So please close MMStudio before you load your
 configuration in Python, and vice versa.  (The demo devices don't mind, so it's
 fine to have both open while you're trying things out.)
 
-If you want to keep using MMStudio *and* control it from Python at the same time,
+If you want to keep using the classic Java-based MMStudio application *and* control it from Python at the same time,
 that's what Pycro-Manager is for (see [below](#how-is-this-different-from-pycro-manager)).
 
 ## Where things went
@@ -107,24 +107,17 @@ directly with the C++ core (via the
 re-implementing any necessary event-based or GUI-based functionality in pure
 Python or C.
 
-A major advantage of Pycro-Manager is that you get the entire Java-based
-Micro-Manager ecosystem, including the GUI and plugins.  A potential disadvantage
-(depending on your needs) is that it requires a Java runtime environment and
-cross-process communication.
+![How pymmcore-plus and Pycro-Manager each reach Micro-Manager's C++ core](../pymmcore-plus/images/components.png){ loading=lazy }
 
-(Pycro-Manager has since added a
-[Python backend](https://pycro-manager.readthedocs.io/en/latest/backends.html) for
-its headless mode, which also runs the core inside the Python process via
-`pymmcore`, along with a Python version of its acquisition engine.  It's a
-separate project from `pymmcore-plus`, with its own API.)
+The advantage of Pycro-Manager is that you get the entire Java-based
+Micro-Manager ecosystem, including the well-established  GUI and plugins.  A
+potential disadvantage (depending on your needs) is that it requires a Java
+runtime environment and cross-process communication, which adds complexity
+and has performance implications.
 
-If you are looking to control a microscope via Python without any need for Java or
-interprocess communication, `pymmcore-plus` may help.  Note, however, that you will
+`pymmcore-plus` was designed to let you control a microscope via Python without
+any need for Java or interprocess communication.  Note, however, that you will
 be sacrificing the MMStudio GUI!  See [pymmcore-gui](../pymmcore-gui/index.md),
 [napari-micromanager](../napari-micromanager/index.md) and
-[pymmcore-widgets](../pymmcore-widgets/widgets/index.md) for our ongoing efforts to
-implement a complete Python-based GUI for Micro-Manager.
-
-If you've been using Pycro-Manager and like its API, see
-[A Pycro-Manager-style API](../pymmcore-plus/examples/pycro-manager-api.md) for an
-example of what that could look like on top of `pymmcore-plus`.
+[pymmcore-widgets](../pymmcore-widgets/widgets/index.md) for our ongoing efforts
+to implement a complete Python-based GUI for Micro-Manager.

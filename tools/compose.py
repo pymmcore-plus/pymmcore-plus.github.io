@@ -364,7 +364,9 @@ def build_config(members: list[Member]) -> dict[str, Any]:
     project.setdefault("extra", {})["members"] = {
         m.name: {"title": m.title, "repo": m.repo, "pypi": m.pypi} for m in members
     }
-    project["watch"] = [p for p in handler["paths"]] + ["docs", "overrides"]
+    # only things that need a full reload: src for mkdocstrings, templates.  Pages
+    # reach build/docs via cmd_serve's copy, and zensical rebuilds those itself.
+    project["watch"] = [p for p in handler["paths"]] + ["overrides"]
     return project
 
 

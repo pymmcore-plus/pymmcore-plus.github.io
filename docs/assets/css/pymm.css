@@ -6,28 +6,32 @@
 
 :root,
 [data-md-color-scheme="default"] {
-  --md-primary-fg-color: #0b6e8e;
-  --md-primary-fg-color--light: #2a90b2;
-  --md-primary-fg-color--dark: #08506a;
+  /* the logo's blue; its yellow is too light for text on white, so hovers use
+     a darker gold */
+  --md-primary-fg-color: #3279b2;
+  --md-primary-fg-color--light: #5b9bd5;
+  --md-primary-fg-color--dark: #245a86;
   --md-primary-bg-color: #ffffff;
-  --md-accent-fg-color: #0d9488;
-  --md-accent-fg-color--transparent: #0d94881a;
+  --md-accent-fg-color: #a16207;
+  --md-accent-fg-color--transparent: #ffcb3533;
   --pymm-added: #b45309;
-  --pymm-overridden: #0b6e8e;
+  --pymm-overridden: #3279b2;
   --pymm-inherited: #6b7280;
   --pymm-surface: #f6f8fa;
   --pymm-border: #e1e4e8;
 }
 
 [data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #38b2d6;
-  --md-primary-fg-color--light: #6ccbe8;
-  --md-primary-fg-color--dark: #1a8fb4;
+  /* a lighter logo blue (the logo's own is too dark for text here) and the
+     logo's yellow */
+  --md-primary-fg-color: #6aa6d8;
+  --md-primary-fg-color--light: #8fbde4;
+  --md-primary-fg-color--dark: #3279b2;
   --md-primary-bg-color: #0f1419;
-  --md-accent-fg-color: #2dd4bf;
-  --md-accent-fg-color--transparent: #2dd4bf1a;
+  --md-accent-fg-color: #ffcb35;
+  --md-accent-fg-color--transparent: #ffcb351a;
   --pymm-added: #f59e0b;
-  --pymm-overridden: #38b2d6;
+  --pymm-overridden: #6aa6d8;
   --pymm-inherited: #9ca3af;
   --pymm-surface: #161b22;
   --pymm-border: #30363d;
@@ -53,6 +57,12 @@
   letter-spacing: -0.02em;
 }
 
+.pymm-hero__logo {
+  display: block;
+  width: 4.5rem;
+  margin-bottom: 1.2rem;
+}
+
 .pymm-hero__text p {
   font-size: 0.95rem;
 }
@@ -73,6 +83,17 @@
 /* no edit/view/copy buttons next to the landing page's title */
 .md-content__inner:has(.pymm-hero) > .md-content__button {
   display: none;
+}
+
+/* landing page task cards: 2x2, so none is left alone on a row */
+.md-typeset .grid.cards.pymm-tasks {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media screen and (max-width: 45em) {
+  .md-typeset .grid.cards.pymm-tasks {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 /* Layered "how the pieces fit together" diagram */

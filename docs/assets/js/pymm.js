@@ -278,6 +278,50 @@
   }
 
   // -------------------------------------------------------------------------
+  // Mermaid can't size subgraphs.  Diagrams containing "%% pymm:align-groups"
+  // get their groups stretched to a common width, so they stack cleanly.
+  // zensical renders diagrams into a closed shadow root, so this has to happen
+  // in mermaid.render, which we wrap when zensical loads mermaid.
+  // -------------------------------------------------------------------------
+
+  function alignGroups(svg) {
+    const box = document.createElement("div");
+    box.innerHTML = svg;
+    const groups = [...box.querySelectorAll("g.cluster")]
+      .map((g) => ({ g, rect: g.querySelector(":scope > rect") }))
+      .filter(({ rect }) => rect);
+    if (groups.length < 2) return svg;
+    const num = (el, attr) => parseFloat(el.getAttribute(attr));
+    const left = Math.min(...groups.map(({ rect }) => num(rect, "x")));
+    const right = Math.max(...groups.map(({ rect }) => num(rect, "x") + num(rect, "width")));
+    for (const { g, rect } of groups) {
+      const shift = (left + right) / 2 - (num(rect, "x") + num(rect, "width") / 2);
+      rect.setAttribute("x", left);
+      rect.setAttribute("width", right - left);
+      const label = g.querySelector(":scope > .cluster-label");
+      const m = label?.getAttribute("transform")?.match(/translate\(\s*([-\d.e]+)[\s,]+([-\d.e]+)/);
+      if (m) label.setAttribute("transform", `translate(${+m[1] + shift}, ${m[2]})`);
+    }
+    return box.innerHTML;
+  }
+
+  let mermaidLib;
+  Object.defineProperty(window, "mermaid", {
+    configurable: true,
+    get: () => mermaidLib,
+    set(lib) {
+      mermaidLib = lib;
+      const render = lib?.render;
+      if (typeof render !== "function") return;
+      lib.render = async (id, text, ...rest) => {
+        const out = await render.call(lib, id, text, ...rest);
+        if (/%%\s*pymm:align-groups/.test(text)) out.svg = alignGroups(out.svg);
+        return out;
+      };
+    },
+  });
+
+  // -------------------------------------------------------------------------
 
   function init() {
     document.querySelectorAll("table.pymm-explorer").forEach(initExplorer);

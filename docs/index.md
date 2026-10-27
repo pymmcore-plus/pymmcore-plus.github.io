@@ -11,14 +11,14 @@ hide:
 
 <div class="pymm-hero__text" markdown>
 
-# pymmcore-plus
+<img src="assets/img/logo.svg" alt="" class="pymm-hero__logo off-glb">
 
-These docs cover `pymmcore-plus` and the packages built around it, which let you
-control a microscope from Python by talking directly to
-[Micro-Manager](https://micro-manager.org)'s C++ core and device adapters (with no
-Java process involved).  You can use them to script your hardware and run
-multi-dimensional acquisitions, or to build your own GUI (or just use one of
-ours).
+# Control microscopes with Python
+
+A set of Python packages for running a microscope through
+[Micro-Manager](https://micro-manager.org)'s C++ core and device adapters, with no
+Java process involved.  Script your hardware, run multi-dimensional acquisitions,
+build your own GUI, or just use one of ours.
 
 [Get started](getting-started/which-package.md){ .md-button .md-button--primary }
 [User guide](guide/index.md){ .md-button }
@@ -47,17 +47,51 @@ core.mda.run(sequence, output="data.ome.zarr")
 
 ## Where to start
 
-If you're new here, [Getting Started](getting-started/which-package.md) walks you through
-installing things, controlling Micro-Manager's demo devices from Python, running a
-first acquisition, and putting together a small GUI (no microscope required).  If
-you already know Micro-Manager, have a look at
-[Coming from Micro-Manager](getting-started/from-micro-manager.md), which maps what
-you know onto these packages.
+<div class="grid cards pymm-tasks" markdown>
 
-If you'd rather not write any code, [pymmcore-gui](pymmcore-gui/index.md) is our
-(work in progress) desktop application, and
-[napari-micromanager](napari-micromanager/index.md) controls a microscope from
-inside [napari](https://napari.org).
+-   :lucide-terminal:{ .lg .middle } **Script a microscope**
+
+    ---
+
+    Load a configuration, move stages, snap images, and connect callbacks to
+    changes in the core, from a script or a notebook.
+
+    [:octicons-arrow-right-24: First steps](getting-started/first-steps.md)
+
+-   :lucide-layers:{ .lg .middle } **Run acquisitions**
+
+    ---
+
+    Describe time-lapses, z-stacks, channels and positions with `useq`, run them
+    with an acquisition engine you can customize, and save to OME-Zarr or
+    OME-TIFF.
+
+    [:octicons-arrow-right-24: Your first acquisition](getting-started/first-acquisition.md)
+
+-   :lucide-app-window:{ .lg .middle } **Build a GUI**
+
+    ---
+
+    Combine Qt widgets (property browsers, stage controls, MDA editors, image
+    previews, etc...) into your own application.
+
+    [:octicons-arrow-right-24: Your first GUI](getting-started/first-gui.md)
+
+-   :lucide-microscope:{ .lg .middle } **Just use an app**
+
+    ---
+
+    Point-and-click microscope control with `pymmcore-gui`, or inside napari
+    with `napari-micromanager`.
+
+    [:octicons-arrow-right-24: Applications](pymmcore-gui/index.md)
+
+</div>
+
+[Getting Started](getting-started/which-package.md) goes through these in order,
+using Micro-Manager's demo devices (no microscope required).  If you already know
+Micro-Manager, [Coming from Micro-Manager](getting-started/from-micro-manager.md)
+maps what you know onto these packages.
 
 ## How the pieces fit together
 
@@ -80,8 +114,8 @@ as you want (`pymmcore-plus` on its own is enough to script a microscope).
 
 <div class="pymm-layer pymm-layer--core" markdown>
 <div class="pymm-layer__label">Control &amp; acquisition</div>
-<div class="pymm-layer__pkgs" markdown>[**pymmcore-plus**](pymmcore-plus/index.md) &middot; [**useq-schema**](useq-schema/index.md)</div>
-<div class="pymm-layer__desc">The core, extended with events and an acquisition engine, and a schema for describing experiments.</div>
+<div class="pymm-layer__pkgs" markdown>[**pymmcore-plus**](pymmcore-plus/index.md) &middot; [**useq-schema**](useq-schema/index.md) &middot; [**ome-writers**](https://pymmcore-plus.github.io/ome-writers/)</div>
+<div class="pymm-layer__desc">The core, extended with events and an acquisition engine, a schema for describing experiments, and writers for OME-Zarr and OME-TIFF.</div>
 </div>
 
 <div class="pymm-layer pymm-layer--mm" markdown>
@@ -97,12 +131,17 @@ as you want (`pymmcore-plus` on its own is enough to script a microscope).
 
 </div>
 
-## Getting help
+## Community
 
-If you have usage questions (*"How do I...?"*), please ask on the
-[image.sc forum](https://forum.image.sc/tag/pymmcore-plus) with the `pymmcore-plus`
-tag, or come chat with us on
-[Zulip](https://imagesc.zulipchat.com/#narrow/channel/442785-pymmcore.5B-plus.5D).
-Bug reports and feature requests are always welcome on
-[GitHub](https://github.com/pymmcore-plus) (each package has its own repository;
-see [Contributing](contributing/index.md) if you're not sure which one).
+<div class="grid cards" markdown>
+
+-   :fontawesome-brands-discourse: **Ask a question** on the
+    [image.sc forum](https://forum.image.sc/tag/pymmcore-plus)
+
+-   :simple-zulip: **Chat with developers** on
+    [Zulip](https://imagesc.zulipchat.com/#narrow/channel/442785-pymmcore.5B-plus.5D)
+
+-   :fontawesome-brands-github: **Report a bug or request a feature** on
+    [GitHub](https://github.com/pymmcore-plus)
+
+</div>
