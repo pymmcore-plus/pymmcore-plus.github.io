@@ -1,50 +1,60 @@
 ---
-title: Your first GUI
+title: Your First GUI
 ---
 
-# Your first GUI
+# Your First GUI
 
-There are two ways to get a graphical interface:
+You can either use one of the existing applications
+([pymmcore-gui](../pymmcore-gui/index.md) or
+[napari-micromanager](../napari-micromanager/index.md)), or build your own from
+[pymmcore-widgets](../pymmcore-widgets/widgets/index.md), a library of Qt widgets
+for controlling a `CMMCorePlus`.
 
-- **Use an application**: [pymmcore-gui](#use-an-application) or
-  [napari-micromanager](#use-an-application).
-- **Build your own** from [pymmcore-widgets](../pymmcore-widgets/widgets/index.md),
-  a library of Qt widgets that control a `CMMCorePlus`.
-
-## Use an application
+## Using an application
 
 === "pymmcore-gui"
 
+    Once it's [installed](../pymmcore-gui/install.md) (from GitHub, or as a
+    bundled app for Windows and macOS), start it with the demo devices:
+
     ```sh
-    pip install git+https://github.com/pymmcore-plus/pymmcore-gui
-    mmgui
+    mmgui run --demo-config
     ```
 
-    Or download a [bundled app](../pymmcore-gui/install.md).  See
-    [Using pymmcore-gui](../pymmcore-gui/usage.md).
+    Without `--demo-config`, the app starts with no devices loaded.  You can load
+    a configuration from the **Devices** menu, or start with
+    `mmgui -c path/to/config.cfg`.  See
+    [Using pymmcore-gui](../pymmcore-gui/usage.md) for more.
 
 === "napari-micromanager"
 
+    Once it's [installed](../napari-micromanager/getting_started.md), start it
+    with:
+
     ```sh
-    pip install "napari-micromanager[pyqt6]"
     napari-micromanager
     ```
 
-    See [getting started with napari-micromanager](../napari-micromanager/getting_started.md).
+    Then pick a configuration file at the top left of the window (or start it
+    with `napari-micromanager -c path/to/config.cfg`).
 
-## Build your own
+## Building your own
 
-Every widget in `pymmcore-widgets` connects to a `CMMCorePlus` instance (by
-default, the global [`CMMCorePlus.instance()`][pymmcore_plus.CMMCorePlus.instance]),
-listens to its [events](../pymmcore-plus/guides/events.md), and stays in sync with
-the hardware &mdash; whether the change came from the widget, from another
-widget, or from your own code.
+Widgets in `pymmcore-widgets` use the global
+[`CMMCorePlus.instance()`][pymmcore_plus.CMMCorePlus.instance] by default (see the
+tip in [First steps](first-steps.md#connecting-to-events)), and they listen to the
+core's [events](../pymmcore-plus/guides/events.md), so if you change something from
+a script (or from another widget), they'll update to match.  (A few widgets don't
+use a core at all.  The sequence editors, like
+[`ChannelTable`][pymmcore_widgets.ChannelTable] and
+[`MDASequenceWidget`][pymmcore_widgets.MDASequenceWidget], just edit `useq`
+objects.)
 
-Install the widgets with a Qt backend:
-
-```sh
-pip install "pymmcore-widgets[PyQt6]"
-```
+You'll need `pymmcore-widgets` and a Qt backend, PyQt6 or PySide6 (see
+[Installation](install.md#installing-the-packages), and
+[PyQt6 or PySide6?](../pymmcore-widgets/getting_started.md#installing-a-qt-backend)
+if you're not sure which).  The examples here import Qt from
+[`qtpy`](https://github.com/spyder-ide/qtpy), so they run with either one.
 
 Then combine widgets like any other Qt widgets:
 
@@ -80,18 +90,20 @@ window.show()
 app.exec()
 ```
 
-1.  Widgets use the global core by default.  Pass `mmcore=...` to a widget to use
-    a specific instance.
+1.  This is the core the widgets below will use, so loading the configuration here
+    is enough for all of them.  Pass `mmcore=...` to a widget to use a different
+    core (the [`ConfigWizard`][pymmcore_widgets.ConfigWizard] calls it `core=`).
 
-A slightly larger version of this example looks like this:
+A slightly larger version of this example
+([`custom_gui.py`](../pymmcore-widgets/getting_started.md), which adds a
+configuration loader and a few more controls) looks like this:
 
 ![type:video](../pymmcore-widgets/images/my_widget.mp4){: style='width: 100%'}
 
-## Where next?
+## Next steps
 
-- The [widget gallery](../pymmcore-widgets/widgets/index.md) shows every widget,
-  each with a screenshot and a runnable example.
-- [Getting started with pymmcore-widgets](../pymmcore-widgets/getting_started.md)
-  walks through a complete custom GUI.
-- [Qt integration](../pymmcore-plus/examples/integration-with-qt.md) explains how
-  to keep the GUI responsive while the hardware works.
+The [widget gallery](../pymmcore-widgets/widgets/index.md) is the best place to
+find widgets for your own GUI (each one has a screenshot and a runnable example).
+[Building a custom GUI](../pymmcore-widgets/getting_started.md) walks through the
+larger example above, and [Qt integration](../pymmcore-plus/examples/integration-with-qt.md)
+explains how to keep the GUI responsive while the hardware is busy.

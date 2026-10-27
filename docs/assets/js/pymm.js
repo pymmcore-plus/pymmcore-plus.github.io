@@ -5,7 +5,7 @@
   "use strict";
 
   const ORIGINS = {
-    added: { label: "✨ Added", badge: "pymmcore-plus" },
+    added: { label: "✨ Added", badge: "added" },
     overridden: { label: "➕ Overridden", badge: "overridden" },
     inherited: { label: "Inherited", badge: null },
   };
@@ -78,7 +78,20 @@
     status.className = "pymm-explorer-count";
     toolbar.append(status);
 
-    (table.closest(".md-typeset__scrollwrap") || table).before(toolbar);
+    // the theme only makes tables without a class scrollable: do it here, so a
+    // narrow screen scrolls the table rather than the whole page
+    let block = table.closest(".md-typeset__scrollwrap");
+    if (!block) {
+      block = Object.assign(document.createElement("div"), { className: "md-typeset__scrollwrap" });
+      const inner = Object.assign(document.createElement("div"), { className: "md-typeset__table" });
+      table.replaceWith(block);
+      inner.append(table);
+      block.append(inner);
+    }
+    // one container for both, so the sticky toolbar stops where the table ends
+    const wrap = Object.assign(document.createElement("div"), { className: "pymm-explorer-wrap" });
+    block.replaceWith(wrap);
+    wrap.append(toolbar, block);
 
     function apply() {
       let shown = 0;
@@ -123,7 +136,7 @@
   // -------------------------------------------------------------------------
 
   const INSTALL_OPTIONS = [
-    { id: "io", label: "Save to OME-Zarr / OME-TIFF", hint: "pymmcore-plus[io]", group: "core" },
+    { id: "io", label: "Save to OME-TIFF (OME-Zarr works without it)", hint: "pymmcore-plus[io]", group: "core" },
     { id: "widgets", label: "Qt widgets", hint: "pymmcore-widgets", group: "gui" },
     { id: "gui", label: "pymmcore-gui app", hint: "from GitHub", group: "gui" },
     { id: "napari", label: "napari plugin", hint: "napari-micromanager", group: "gui" },
@@ -146,7 +159,7 @@
     const pkgs = [];
     if (opts.gui) pkgs.push("git+https://github.com/pymmcore-plus/pymmcore-gui");
     if (opts.napari) {
-      pkgs.push(opts.gui ? "napari-micromanager" : `"napari-micromanager[${qt.toLowerCase()}]"`);
+      pkgs.push(opts.gui ? "napari-micromanager" : `"napari-micromanager[${qt}]"`);
     }
     if (opts.widgets && !opts.gui && !opts.napari) pkgs.push(`"pymmcore-widgets[${qt}]"`);
     if (!pkgs.length) pkgs.push(`"pymmcore-plus[${opts.io ? "cli,io" : "cli"}]"`);
@@ -232,7 +245,12 @@
       );
       return { label: type.textContent.replace(/:\s*$/, ""), n: leaves.length };
     });
-    // the specific relations first; "Referenced by" (any mention) last
+    // a lone "Referenced by" (any mention, often from the same page) isn't worth a line
+    if (parts.every((p) => p.label === "Referenced by")) {
+      block.remove();
+      return;
+    }
+    // the specific relations first; "Referenced by" last
     parts.sort((a, b) => (a.label === "Referenced by") - (b.label === "Referenced by"));
     const details = document.createElement("details");
     details.className = "pymm-backlinks";
@@ -248,10 +266,24 @@
 
   // -------------------------------------------------------------------------
 
+  // -------------------------------------------------------------------------
+  // Enums: their members are one-line constants; show them as a compact grid
+  // (pymm.css) instead of one full heading each.  The anchors stay.
+  // -------------------------------------------------------------------------
+
+  function tagEnum(bases) {
+    if (/\b(Int|Str)?(Enum|Flag)\b/.test(bases.textContent)) {
+      bases.closest(".doc-class")?.classList.add("pymm-enum");
+    }
+  }
+
+  // -------------------------------------------------------------------------
+
   function init() {
     document.querySelectorAll("table.pymm-explorer").forEach(initExplorer);
     document.querySelectorAll("[data-pymm-installer]").forEach(initInstaller);
     document.querySelectorAll(".doc-backlinks").forEach(collapseBacklinks);
+    document.querySelectorAll(".doc-class-bases").forEach(tagEnum);
   }
 
   if (typeof document$ !== "undefined") {

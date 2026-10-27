@@ -9,8 +9,12 @@ postprocessor sees each page's final HTML.  We use that to:
    Here, every rendered heading id under a preferred path is also registered
    under each alias path, so `[x][pymmcore_plus.core.Device.getPropertyObject]`
    resolves to the `pymmcore_plus.Device.getPropertyObject` heading.
-2. Decorate "**Why Override?**" paragraphs in CMMCorePlus docstrings.
+2. Decorate "**Why Override?**" paragraphs in CMMCorePlus docstrings, and drop
+   the "This method is new in CMMCorePlus." sentences (the method table and the
+   heading badges already say so; the docstrings keep it for IDEs).
 3. Relabel "Attributes" as "Keys" on the metadata (TypedDict) reference page.
+4. Tidy mkdocstrings output: private base classes in "Bases:" lines, and the
+   hub's own checkout path (`.repos/<member>/`) in "Source code in ..." labels.
 """
 
 from __future__ import annotations
@@ -34,6 +38,28 @@ WHY_HTML = (
     'viewBox="0 0 24 24"><path d="M20 14h-6v6h-4v-6H4v-4h6V4h4v6h6v4Z"/></svg>'
     f"</span>{WHY}</span>"
 )
+NEW_IN_CORE = re.compile(
+    r"<p>(?:(?!</?p>).)*?<em>This (?:method|property) is new in "
+    r"<code>CMMCorePlus</code>\.</em></p>\s*",
+    re.DOTALL,
+)
+BASES = re.compile(
+    r'(<p class="doc doc-class-bases">\s*Bases:\s*)(.*?)(</p>)', re.DOTALL
+)
+CODE_ITEM = re.compile(r"<code>.*?</code>", re.DOTALL)
+TAG = re.compile(r"<[^>]+>")
+REPOS_PATH = re.compile(r"(Source code in <code>)\.repos/[^/]+/")
+
+
+def _public_bases(match: re.Match[str]) -> str:
+    """Drop private classes (``_Base``) from a "Bases: ..." paragraph."""
+    items = CODE_ITEM.findall(match.group(2))
+    public = [i for i in items if not TAG.sub("", i).strip().startswith("_")]
+    if len(public) == len(items):
+        return match.group(0)
+    if not public:
+        return ""
+    return match.group(1) + ", ".join(public) + match.group(3)
 
 
 @cache
@@ -73,6 +99,12 @@ class PymmPostprocessor(Postprocessor):
                         break
         if WHY in text:  # idempotent: mkdocstrings nests Markdown conversions
             text = re.sub(r"(?<!</span>)" + re.escape(WHY), WHY_HTML, text)
+        if "is new in <code>CMMCorePlus</code>" in text:
+            text = NEW_IN_CORE.sub("", text)
+        if "doc-class-bases" in text:
+            text = BASES.sub(_public_bases, text)
+        if "Source code in <code>.repos/" in text:
+            text = REPOS_PATH.sub(r"\1", text)
         src = str(getattr(page, "file", "") or getattr(page, "url", ""))
         if "pymmcore_plus/metadata" in src or "pymmcore_plus/metadata" in page.url:
             text = text.replace("<th>Attributes:</th>", "<th>Keys:</th>")

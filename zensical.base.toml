@@ -136,6 +136,8 @@ custom_checkbox = true
 
 [project.plugins.autorefs]
 resolve_closest = true
+# no hover titles on internal links: they named the defining (private) module
+link_titles = "external"
 
 [project.plugins.glightbox]
 # light/dark screenshot pairs (`#only-light` / `#only-dark`) form separate galleries
@@ -152,10 +154,36 @@ video_loop = true
 markdown_description = "Python tools for controlling microscopes with Micro-Manager: pymmcore-plus (core + acquisition engine), useq-schema (experiment schema), pymmcore-widgets (Qt widgets), pymmcore-gui and napari-micromanager (applications)."
 full_output = "llms-full.txt"
 
+# keep in sync with docs/.nav.yml: pages in no section get no "copy as Markdown"
 [project.plugins.llmstxt.sections]
-"Getting started" = ["getting-started/*.md"]
-"User guide" = ["*/guides/*.md", "useq-schema/schema/*.md"]
-"API reference" = ["*/api/**/*.md"]
+"Getting started" = ["index.md", "getting-started/*.md"]
+"User guide" = [
+  "guide/*.md",
+  "pymmcore-plus/install.md",
+  "*/guides/*.md",
+  "pymmcore-plus/examples/*.md",
+  "*/troubleshooting.md",
+  "pymmcore-plus/profiling.md",
+  "useq-schema/index.md",
+  "useq-schema/v2-migration.md",
+  "pymmcore-widgets/getting_started.md",
+  "pymmcore-widgets/widgets/index.md",
+  "pymmcore-gui/index.md",
+  "pymmcore-gui/install.md",
+  "pymmcore-gui/usage.md",
+  "napari-micromanager/*.md",
+]
+"API reference" = [
+  "api/index.md",
+  "pymmcore-plus/index.md",
+  "pymmcore-widgets/index.md",
+  "*/api/**/*.md",
+  "useq-schema/schema/*.md",
+  "pymmcore-plus/reference/*.md",
+  "pymmcore-plus/cli.md",
+  "pymmcore-plus/env_var.md",
+]
+"Contributing" = ["contributing/*.md", "*/contributing.md"]
 
 [project.plugins.redirects.redirect_maps]
 # filled in by tools/compose.py from redirects.toml
@@ -195,6 +223,11 @@ show_source = false
 show_symbol_type_heading = true
 show_symbol_type_toc = true
 signature_crossrefs = true
-summary = true
-extensions = [{ griffe_fieldz = { include_inherited = true, strip_annotated = true } }]
+# module pages get index tables from tools/api.py; per-class tables only repeated the page
+summary = false
+# fields go into the docstring's Attributes section, keeping its descriptions
+extensions = [
+  { griffe_fieldz = { include_inherited = true, strip_annotated = true, add_fields_to = "docstring-attributes" } },
+  "pymm_griffe:TidyDocs",
+]
 preload_modules = []

@@ -27,7 +27,7 @@ pypi = "pymmcore-widgets"
 name = "pymmcore-gui"
 repo = "pymmcore-plus/pymmcore-gui"
 title = "pymmcore-gui"
-pypi = "pymmcore-gui"
+pypi = ""  # installed from GitHub for now; the PyPI release is an old pre-release
 
 [[member]]
 name = "napari-micromanager"

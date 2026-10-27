@@ -1,12 +1,12 @@
 ---
-title: How these docs work
+title: How These Docs Work
 ---
 
-# How these docs work
+# How These Docs Work
 
-This site combines documentation from several repositories into a single site,
-with one navigation, one search, and cross-references between all packages.  It
-is built with [zensical](https://zensical.org) by
+This site is put together from the `docs/` folders (and docstrings) of several
+repositories, so that all of the packages share one navigation and search, and can
+link to each other.  It's built with [zensical](https://zensical.org) by
 [pymmcore-plus/pymmcore-plus.github.io](https://github.com/pymmcore-plus/pymmcore-plus.github.io)
 (the *hub*).
 
@@ -29,7 +29,7 @@ graph LR
 
 **Each member repository** owns:
 
-- `docs/`: its pages, written exactly as for a stand-alone site.  The folder is
+- `docs/`: its pages, written as they would be for a stand-alone site.  The folder is
   published at `/<repo-name>/`, so `pymmcore-plus/docs/guides/events.md` becomes
   `/pymmcore-plus/guides/events/`.
 - `docs/**/.nav.yml`: [awesome-nav](https://lukasgeiter.github.io/mkdocs-awesome-nav/)
@@ -42,8 +42,10 @@ graph LR
   screenshots).
 
 **The hub** owns the theme, global settings, the landing page, *Getting
-Started*, and the top-level navigation (`docs/.nav.yml`), which places member
-pages into the site-wide *User Guide*.
+Started* (plus a few pages that don't belong to any one package, like
+[Using your own microscope](../guide/own-microscope.md)), and the top-level
+navigation (`docs/.nav.yml`), which places member pages into the site-wide
+*User Guide*.
 
 ## Previewing locally
 

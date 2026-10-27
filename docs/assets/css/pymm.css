@@ -65,8 +65,14 @@
 
 @media screen and (max-width: 60em) {
   .pymm-hero {
-    grid-template-columns: 1fr;
+    /* minmax(0, ...): don't let the code block widen the page on phones */
+    grid-template-columns: minmax(0, 1fr);
   }
+}
+
+/* no edit/view/copy buttons next to the landing page's title */
+.md-content__inner:has(.pymm-hero) > .md-content__button {
+  display: none;
 }
 
 /* Layered "how the pieces fit together" diagram */
@@ -185,14 +191,26 @@
   width: 100%;
 }
 
+.md-typeset table.pymm-explorer th {
+  text-align: left;
+}
+
 .md-typeset table.pymm-explorer td {
   padding: 0.35em 0.8em;
   vertical-align: top;
 }
 
-.md-typeset table.pymm-explorer td:first-child,
-.md-typeset table.pymm-explorer td:nth-child(3) {
+.md-typeset table.pymm-explorer td:first-child {
   white-space: nowrap;
+}
+
+.md-typeset table.pymm-explorer td:nth-child(3) {
+  min-width: 6.5rem;
+}
+
+/* long code spans in "Why override?" notes must not widen the table */
+.md-typeset table.pymm-explorer td:last-child {
+  overflow-wrap: anywhere;
 }
 
 .md-typeset table.pymm-explorer td:nth-child(3) a {
@@ -215,7 +233,7 @@
   display: block;
   font-family: var(--md-code-font-family);
   font-size: 0.85em;
-  color: var(--md-default-fg-color--lighter);
+  color: var(--md-default-fg-color--light);
   white-space: normal;
   max-width: 22rem;
 }
@@ -229,10 +247,11 @@
   color: var(--pymm-overridden);
 }
 
-/* Toolbar built by pymm.js */
+/* Toolbar built by pymm.js (inside .pymm-explorer-wrap, so it only sticks while
+   the table is on screen); below the header and the sticky tabs */
 .pymm-explorer-toolbar {
   position: sticky;
-  top: 2.4rem;
+  top: 4.8rem;
   z-index: 2;
   display: flex;
   flex-wrap: wrap;
@@ -281,7 +300,14 @@
 
 .pymm-explorer-count {
   margin-left: auto;
-  color: var(--md-default-fg-color--lighter);
+  color: var(--md-default-fg-color--light);
+}
+
+/* the tabs aren't shown (or sticky) on narrower screens */
+@media screen and (max-width: 76.234375em) {
+  .pymm-explorer-toolbar {
+    top: 2.4rem;
+  }
 }
 
 /* Origin badge added to member headings by pymm.js */
@@ -453,4 +479,52 @@ details.pymm-backlinks[open] > summary .pymm-backlinks__chevron {
 /* symbol badges in the navigation (from api-autonav-style titles) */
 .md-nav .doc-symbol-nav {
   margin-right: 0.3em;
+}
+
+/* ---------------------------------------------------------------------------
+   API pages: quieter headings, enums, tables
+   ------------------------------------------------------------------------ */
+
+/* the kind of object ("class", "method", ...) is a small tag, not half the title */
+.md-typeset .doc-heading > .doc-symbol-heading {
+  font-size: 0.6em;
+  vertical-align: 0.2em;
+  font-weight: 600;
+}
+
+/* the theme's module green is too light on white (2.8:1) */
+[data-md-color-scheme="default"] {
+  --doc-symbol-module-fg-color: #3f7d0b;
+  --doc-symbol-module-bg-color: #3f7d0b1a;
+}
+
+/* enum members (tagged by pymm.js) as a compact grid of names; anchors stay */
+.md-typeset .pymm-enum .doc-children {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 0 1rem;
+}
+.md-typeset .pymm-enum .doc-children > .doc-attribute > .doc-heading {
+  font-size: 0.7rem;
+  margin: 0.1em 0;
+}
+.md-typeset .pymm-enum .doc-children > .doc-attribute :is(
+    .doc-symbol-heading,
+    .doc-labels,
+    .doc-signature,
+    .pymm-backlinks,
+    .doc-backlinks,
+    .headerlink
+  ) {
+  display: none;
+}
+.md-typeset .pymm-enum .doc-children > .doc-attribute > .doc-contents {
+  padding-left: 0;
+  border-left: none;
+}
+
+/* names in the first column of reference tables shouldn't break mid-word */
+.md-typeset td:first-child > code,
+.md-typeset td:first-child > a > code {
+  white-space: nowrap;
 }

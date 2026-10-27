@@ -7,9 +7,11 @@
 {% if member %}
   <div class="pymm-package-badge">
     <a href="{{ (page.meta.package ~ '/') | url }}" class="pymm-package-badge__name">{{ member.title }}</a>
+    {% if member.pypi %}
     <a href="https://pypi.org/project/{{ member.pypi }}/" class="pymm-package-badge__pypi" title="{{ member.pypi }} on PyPI">
       <img alt="PyPI version" src="https://img.shields.io/pypi/v/{{ member.pypi }}?label=&color=gray&style=flat-square" loading="lazy">
     </a>
+    {% endif %}
     <a href="https://github.com/{{ member.repo }}" class="pymm-package-badge__repo" title="{{ member.repo }} on GitHub">
       {% include ".icons/fontawesome/brands/github.svg" %}
     </a>

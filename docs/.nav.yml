@@ -1,55 +1,57 @@
 # Site-wide navigation (awesome-nav).  Member pages are placed here by path;
-# each member's own docs/.nav.yml orders its API Reference section.
+# each member's own docs/.nav.yml orders its API Reference section (for the
+# applications, pymmcore-gui and napari-micromanager, its pages).
 nav:
   - Home: index.md
   - Getting Started:
-      - getting-started/index.md
+      - getting-started/which-package.md
       - getting-started/install.md
-      - Micro-Manager device adapters: pymmcore-plus/install.md
       - getting-started/first-steps.md
       - getting-started/first-acquisition.md
       - getting-started/first-gui.md
+      - getting-started/from-micro-manager.md
   - User Guide:
       - guide/index.md
-      - Controlling hardware:
+      - Controlling Hardware:
+          - Micro-Manager Device Adapters: pymmcore-plus/install.md
+          - guide/own-microscope.md
           - pymmcore-plus/guides/devices.md
           - pymmcore-plus/guides/configuration.md
-          - pymmcore-plus/guides/constants.md
           - pymmcore-plus/guides/events.md
-          - pymmcore-plus/examples/following_changes_in_core.md
-          - pymmcore-plus/examples/context-set.md
-      - Describing experiments:
+          - pymmcore-plus/guides/ipython_completion.md
+      - Describing Experiments:
           - useq-schema/index.md
-          - useq-schema/v2-migration.md
-      - Running acquisitions:
+          - useq-schema/guides/sequences.md
+      - Running Acquisitions:
           - pymmcore-plus/guides/mda_engine.md
-          - pymmcore-plus/examples/mda.md
+          - pymmcore-plus/guides/saving_data.md
           - pymmcore-plus/guides/event_driven_acquisition.md
           - pymmcore-plus/guides/custom_engine.md
       - Building GUIs:
-          - pymmcore-widgets/getting_started.md
-          - Widget gallery: pymmcore-widgets/widgets/index.md
-          - pymmcore-plus/examples/integration-with-qt.md
+          - pymmcore-widgets/widgets/index.md
+          - Building a Custom GUI: pymmcore-widgets/getting_started.md
+          - Qt Integration: pymmcore-plus/examples/integration-with-qt.md
       - Applications:
           - pymmcore-gui
           - napari-micromanager
-      - Advanced topics:
+      - Advanced Topics:
           - pymmcore-plus/guides/unicore.md
-          - pymmcore-plus/guides/logging.md
-          - pymmcore-plus/profiling.md
-          - pymmcore-plus/guides/ipython_completion.md
+          - useq-schema v2 (Preview): useq-schema/v2-migration.md
           - pymmcore-plus/examples/pycro-manager-api.md
       - Troubleshooting:
-          - pymmcore-plus/troubleshooting.md
-          - pymmcore-widgets/troubleshooting.md
+          - Core and Device Adapters: pymmcore-plus/troubleshooting.md
+          - Qt and Widgets: pymmcore-widgets/troubleshooting.md
+          - pymmcore-plus/guides/logging.md
+          - pymmcore-plus/profiling.md
   - API Reference:
       - api/index.md
       - pymmcore-plus
       - useq-schema
       - pymmcore-widgets
-      - pymmcore-gui: pymmcore-gui/api/pymmcore_gui
+      - pymmcore-gui:
+          - pymmcore-gui/api/pymmcore_gui
   - Contributing:
       - contributing/index.md
       - contributing/docs.md
-      - pymmcore-plus/contributing.md
-      - pymmcore-widgets/contributing.md
+      - Developing pymmcore-plus: pymmcore-plus/contributing.md
+      - Developing pymmcore-widgets: pymmcore-widgets/contributing.md

@@ -238,6 +238,7 @@ def api_configs(members: list[Member]) -> list[api.ApiConfig]:
             m.name, m.root, m.plugins.get("api-autonav", {})
         ):
             cfg.modules = [str(m.root / p) for p in cfg.modules]
+            cfg.edit_base = f"https://github.com/{m.repo}/edit/{m.branch}/"
             out.append(cfg)
     return out
 
@@ -477,6 +478,19 @@ def split_inventory(members: list[Member]) -> None:
             print(f"[compose] {m.name}/objects.inv: {len(sub)} objects")
 
 
+# symbol badges (e.g. "mod", "c") in the API nav titles, possibly escaped
+NAV_SYMBOL = re.compile(r"\\?<code class='doc-symbol[^']*'\\?>\\?</code\\?>")
+
+
+def clean_llms_txt() -> None:
+    """Strip markup that the llmstxt plugin copies from nav titles."""
+    for name in ("llms.txt", "llms-full.txt"):
+        path = SITE / name
+        if path.exists():
+            text = NAV_SYMBOL.sub("", path.read_text(encoding="utf-8"))
+            path.write_text(text.replace("&amp;amp;", "&"), encoding="utf-8")
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
@@ -495,7 +509,8 @@ def assemble(members: list[Member], *, regenerate: bool = True) -> dict[str, Any
 
 
 def _zensical_env() -> dict[str, str]:
-    # tools/ on the path so `pymm_mdx` (our Markdown extension) is importable
+    # tools/ on the path so `pymm_mdx` and `pymm_griffe` (our Markdown and griffe
+    # extensions) are importable
     path = os.pathsep.join(
         filter(None, [str(ROOT / "tools"), os.environ.get("PYTHONPATH")])
     )
@@ -520,6 +535,7 @@ def cmd_build(ns: argparse.Namespace) -> int:
     if proc.returncode:
         return proc.returncode
     split_inventory(members)
+    clean_llms_txt()
     problems += check_orphans()
     if ns.scope:
         problems += [w for w in _warnings(output) if _in_scope(w, ns.scope, members)]

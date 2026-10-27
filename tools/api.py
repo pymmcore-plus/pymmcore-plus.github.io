@@ -48,6 +48,7 @@ class ApiConfig:
     module_options: dict[str, dict[str, Any]] = field(default_factory=dict)
     api_root_uri: str = "api"
     exclude_private: bool = True
+    edit_base: str = ""  # e.g. https://github.com/<repo>/edit/main/ (for edit links)
 
     @classmethod
     def from_member(cls, member: str, root: Path, cfg: dict) -> ApiConfig | None:
@@ -83,6 +84,7 @@ class ModulePage:
     members: list[str] = field(default_factory=list)
     reexports: list[tuple[str, str, str]] = field(default_factory=list)
     claimed: list[Claim] = field(default_factory=list)
+    children: list[ModulePage] = field(default_factory=list)  # submodule pages
 
     @property
     def path(self) -> str:
@@ -214,6 +216,8 @@ def plan(
                 page = ModulePage(cfg, mod)
                 pages[cfg.member].append(page)
                 for name, obj in mod.members.items():
+                    if name.startswith("_") or name in NOT_API:
+                        continue  # e.g. __version__, or a private name in __all__
                     try:
                         if not obj.is_public or obj.is_module:
                             continue
@@ -224,6 +228,8 @@ def plan(
                             f"[api] unresolved alias {mod.path}.{name}", file=sys.stderr
                         )
                         continue
+                    if "_deprecated" in target.split("."):
+                        continue  # still importable, but not to be documented
                     locations[target].append((f"{mod.path}.{name}", page, name))
 
     aliases: dict[str, str] = {}
@@ -264,46 +270,102 @@ def plan(
 # ---------------------------------------------------------------------------
 
 
-def _options(page: ModulePage) -> dict[str, Any]:
-    options: dict[str, Any] = {"heading_level": 1, "show_root_heading": True}
+# module-level names that are never API, even when griffe considers them public
+NOT_API = {"logger", "log"}
+GROUPS = {"class": "Classes", "function": "Functions"}  # anything else: Attributes
+
+
+def _options(page: ModulePage, **overrides: Any) -> dict[str, Any]:
+    options: dict[str, Any] = {}
     for pattern, local in page.config.module_options.items():
         if re.match(pattern, page.path):
             options.update(local)
-    options["members"] = sorted(page.members) if page.members else False
-    options["show_submodules"] = False
-    return options
+    return {**options, **overrides}
+
+
+def _member_rows(page: ModulePage) -> dict[str, list[tuple[str, str, str]]]:
+    """(name, identifier, summary) of everything in the module, grouped by kind."""
+    groups: dict[str, list[tuple[str, str, str]]] = defaultdict(list)
+    for name in page.members:
+        obj = page.module.members[name]
+        group = GROUPS.get(_kind(obj), "Attributes")
+        groups[group].append((name, f"{page.path}.{name}", _summary(obj)))
+    for c in page.claimed:
+        groups[GROUPS.get(c.kind, "Attributes")].append((c.name, c.path, c.summary))
+    return {
+        g: sorted(groups[g])
+        for g in ("Classes", "Functions", "Attributes")
+        if g in groups
+    }
 
 
 def render(page: ModulePage) -> str:
-    title = page.path.rsplit(".", 1)[-1]
     lines = [
         "---",
-        f"title: {json.dumps(title)}",
+        f"title: {json.dumps(page.path)}",
         f"package: {json.dumps(page.config.member)}",
         "generated: true",
-        "---",
-        "",
-        f"::: {page.path}",
-        f"    options: {json.dumps(_options(page))}",
-        "",
     ]
-    slug = page.path.replace(".", "-")
-    if page.claimed:
-        lines += [
-            f"## Documented on other pages {{#{slug}--elsewhere}}",
-            "",
-            "| Object | Page | Description |",
-            "| --- | --- | --- |",
-        ]
-        for c in sorted(page.claimed, key=lambda c: c.name):
-            lines.append(f"| [`{c.name}`][{c.path}] | {c.title} | {c.summary} |")
+    # "edit" opens the module's source: that's where its docs (docstrings) live
+    filepath = page.module.filepath
+    if page.config.edit_base and isinstance(filepath, Path):
+        rel = filepath.resolve().relative_to(page.config.root.resolve()).as_posix()
+        lines.append(f"edit_url: {json.dumps(page.config.edit_base + rel)}")
+    # the module itself: heading and docstring
+    root = _options(
+        page,
+        heading_level=1,
+        show_root_heading=True,
+        members=False,
+        show_submodules=False,
+    )
+    lines += ["---", "", f"::: {page.path}", f"    options: {json.dumps(root)}", ""]
+
+    # an index of the package: submodules, then everything in it by kind (linking
+    # to where each object is documented: below, or on a page of its own)
+    def table(label: str, rows: list[tuple[str, str, str]]) -> None:
+        lines.extend([f"**{label}**", "", "| Name | Description |", "| --- | --- |"])
+        lines.extend(f"| [`{n}`][{ident}] | {summary} |" for n, ident, summary in rows)
         lines.append("")
+
+    if page.children:
+        subs = sorted(page.children, key=lambda p: p.path)
+        table(
+            "Submodules",
+            [(c.path.rsplit(".", 1)[-1], c.path, _summary(c.module)) for c in subs],
+        )
+    groups = _member_rows(page)
+    for label, rows in groups.items():
+        table(label, rows)
+
+    # then the full documentation of what's documented here, in source order
+    slug = page.path.replace(".", "-")
+    member = _options(
+        page, heading_level=3, show_root_heading=True, show_root_full_path=False
+    )
+    for label in groups:
+        names = [n for n in page.module.members if n in page.members]
+        names = [
+            n
+            for n in names
+            if GROUPS.get(_kind(page.module.members[n]), "Attributes") == label
+        ]
+        if not names:
+            continue
+        lines += [f"## {label} {{#{slug}--{label.lower()}}}", ""]
+        for name in names:
+            lines += [
+                f"::: {page.path}.{name}",
+                f"    options: {json.dumps(member)}",
+                "",
+            ]
+
     if page.reexports:
         lines += [
             f"## Re-exports {{#{slug}--reexports}}",
             "",
-            "These names can be imported from this module, but are documented "
-            "at their top-level location.",
+            "These can also be imported from this module, but each is documented "
+            "under its shortest import path (linked below).",
             "",
             "| Name | Description |",
             "| --- | --- |",
@@ -323,6 +385,22 @@ def write(
     the docs-relative paths written.
     """
     written: list[str] = []
+    # drop pages that would only list re-exports (their names still resolve, via
+    # aliases); a package page stays if any submodule page does.  Deepest first.
+    kept: list[ModulePage] = []
+    for page in sorted(pages, key=lambda p: -p.path.count(".")):
+        page.children = [c for c in kept if c.path.rsplit(".", 1)[0] == page.path]
+        if (
+            page.members
+            or page.claimed
+            or page.children
+            or "." not in page.path
+            or page.rel_path() in handwritten
+        ):
+            kept.append(page)
+    kept_ids = {id(p) for p in kept}
+    pages = [p for p in pages if id(p) in kept_ids]
+
     dirs: dict[str, dict[str, Any]] = defaultdict(
         lambda: {"index": None, "modules": [], "subdirs": set(), "objects": []}
     )
@@ -334,9 +412,11 @@ def write(
             if "." in page.path:
                 parent, leaf = page.rel_dir().rsplit("/", 1)
                 dirs[parent]["subdirs"].add(leaf)
-            # hand-written object pages living in this package's directory
+            # hand-written object pages living in this package's directory (not
+            # the package page itself, when a hand-written one replaces it)
             for c in page.claimed:
-                if c.page.rsplit("/", 1)[0] == f"{mount}/{page.rel_dir()}":
+                folder, name = c.page.rsplit("/", 1)
+                if folder == f"{mount}/{page.rel_dir()}" and name != "index.md":
                     entry["objects"].append(c)
         else:
             entry["modules"].append(page)
@@ -355,10 +435,13 @@ def write(
             nav.append(
                 {KIND_PREFIX.format(kind=c.kind) + c.name: c.page.rsplit("/", 1)[1]}
             )
-        for mod in sorted(entry["modules"], key=lambda p: p.path):
-            leaf = mod.path.rsplit(".", 1)[-1]
-            nav.append({f"{MOD_PREFIX}{leaf}": f"{leaf}.md"})
-        nav += sorted(entry["subdirs"])
+        # modules and subpackages together, alphabetically
+        children = {mod.path.rsplit(".", 1)[-1]: mod for mod in entry["modules"]}
+        for leaf in sorted({*children, *entry["subdirs"]}):
+            if leaf in children:
+                nav.append({f"{MOD_PREFIX}{leaf}": f"{leaf}.md"})
+            else:
+                nav.append(leaf)
         title = MOD_PREFIX + entry["index"].path.rsplit(".", 1)[-1]
         nav_file = out_docs / mount / rel_dir / ".nav.yml"
         nav_file.write_text(

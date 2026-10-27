@@ -11,14 +11,16 @@ hide:
 
 <div class="pymm-hero__text" markdown>
 
-# Control microscopes with Python
+# pymmcore-plus
 
-**pymmcore-plus** and friends give you pure-Python access to the hundreds of
-devices supported by [Micro-Manager](https://micro-manager.org): script your
-hardware, describe and run multi-dimensional experiments, and build (or simply
-use) graphical interfaces &mdash; no Java required.
+These docs cover `pymmcore-plus` and the packages built around it, which let you
+control a microscope from Python by talking directly to
+[Micro-Manager](https://micro-manager.org)'s C++ core and device adapters (with no
+Java process involved).  You can use them to script your hardware and run
+multi-dimensional acquisitions, or to build your own GUI (or just use one of
+ours).
 
-[Get started](getting-started/index.md){ .md-button .md-button--primary }
+[Get started](getting-started/which-package.md){ .md-button .md-button--primary }
 [User guide](guide/index.md){ .md-button }
 
 </div>
@@ -32,71 +34,42 @@ from pymmcore_plus import CMMCorePlus
 core = CMMCorePlus()
 core.loadSystemConfiguration()  # demo devices
 
-experiment = useq.MDASequence(
+sequence = useq.MDASequence(
     channels=["DAPI", "FITC"],
-    z_plan={"range": 4, "step": 0.5},
-    time_plan={"interval": 2, "loops": 10},
+    time_plan={"interval": 1, "loops": 5},
 )
-core.mda.run(experiment, output="data.ome.zarr")
+core.mda.run(sequence, output="data.ome.zarr")
 ```
 
 </div>
 
 </div>
 
-## What would you like to do?
+## Where to start
 
-<div class="grid cards" markdown>
+If you're new here, [Getting Started](getting-started/which-package.md) walks you through
+installing things, controlling Micro-Manager's demo devices from Python, running a
+first acquisition, and putting together a small GUI (no microscope required).  If
+you already know Micro-Manager, have a look at
+[Coming from Micro-Manager](getting-started/from-micro-manager.md), which maps what
+you know onto these packages.
 
--   :lucide-terminal:{ .lg .middle } **Script a microscope**
-
-    ---
-
-    Load a configuration, move stages, snap images, and react to every change
-    from Python or Jupyter.
-
-    [:octicons-arrow-right-24: First steps](getting-started/first-steps.md)
-
--   :lucide-layers:{ .lg .middle } **Run acquisitions**
-
-    ---
-
-    Describe time-lapses, z-stacks, channels and positions with `useq`, run them
-    with a hackable acquisition engine, and save to OME-Zarr or OME-TIFF.
-
-    [:octicons-arrow-right-24: Your first acquisition](getting-started/first-acquisition.md)
-
--   :lucide-app-window:{ .lg .middle } **Build a GUI**
-
-    ---
-
-    Compose ready-made Qt widgets &mdash; property browsers, stage controls,
-    MDA editors, image previews &mdash; into your own application.
-
-    [:octicons-arrow-right-24: Your first GUI](getting-started/first-gui.md)
-
--   :lucide-microscope:{ .lg .middle } **Just use an app**
-
-    ---
-
-    Point-and-click microscope control with `pymmcore-gui`, or inside napari
-    with `napari-micromanager`.
-
-    [:octicons-arrow-right-24: Applications](pymmcore-gui/index.md)
-
-</div>
+If you'd rather not write any code, [pymmcore-gui](pymmcore-gui/index.md) is our
+(work in progress) desktop application, and
+[napari-micromanager](napari-micromanager/index.md) controls a microscope from
+inside [napari](https://napari.org).
 
 ## How the pieces fit together
 
-Each layer builds on the ones below it, and every layer is usable on its own.
-Click a package to learn more.
+Each package builds on the ones below it.  You only need to go as far up the stack
+as you want (`pymmcore-plus` on its own is enough to script a microscope).
 
 <div class="pymm-stack" markdown>
 
 <div class="pymm-layer pymm-layer--apps" markdown>
 <div class="pymm-layer__label">Applications</div>
 <div class="pymm-layer__pkgs" markdown>[**pymmcore-gui**](pymmcore-gui/index.md) &middot; [**napari-micromanager**](napari-micromanager/index.md)</div>
-<div class="pymm-layer__desc">Complete microscope control applications.</div>
+<div class="pymm-layer__desc">Desktop applications for running a microscope.</div>
 </div>
 
 <div class="pymm-layer pymm-layer--widgets" markdown>
@@ -108,33 +81,28 @@ Click a package to learn more.
 <div class="pymm-layer pymm-layer--core" markdown>
 <div class="pymm-layer__label">Control &amp; acquisition</div>
 <div class="pymm-layer__pkgs" markdown>[**pymmcore-plus**](pymmcore-plus/index.md) &middot; [**useq-schema**](useq-schema/index.md)</div>
-<div class="pymm-layer__desc">A Pythonic core with events, an acquisition engine, and a hardware-agnostic schema for experiments.</div>
+<div class="pymm-layer__desc">The core, extended with events and an acquisition engine, and a schema for describing experiments.</div>
 </div>
 
 <div class="pymm-layer pymm-layer--mm" markdown>
 <div class="pymm-layer__label">Micro-Manager</div>
 <div class="pymm-layer__pkgs" markdown>[**pymmcore**](https://github.com/micro-manager/pymmcore) &middot; [device adapters](pymmcore-plus/install.md)</div>
-<div class="pymm-layer__desc">The C++ core and drivers for hundreds of cameras, stages, shutters, lasers&hellip;</div>
+<div class="pymm-layer__desc">The C++ core and drivers for hundreds of cameras, stages, shutters, lasers, etc...</div>
 </div>
 
 <div class="pymm-layer pymm-layer--hw" markdown>
 <div class="pymm-layer__label">Your microscope</div>
-<div class="pymm-layer__pkgs" markdown>:lucide-microscope: &nbsp; (or the built-in demo devices &mdash; no hardware needed)</div>
+<div class="pymm-layer__pkgs" markdown>:lucide-microscope: &nbsp; Micro-Manager's demo devices, or your own hardware</div>
 </div>
 
 </div>
 
-## Community
+## Getting help
 
-<div class="grid cards" markdown>
-
--   :fontawesome-brands-discourse: **Ask a question** on the
-    [image.sc forum](https://forum.image.sc/tag/pymmcore-plus)
-
--   :simple-zulip: **Chat with developers** on
-    [Zulip](https://imagesc.zulipchat.com/#narrow/channel/442785-pymmcore.5B-plus.5D)
-
--   :fontawesome-brands-github: **Report a bug or request a feature** on
-    [GitHub](https://github.com/pymmcore-plus)
-
-</div>
+If you have usage questions (*"How do I...?"*), please ask on the
+[image.sc forum](https://forum.image.sc/tag/pymmcore-plus) with the `pymmcore-plus`
+tag, or come chat with us on
+[Zulip](https://imagesc.zulipchat.com/#narrow/channel/442785-pymmcore.5B-plus.5D).
+Bug reports and feature requests are always welcome on
+[GitHub](https://github.com/pymmcore-plus) (each package has its own repository;
+see [Contributing](contributing/index.md) if you're not sure which one).
