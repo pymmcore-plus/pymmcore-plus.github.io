@@ -29,6 +29,8 @@ Bases: `QWidget`
 
 Spin box that shows and sets the exposure time (in ms) of a camera.
 
+See the `ImagePreview` example for this widget combined with an image preview and other controls.
+
 Parameters:
 
 | Name | Type | Description | Default |
@@ -36,8 +38,6 @@ Parameters:
 | `camera` | `str \| None` | The camera device label. By default, None. If not specified, the widget will use the current Camera device. | `None` |
 | `parent` | `QWidget \| None` | Optional parent widget. By default, None. | `None` |
 | `mmcore` | `CMMCorePlus \| None` | Optional `CMMCorePlus` micromanager core. By default, None. If not specified, the widget will use the active (or create a new) `CMMCorePlus.instance()`. | `None` |
-| `See` |  |  | *required* |
-| `widget` |  |  | *required* |
 
 ### setCamera
 

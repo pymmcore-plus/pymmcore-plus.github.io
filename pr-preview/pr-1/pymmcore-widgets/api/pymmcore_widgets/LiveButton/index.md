@@ -37,14 +37,14 @@ Button that starts and stops live mode.
 
 When pressed, a continuous sequence acquisition is started or stopped and a pymmcore-plus signal `continuousSequenceAcquisitionStarted` or `sequenceAcquisitionStopped` is emitted.
 
+See the `ImagePreview` example for this widget combined with an image preview and other controls.
+
 Parameters:
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
 | `parent` | `QWidget \| None` | Optional parent widget. | `None` |
 | `mmcore` | `CMMCorePlus \| None` | Optional `pymmcore_plus.CMMCorePlus` micromanager core. By default, None. If not specified, the widget will use the active (or create a new) `CMMCorePlus.instance`. | `None` |
-| `See` |  |  | *required* |
-| `widget` |  |  | *required* |
 
 ### button\_text\_on
 
